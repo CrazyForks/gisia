@@ -20,8 +20,6 @@ Gisia is an open-source, DevOps platform designed for individuals and small team
 
 The installation guide will cover Docker-based and manual setups once CI/CD support is stabilized.
 
----
-
 
 ## 💡 Dev Philosophy
 
@@ -31,7 +29,6 @@ Gisia is built with these principles in mind:
 - **Transparency** — open source, auditable codebase.
 - **Simplicity over complexity** — lightweight core, no heavy dependencies
 
----
 
 ## 🤝 Contributing
 
@@ -44,8 +41,6 @@ We welcome the community to:
 
 Your feedback will help shape the direction of the platform before code contributions are opened.
 
----
-
 
 ## 📄 License
 
@@ -53,4 +48,3 @@ This project is licensed under the **GNU Affero General Public License v3.0 (AGP
 
 Please refer to the `NOTICE` and `.licenses` folders for detailed information on third-party licenses.
 
----

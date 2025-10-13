@@ -10,7 +10,7 @@ and their licenses can be found in the `.licenses/` directory.
 
 Portions of this Software may include code from GitLab FOSS (MIT Licensed).
 The original GitLab FOSS code retains its MIT licensing terms.
-See .licenses/Gisia/bundler/gitlab-foss.dep.yml for full license information.
+See .licenses/Gisia/others/gitlab-foss.dep.yml for full license information.
 
 All modifications, enhancements, and additions made to the
 GitLab FOSS code and any other original code in this repository
