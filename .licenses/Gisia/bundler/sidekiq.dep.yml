@@ -1,0 +1,24 @@
+---
+name: sidekiq
+version: 7.3.9
+type: bundler
+summary: Simple, efficient background processing for Ruby
+homepage: https://sidekiq.org
+license: other
+licenses:
+- sources: LICENSE.txt
+  text: |
+    Copyright (c) Contributed Systems LLC
+
+    Sidekiq is an Open Source project licensed under the terms of
+    the LGPLv3 license.  Please see <http://www.gnu.org/licenses/lgpl-3.0.html>
+    for license text.
+
+    Sidekiq Pro and Sidekiq Enterprise have a commercial-friendly license.
+    You can find the commercial license in COMM-LICENSE.txt.
+    Please see https://sidekiq.org for purchasing options.
+- sources: README.md
+  text: |-
+    Please see [LICENSE.txt](https://github.com/sidekiq/sidekiq/blob/main/LICENSE.txt) for licensing details.
+    The license for Sidekiq Pro and Sidekiq Enterprise can be found in [COMM-LICENSE.txt](https://github.com/sidekiq/sidekiq/blob/main/COMM-LICENSE.txt).
+notices: []

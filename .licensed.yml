@@ -1,0 +1,75 @@
+name: 'Gisia'
+sources:
+  bundler: true
+  cargo: true
+  yarn: true
+allowed:
+  - mit
+  - apache-2.0
+  - wtfpl
+reviewed:
+  bundler:
+    - json
+    - uri
+    - activerecord
+    - faraday-net_http
+    - net-http
+    - logger
+    - racc
+    - base64
+    - bcrypt
+    - bcrypt_pbkdf
+    - benchmark
+    - bigdecimal
+    - concurrent-ruby
+    - date
+    - domain_name
+    - drb
+    - excon
+    - fast_gettext
+    - forwardable
+    - gitlab-experiment
+    - gitlab-glfm-markdown
+    - gitlab-net-dns
+    - google-protobuf
+    - hamlit
+    - httpclient
+    - io-console
+    - irb
+    - jwt
+    - kramdown
+    - mime-types
+    - mime-types-data
+    - mutex_m
+    - net-imap
+    - net-pop
+    - net-protocol
+    - net-smtp
+    - nio4r
+    - ostruct
+    - pg
+    - pg_query
+    - pp
+    - prettyprint
+    - prime
+    - prometheus-client-mmap
+    - puma
+    - rdoc
+    - re2
+    - reline
+    - rexml
+    - rouge
+    - rubyzip
+    - securerandom
+    - sidekiq
+    - singleton
+    - stringio
+    - timeout
+    - warden
+    - webrick
+    - websocket-driver
+    - websocket-extensions
+
+apps:
+  - source_path: './'
+

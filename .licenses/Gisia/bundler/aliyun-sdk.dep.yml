@@ -1,0 +1,11 @@
+---
+name: aliyun-sdk
+version: 0.8.0
+type: bundler
+summary: Aliyun OSS SDK for Ruby
+homepage: https://github.com/aliyun/aliyun-oss-ruby-sdk
+license: mit
+licenses:
+- sources: README.md
+  text: "- MIT"
+notices: []
