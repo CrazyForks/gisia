@@ -5,7 +5,7 @@ The following folders and files include third-party code.
 Please refer to the license references for the original terms.
 
 1. GitLab FOSS (MIT License)
-   License reference: .licenses/Gisia/bundler/gitlab-foss.dep.yml
+   License reference: .licenses/Gisia/others/gitlab-foss.dep.yml
    Included folders:
      - gems/gitlab-safe_request_store
      - gems/gitlab-utils
