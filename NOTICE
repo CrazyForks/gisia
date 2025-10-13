@@ -25,7 +25,7 @@ Please refer to the license references for the original terms.
 
 3. lexxy
    License reference:
-     - .licenses/Gisia/bundler/lexxy.dep.yml
+     - .licenses/Gisia/others/lexxy.dep.yml
      - .licenses/Gisia/yarn/dompurify.dep.yml
    Included file:
      - vender/javascript/lexxy.js
