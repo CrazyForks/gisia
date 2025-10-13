@@ -1,9 +1,9 @@
 {
-  "name": "gitnix",
+  "name": "gitsia",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "Martin Tan <mtanpub@gmail.com>",
-  "license": "MIT",
+  "author": "Liuming Tan <mtanpub@gmail.com>",
+  "license": "AGPL-3.0",
   "dependencies": {
     "@lexical/markdown": "^0.35.0"
   },
