@@ -1,0 +1,42 @@
+Third-Party Components and Licenses
+===================================
+
+The following folders and files include third-party code.
+Please refer to the license references for the original terms.
+
+1. GitLab FOSS (MIT License)
+   License reference: .licenses/Gisia/bundler/gitlab-foss.dep.yml
+   Included folders:
+     - gems/gitlab-safe_request_store
+     - gems/gitlab-utils
+   Included files (YAML / JSON):
+     - config/security/banned_ssh_keys.yml
+     - config/feature_categories.yml
+     - app/validators/json_schemas/ci_runner_config.json
+     - app/validators/json_schemas/ci_runner_runtime_features.json
+     - app/validators/json_schemas/position.json
+     - config/security/banned_ssh_keys.yml
+
+2. diff_match_patch (MIT License)
+   Copied from GitLab FOSS (with GitLab modifications)
+   License reference: vendor/gems/diff_match_patch/LICENSE
+   Included folder:
+     - vendor/gems/diff_match_patch
+
+3. lexxy
+   License reference:
+     - .licenses/Gisia/bundler/lexxy.dep.yml
+     - .licenses/Gisia/yarn/dompurify.dep.yml
+   Included file:
+     - vender/javascript/lexxy.js
+   Notes:
+    - Modifications are covered by the LICENSE file in this repository.
+
+4. Phosphor Icons (via rails_icons gem)
+   License reference: .licenses/Gisia/others/phosphor-icons.dep.yaml
+   Generated using the `rails_icons` gem.
+   Source: app/assets/svg/icons/phosphor
+   License: MIT License
+   Notes:
+     - Icons are provided by the Phosphor project (https://github.com/phosphor-icons/homepage).
+     - No modifications from the original icon set were made beyond Rails asset integration.
