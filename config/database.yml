@@ -1,0 +1,90 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: <%= ENV["DATABASE_HOST"] %>
+  port: <%= ENV['DATABASE_PORT'] %>
+  username: <%= ENV["DATABASE_USERNAME"] %>
+  password: <%= ENV["DATABASE_PASSWORD"] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+cable: &cable
+  <<: *default
+  migrations_paths: db/cable_migrate
+cache: &cache
+  <<: *default
+  migrations_paths: db/cache_migrate
+queue: &queue
+  <<: *default
+  migrations_paths: db/queue_migrate
+
+#
+# Development specific
+#
+development:
+  main:
+    <<: *default
+    database: gisia_development
+    variables:
+      statement_timeout: 15s
+  ci:
+    <<: *default
+    database: gisia_development
+    variables:
+      statement_timeout: 15s
+  cache:
+    <<: *cache
+    database: gisia_development_cache
+  queue:
+    <<: *queue
+    database: gisia_development_queue
+  cable:
+    <<: *cable
+    database: gisia_development_cable
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test: &test
+  main:
+    <<: *default
+    database: gisia_test
+    prepared_statements: false
+    reaping_frequency: nil
+    variables:
+      statement_timeout: 15s
+  ci:
+    <<: *default
+    database: gisia_test_ci
+    prepared_statements: false
+    reaping_frequency: nil
+    variables:
+      statement_timeout: 15s
+  cache:
+    <<: *cache
+    database: gisia_test_cache
+  queue:
+    <<: *queue
+    database: gisia_test_queue
+  cable:
+    <<: *cable
+    database: gisia_test_cable
+
+#
+# PRODUCTION
+#
+production:
+  main:
+    <<: *default
+    database: gisia_production
+  ci:
+    <<: *default
+    database: gisia_production
+  cache:
+    <<: *cache
+    database: gisia_production_cache
+  queue:
+    <<: *queue
+    database: gisia_production_queue
+  cable:
+    <<: *cable
+    database: gisia_production_cable

@@ -1,0 +1,11 @@
+default: &default
+  ci_builds_batch_archive_trace_cron_job:
+    class: "Ci::Builds::BatchArchiveTraceJob"
+    schedule: "1 * * * *"
+
+development:
+  <<: *default
+
+production:
+  <<: *default
+

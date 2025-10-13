@@ -12,6 +12,7 @@ Please refer to the license references for the original terms.
    Included files (YAML / JSON):
      - config/security/banned_ssh_keys.yml
      - config/feature_categories.yml
+     - config/gitlab.example.yml
      - app/validators/json_schemas/ci_runner_config.json
      - app/validators/json_schemas/ci_runner_runtime_features.json
      - app/validators/json_schemas/position.json
