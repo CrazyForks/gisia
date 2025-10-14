@@ -4,6 +4,16 @@
 
 Gisia is an open-source, DevOps platform designed for individuals and small teams who want full control over their development workflow. It provides essential Git hosting, CI/CD automation, issue tracking.
 
+> [!WARNING]
+> ⚠️ Gisia is currently in **Alpha**.
+> 
+> That means it is under active development and may contain bugs or breaking changes between versions.
+
+- **Always back up your repositories, configurations, and data** before upgrading.
+- Features and APIs may change without notice.
+- Use in production environments at your own risk
+
+
 ## 🚀 Features
 
 | Feature | Status | Notes |
