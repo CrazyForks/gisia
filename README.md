@@ -58,3 +58,10 @@ This project is licensed under the **GNU Affero General Public License v3.0 (AGP
 
 Please refer to the `NOTICE` and `.licenses` folders for detailed information on third-party licenses.
 
+### ⚠️ Third-Party References Disclaimer
+
+You may notice references to **"GitLab"** in server responses, logs, or internal messages.
+These come from reused **GitLab FOSS (MIT-licensed) components** or code segments.
+
+**Gisia is not affiliated with, endorsed by, or associated with GitLab Inc.**
+All trademarks and brand names belong to their respective owners.
