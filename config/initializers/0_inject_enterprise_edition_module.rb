@@ -9,6 +9,7 @@
 # Licensed under AGPLv3 - see LICENSE file in this repository
 # ======================================================
 
+# This feature is not implemented, only for code compatibility purpose
 require 'active_support/inflector'
 
 module InjectEnterpriseEditionModule
