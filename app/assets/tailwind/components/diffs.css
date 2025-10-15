@@ -1,0 +1,104 @@
+@layer components {
+  /* Diff File Components */
+  .diff-file-card {
+    @apply bg-white border border-slate-200 rounded-lg;
+  }
+
+  .diff-file-header {
+    @apply flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-200;
+  }
+
+  .diff-badge {
+    @apply px-2 py-1 text-xs font-medium rounded;
+  }
+
+  .diff-badge-new {
+    @apply bg-emerald-100 text-emerald-700;
+  }
+
+  .diff-badge-deleted {
+    @apply bg-rose-100 text-rose-700;
+  }
+
+  .diff-badge-renamed {
+    @apply bg-blue-100 text-blue-700;
+  }
+
+  /* Diff Content */
+  .diff-content {
+    @apply bg-white;
+  }
+
+  .diff-code {
+    @apply font-mono text-sm leading-relaxed;
+  }
+
+  /* Diff Line Styles */
+  .diff-line {
+    @apply block py-0.5 px-3 whitespace-pre border-l-4 border-transparent text-sm;
+    line-height: 1.5;
+  }
+
+  /* Added lines (green) */
+  .gi.diff-line {
+    @apply bg-emerald-50 border-l-emerald-500 text-emerald-800;
+  }
+
+  /* Removed lines (red) */
+  .gd.diff-line {
+    @apply bg-rose-50 border-l-rose-500 text-rose-800;
+  }
+
+  /* Hunk headers (blue/gray) */
+  .hunk.diff-line {
+    @apply bg-slate-100 border-l-slate-500 text-slate-700 font-semibold;
+  }
+
+  /* Context lines */
+  .diff-line:not(.gi):not(.gd):not(.hunk) {
+    @apply bg-white text-slate-700;
+  }
+
+  /* Hover effects */
+  .diff-line:hover {
+    @apply bg-slate-50;
+  }
+
+  .gi.diff-line:hover {
+    @apply bg-emerald-100;
+  }
+
+  .gd.diff-line:hover {
+    @apply bg-rose-100;
+  }
+
+  /* Pre and Code styling for Rouge */
+  .highlight {
+    @apply bg-transparent m-0 p-0;
+  }
+
+  .highlight pre {
+    @apply bg-transparent m-0 p-0;
+  }
+
+  .highlight code {
+    @apply bg-transparent;
+  }
+
+  /* Custom scrollbar for diff content */
+  .diff-content::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  .diff-content::-webkit-scrollbar-track {
+    @apply bg-slate-100;
+  }
+
+  .diff-content::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 rounded;
+  }
+
+  .diff-content::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400;
+  }
+}

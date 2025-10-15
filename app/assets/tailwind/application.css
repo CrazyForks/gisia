@@ -1,0 +1,46 @@
+@import "tailwindcss";
+@import "./components/diffs.css";
+@import "./components/markdown.css";
+
+@theme {
+  --font-inter: "Inter", sans-serif;
+  --color-mint-500: oklch(0.72 0.11 178);
+}
+
+@layer base {
+  a:hover {
+    @apply underline;
+  }
+
+  body {
+    font-family: var(--font-inter);
+  }
+  .term-box .line {
+    @apply break-all whitespace-normal!;
+  }
+}
+
+@layer components {
+  .btn{
+     @apply inline-block bg-emerald-600 text-white py-2 px-4 rounded-md hover:bg-emerald-700;
+     @apply no-underline;
+  }
+  /* job logs */
+  .term-fg-l-green {
+    @apply text-green-400;
+  }
+  .term-bold {
+    @apply font-bold;
+  }
+  .term-fg-l-cyan {
+    @apply text-cyan-600;
+  }
+
+  .section {
+    @apply mb-2;
+  }
+  .bg-cream {
+    background-color: #f7f6f2;
+  }
+
+}
