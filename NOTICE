@@ -9,7 +9,7 @@ Please refer to the license references for the original terms.
    Included folders:
      - gems/gitlab-safe_request_store
      - gems/gitlab-utils
-   Included files (YAML / JSON):
+   Included files (YAML / JSON / MD):
      - config/security/banned_ssh_keys.yml
      - config/feature_categories.yml
      - config/gitlab.example.yml
@@ -19,6 +19,9 @@ Please refer to the license references for the original terms.
      - config/security/banned_ssh_keys.yml
      - lib/gitlab/ci/config/entry/schemas/imageable/executor_opts.json
      - lib/gitlab/ci/config/README.md
+     - lib/gitlab/usage_data_counters/hll_redis_key_overrides.yml
+     - lib/gitlab/usage_data_counters/hll_redis_legacy_events.yml
+     - lib/gitlab/usage_data_counters/total_counter_redis_key_overrides.yml
 
 2. diff_match_patch (MIT License)
    Copied from GitLab FOSS (with GitLab modifications)
