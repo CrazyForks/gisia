@@ -1,0 +1,8 @@
+.file-content.blob_file.blob-no-preview
+  .center.render-error.p-8.text-center
+    = link_to namespace_project_raw_path(@project.namespace.parent.full_path, @project.path, "#{@ref}/#{@path}"), class: 'inline-flex flex-col items-center gap-4 p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 transition-colors' do
+      = icon('download', class: 'w-12 h-12 text-gray-400')
+      %span.text-lg.font-medium.text-gray-700
+        Download
+      %span.text-sm.text-gray-500
+        = number_to_human_size(viewer.blob.raw_size)

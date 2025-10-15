@@ -22,6 +22,8 @@ Please refer to the license references for the original terms.
      - lib/gitlab/usage_data_counters/hll_redis_key_overrides.yml
      - lib/gitlab/usage_data_counters/hll_redis_legacy_events.yml
      - lib/gitlab/usage_data_counters/total_counter_redis_key_overrides.yml
+     - db/database_connections/
+     - db/gitlab_schemas/
 
 2. diff_match_patch (MIT License)
    Copied from GitLab FOSS (with GitLab modifications)

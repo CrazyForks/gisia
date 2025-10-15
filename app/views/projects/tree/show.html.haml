@@ -1,0 +1,20 @@
+%div{ class: 'w-full bg-white p-6' }
+  %div{ class: 'w-full max-w-6xl mx-auto flex flex-col px-4' }
+    %div{ class: 'flex justify-between items-start mb-6' }
+      %div{ class: 'flex-1 min-w-0' }
+        %div{ class: 'flex items-center gap-3 mb-2' }
+          %div{ class: 'w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center' }
+            = icon 'folder', class: 'w-5 h-5 text-blue-600'
+          %div
+            %h1{ class: 'text-2xl font-semibold text-gray-900' }
+              = @project.name
+            %p{ class: 'text-sm text-gray-500 mt-1' }
+              = @project.namespace.name + '/' + @path + " on #{@ref}"
+
+
+    %div{ class: 'grid grid-cols-1 lg:grid-cols-4 gap-6' }
+      %div{ class: 'lg:col-span-4' }
+        = render 'projects/files'
+
+
+

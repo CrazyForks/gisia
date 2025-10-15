@@ -1,0 +1,13 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: project_breadcrumb_name(@project), path: dashboard_project_path(@project) }, { label: 'Pipelines', path: pipelines_path(@project) }, { label: "##{@pipeline.id}", path: pipeline_path(@pipeline)}]
+  = render 'shared/breadcrumb', nodes: nodes
+
+- content_for :pipeline_content do
+  / Left: Title and Description
+  %div{ class: 'w-full md:w-3/4 space-y-6' }
+    %div
+      %h3{ class: 'text-lg font-semibold text-gray-800' } Description
+      %p{ class: 'mt-2 text-gray-700 whitespace-pre-line' }
+        = @pipeline.ref || "No description provided."
+
+= render 'detail'

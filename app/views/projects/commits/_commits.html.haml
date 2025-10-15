@@ -1,0 +1,26 @@
+%div{ class: 'space-y-0' }
+  - @commits.each_with_index do |commit, index|
+    - commit_path = namespace_project_commit_path(@project.namespace.parent.full_path, @project.path, commit.id)
+    %div{ class: "group flex items-start gap-4 px-6 py-5 hover:bg-slate-50/50 transition-all duration-200 #{'border-t border-slate-100' if index > 0}" }
+      %div{ class: 'flex-shrink-0 mt-1' }
+        - tooltip_text = h("#{commit.author_name} #{commit.author_email}")
+        %div{title: tooltip_text}
+          = render 'shared/user_avatar', user: commit.author, fallback_name: commit.author_name, fallback_email: commit.author_email, size: 32, css_class: 'w-8 h-8 rounded-full'
+
+      %div{ class: 'flex-1 min-w-0' }
+        %div{ class: 'mb-2' }
+          %h3{ class: 'text-base font-semibold text-slate-900 hover:text-blue-600 transition-colors' }
+            = link_to commit.title, commit_path, class: 'hover:text-blue-600 transition-colors'
+
+        %div{ class: 'flex items-center gap-4 text-sm text-slate-500' }
+          %div{ class: 'flex items-center gap-2' }
+            %span
+              %span{ class: 'font-medium' }= commit.author_name
+              committed #{time_ago_in_words(commit.committed_date)} ago
+
+      %div{ class: 'flex-shrink-0 flex items-center gap-3' }
+        %div{ class: 'flex items-center gap-2' }
+          %span{ class: 'font-mono text-slate-700 bg-slate-100 px-2 py-1 rounded text-xs' }= commit.short_id
+          %button{ class: 'p-1 hover:bg-slate-200 rounded transition-colors', onclick: "navigator.clipboard.writeText('#{commit.id}')" }
+            = icon 'copy', class: 'w-4 h-4 text-slate-400 hover:text-slate-600'
+

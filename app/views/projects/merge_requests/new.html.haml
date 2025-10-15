@@ -1,0 +1,59 @@
+%div{ class: 'w-full bg-white p-6 rounded-lg shadow-md' }
+  %div{ class: 'w-full md:max-w-6xl mx-auto flex flex-col space-y-8' }
+
+    / -- Page Header --
+    %div.space-y-2
+      %h1.text-xl.font-semibold.text-gray-800
+        New Merge Request
+
+      %p.text-gray-600
+        Create a new merge request by selecting source and target projects and branches.
+
+    = form_with model: @merge_request, url: namespace_project_merge_requests_path, local: true do |f|
+      
+      / -- Source Project and Source Branch (always inline) --
+      %div.flex.gap-6
+
+        %div.flex-1
+          %label.block.text-gray-700.text-sm.font-medium.mb-1 Source Project
+          = f.select :source_project_id, options_from_collection_for_select(@projects, :id, :name), {}, class: 'block w-full mt-1 rounded-md border-gray-300 shadow-sm'
+
+        %div.flex-1
+          %label.block.text-gray-700.text-sm.font-medium.mb-1 Source Branch
+          = f.select :source_branch, options_for_select(@branches), {}, class: 'block w-full mt-1 rounded-md border-gray-300 shadow-sm'
+
+      / -- Target Project and Target Branch (always inline) --
+      %div.flex.gap-6.mt-6
+
+        %div.flex-1
+          %label.block.text-gray-700.text-sm.font-medium.mb-1 Target Project
+          = f.select :target_project_id, options_from_collection_for_select(@projects, :id, :name), {}, class: 'block w-full mt-1 rounded-md border-gray-300 shadow-sm'
+
+        %div.flex-1
+          %label.block.text-gray-700.text-sm.font-medium.mb-1 Target Branch
+          = f.select :target_branch, options_for_select(@branches), {}, class: 'block w-full mt-1 rounded-md border-gray-300 shadow-sm'
+
+      / -- Title Field --
+      %div.mt-6
+        %label.block.text-gray-700.text-sm.font-medium.mb-1 Title
+        = f.text_field :title, class: 'block w-full mt-1 rounded-md border-gray-300 shadow-sm'
+
+      / -- Description Field --
+      %div.mt-6
+        %label.block.text-gray-700.text-sm.font-medium.mb-1 Description
+        = f.text_area :description, rows: 6, class: 'block w-full mt-1 rounded-md border-gray-300 shadow-sm'
+
+      / -- Assignees Field (multi-select) --
+      %div.mt-6
+        %label.block.text-gray-700.text-sm.font-medium.mb-1 Assignees
+        = f.select :assignee_ids, options_from_collection_for_select(@users, :id, :name), {}, multiple: true, class: 'block w-full mt-1 rounded-md border-gray-300 shadow-sm'
+
+      / -- Reviewers Field (multi-select) --
+      %div.mt-6
+        %label.block.text-gray-700.text-sm.font-medium.mb-1 Reviewers
+        = f.select :reviewer_ids, options_from_collection_for_select(@users, :id, :name), {}, multiple: true, class: 'block w-full mt-1 rounded-md border-gray-300 shadow-sm'
+
+      / -- Submit Button --
+      %div.mt-6
+        = f.submit 'Create Merge Request', class: 'btn'
+

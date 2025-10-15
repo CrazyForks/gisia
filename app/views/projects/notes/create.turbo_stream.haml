@@ -1,0 +1,7 @@
+- if @note.root_note?
+  = turbo_stream.append 'notes-list' do
+    = render 'shared/notes/note', note: @note
+- else
+  = turbo_stream.before "note-#{@note.discussion_id}-reply-form" do
+    .ml-8.mb-4
+      = render 'shared/notes/note', note: @note

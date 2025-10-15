@@ -1,0 +1,14 @@
+%div{class: 'bg-white border border-gray-200 rounded-lg', 'data-controller': 'collapsible'}
+  %div{class: 'p-4 cursor-pointer', 'data-action': 'click->collapsible#toggle', 'data-collapsible-target': 'header'}
+    %div{class: 'flex items-center justify-between'}
+      %div
+        %h2{class: 'text-lg font-semibold text-gray-900'}
+          Protected Tags
+        %p{class: 'text-sm text-gray-600 mt-1'}
+          Restrict who can create tags in this repository.
+      %div{class: 'ml-4'}
+        = icon 'caret-right', class: 'w-4 h-4 text-gray-500 transition-transform duration-200', 'data-collapsible-target': 'icon'
+
+  %div{class: 'p-6 hidden', 'data-collapsible-target': 'content'}
+    = turbo_frame_tag 'protected_tags_frame' do
+      = render 'projects/settings/protected_refs/protected_tags_content'

@@ -1,0 +1,3 @@
+- if params[:issue]&.key?('assignee_ids')
+  = turbo_stream.replace 'issue-assignees' do
+    = render 'shared/assignees/selected_users_turbo', resource: @issue, resource_type: 'issue', users: @issue.assignees, field_type: 'assignees', avatar_color: 'from-blue-400 to-blue-500', empty_icon: 'user-plus', empty_message: 'No assignees'

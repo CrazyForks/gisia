@@ -1,0 +1,24 @@
+- if @files.any?
+  %div{ class: 'rounded-md overflow-hidden' }
+    - @files.each_with_index do |file, index|
+      %div{ class: "flex justify-between items-center px-4 py-3 hover:bg-slate-50 transition-colors duration-150 #{'border-b border-slate-100' if index < @files.length - 1}" }
+        %div{ class: 'flex items-center space-x-3' }
+          - path = "/#{@path}" if @path.present? && @path != '/'
+          - if file.type == :tree
+            - file_url = namespace_project_tree_url(@project.namespace.parent.full_path, @project.path, "#{@current_ref}#{path}/#{file.name}")
+            = icon('folder', class: 'w-4 h-4 text-blue-500')
+          - else
+            - file_url = namespace_project_blob_url(@project.namespace.parent.full_path, @project.path, "#{@current_ref}#{path}/#{file.name}")
+            = icon('file-text', class: 'w-4 h-4 text-slate-400')
+          = link_to file.name, file_url, 'data-turbo': false, class: 'text-sm font-medium text-slate-900 hover:text-blue-600 hover:underline transition-colors'
+        %div{ class: 'text-xs text-slate-500' }
+          - current_log = @logs[file.name]
+          = time_ago_in_words(current_log['commit']['committed_date']) + ' ago'
+- else
+  %div{ class: 'text-center py-12 bg-slate-50 rounded-lg' }
+    %div{ class: 'mx-auto w-16 h-16 flex items-center justify-center rounded-2xl bg-slate-100 mb-6' }
+      = icon 'folder', class: 'w-8 h-8 text-slate-400'
+    %h3{ class: 'text-lg font-semibold text-slate-900 mb-2' }
+      No files found
+    %p{ class: 'text-slate-500' }
+      This directory appears to be empty.

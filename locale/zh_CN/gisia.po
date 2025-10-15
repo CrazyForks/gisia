@@ -1,0 +1,344 @@
+# Chinese translations for gisia package.
+# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gisia package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gisia 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2025-09-24 12:16+0800\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Chinese\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=; plural=;\n"
+"\n"
+
+msgid " or "
+msgstr ""
+
+msgid "%{component} is not an allowed sub claim component"
+msgstr ""
+
+msgid "%{count} related %{pluralized_subject}: %{links}"
+msgstr ""
+
+msgid "%{viewer} could not be displayed: %{reason}. Options to address this: %{options}."
+msgstr ""
+
+msgid "'%{lock_path}' is locked in Git LFS by @%{lock_user_name}"
+msgstr ""
+
+msgid "(%{value}) has already been taken"
+msgstr ""
+
+msgid ", or "
+msgstr ""
+
+msgid "Access forbidden. Check your access level."
+msgstr ""
+
+msgid "AdminSettings|If selected, only administrators are able to create internal groups, projects, and snippets."
+msgstr ""
+
+msgid "AdminSettings|If selected, only administrators are able to create private groups, projects, and snippets."
+msgstr ""
+
+msgid "AdminSettings|If selected, only administrators are able to create public groups, projects, and snippets. Also, profiles are only visible to authenticated users."
+msgstr ""
+
+msgid "Allow unauthenticated users to use search"
+msgstr ""
+
+msgid "DSA keys are considered deprecated."
+msgstr ""
+
+msgid "Default role"
+msgstr "默认角色"
+
+msgid "DefaultBranchProtection|Both developers and maintainers can push new commits, but cannot force push."
+msgstr ""
+
+msgid "DefaultBranchProtection|Both developers and maintainers can push new commits, force push, or delete the branch."
+msgstr ""
+
+msgid "DefaultBranchProtection|Developers can push the initial commit to a repository, but none afterward. Maintainers can always push. No one can force push."
+msgstr ""
+
+msgid "DefaultBranchProtection|Developers cannot push new commits, but are allowed to accept merge requests to the branch. Maintainers can push to the branch."
+msgstr ""
+
+msgid "DefaultBranchProtection|Developers cannot push new commits, but maintainers can. No one can force push."
+msgstr ""
+
+msgid "DefaultBranchProtection|Fully protected"
+msgstr ""
+
+msgid "DefaultBranchProtection|Fully protected after initial push"
+msgstr ""
+
+msgid "DefaultBranchProtection|Not protected"
+msgstr ""
+
+msgid "DefaultBranchProtection|Once a repository is created this branch will be protected."
+msgstr ""
+
+msgid "DefaultBranchProtection|Partially protected"
+msgstr ""
+
+msgid "DefaultBranchProtection|Protected"
+msgstr ""
+
+msgid "DefaultBranchProtection|Protected against pushes"
+msgstr ""
+
+msgid "Enable VS Code Extension Marketplace and configure the extensions registry for Web IDE."
+msgstr ""
+
+msgid "Error uploading file"
+msgstr ""
+
+msgid "ExternalAuthorization|Access to projects is validated on an external service using their classification label."
+msgstr ""
+
+msgid "ExternalAuthorization|Certificate used to authenticate with the external authorization service. If blank, the server certificate is validated when accessing over HTTPS."
+msgstr ""
+
+msgid "ExternalAuthorization|Classification label to use when requesting authorization if no specific label is defined on the project."
+msgstr ""
+
+msgid "ExternalAuthorization|Does not apply if service URL is specified."
+msgstr ""
+
+msgid "ExternalAuthorization|Passphrase required to decrypt the private key. Encrypted when stored."
+msgstr ""
+
+msgid "ExternalAuthorization|Period GitLab waits for a response from the external service. If there is no response, access is denied. Default: 0.5 seconds."
+msgstr ""
+
+msgid "ExternalAuthorization|Private key of client authentication certificate. Encrypted when stored."
+msgstr ""
+
+msgid "ExternalAuthorization|URL to which the projects make authorization requests. If the URL is blank, cross-project features are available and can still specify classification labels for projects."
+msgstr ""
+
+msgid "For %{link_to_pipeline_ref}"
+msgstr ""
+
+msgid "For %{ref}"
+msgstr ""
+
+msgid "Git LFS is not enabled on this GitLab server, contact your admin."
+msgstr ""
+
+msgid "Given inputs must be a hash"
+msgstr ""
+
+msgid "Given inputs not defined in the `spec` section of the included configuration file"
+msgstr ""
+
+msgid "How the job limiter handles jobs exceeding the thresholds specified below. The 'track' mode only logs the jobs. The 'compress' mode compresses the jobs and raises an exception if the compressed size exceeds the limit."
+msgstr ""
+
+msgid "INFO: Your SSH key has expired. Please generate a new key."
+msgstr ""
+
+msgid "INFO: Your SSH key is expiring soon. Please generate a new key."
+msgstr ""
+
+msgid "Incompatible options set!"
+msgstr ""
+
+msgid "Invalid feature"
+msgstr ""
+
+msgid "Invalid file format with specified file type"
+msgstr ""
+
+msgid "Invalid file."
+msgstr ""
+
+msgid "Invalid repository path"
+msgstr ""
+
+msgid "Key length should be at least 2048 bits."
+msgstr ""
+
+msgid "Maximum number of %{name} (%{count}) exceeded"
+msgstr ""
+
+msgid "MemberRole|The Developer role gives users access to contribute code while restricting sensitive administrative actions."
+msgstr ""
+
+msgid "MemberRole|The Guest role is for users who need visibility into a project or group but should not have the ability to make changes, such as external stakeholders."
+msgstr ""
+
+msgid "MemberRole|The Maintainer role is primarily used for managing code reviews, approvals, and administrative settings for projects. This role can also manage project memberships."
+msgstr ""
+
+msgid "MemberRole|The None role is assigned to the invited group users of a shared project when project sharing is disabled in group setting."
+msgstr ""
+
+msgid "MemberRole|The Owner role is typically assigned to the individual or team responsible for managing and maintaining the group or creating the project. This role has the highest level of administrative control, and can manage all aspects of the group or project, including managing other Owners."
+msgstr ""
+
+msgid "MemberRole|The Reporter role is suitable for team members who need to stay informed about a project or group but do not actively contribute code."
+msgstr ""
+
+msgid "Not found."
+msgstr ""
+
+msgid "Pipelines|Invalid input specification: expected a hash-like object, got %{class_name}"
+msgstr ""
+
+msgid "Pipeline|Merge request pipeline"
+msgstr ""
+
+msgid "Pipeline|Merge train pipeline"
+msgstr ""
+
+msgid "Pipeline|Merged results pipeline"
+msgstr ""
+
+msgid "Pipeline|Pipeline"
+msgstr ""
+
+msgid "Potentially unwanted character detected: Unicode BiDi Control"
+msgstr ""
+
+msgid "Project Templates"
+msgstr ""
+
+msgid "ProjectCreationLevel|Administrators"
+msgstr ""
+
+msgid "ProjectCreationLevel|Developers"
+msgstr ""
+
+msgid "ProjectCreationLevel|Maintainers"
+msgstr ""
+
+msgid "ProjectCreationLevel|No one"
+msgstr ""
+
+msgid "ProjectCreationLevel|Owners"
+msgstr ""
+
+msgid "Related merge request %{link_to_merge_request} to merge %{link_to_merge_request_source_branch}"
+msgstr ""
+
+msgid "Related merge request %{link_to_merge_request} to merge %{link_to_merge_request_source_branch} into %{link_to_merge_request_target_branch}"
+msgstr ""
+
+msgid "Remote object has no absolute path."
+msgstr ""
+
+msgid "Restrict global search to authenticated users only"
+msgstr ""
+
+msgid "Show issues in global search results"
+msgstr ""
+
+msgid "Show merge requests in global search results"
+msgstr ""
+
+msgid "Show snippets in global search results"
+msgstr ""
+
+msgid "Show users in global search results"
+msgstr ""
+
+msgid "SubgroupCreationlevel|Maintainers"
+msgstr ""
+
+msgid "SubgroupCreationlevel|Owners"
+msgstr ""
+
+msgid "The Planner role is suitable for team members who need to manage projects and track work items but do not need to contribute code."
+msgstr ""
+
+msgid "The default branch for this project has been changed. Please update your bookmarks."
+msgstr ""
+
+msgid "The number of times an upload record could not find its file"
+msgstr ""
+
+msgid "The value of the provided variable exceeds the %{count} character limit"
+msgstr ""
+
+msgid "Upstream Gitaly has been exhausted. Try again later"
+msgstr ""
+
+msgid "Using required encryption strategy when encrypted field is missing!"
+msgstr ""
+
+msgid "VS Code Extension Marketplace"
+msgstr ""
+
+msgid "encrypted: needs to be a :required, :optional or :migrating!"
+msgstr ""
+
+msgid "image diff"
+msgstr ""
+
+msgid "is too large. Maximum size allowed is %{size}"
+msgstr ""
+
+msgid "it is stored externally"
+msgstr ""
+
+msgid "it is stored in LFS"
+msgstr ""
+
+msgid "it is too large"
+msgstr ""
+
+msgid "merge request"
+msgid_plural "merge requests"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "must be a valid json schema"
+msgstr ""
+
+msgid "must be before %{expiry_date}"
+msgstr ""
+
+msgid "must be between 1 day and %{limit}"
+msgstr ""
+
+msgid "must be less than the limit of %{tag_limit} tags"
+msgstr ""
+
+msgid "must be one of: %{values}"
+msgstr ""
+
+msgid "not authorized to create member"
+msgstr ""
+
+msgid "not authorized to update member"
+msgstr ""
+
+msgid "project_path must be the first element of the sub claim"
+msgstr ""
+
+msgid "rendered diff"
+msgstr ""
+
+msgid "should use only one of: %{requirements}"
+msgstr ""
+
+msgid "source diff"
+msgstr ""
+
+msgid "the member access level can't be higher than the current user's one"
+msgstr ""
+
+msgid "value at %{data_pointer} should use only one of: %{requirements}"
+msgstr ""
+
+msgid "view the blob"
+msgstr ""

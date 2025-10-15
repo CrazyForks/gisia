@@ -1,0 +1,31 @@
+- user = local_assigns[:user]
+- fallback_name = local_assigns[:fallback_name] || 'Unknown'
+- fallback_email = local_assigns[:fallback_email] || ''
+- size = local_assigns[:size] || 32
+- css_class = local_assigns[:css_class] || ''
+
+- if user&.avatar&.present?
+  = image_tag user.avatar.url, class: "#{css_class} object-cover", alt: user.name
+- elsif user
+  - initials = user.name.present? ? user.name.split.map(&:first).take(2).join.upcase : (user.username.present? ? user.username.first.upcase : 'U')
+  - colors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500', 'bg-cyan-500', 'bg-blue-500', 'bg-violet-500', 'bg-pink-500']
+  - background_color = colors[user.id % colors.length]
+  - text_size = size <= 24 ? 'text-xs' : (size <= 32 ? 'text-sm' : (size <= 40 ? 'text-base' : 'text-lg'))
+  - if css_class.include?('w-full') && css_class.include?('h-full')
+    %div{class: "flex items-center justify-center font-medium text-white #{background_color} #{css_class} #{text_size}"}
+      = initials
+  - else
+    %div{class: "inline-flex items-center justify-center font-medium text-white #{background_color} #{css_class} #{text_size}", style: "width: #{size}px; height: #{size}px;"}
+      = initials
+- else
+  - initials = fallback_name.present? ? fallback_name.split.map(&:first).take(2).join.upcase : '?'
+  - fallback_hash = (fallback_email.present? ? fallback_email : fallback_name).hash.abs
+  - colors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500', 'bg-cyan-500', 'bg-blue-500', 'bg-violet-500', 'bg-pink-500']
+  - background_color = colors[fallback_hash % colors.length]
+  - text_size = size <= 24 ? 'text-xs' : (size <= 32 ? 'text-sm' : (size <= 40 ? 'text-base' : 'text-lg'))
+  - if css_class.include?('w-full') && css_class.include?('h-full')
+    %div{class: "flex items-center justify-center font-medium text-white #{background_color} #{css_class} #{text_size}"}
+      = initials
+  - else
+    %div{class: "inline-flex items-center justify-center font-medium text-white #{background_color} #{css_class} #{text_size}", style: "width: #{size}px; height: #{size}px;"}
+      = initials

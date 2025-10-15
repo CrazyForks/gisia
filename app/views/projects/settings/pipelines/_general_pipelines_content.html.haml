@@ -1,0 +1,48 @@
+%div{class: "p-6 #{'hidden' unless flash[:notice] || flash[:alert]}", 'data-collapsible-target': 'content'}
+  = form_with model: @project, url: namespace_project_settings_pipelines_path(@project.namespace.parent.full_path, @project.namespace.path), method: :patch, html: { class: 'space-y-6' } do |f|
+    
+    %div{class: 'space-y-4'}
+      %h3{class: 'text-base font-semibold text-gray-900'}
+        Pipeline Configuration
+      
+      %div{class: 'space-y-4'}
+        = f.fields_for :pipeline_settings, @pipeline_settings do |ps|
+          %div{class: 'flex items-center space-x-3'}
+            = ps.check_box :auto_cancel_pending_pipelines, class: 'h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded'
+            %div
+              = ps.label :auto_cancel_pending_pipelines, "Auto-cancel pending pipelines", class: 'text-sm font-medium text-gray-700'
+              %p{class: 'text-xs text-gray-500 mt-1'}
+                When a new pipeline is created on a branch, older pipelines on the same branch will be cancelled.
+
+          %div{class: 'space-y-2'}
+            = ps.label :ci_config_path, "CI/CD configuration file", class: 'block text-sm font-medium text-gray-700'
+            = ps.text_field :ci_config_path, class: 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent', placeholder: '.gitlab-ci.yml'
+            %p{class: 'text-xs text-gray-500 mt-1'}
+              Path to the CI/CD configuration file. Leave empty to use the default '.gitlab-ci.yml'.
+
+          %div{class: 'space-y-3'}
+            = ps.label :build_allow_git_fetch, "Git strategy", class: 'block text-sm font-medium text-gray-700'
+            %div{class: 'space-y-2'}
+              %div{class: 'flex items-center space-x-3'}
+                = ps.radio_button :build_allow_git_fetch, false, class: 'h-4 w-4 text-blue-600 focus:ring-blue-500'
+                %div
+                  = ps.label :build_allow_git_fetch_false, "Git clone", class: 'text-sm font-medium text-gray-700'
+                  %p{class: 'text-xs text-gray-500 mt-1'}
+                    Clone the repository from scratch for every job.
+              %div{class: 'flex items-center space-x-3'}
+                = ps.radio_button :build_allow_git_fetch, true, class: 'h-4 w-4 text-blue-600 focus:ring-blue-500'
+                %div
+                  = ps.label :build_allow_git_fetch_true, "Git fetch", class: 'text-sm font-medium text-gray-700'
+                  %p{class: 'text-xs text-gray-500 mt-1'}
+                    Re-use the project workspace and fetch changes.
+
+          %div{class: 'space-y-2'}
+            = ps.label :build_timeout, "Timeout", class: 'block text-sm font-medium text-gray-700'
+            %div{class: 'flex items-center space-x-2'}
+              = ps.number_field :build_timeout, class: 'w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent', min: 60
+              %span{class: 'text-sm text-gray-600'} seconds
+            %p{class: 'text-xs text-gray-500 mt-1'}
+              Per-job timeout in seconds. Must be at least 60 seconds.
+
+    %div{class: 'pt-4 border-t border-gray-200'}
+      = f.submit "Save changes", class: 'px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors'

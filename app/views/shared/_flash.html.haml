@@ -1,0 +1,7 @@
+%div{class: 'min-h-screen flex flex-col'}
+  - if notice
+    %div{class: 'bg-green-500 text-white text-center py-3 px-5 rounded-md mt-4 mx-5'}
+      = notice
+  - if alert
+    %div{class: 'bg-red-500 text-white text-center py-3 px-5 rounded-md my-4 mx-5'}
+      = alert

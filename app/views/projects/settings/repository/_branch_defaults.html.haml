@@ -1,0 +1,13 @@
+%div{class: 'bg-white border border-gray-200 rounded-lg', 'data-controller': 'collapsible'}
+  %div{class: 'p-4 cursor-pointer', 'data-action': 'click->collapsible#toggle', 'data-collapsible-target': 'header'}
+    %div{class: 'flex items-center justify-between'}
+      %div
+        %h2{class: 'text-lg font-semibold text-gray-900'}
+          Branch Defaults
+        %p{class: 'text-sm text-gray-600 mt-1'}
+          Configure the default branch name for new repositories.
+      %div{class: 'ml-4'}
+        = icon 'caret-right', class: 'w-4 h-4 text-gray-500 transition-transform duration-200', 'data-collapsible-target': 'icon'
+
+  = turbo_frame_tag 'branch_defaults_content' do
+    = render 'projects/settings/repository/branch_defaults_content'

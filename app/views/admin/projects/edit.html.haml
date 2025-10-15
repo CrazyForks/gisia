@@ -1,0 +1,51 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: 'Admin', path: admin_root_path }, { label: 'Projects', path: admin_projects_path }, { label: @project.name, path: admin_project_path(@project) }, { label: 'Edit', path: '#' }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{class: 'w-full bg-white p-2 rounded-lg'}
+  %div{class: 'w-full max-w-6xl mx-auto'}
+
+    %div{class: 'py-6'}
+      %div{class: 'flex items-center gap-4 mb-6'}
+        %div{class: 'flex-shrink-0'}
+          = icon 'gear', class: 'w-12 h-12 text-blue-500'
+        %div
+          %h1{class: 'text-2xl font-bold text-gray-900'} Edit Project
+          %p{class: 'text-gray-600'}= "Update settings for #{@project.name}"
+          %p{class: 'text-xs text-gray-500 mt-1'}= "Project ID: #{@project.id} • Created #{@project.created_at.strftime('%b %d, %Y')}"
+
+    = form_with model: [:admin, @project], local: true do |f|
+      %div{class: 'bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6'}
+        %h3{class: 'text-lg font-semibold text-gray-900 mb-6'} Basic Information
+
+        %div{class: 'mb-6'}
+          = f.label :name, 'Project name', class: 'block text-sm font-medium text-gray-700 mb-2'
+          = f.text_field :name, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+          - if @project.errors[:name].any?
+            %p{class: 'text-red-500 text-xs mt-1'}= @project.errors[:name].first
+
+        %div{class: 'mb-6'}
+          %label{class: 'block text-sm font-medium text-gray-700 mb-2'} Project path
+          %p{class: 'text-sm text-gray-500 mb-2'} 
+            The project path is used in URLs and repository cloning.
+          %input{type: 'text', value: @project.full_path, readonly: true, class: 'w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-lg text-gray-600 font-mono text-sm'}
+          %p{class: 'text-xs text-gray-500 mt-1'} Project path cannot be modified.
+
+        %div{class: 'mb-6'}
+          = f.label :description, 'Description', class: 'block text-sm font-medium text-gray-700 mb-2'
+          %p{class: 'text-sm text-gray-500 mb-2'} A brief description helps others understand your project.
+          = f.text_area :description, rows: 4, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent', placeholder: 'Enter a description for your project...'
+          - if @project.errors[:description].any?
+            %p{class: 'text-red-500 text-xs mt-1'}= @project.errors[:description].first
+
+        %div{class: 'mb-4'}
+          = f.label 'project[namespace_attributes][visibility_level]', 'Visibility Level', class: 'block text-sm font-medium text-gray-700 mb-2'
+          %p{class: 'text-sm text-gray-500 mb-2'} Choose who can see and access this project.
+          = f.fields_for :namespace do |namespace_form|
+            = namespace_form.hidden_field :id
+            = namespace_form.select :visibility_level, options_for_select([['Private - Only project members can access', Gitlab::VisibilityLevel::PRIVATE], ['Internal - Authenticated users can access', Gitlab::VisibilityLevel::INTERNAL], ['Public - Anyone can access without authentication', Gitlab::VisibilityLevel::PUBLIC]], @project.namespace.visibility_level), {}, { class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' }
+
+      %div{class: 'flex items-center gap-3'}
+        = f.submit 'Update Project', class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200'
+        = link_to admin_project_path(@project), class: 'inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 transition-all duration-200' do
+          Cancel

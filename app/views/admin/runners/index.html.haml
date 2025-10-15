@@ -1,0 +1,34 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: 'Admin', path: admin_root_path }, { label: 'Runners', path: '#' }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{class: 'w-full bg-white p-2 rounded-lg'}
+  %div{class: 'w-full max-w-6xl mx-auto'}
+
+    %div{class: 'py-6'}
+      %div{class: 'flex items-center justify-between mb-8'}
+        %div
+          %h1{class: 'text-2xl font-bold text-gray-900'} Runners
+          %p{class: 'text-gray-600'} Manage instance, group, and project runners
+        %div{class: 'flex items-center gap-3'}
+          = link_to new_admin_runner_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200' do
+            = icon 'plus', class: 'w-4 h-4'
+            New instance runner
+
+    %div{class: 'mb-6'}
+      = form_with url: admin_runners_path, method: :get, local: false, class: 'flex items-center gap-4 mb-6', data: { turbo_frame: 'runners_content' } do |form|
+        %div{class: 'relative', data: { controller: 'searchable-select', 'searchable-select-url-value': '', 'searchable-select-selected-value': params[:status], 'searchable-select-options-value': JSON.generate([['All statuses', ''], ['Active', 'active'], ['Paused', 'paused'], ['Online', 'online'], ['Offline', 'offline']]) }}
+          = form.hidden_field :status, { data: { 'searchable-select-target': 'hiddenInput' } }
+          - current_status_text = case params[:status]
+          - when 'active' then 'Active'
+          - when 'paused' then 'Paused'  
+          - when 'online' then 'Online'
+          - when 'offline' then 'Offline'
+          - else 'All statuses'
+          %input{type: 'text', readonly: true, value: current_status_text, class: 'px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer w-40', data: { 'searchable-select-target': 'input', action: 'click->searchable-select#toggle' }}
+          %div{class: 'absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-lg z-10 hidden', data: { 'searchable-select-target': 'dropdown' }}
+            %div{data: { 'searchable-select-target': 'options' }}
+              Loading...
+
+    = turbo_frame_tag 'runners_content' do
+      = render 'list'

@@ -1,0 +1,17 @@
+%li{ id: "note_#{note.id}" }
+  .flex.gap-3.p-4.border.border-slate-200.rounded-lg.bg-white
+    = image_tag avatar_icon_for_user(note.author, 32), class: 'w-8 h-8 rounded-full flex-shrink-0'
+
+    .flex-1.min-w-0
+      .flex.items-center.gap-2.mb-3
+        %span.font-medium.text-sm= note.author.name
+        %span.text-xs.text-slate-500= "#{time_ago_in_words(note.created_at)} ago"
+
+      = form_with url: note_path(note), method: :patch, local: false, id: "note-form-#{note.id}" do |f|
+        %div{ 'data-controller': 'lexxy-markdown', 'data-lexxy-markdown-initial-content-value': note.note }
+          %lexxy-editor{ id: "editor-note-#{note.id}", 'data-lexxy-markdown-target': 'editor', class: 'w-full min-h-20 border border-slate-300 rounded-md text-sm bg-white', style: '--lexxy-toolbar-height: 32px; --lexxy-toolbar-button-size: 24px;', attachments: 'false' }
+          = f.hidden_field 'note[note]', 'data-lexxy-markdown-target': 'hiddenField'
+
+      .flex.justify-end.gap-2.mt-3
+        %button{ type: 'submit', form: "note-form-#{note.id}", class: 'px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white text-xs font-normal rounded border-0' } Save
+        = button_to 'Cancel', note_show_path(note), remote: true, class: 'px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-600 text-xs font-normal rounded border-0'

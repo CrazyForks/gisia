@@ -1,0 +1,63 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: 'Your work', path: '/' }, { label: 'Groups', path: dashboard_groups_path }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{class: 'w-full bg-white p-2 rounded-lg'}
+  %div{class: 'w-full max-w-6xl mx-auto'}
+
+    %div{class: 'py-6'}
+      %div{class: 'flex items-center gap-4 mb-6'}
+        %div{class: 'w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center text-white text-xl font-bold shadow-sm'}
+          = icon 'circles-three', class: 'w-8 h-8'
+        %div
+          %h1{class: 'text-2xl font-bold text-gray-900'} Groups
+          %p{class: 'text-gray-600'} Organize projects and collaborate with your team
+
+    = turbo_frame_tag "show_group" do
+      %div{class: 'flex items-center justify-between mb-6'}
+        %h2{class: 'text-lg font-semibold text-gray-900'} Your Groups
+        = link_to new_dashboard_group_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200', data: { turbo_frame: "group_form", turbo_action: "advance" } do
+          = icon 'plus', class: 'w-4 h-4'
+          New Group
+
+      - if @groups.any?
+        %div{class: 'space-y-0 bg-white'}
+          - @groups.each do |group|
+            %div{class: 'px-1 py-3 border-b border-gray-100 hover:bg-slate-50/50 transition-all duration-200'}
+              %div{class: 'flex items-center justify-between'}
+                %div{class: 'flex items-center gap-3 flex-1 min-w-0'}
+                  = icon 'circles-three', class: 'w-4 h-4 text-purple-500 flex-shrink-0'
+                  %div{class: 'flex-1 min-w-0'}
+                    %div{class: 'flex items-center gap-2'}
+                      = link_to dashboard_group_path(group), target: '_blank', class: 'font-medium text-gray-900 hover:text-blue-600 transition-colors truncate' do
+                        = group.full_name
+                      - if group.private?
+                        %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700 flex-shrink-0'}
+                          = icon 'lock', class: 'w-2.5 h-2.5 mr-0.5'
+                          Private
+                      - elsif group.internal?
+                        %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700 flex-shrink-0'}
+                          = icon 'users', class: 'w-2.5 h-2.5 mr-0.5'
+                          Internal
+                      - elsif group.public?
+                        %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700 flex-shrink-0'}
+                          = icon 'globe', class: 'w-2.5 h-2.5 mr-0.5'
+                          Public
+                    - if group.description.present?
+                      %p{class: 'text-gray-500 text-xs truncate mt-0.5'}= group.description
+                %div{class: 'flex items-center gap-3 flex-shrink-0'}
+                  %div{class: 'text-xs text-gray-400'}
+                    Updated #{time_ago_in_words(group.updated_at)} ago
+                  %div{class: 'relative', data: { controller: "dashboard" }}
+                    = link_to '#', class: 'p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-slate-100 block', data: { action: "click->dashboard#toggleMenu" } do
+                      = icon 'dots-three-vertical', class: 'w-4 h-4'
+                    %div{class: 'absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-sm hidden z-10 py-1 min-w-24', data: { "dashboard-target": "menu" }}
+                      = link_to edit_dashboard_group_path(group), class: 'flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50' do
+                        = icon 'pencil', class: 'w-4 h-4'
+                        Edit
+                      = button_to dashboard_group_path(group), method: :delete, data: { confirm: "Are you sure?" }, class: 'flex items-center gap-2 px-3 py-2 text-sm text-red-700 hover:bg-red-50 w-full text-left' do
+                        = icon 'trash', class: 'w-4 h-4'
+                        Delete
+      - else
+        %div{class: 'text-center py-16'}
+          %div{class: 'w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mx-auto mb-4'}

@@ -1,0 +1,67 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: 'Admin', path: admin_root_path }, { label: 'Dashboard', path: '#' }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{class: 'w-full bg-white p-2 rounded-lg'}
+  %div{class: 'w-full max-w-6xl mx-auto'}
+
+    %div{class: 'py-6'}
+      %div{class: 'flex items-center gap-4 mb-8'}
+        %div{class: 'w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-400 to-sky-500 flex items-center justify-center text-white text-xl font-bold shadow-lg'}
+          = icon 'gear', class: 'w-8 h-8'
+        %div
+          %h1{class: 'text-2xl font-bold text-gray-900'} Admin Dashboard
+          %p{class: 'text-gray-600'} System overview and administration
+
+    %div{class: 'mb-6'}
+      %h2{class: 'text-lg font-semibold text-gray-900 mb-6'} System Statistics
+
+    %div{class: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8'}
+
+      %div{class: 'bg-blue-50 border border-blue-200 rounded-xl p-6 transition-all duration-200'}
+        %div{class: 'flex items-center justify-between'}
+          %div
+            %h3{class: 'text-lg font-semibold text-gray-900'} Users
+            %p{class: 'text-3xl font-bold text-blue-600 mt-2'}= number_with_delimiter(@users_count)
+          %div{class: 'w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 shadow-sm'}
+            = icon 'users', class: 'w-6 h-6'
+
+      %div{class: 'bg-purple-50 border border-purple-200 rounded-xl p-6 transition-all duration-200'}
+        %div{class: 'flex items-center justify-between'}
+          %div
+            %h3{class: 'text-lg font-semibold text-gray-900'} Groups
+            %p{class: 'text-3xl font-bold text-purple-600 mt-2'}= number_with_delimiter(@groups_count)
+          %div{class: 'w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 shadow-sm'}
+            = icon 'buildings', class: 'w-6 h-6'
+
+      %div{class: 'bg-emerald-50 border border-emerald-200 rounded-xl p-6 transition-all duration-200'}
+        %div{class: 'flex items-center justify-between'}
+          %div
+            %h3{class: 'text-lg font-semibold text-gray-900'} Projects
+            %p{class: 'text-3xl font-bold text-emerald-600 mt-2'}= number_with_delimiter(@projects_count)
+          %div{class: 'w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 shadow-sm'}
+            = icon 'briefcase', class: 'w-6 h-6'
+
+      %div{class: 'bg-amber-50 border border-amber-200 rounded-xl p-6 transition-all duration-200'}
+        %div{class: 'flex items-center justify-between'}
+          %div
+            %h3{class: 'text-lg font-semibold text-gray-900'} Runners
+            %p{class: 'text-3xl font-bold text-amber-600 mt-2'}= number_with_delimiter(@runners_count)
+          %div{class: 'w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center text-amber-600 shadow-sm'}
+            = icon 'computer-tower', class: 'w-6 h-6'
+
+      %div{class: 'bg-sky-50 border border-sky-200 rounded-xl p-6 transition-all duration-200'}
+        %div{class: 'flex items-center justify-between'}
+          %div
+            %h3{class: 'text-lg font-semibold text-gray-900'} Pipelines
+            %p{class: 'text-3xl font-bold text-sky-600 mt-2'}= number_with_delimiter(@pipelines_count)
+          %div{class: 'w-12 h-12 rounded-xl bg-sky-100 flex items-center justify-center text-teal-600 shadow-sm'}
+            = icon 'arrow-clockwise', class: 'w-6 h-6'
+
+      %div{class: 'bg-rose-50 border border-rose-200 rounded-xl p-6 transition-all duration-200'}
+        %div{class: 'flex items-center justify-between'}
+          %div
+            %h3{class: 'text-lg font-semibold text-gray-900'} Jobs
+            %p{class: 'text-3xl font-bold text-rose-600 mt-2'}= number_with_delimiter(@jobs_count)
+          %div{class: 'w-12 h-12 rounded-xl bg-rose-100 flex items-center justify-center text-rose-600 shadow-sm'}
+            = icon 'lightning', class: 'w-6 h-6'

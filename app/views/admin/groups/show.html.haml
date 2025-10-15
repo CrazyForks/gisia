@@ -1,0 +1,124 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: 'Admin', path: admin_root_path }, { label: 'Groups', path: admin_groups_path }, { label: @group.name, path: '#' }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{class: 'w-full bg-white p-2 rounded-lg'}
+  %div{class: 'w-full max-w-6xl mx-auto'}
+
+    %div{class: 'py-6'}
+      %div{class: 'flex items-center justify-between mb-8'}
+        %div{class: 'flex items-center gap-4'}
+          %div{class: 'flex-shrink-0'}
+            = icon 'buildings', class: 'w-12 h-12 text-gray-400'
+          %div
+            %h1{class: 'text-2xl font-bold text-gray-900'}= @group.name
+            %p{class: 'text-gray-600'}= @group.namespace.path
+        %div{class: 'flex items-center gap-3'}
+          = link_to edit_admin_group_path(@group), class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200' do
+            = icon 'pencil', class: 'w-4 h-4'
+            Edit Group
+
+    %div{class: 'grid grid-cols-1 md:grid-cols-3 gap-6 mb-8'}
+      %div{class: 'bg-blue-50 border border-blue-200 rounded-xl p-6'}
+        %div{class: 'text-center'}
+          %div{class: 'flex items-center justify-center mb-2'}
+            = icon 'users', class: 'w-8 h-8 text-blue-600'
+          %h3{class: 'text-lg font-semibold text-gray-900'} Members
+          %p{class: 'text-3xl font-bold text-blue-600 mt-2'}= @group.members.count
+
+      %div{class: 'bg-emerald-50 border border-emerald-200 rounded-xl p-6'}
+        %div{class: 'text-center'}
+          %div{class: 'flex items-center justify-center mb-2'}
+            = icon 'briefcase', class: 'w-8 h-8 text-emerald-600'
+          %h3{class: 'text-lg font-semibold text-gray-900'} Projects
+          %p{class: 'text-3xl font-bold text-emerald-600 mt-2'}= @group.namespace.descendant_projects.count
+
+      %div{class: 'bg-purple-50 border border-purple-200 rounded-xl p-6'}
+        %div{class: 'text-center'}
+          %div{class: 'flex items-center justify-center mb-2'}
+            = icon 'eye', class: 'w-8 h-8 text-purple-600'
+          %h3{class: 'text-lg font-semibold text-gray-900'} Visibility
+          %div{class: 'mt-2'}
+            - case @group.namespace.visibility_level
+            - when Gitlab::VisibilityLevel::PUBLIC
+              %span{class: 'inline-flex items-center px-2 py-1 rounded text-sm font-medium bg-green-100 text-green-700'} Public
+            - when Gitlab::VisibilityLevel::INTERNAL
+              %span{class: 'inline-flex items-center px-2 py-1 rounded text-sm font-medium bg-yellow-100 text-yellow-700'} Internal
+            - when Gitlab::VisibilityLevel::PRIVATE
+              %span{class: 'inline-flex items-center px-2 py-1 rounded text-sm font-medium bg-gray-100 text-gray-700'} Private
+
+    %div{class: 'grid grid-cols-1 lg:grid-cols-2 gap-6'}
+      %div
+        %div{class: 'bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6'}
+          %h3{class: 'text-lg font-semibold text-gray-900 mb-4'} Group Information
+          %dl{class: 'space-y-4'}
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} Group Name
+              %dd{class: 'mt-1 text-sm text-gray-900'}= @group.name
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} Path
+              %dd{class: 'mt-1 text-sm text-gray-900 font-mono'}= @group.namespace.path
+            - if @group.description.present?
+              %div
+                %dt{class: 'text-sm font-medium text-gray-500'} Description
+                %dd{class: 'mt-1 text-sm text-gray-900'}= @group.description
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} Group ID
+              %dd{class: 'mt-1 text-sm text-gray-900'}= @group.id
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} Created
+              %dd{class: 'mt-1 text-sm text-gray-900'}= @group.created_at.strftime('%B %d, %Y at %I:%M %p')
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} Last Updated
+              %dd{class: 'mt-1 text-sm text-gray-900'}= @group.updated_at.strftime('%B %d, %Y at %I:%M %p')
+
+        %div{class: 'bg-white border border-gray-200 rounded-lg p-6'}
+          %div{class: 'flex items-center justify-between mb-4'}
+            %h3{class: 'text-lg font-semibold text-gray-900'} Projects
+            %span{class: 'text-sm text-gray-500'}= @group.namespace.descendant_projects.count
+          - if @projects.any?
+            %div{class: 'space-y-3'}
+              - @projects.each do |project|
+                %div{class: 'flex items-center justify-between p-3 bg-gray-50 rounded-lg'}
+                  %div
+                    %div{class: 'text-sm font-medium text-gray-900'}
+                      = link_to project.name, admin_project_path(project), class: 'hover:text-blue-600'
+                    %div{class: 'text-xs text-gray-500 font-mono'}= project.full_path
+                  %div
+                    - case project.namespace.visibility_level
+                    - when Gitlab::VisibilityLevel::PUBLIC
+                      %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700'} Public
+                    - when Gitlab::VisibilityLevel::INTERNAL
+                      %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-700'} Internal
+                    - when Gitlab::VisibilityLevel::PRIVATE
+                      %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700'} Private
+            - if @group.namespace.descendant_projects.count > @projects.count
+              %div{class: 'text-center pt-3'}
+                %span{class: 'text-sm text-gray-500'}
+                  And #{@group.namespace.descendant_projects.count - @projects.count} more projects...
+          - else
+            %div{class: 'text-center py-6'}
+              %p{class: 'text-gray-500 text-sm'} No projects in this group
+
+      %div
+        %div{class: 'bg-white border border-gray-200 rounded-lg p-6'}
+          %div{class: 'flex items-center justify-between mb-4'}
+            %h3{class: 'text-lg font-semibold text-gray-900'} Group Members
+            %span{class: 'text-sm text-gray-500'}= @group.members.count
+          - if @members.any?
+            %div{class: 'space-y-3'}
+              - @members.each do |member|
+                %div{class: 'flex items-center justify-between p-3 bg-gray-50 rounded-lg'}
+                  %div{class: 'flex items-center gap-3'}
+                    %div{class: 'w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center'}
+                      = icon 'user', class: 'w-4 h-4 text-blue-600'
+                    %div
+                      %div{class: 'text-sm font-medium text-gray-900'}= member.user.name
+                      %div{class: 'text-xs text-gray-500'}= member.user.username
+            - if @group.members.count > @members.count
+              %div{class: 'text-center pt-3'}
+                %span{class: 'text-sm text-gray-500'}
+                  And #{@group.members.count - @members.count} more members...
+          - else
+            %div{class: 'text-center py-6'}
+              %p{class: 'text-gray-500 text-sm'} No members in this group

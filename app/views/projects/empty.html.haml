@@ -1,0 +1,92 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: 'Your work', path: '/' }, { label: 'Projects', path: dashboard_projects_path }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{ class: 'w-full bg-white p-6' }
+  %div{ class: 'w-full max-w-6xl mx-auto flex flex-col px-4' }
+    %div{ class: 'flex justify-between items-start mb-6' }
+      %div{ class: 'flex-1 min-w-0' }
+        %div{ class: 'flex items-center gap-3 mb-2' }
+          %div{ class: 'w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center' }
+            = icon 'folder', class: 'w-5 h-5 text-blue-600'
+          %div
+            %h1{ class: 'text-2xl font-semibold text-gray-900' }
+              = @project.name
+            - if @project.description.present?
+              %p{ class: 'text-sm text-gray-600 mt-1' }
+                = @project.description
+            - else
+              %p{ class: 'text-sm text-gray-500 mt-1' }
+                = @project.name
+
+    %div{ class: 'bg-white border border-slate-200 rounded-lg p-8 text-center mb-6' }
+      %div{ class: 'w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-lg flex items-center justify-center' }
+        = icon 'archive', class: 'w-8 h-8 text-gray-500'
+      %h2{ class: 'text-lg font-semibold text-gray-900 mb-2' }
+        The repository for this project is empty
+      %p{ class: 'text-gray-600 mb-6' }
+        You can get started by cloning the repository or start adding files to your project.
+
+    %div{ class: 'bg-white border border-slate-200 rounded-lg p-6' }
+      %h3{ class: 'text-base font-semibold text-gray-900 mb-4' }
+        Command line instructions
+
+      %div{ class: 'mb-6' }
+        %h4{ class: 'text-sm font-medium text-gray-900 mb-2' }
+          Git global setup
+        %div{ class: 'bg-gray-50 border border-gray-200 rounded-md p-3' }
+          %code{ class: 'text-sm text-gray-800 font-mono' }
+            git config --global user.name "Your Name"
+            %br
+            git config --global user.email "your.email@example.com"
+
+      %div{ class: 'mb-6' }
+        %h4{ class: 'text-sm font-medium text-gray-900 mb-2' }
+          Create a new repository
+        %div{ class: 'bg-gray-50 border border-gray-200 rounded-md p-3' }
+          %code{ class: 'text-sm text-gray-800 font-mono' }
+            git clone #{@project.ssh_url_to_repo}
+            %br
+            cd #{@project.path}
+            %br
+            git switch --create main
+            %br
+            touch README.md
+            %br
+            git add README.md
+            %br
+            git commit -m "add README"
+            %br
+            git push --set-upstream origin main
+
+      %div
+        %h4{ class: 'text-sm font-medium text-gray-900 mb-2' }
+          Push an existing folder
+        %div{ class: 'bg-gray-50 border border-gray-200 rounded-md p-3' }
+          %code{ class: 'text-sm text-gray-800 font-mono' }
+            cd existing_folder
+            %br
+            git init --initial-branch=main
+            %br
+            git remote add origin #{@project.ssh_url_to_repo}
+            %br
+            git add .
+            %br
+            git commit -m "Initial commit"
+            %br
+            git push --set-upstream origin main
+
+      %div{ class: 'mt-6' }
+        %h4{ class: 'text-sm font-medium text-gray-900 mb-2' }
+          Push an existing Git repository
+        %div{ class: 'bg-gray-50 border border-gray-200 rounded-md p-3' }
+          %code{ class: 'text-sm text-gray-800 font-mono' }
+            cd existing_repo
+            %br
+            git remote rename origin old-origin
+            %br
+            git remote add origin #{@project.ssh_url_to_repo}
+            %br
+            git push --set-upstream origin --all
+            %br
+            git push --set-upstream origin --tags

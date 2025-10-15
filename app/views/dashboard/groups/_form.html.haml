@@ -1,0 +1,48 @@
+- if ['new', 'create'].include?(action_name)
+  - url = dashboard_groups_path
+- else
+  - url = dashboard_group_path(@group)
+
+= form_with model: @group, url: url do |f|
+  
+  - if @group.errors.any?
+    %div{class: 'bg-red-50 border border-red-200 p-4 rounded-lg mb-6'}
+      %h3{class: 'text-red-800 font-medium mb-2'} Please correct the following errors:
+      %ul{class: 'text-red-700 text-sm space-y-1'}
+        - @group.errors.full_messages.each do |message|
+          %li= message
+
+  %div{class: 'space-y-5 mb-6'}
+    
+    %div
+      = f.label :name, class: 'flex items-center gap-2 text-sm font-medium text-gray-700 mb-2' do
+        = icon 'circles-three', class: 'w-4 h-4 text-purple-500'
+        Group Name
+      = f.text_field :name, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', placeholder: 'e.g., Development Team'
+    
+    %div
+      = f.label :path, class: 'flex items-center gap-2 text-sm font-medium text-gray-700 mb-2' do
+        = icon 'link', class: 'w-4 h-4 text-green-500'
+        Group Path
+      = f.text_field :path, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', placeholder: 'e.g., development-team'
+    
+    %div
+      = f.label :description, class: 'flex items-center gap-2 text-sm font-medium text-gray-700 mb-2' do
+        = icon 'note', class: 'w-4 h-4 text-blue-500'
+        Description
+      = f.text_area :description, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', rows: 3, placeholder: 'Brief description of your group'
+    
+    %div
+      = f.label :namespace_parent_id, class: 'flex items-center gap-2 text-sm font-medium text-gray-700 mb-2' do
+        = icon 'folder-open', class: 'w-4 h-4 text-orange-500'
+        Parent Group
+      = f.collection_select :namespace_parent_id, @available_namespaces, :id, :name_with_type, { prompt: 'Select Parent Group' }, { class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500' }
+
+  %div{class: 'flex items-center justify-between pt-4 border-t border-gray-100'}
+    = link_to dashboard_groups_path, class: 'text-gray-600 hover:text-gray-800 text-sm font-medium' do
+      Cancel
+    %div{class: 'flex items-center gap-3'}
+      - if action_name == 'new'
+        = f.submit 'Create Group', class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200'
+      - else
+        = f.submit 'Update Group', class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200'

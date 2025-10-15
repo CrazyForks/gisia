@@ -1,0 +1,16 @@
+- viewer_url = local_assigns.fetch(:viewer_url, nil)
+.blob-viewer{ data: { type: viewer.type, path: viewer.blob.path, url: viewer_url } }
+  - render_error = viewer.render_error
+  - if render_error
+    .blob-render-error.text-center.p-8
+      .text-red-600.text-lg.font-medium
+        - case render_error
+        - when :too_large
+          This file is too large to display
+        - when :collapsed
+          This file is collapsed due to its size
+        - else
+          Unable to render this file
+  - else
+    - viewer.prepare!
+    = render viewer.partial_path, viewer: viewer

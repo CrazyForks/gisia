@@ -1,0 +1,45 @@
+%div{class: 'h-full max-h-screen flex flex-col overflow-hidden'}
+  %div{class: 'flex items-center justify-between px-6 py-4 border-b border-gray-200'}
+    %h2{class: 'text-lg font-semibold text-gray-900'}
+      Add Variable
+    %button{type: 'button', class: 'text-gray-400 hover:text-gray-600', data: {action: 'variable-drawer#close'}}
+      = icon 'x', class: 'w-5 h-5'
+
+  = form_with model: Ci::Variable.new, url: namespace_project_settings_variables_path(@project.namespace.parent.full_path, @project.namespace.path), method: :post, local: false, class: 'flex-1 flex flex-col min-h-0', data: { turbo_frame: 'variables_content' } do |form|
+    %div{class: 'flex-1 overflow-y-auto px-6 py-4 space-y-6 sidebar-scroll'}
+      %div{class: 'space-y-4'}
+        %div
+          = form.label :key, 'Key', class: 'block text-sm font-medium text-gray-700 mb-2'
+          = form.text_field :key, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent', placeholder: 'VARIABLE_NAME'
+
+        %div
+          = form.label :value, 'Value', class: 'block text-sm font-medium text-gray-700 mb-2'
+          = form.text_area :value, rows: 4, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent', placeholder: 'Variable value'
+
+        %div
+          = form.label :description, 'Description (optional)', class: 'block text-sm font-medium text-gray-700 mb-2'
+          = form.text_field :description, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent', placeholder: 'The description of the variable\'s value or usage'
+
+      %div{class: 'border-t border-gray-200 pt-4'}
+        %h3{class: 'text-sm font-medium text-gray-900 mb-3'}
+          Flags
+
+        %div{class: 'space-y-3'}
+          %div{class: 'flex items-start gap-3'}
+            = form.check_box :protected, class: 'mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500'
+            %div
+              = form.label :protected, 'Protect variable', class: 'text-sm font-medium text-gray-700'
+              %p{class: 'text-xs text-gray-500'}
+                Export variable to pipelines running on protected branches and tags only
+
+          %div{class: 'flex items-start gap-3'}
+            = form.check_box :masked, class: 'mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500'
+            %div
+              = form.label :masked, 'Masked', class: 'text-sm font-medium text-gray-700'
+              %p{class: 'text-xs text-gray-500'}
+                Variable will be masked in job logs
+
+    %div{class: 'border-t border-gray-200 px-6 py-4 flex justify-end gap-3'}
+      %button{type: 'button', class: 'btn btn-secondary', data: {action: 'variable-drawer#close'}}
+        Cancel
+      = form.submit 'Add variable', class: 'btn btn-primary'

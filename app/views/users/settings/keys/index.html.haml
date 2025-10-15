@@ -1,0 +1,65 @@
+- nodes = [{ label: 'User Settings', path: users_settings_profile_path }, { label: 'SSH Keys', path: users_settings_keys_path}]
+= render 'shared/breadcrumb', nodes: nodes
+
+%div{class: 'w-full bg-white p-2 rounded-lg'}
+  %div{class: 'w-full max-w-6xl mx-auto'}
+
+    %div{class: 'py-6'}
+      %div{class: 'flex items-center gap-4 mb-6'}
+        %div{class: 'w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white text-xl font-bold shadow-lg'}
+          = icon 'key', class: 'w-8 h-8'
+        %div
+          %h1{class: 'text-2xl font-bold text-gray-900'} SSH Keys
+          %p{class: 'text-gray-600'} Manage your SSH keys for secure access
+
+    %div{class: 'mb-6'}
+      %div{class: 'flex items-center justify-between'}
+        %h2{class: 'text-lg font-semibold text-gray-900'} Your Keys
+        = link_to new_users_settings_key_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200', data: { turbo_frame: "project_form", turbo_action: "advance" } do
+          = icon 'plus', class: 'w-4 h-4'
+          Add Key
+
+    - if @keys.any?
+      %div{class: 'space-y-3'}
+        - @keys.each do |key|
+          %div{class: 'flex items-center justify-between py-4 border-b border-gray-100 last:border-b-0'}
+            %div{class: 'flex-1 min-w-0'}
+              %div{class: 'flex items-center gap-3 mb-2'}
+                = icon 'key', class: 'w-5 h-5 text-green-500', variant: 'regular'
+                = link_to key.title, users_settings_key_path(key), class: 'font-medium text-gray-900 hover:text-blue-600'
+                %span{class: 'inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800'}
+                  = key.usage_type
+              %div{class: 'text-sm text-gray-600 space-y-1'}
+                %div{class: 'flex items-center gap-4'}
+                  %span{class: 'flex items-center gap-1'}
+                    = icon 'fingerprint', class: 'w-4 h-4'
+                    %span{class: 'font-mono truncate max-w-md'}= key.fingerprint
+                  - if key.last_used_at.present?
+                    %span{class: 'flex items-center gap-1'}
+                      = icon 'clock', class: 'w-4 h-4'
+                      Last used #{time_ago_in_words(key.last_used_at)} ago
+                  - if key.expires_at.present?
+                    %span{class: 'flex items-center gap-1'}
+                      = icon 'calendar', class: 'w-4 h-4'
+                      Expires #{key.expires_at.strftime('%b %d, %Y')}
+            
+            %div{class: 'flex items-center', data: { controller: "users--settings--keys" }}
+              %div{class: 'relative'}
+                = link_to '#', class: 'p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-50 block', data: { action: "click->users--settings--keys#toggleMenu" } do
+                  = icon 'dots-three-vertical', class: 'w-4 h-4'
+                %div{class: 'absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10 py-1 min-w-24', data: { "users--settings--keys-target": "menu" }}
+                  = link_to edit_users_settings_key_path(key), class: 'flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50' do
+                    = icon 'pencil', class: 'w-4 h-4'
+                    Edit
+                  = button_to users_settings_key_path(key), method: :delete, data: { confirm: "Are you sure?" }, class: 'flex items-center gap-2 px-3 py-2 text-sm text-red-700 hover:bg-red-50 w-full text-left' do
+                    = icon 'trash', class: 'w-4 h-4'
+                    Delete
+    - else
+      %div{class: 'text-center py-12'}
+        %div{class: 'w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4'}
+          = icon 'key', class: 'w-8 h-8 text-gray-400'
+        %h3{class: 'text-lg font-medium text-gray-900 mb-2'} No SSH keys found
+        %p{class: 'text-gray-500 mb-4'} Add your first SSH key to get started with secure access
+        = link_to new_users_settings_key_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200', data: { turbo_frame: "project_form", turbo_action: "advance" } do
+          = icon 'plus', class: 'w-4 h-4'
+          Add Your First Key

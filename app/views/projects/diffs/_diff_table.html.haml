@@ -1,0 +1,39 @@
+- diff_lines = parse_diff_file(diff_file)
+
+%div{ class: 'diff-content' }
+  - if @merge_request
+    %div{ class: 'font-mono text-sm leading-relaxed', id: "diff-viewer-#{diff_file_id(diff_file)}", data: { controller: "diff-comment", base_sha: @merge_request.diff_base_sha, start_sha: @merge_request.diff_start_sha, head_sha: @merge_request.diff_head_sha, api_endpoint: namespace_project_merge_request_diff_notes_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request) } }
+  - else
+    %div{ class: 'font-mono text-sm leading-relaxed', id: "diff-viewer-#{diff_file_id(diff_file)}" }
+
+  - diff_lines.each do |line|
+    - if line[:type] == 'hunk_header'
+      %div{ class: 'bg-gray-50 border-t border-b border-gray-300 min-h-5 flex items-center px-2 py-1' }
+        %div{ class: 'text-gray-600 font-semibold text-sm leading-5' }= line[:content]
+    - else
+      - line_bg = line[:type] == 'addition' ? 'bg-emerald-100' : line[:type] == 'deletion' ? 'bg-rose-100' : 'bg-gray-50'
+      - content_bg = line[:type] == 'addition' ? 'bg-emerald-50' : line[:type] == 'deletion' ? 'bg-rose-50' : 'bg-white'
+      %div{ class: "flex items-stretch min-h-5 group relative", id: line[:line_code], data: { line_code: line[:line_code] } }
+        - if @merge_request && line_discussable?(line)
+          %button{ class: 'absolute left-0 top-1/2 transform -translate-y-1/2 z-10 p-1 bg-white border border-gray-300 rounded-sm shadow-sm cursor-pointer opacity-0 group-hover:opacity-100 text-gray-500 w-6 h-6 flex items-center justify-center hover:bg-blue-50 hover:text-blue-600 hover:border-blue-300', title: 'Add comment', id: "comment-button-#{line[:line_code]}", data: { line_code: line[:line_code] } }
+            = icon 'chat-circle', class: 'w-3 h-3'
+        %div{ class: "flex #{line_bg} hover:!bg-blue-50" }
+          %div{ class: "w-10 border-r border-gray-300 flex-shrink-0" }
+            - if line[:old_line].present?
+              %div{ class: 'px-1 text-right text-gray-600 text-sm leading-5 select-none h-5 flex items-center justify-end' }= line[:old_line]
+            - else
+              %div{ class: "h-5" }
+          %div{ class: "w-10 border-r border-gray-300 flex-shrink-0" }
+            - if line[:new_line].present?
+              %div{ class: 'px-1 text-right text-gray-600 text-sm leading-5 select-none h-5 flex items-center justify-end' }= line[:new_line]
+            - else
+              %div{ class: "h-5" }
+        %div{ class: "flex-1 px-2 leading-5 #{content_bg}" }
+          %span{ class: 'block whitespace-pre font-mono text-sm leading-5 overflow-visible' }= line[:rich_text].html_safe
+
+      - if @merge_request
+        - line_notes = notes_for_line(line[:line_code], @merge_request)
+        - if line_notes.any?
+          %ul.notes-list{ class: "space-y-4 mt-4" }
+            - line_notes.root_notes.each do |note|
+              = render partial: 'shared/notes/note', locals: { note: note }

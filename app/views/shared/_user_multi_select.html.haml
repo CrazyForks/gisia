@@ -1,0 +1,8 @@
+%div{ class: 'space-y-2', data: { controller: 'user-multi-select', 'user-multi-select-url-value': local_assigns[:search_url], 'user-multi-select-selected-value': local_assigns[:selected_ids]&.join(','), 'user-multi-select-field-name-value': local_assigns[:field_name] } }
+  %div{ class: 'relative' }
+    %input{ type: 'text', placeholder: local_assigns[:placeholder] || 'Search users...', class: 'w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', data: { 'user-multi-select-target': 'searchInput', action: 'input->user-multi-select#search focus->user-multi-select#showDropdown' } }
+    %div{ class: 'absolute top-full left-0 right-0 bg-white border border-slate-300 rounded-lg z-10 hidden max-h-48 overflow-y-auto', data: { 'user-multi-select-target': 'dropdown' } }
+      %div{ data: { 'user-multi-select-target': 'options' } }
+        %div{ class: 'px-3 py-2 text-slate-500 text-sm' } Type to search users...
+  %div{ data: { 'user-multi-select-target': 'selectedContainer' }, class: 'flex flex-wrap gap-2' }
+  %div{ data: { 'user-multi-select-target': 'hiddenInputs' } }

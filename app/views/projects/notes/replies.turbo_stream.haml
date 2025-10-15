@@ -1,0 +1,22 @@
+= turbo_stream.update "note-#{@note.id}-replies" do
+  - if @replies.any?
+    .replies.ml-8.space-y-4
+      - @replies.each do |reply|
+        = render 'shared/notes/note', note: reply
+  - else
+    .no-replies.ml-8.text-sm.text-gray-500.mb-4
+      No replies yet.
+
+  .reply-form.ml-8.mt-4.p-4.border.border-slate-200.rounded-lg.bg-slate-50{ id: "note-#{@note.id}-reply-form" }
+    = form_with model: [@note.noteable.project, @note.noteable, Note.new], url: namespace_project_notes_path(@note.noteable.project.namespace.parent.full_path, @note.noteable.project.path, target_id: @note.noteable.id), local: false, class: "space-y-3" do |f|
+      = f.hidden_field :noteable_type, value: @note.noteable.class.name
+      = f.hidden_field :noteable_id, value: @note.noteable.id
+      = f.hidden_field :discussion_id, value: @note.id
+      = hidden_field_tag :target_id, @note.noteable.id
+
+      %div{ 'data-controller': 'lexxy-markdown', 'data-lexxy-markdown-initial-content-value': '' }
+        %lexxy-editor{ id: "editor-reply-note-#{@note.id}", 'data-lexxy-markdown-target': 'editor', placeholder: 'Write a reply...', class: 'w-full min-h-16 border border-slate-300 rounded-md text-sm bg-white', style: '--lexxy-toolbar-height: 32px; --lexxy-toolbar-button-size: 24px;', attachments: 'false' }
+        = f.hidden_field :note, 'data-lexxy-markdown-target': 'hiddenField'
+
+      .flex.justify-end.gap-2
+        = f.submit 'Reply', class: 'px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700'

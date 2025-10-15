@@ -1,0 +1,44 @@
+- url = @epic.persisted? ? namespace_project_epic_path(@project.namespace.parent.full_path, @project.namespace.path, @epic) : namespace_project_epics_path(@project.namespace.parent.full_path, @project.namespace.path)
+= form_with model: @epic, url: url, local: true, class: "epic-form", data: { turbo: false } do |f|
+  - if @epic.errors.any?
+    %div{ class: 'bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6' }
+      %h4{ class: 'font-semibold mb-2' }
+        = pluralize(@epic.errors.count, "error")
+        prohibited this epic from being saved:
+      %ul{ class: 'list-disc list-inside space-y-1' }
+        - @epic.errors.full_messages.each do |message|
+          %li= message
+
+  %div{ class: 'grid grid-cols-1 lg:grid-cols-4 gap-6' }
+
+    %div{ class: 'lg:col-span-3' }
+      %div{ class: 'space-y-4' }
+        %div
+          %label{ for: 'epic_title', class: 'block text-sm font-medium text-slate-900 mb-1' } Title
+          = f.text_field :title, class: "w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm", placeholder: "", required: true
+
+        %div{ 'data-controller': 'lexxy-markdown', 'data-lexxy-markdown-initial-content-value': @epic.description || '' }
+          %label{ for: 'epic_description', class: 'block text-sm font-medium text-slate-900 mb-1' } Description
+          %lexxy-editor{ id: 'epic-description-editor', 'data-lexxy-markdown-target': 'editor', placeholder: 'Write your description here...', value: (@epic.description || ''), class: 'min-h-32 bg-white', attachments: 'false' }
+          = f.hidden_field :description, 'data-lexxy-markdown-target': 'hiddenField'
+
+        %div
+          %div{ class: 'flex items-start gap-2' }
+            = f.check_box :confidential, class: "mt-0.5 w-4 h-4 text-blue-600 bg-white border-slate-300 rounded focus:ring-blue-500 focus:ring-2"
+            %label{ for: 'epic_confidential', class: 'text-sm text-slate-700 cursor-pointer' }
+              Turn on confidentiality: Limit visibility to project members with at least the Reporter role.
+
+    %div{ class: 'lg:col-span-1' }
+      %aside{ class: 'lg:pl-4' }
+        %div
+          %div{ class: 'flex items-center justify-between mb-2' }
+            %h3{ class: 'text-sm font-medium text-slate-900' } Assignees
+            %button{ type: 'button', class: 'text-xs text-blue-600 hover:text-blue-800' } Edit
+          %div{ class: 'text-sm text-slate-500' }
+            None -
+            %button{ type: 'button', class: 'text-xs text-blue-600 hover:text-blue-800' } assign yourself
+
+  %div{ class: 'mt-6 pt-4 border-t border-slate-200' }
+    %div{ class: 'flex items-center gap-2' }
+      = f.submit (@epic.persisted? ? "Update Epic" : "Create Epic"), class: "inline-flex items-center px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors duration-200 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-offset-1"
+      = link_to "Cancel", namespace_project_epics_path(@project.namespace.parent.full_path, @project.namespace.path), class: "inline-flex items-center px-3 py-2 bg-white border border-slate-300 text-slate-700 text-sm font-medium rounded-md hover:bg-slate-50 transition-colors duration-200 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-offset-1"

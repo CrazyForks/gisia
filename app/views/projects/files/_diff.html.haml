@@ -1,0 +1,58 @@
+%div{ class: 'flex', data: { controller: 'diff-navigator' } }
+  %div{ class: 'w-64 bg-white border-r border-gray-200 flex flex-col' }
+    %div{ class: 'p-4 border-b border-gray-200' }
+      %h3{ class: 'text-sm font-medium text-gray-900' }
+        = "Files changed (#{@diffs.diff_files.count})"
+
+    %div{ class: 'flex-1 overflow-y-auto' }
+      %div{ class: 'py-2' }
+        - @diffs.diff_files.each_with_index do |file, index|
+          %button{ class: "w-full text-left px-4 py-2 hover:bg-gray-50 border-b border-gray-100 file-list-item #{'bg-blue-50 border-blue-200' if index == 0}",
+                   data: { action: 'click->diff-navigator#selectFile', file_index: index, file_id: diff_file_id(file), diff_navigator_target: 'fileButton' } }
+            %div{ class: 'flex items-center justify-between' }
+              %div{ class: 'flex items-center gap-2 flex-1 min-w-0' }
+                = icon 'file-text', class: 'w-4 h-4 text-slate-500 flex-shrink-0'
+                %span{ class: 'font-mono text-xs text-slate-900 truncate' }= file.file_path
+                - if file.new_file?
+                  %span{ class: 'px-1.5 py-0.5 bg-green-100 text-green-700 text-xs rounded' } N
+                - elsif file.deleted_file?
+                  %span{ class: 'px-1.5 py-0.5 bg-red-100 text-red-700 text-xs rounded' } D
+                - elsif file.renamed_file?
+                  %span{ class: 'px-1.5 py-0.5 bg-blue-100 text-blue-700 text-xs rounded' } R
+              %div{ class: 'flex items-center gap-1 text-xs text-slate-500' }
+                - unless file.too_large?
+                  %span{ class: 'text-green-600' }+#{file.added_lines}
+                  %span{ class: 'text-red-600' }-#{file.removed_lines}
+
+  %div{ class: 'flex-1' }
+    - @diffs.diff_files.each_with_index do |file, index|
+      %div{ class: "diff-file-container #{'hidden' if index != 0}", data: { file_index: index, file_id: diff_file_id(file), diff_navigator_target: 'diffContainer' } }
+        %div{ class: 'bg-white border border-gray-200 m-4 rounded-lg overflow-hidden' }
+          %div{ class: 'diff-file-header bg-gray-50 px-4 py-3 border-b border-gray-200' }
+            %div{ class: 'flex items-center justify-between' }
+              %div{ class: 'flex items-center gap-3' }
+                %div{ class: 'flex items-center gap-2' }
+                  = icon 'file-text', class: 'w-4 h-4 text-slate-500'
+                  %span{ class: 'font-mono text-sm font-medium text-slate-900' }= file.file_path
+                - if file.new_file?
+                  %span{ class: 'px-2 py-1 bg-green-100 text-green-700 text-xs rounded' } new file
+                - elsif file.deleted_file?
+                  %span{ class: 'px-2 py-1 bg-red-100 text-red-700 text-xs rounded' } deleted
+                - elsif file.renamed_file?
+                  %span{ class: 'px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded' } renamed
+
+              %div{ class: 'flex items-center gap-3 text-sm text-slate-500' }
+                - if file.too_large?
+                  %span{ class: 'text-amber-600' } File too large to display
+                - else
+                  %span{ class: 'text-green-600' }+#{file.added_lines}
+                  %span{ class: 'text-red-600' }-#{file.removed_lines}
+
+          - unless file.too_large?
+            - if file.diff.diff.present? && !file.diff.diff.strip.empty?
+              = render 'projects/diffs/diff_table', diff_file: file
+            - else
+              %div{ class: 'px-4 py-8 text-center text-slate-500 bg-slate-50' }
+                %div{ class: 'flex flex-col items-center gap-2' }
+                  = icon 'file-text', class: 'w-8 h-8 text-slate-300'
+                  %span{ class: 'text-sm' } No content to display

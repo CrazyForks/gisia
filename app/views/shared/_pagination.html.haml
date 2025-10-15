@@ -1,0 +1,18 @@
+%div{class: 'mt-6 flex justify-center'}
+  - if collection.respond_to?(:current_page) && collection.total_pages > 1
+    %div{class: 'flex items-center rounded-lg overflow-hidden border border-gray-200'}
+      - if collection.prev_page
+        = link_to url_for(page: collection.prev_page, **url_params), class: 'px-3 py-2 text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200 border-r border-gray-200', data: { turbo_frame: turbo_frame } do
+          = icon 'caret-left', class: 'w-4 h-4'
+      - collection.total_pages.times do |i|
+        - page_num = i + 1
+        - if page_num == collection.current_page
+          %span{class: 'px-3 py-2 text-sm font-medium text-blue-600 bg-blue-50 border-r border-gray-200 last:border-r-0'}= page_num
+        - elsif (page_num - collection.current_page).abs <= 2 || page_num == 1 || page_num == collection.total_pages
+          = link_to url_for(page: page_num, **url_params), class: 'px-3 py-2 text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200 border-r border-gray-200 last:border-r-0', data: { turbo_frame: turbo_frame } do
+            = page_num
+        - elsif (page_num - collection.current_page).abs == 3
+          %span{class: 'px-3 py-2 text-sm font-medium text-gray-400 bg-white border-r border-gray-200'} •••
+      - if collection.next_page
+        = link_to url_for(page: collection.next_page, **url_params), class: 'px-3 py-2 text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200', data: { turbo_frame: turbo_frame } do
+          = icon 'caret-right', class: 'w-4 h-4'

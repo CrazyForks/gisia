@@ -1,0 +1,72 @@
+%div{ class: 'w-full bg-white p-6' }
+  %div{ class: 'w-full md:max-w-6xl mx-auto flex flex-col' }
+
+    %div{ class: 'mb-8' }
+      %div{ class: 'flex items-start justify-between mb-4' }
+        %div{ class: 'flex-1 min-w-0' }
+          %div{ class: 'flex items-center gap-3 mb-3' }
+            - mr_status = @merge_request.merged? ? 'merged' : (@merge_request.closed? ? 'closed' : 'open')
+            - status_colors = { 'open' => 'bg-emerald-100 text-emerald-800', 'merged' => 'bg-violet-100 text-violet-800', 'closed' => 'bg-rose-100 text-rose-800' }
+            - icon_colors = { 'open' => 'text-emerald-600', 'merged' => 'text-violet-600', 'closed' => 'text-rose-600' }
+
+            %div{ class: "inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium #{status_colors.fetch(mr_status, 'bg-slate-100 text-slate-800')}" }
+              - case mr_status
+              - when 'open'
+                = icon 'git-pull-request', class: "w-4 h-4 #{icon_colors['open']}"
+                %span Open
+              - when 'merged'
+                = icon 'git-merge', class: "w-4 h-4 #{icon_colors['merged']}"
+                %span Merged
+              - when 'closed'
+                = icon 'archive', class: "w-4 h-4 #{icon_colors['closed']}"
+                %span Closed
+
+            %h1{ class: 'text-2xl font-bold text-slate-900' }= @merge_request.title
+
+          %div{ class: 'flex items-center gap-3 text-sm mt-4' }
+            %div{ class: 'flex items-center gap-2 text-slate-500' }
+              - if @merge_request.author&.avatar&.present?
+                = image_tag @merge_request.author.avatar_url, class: 'w-5 h-5 rounded-full'
+              - else
+                %div{ class: 'w-5 h-5 rounded-full bg-gradient-to-br from-slate-400 to-slate-500 flex items-center justify-center text-xs font-bold text-white' }
+                  = @merge_request.author&.name&.first&.upcase || '?'
+              %span
+                #{@merge_request.author&.name}
+                opened #{time_ago_in_words(@merge_request.created_at)} ago
+
+            %div{ class: 'flex items-center gap-2 ml-6' }
+              %span{ class: 'text-xs font-mono text-slate-700 bg-slate-100 px-2 py-1 rounded-md' }= @merge_request.source_branch
+              = icon 'arrow-right', class: 'w-4 h-4 text-slate-400'
+              %span{ class: 'text-xs font-mono text-slate-700 bg-slate-100 px-2 py-1 rounded-md' }= @merge_request.target_branch
+
+
+        %div{ class: 'flex items-center gap-3' }
+          = link_to edit_namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), class: 'inline-flex items-center gap-2 px-3 py-2 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-md text-sm font-medium transition-colors' do
+            = icon 'pencil-simple-line', class: 'w-4 h-4'
+            %span Edit
+
+          - unless @merge_request.merged? || @merge_request.closed?
+            = link_to merge_namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), method: :patch, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition-colors', data: { confirm: 'Are you sure you want to merge this merge request?' } do
+              = icon 'git-merge', class: 'w-4 h-4'
+              %span Merge
+
+            = link_to close_namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), method: :patch, class: 'inline-flex items-center gap-2 px-3 py-2 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-md text-sm font-medium transition-colors', data: { confirm: 'Are you sure you want to close this merge request?' } do
+              = icon 'archive', class: 'w-4 h-4'
+              %span Close
+
+    %div{ class: 'border-b border-slate-200' }
+      %nav{ class: 'flex space-x-8' }
+        - commits_title = "Commits (#{@merge_request.commits_count})"
+        - pipelines_title = "Pipelines (#{@merge_request.pipelines.count})"
+        - diffs_title = "Diffs (#{@merge_request.diffs.count})"
+        - tabs = { 'Overview' => namespace_project_merge_request_path, commits_title => commits_namespace_project_merge_request_path, pipelines_title => pipelines_namespace_project_merge_request_path, diffs_title => diffs_namespace_project_merge_request_path }
+        - current_path = request.path
+
+        - tabs.each do |(label, path)|
+          - is_active = current_path == path
+          - if is_active
+            %a{ href: path, class: 'border-b-2 border-blue-600 text-blue-600 pb-4 px-1 text-sm font-medium transition-colors' }= label
+          - else
+            %a{ href: path, class: 'border-b-2 border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 pb-4 px-1 text-sm font-medium transition-colors' }= label
+
+    = yield :mr_content

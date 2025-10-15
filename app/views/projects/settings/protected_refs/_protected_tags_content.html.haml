@@ -1,0 +1,58 @@
+- protected_tags = @project.protected_tags
+
+%div{id: 'protected_tags_content', class: 'mb-6'}
+  %div{class: 'border border-gray-200 rounded-lg p-4 mb-6'}
+    %div{class: 'flex items-start gap-3'}
+      %div{class: 'flex-shrink-0 w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center'}
+        = icon 'tag', class: 'w-4 h-4 text-gray-600'
+      %div{class: 'flex-1'}
+        %h3{class: 'text-base font-semibold text-gray-900 mb-1'}
+          Add Protection Rule
+        %p{class: 'text-sm text-gray-600 mb-4'}
+          Restrict who can create tags matching these patterns
+        
+        = form_with model: ProtectedTag.new, url: namespace_project_settings_protected_tags_path(@project.namespace.parent.full_path, @project.namespace.path), html: { class: 'space-y-3' }, data: { turbo_frame: 'protected_tags_frame' } do |f|
+          = hidden_field_tag :turbo_frame, 'protected_tags_content'
+          
+          %div{class: 'grid grid-cols-1 lg:grid-cols-2 gap-4'}
+            %div{'data-controller': 'tag-select'}
+              - if @project.repository.exists? && @project.repository.tag_names.any?
+                = f.label :name, "Tag pattern", class: 'block text-sm font-medium text-gray-900 mb-1', for: 'protected_tag_name_select'
+                = f.select :name, options_for_select([['Select tag...', ''], ['Custom pattern...', 'custom']] + @project.repository.tag_names.map { |tag| [tag, tag] }), {}, { id: 'protected_tag_name_select', class: 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', 'data-tag-select-target': 'select', 'data-action': 'change->tag-select#handleChange' }
+                = f.text_field :name, placeholder: 'e.g., v*, *-release, 1.0.*', id: 'protected_tag_name_input', class: 'hidden w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', 'data-tag-select-target': 'customInput', disabled: true
+              - else
+                = f.label :name, "Tag pattern", class: 'block text-sm font-medium text-gray-900 mb-1', for: 'protected_tag_name_input'
+                = f.text_field :name, placeholder: 'e.g., v*, *-release, 1.0.*', id: 'protected_tag_name_input', class: 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', 'data-tag-select-target': 'customInput'
+
+            %div
+              = f.label :access_level, "Allowed to create", class: 'block text-sm font-medium text-gray-900 mb-1'
+              = f.select :access_level, options_for_select([['Developer', 'developer'], ['Maintainer', 'maintainer'], ['Owner', 'owner']], 'developer'), {}, { class: 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500' }
+
+          %div{class: 'flex justify-end pt-3'}
+            = f.submit 'Protect Tag', class: 'px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors'
+
+  - if protected_tags.any?
+    %div{class: 'border-t border-gray-200 pt-6'}
+      %h3{class: 'text-base font-medium text-gray-900 mb-4'}
+        Protected Tags (#{protected_tags.count})
+      
+      %div{class: 'space-y-3'}
+        - protected_tags.each do |protected_tag|
+          %div{class: 'flex items-center justify-between p-4 bg-gray-50 rounded-lg'}
+            %div{class: 'flex items-center gap-3'}
+              = icon 'tag', class: 'w-4 h-4 text-gray-500'
+              %div
+                %div{class: 'font-medium text-gray-900'}= protected_tag.name
+                %div{class: 'text-sm text-gray-500'}
+                  = protected_tag.access_level.humanize
+                  · Create
+            
+            %div{class: 'flex gap-2'}
+              = link_to 'Delete', namespace_project_settings_protected_tag_path(@project.namespace.parent.full_path, @project.namespace.path, protected_tag), data: { turbo_method: :delete, turbo_confirm: "Remove protection from #{protected_tag.name}?", turbo_frame: 'protected_tags_content' }, class: 'px-3 py-1 text-xs font-medium text-red-600 bg-red-50 rounded-md hover:bg-red-100 transition-colors'
+  - else
+    %div{class: 'border-t border-gray-200 pt-6'}
+      %div{class: 'text-center py-8 text-gray-500'}
+        %div{class: 'w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center'}
+          = icon 'tag', class: 'w-8 h-8 text-gray-400'
+        %p{class: 'text-sm font-medium text-gray-700'} No protected tags configured
+        %p{class: 'text-xs text-gray-500'} Add protection rules above to control tag creation

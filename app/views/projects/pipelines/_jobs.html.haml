@@ -1,0 +1,53 @@
+- if @jobs.any?
+  %div{ class: 'bg-white overflow-hidden' }
+    - @jobs.each_with_index do |job, index|
+      - status_colors = { 'success' => 'bg-emerald-50 text-emerald-600 border-emerald-200', 'failed' => 'bg-rose-50 text-rose-600 border-rose-200', 'running' => 'bg-blue-50 text-blue-600 border-blue-200', 'pending' => 'bg-amber-50 text-amber-600 border-amber-200', 'created' => 'bg-slate-50 text-slate-600 border-slate-200' }
+      - badge_colors = { 'success' => 'bg-emerald-500/10 text-emerald-700 ring-1 ring-emerald-500/20', 'failed' => 'bg-rose-500/10 text-rose-700 ring-1 ring-rose-500/20', 'running' => 'bg-blue-500/10 text-blue-700 ring-1 ring-blue-500/20', 'pending' => 'bg-amber-500/10 text-amber-700 ring-1 ring-amber-500/20', 'created' => 'bg-slate-500/10 text-slate-700 ring-1 ring-slate-500/20' }
+      
+      %div{ class: "group flex items-center gap-4 px-6 py-4 hover:bg-slate-50/50 transition-all duration-200 border-b border-slate-100" }
+        %div{ class: 'flex-shrink-0 w-10' }
+          %div{ class: "w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-200 #{status_colors.fetch(job.status, 'bg-slate-50 text-slate-500 border-slate-200')}" }
+            - case job.status
+            - when 'success'
+              = icon 'check', class: 'w-4 h-4 font-medium'
+            - when 'running'
+              = icon 'approximate-equals', class: 'w-4 h-4 font-medium'
+            - when 'failed'
+              = icon 'x', class: 'w-4 h-4 font-medium'
+            - when 'pending'
+              = icon 'hourglass-medium', class: 'w-4 h-4 font-medium'
+            - when 'created'
+              = icon 'circle', class: 'w-4 h-4 font-medium'
+            - else
+              = icon 'minus', class: 'w-4 h-4 font-medium'
+
+        %div{ class: 'flex-1 min-w-0' }
+          %div{ class: 'flex items-center gap-3 mb-1' }
+            %h3{ class: 'text-base font-semibold text-slate-900 truncate' }
+              = link_to job.name, namespace_project_job_path(@project.namespace.parent.full_path, @project.namespace.path, job), class: 'hover:text-blue-600 transition-colors duration-200'
+            %span{ class: 'text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded font-medium' }
+              = job.ci_stage&.name || 'test'
+          
+          %div{ class: 'flex items-center gap-4 text-sm' }
+            %div{ class: 'flex items-center gap-1.5 text-slate-500' }
+              = icon 'clock', class: 'w-3.5 h-3.5'
+              %span{ class: 'text-xs' }
+                = time_ago_in_words(job.created_at) + ' ago'
+
+        %div{ class: 'flex-shrink-0 w-20' }
+          %span{ class: "inline-flex items-center justify-center w-full px-2 py-1 text-xs font-semibold rounded-lg #{badge_colors.fetch(job.status, 'bg-slate-500/10 text-slate-700 ring-1 ring-slate-500/20')}" }
+            = job.status.titleize
+
+        %div{ class: 'flex-shrink-0 w-24' }
+          %div{ class: 'flex items-center gap-1 justify-end' }
+            = link_to namespace_project_job_path(@project.namespace.parent.full_path, @project.namespace.path, job), class: 'inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-all duration-200' do
+              = icon 'eye', class: 'w-3.5 h-3.5'
+              %span View
+
+- else
+  %div{ class: 'text-center py-16 bg-slate-50' }
+    %div{ class: 'mx-auto w-16 h-16 flex items-center justify-center rounded-2xl bg-slate-100 mb-6 shadow-sm' }
+      = icon 'briefcase', class: 'w-8 h-8 text-slate-400'
+    %h3{ class: 'text-lg font-semibold text-slate-900 mb-2' } No jobs yet
+    %p{ class: 'text-slate-500 max-w-sm mx-auto leading-relaxed' } 
+      Jobs will appear here once the pipeline starts running.

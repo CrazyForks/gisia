@@ -1,0 +1,18 @@
+<% if @diff_note.root_note? %>
+  <% # Root note - create or append to notes list after line %>
+  <% notes_list_id = "notes-list-#{@diff_note.line_code}" %>
+  <%= turbo_stream.after "#{@diff_note.line_code}" do %>
+    <ul class="notes-list space-y-4 mt-4" id="<%= notes_list_id %>">
+      <%= render 'shared/notes/note', note: @diff_note %>
+    </ul>
+  <% end %>
+  <%= turbo_stream.remove "comment-form-#{@diff_note.line_code}" %>
+  <%= turbo_stream.update "comment-button-#{@diff_note.line_code}", "" %>
+<% else %>
+  <% # Reply note - insert before reply form with indentation %>
+  <%= turbo_stream.before "note-#{@diff_note.discussion_id}-reply-form" do %>
+    <div class="ml-8 mb-4">
+      <%= render 'shared/notes/note', note: @diff_note %>
+    </div>
+  <% end %>
+<% end %>

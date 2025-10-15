@@ -1,0 +1,9 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: project_breadcrumb_name(@project), path: project_path(@project) }, { label: 'Merge Request', path: merge_requests_path(@project) }, { label: "##{@merge_request.id}", path: merge_request_path(@merge_request)}]
+  = render 'shared/breadcrumb', nodes: nodes
+
+- content_for :mr_content do
+  %div{ class: 'w-full space-y-6 mt-8' }
+    %h3{ class: 'text-lg font-semibold text-gray-800' } Pipelines
+    = render 'projects/pipelines/pipelines'
+= render 'detail'

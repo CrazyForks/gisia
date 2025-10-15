@@ -1,0 +1,63 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: 'Admin', path: admin_root_path }, { label: 'Users', path: '#' }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{class: 'w-full bg-white p-2 rounded-lg'}
+  %div{class: 'w-full max-w-6xl mx-auto'}
+
+    %div{class: 'py-6'}
+      %div{class: 'flex items-center justify-between mb-8'}
+        %div
+          %h1{class: 'text-2xl font-bold text-gray-900'} Users
+        %div{class: 'flex items-center gap-3'}
+          = link_to new_admin_user_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200' do
+            = icon 'plus', class: 'w-4 h-4'
+            New user
+
+    %div{class: 'grid grid-cols-1 md:grid-cols-4 gap-6 mb-8'}
+      %div{class: 'bg-indigo-50 border border-indigo-200 rounded-xl p-6'}
+        %div{class: 'text-center'}
+          %div{class: 'flex items-center justify-center mb-2'}
+            = icon 'users', class: 'w-8 h-8 text-indigo-600'
+          %h3{class: 'text-lg font-semibold text-gray-900'} Total Users
+          %p{class: 'text-3xl font-bold text-indigo-600 mt-2'}= @users_count
+
+      %div{class: 'bg-green-50 border border-green-200 rounded-xl p-6'}
+        %div{class: 'text-center'}
+          %div{class: 'flex items-center justify-center mb-2'}
+            = icon 'shield-check', class: 'w-8 h-8 text-green-600'
+          %h3{class: 'text-lg font-semibold text-gray-900'} Admins
+          %p{class: 'text-3xl font-bold text-green-600 mt-2'}= @admin_count
+
+      %div{class: 'bg-yellow-50 border border-yellow-200 rounded-xl p-6'}
+        %div{class: 'text-center'}
+          %div{class: 'flex items-center justify-center mb-2'}
+            = icon 'clock', class: 'w-8 h-8 text-yellow-600'
+          %h3{class: 'text-lg font-semibold text-gray-900'} Pending Approval
+          %p{class: 'text-3xl font-bold text-yellow-600 mt-2'}= @pending_approval_count
+
+      %div{class: 'bg-blue-50 border border-blue-200 rounded-xl p-6'}
+        %div{class: 'text-center'}
+          %div{class: 'flex items-center justify-center mb-2'}
+            = icon 'user-check', class: 'w-8 h-8 text-blue-600'
+          %h3{class: 'text-lg font-semibold text-gray-900'} Active Users
+          %p{class: 'text-3xl font-bold text-blue-600 mt-2'}= @users_count - @pending_approval_count
+
+    %div{class: 'mb-6'}
+      = form_with url: admin_users_path, method: :get, local: false, class: 'flex items-center gap-4 mb-6', data: { controller: 'search', turbo_frame: 'users_content' } do |form|
+        %div{class: 'flex-1'}
+          = form.text_field :search, placeholder: 'Search by name, email, or username', value: params[:search], class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent', data: { action: 'input->search#search' }
+        %div{class: 'relative', data: { controller: 'searchable-select', 'searchable-select-url-value': '', 'searchable-select-selected-value': params[:status], 'searchable-select-options-value': JSON.generate([['All statuses', ''], ['Active', 'active'], ['Admin', 'admin'], ['Pending', 'pending']]) }}
+          = form.hidden_field :status, { data: { 'searchable-select-target': 'hiddenInput' } }
+          - current_status_text = case params[:status]
+          - when 'active' then 'Active'
+          - when 'admin' then 'Admin'
+          - when 'pending' then 'Pending'
+          - else 'All statuses'
+          %input{type: 'text', readonly: true, value: current_status_text, class: 'px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer w-40', data: { 'searchable-select-target': 'input', action: 'click->searchable-select#toggle' }}
+          %div{class: 'absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-lg z-10 hidden', data: { 'searchable-select-target': 'dropdown' }}
+            %div{data: { 'searchable-select-target': 'options' }}
+              Loading...
+
+    = turbo_frame_tag 'users_content' do
+      = render 'user_list'

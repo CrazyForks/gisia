@@ -1,0 +1,58 @@
+- nodes = [{ label: 'User Settings', path: users_settings_profile_path }, { label: 'Your Profile', path: users_settings_profile_path}]
+= render 'shared/breadcrumb', nodes: nodes
+
+%div{class: 'w-full bg-white p-2 rounded-lg'}
+  %div{class: 'w-full max-w-6xl mx-auto'}
+
+    %div{class: 'py-6'}
+      %div{class: 'flex items-center gap-4 mb-6'}
+        %div{id: 'avatar-preview', class: 'w-12 h-12 rounded-full overflow-hidden shadow', data: { 'avatar-preview-target': 'preview', 'default-text': (@user.name&.first&.upcase || @user.username&.first&.upcase || 'U') }}
+          = render 'shared/user_avatar', user: @user, size: 48, css_class: 'w-full h-full rounded-full'
+        %div{class: 'flex-1'}
+          %h1{class: 'text-2xl font-bold text-gray-900'}= @user.name || @user.username
+          %p{class: 'text-gray-600'}= @user.email
+        = button_to destroy_user_session_path, method: :delete, data: { turbo: false }, class: 'inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200 transition-all duration-200' do
+          = icon 'sign-out', class: 'w-4 h-4'
+          Sign Out
+
+    %div{class: 'mb-6'}
+      %h2{class: 'text-lg font-semibold text-gray-900 mb-4'} Profile Information
+
+      %div{class: 'space-y-3'}
+
+        %div{class: 'flex items-center justify-between py-2'}
+          %div{class: 'flex items-center gap-3'}
+            = icon 'envelope', class: 'w-5 h-5 text-blue-500'
+            %span{class: 'font-medium text-gray-700'} Email
+          %span{class: 'text-gray-900 font-mono'}= @user.email
+
+        %div{class: 'flex items-center justify-between py-2'}
+          %div{class: 'flex items-center gap-3'}
+            = icon 'at', class: 'w-5 h-5 text-green-500'
+            %span{class: 'font-medium text-gray-700'} Username
+          %span{class: 'text-gray-900 font-mono'}= @user.username
+
+        %div{class: 'flex items-center justify-between py-2'}
+          %div{class: 'flex items-center gap-3'}
+            = icon 'user', class: 'w-5 h-5 text-purple-500'
+            %span{class: 'font-medium text-gray-700'} Full Name
+          - if @user.name.present?
+            %span{class: 'text-gray-900'}= @user.name
+          - else
+            %span{class: 'text-gray-400 italic'} Not set
+
+        %div{class: 'flex items-center justify-between py-2'}
+          %div{class: 'flex items-center gap-3'}
+            = icon 'phone', class: 'w-5 h-5 text-orange-500'
+            %span{class: 'font-medium text-gray-700'} Mobile
+          - if @user.mobile.present?
+            %span{class: 'text-gray-900'}= @user.mobile
+          - else
+            %span{class: 'text-gray-400 italic'} Not provided
+
+    %div{class: 'flex items-center justify-between pt-4 border-t border-gray-100'}
+      %div{class: 'text-sm text-gray-500'}
+        Member since #{@user.created_at.strftime('%B %Y')}
+      = link_to edit_users_settings_profile_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200' do
+        = icon 'pencil', class: 'w-4 h-4'
+        Edit Profile

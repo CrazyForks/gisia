@@ -1,0 +1,25 @@
+%div{ class: 'bg-white border border-slate-200 rounded-lg p-4', data: { controller: 'user-select-dropdown', 'user-select-dropdown-url-value': search_url, 'user-select-dropdown-selected-value': selected_user_ids, 'user-select-dropdown-field-type-value': field_type, 'user-select-dropdown-resource-id-value': resource.id, 'user-select-dropdown-resource-type-value': resource_type } }
+
+  / Hidden form for updating resource with selected users
+  = form_with url: update_url, local: false, method: :patch, data: { turbo_frame: "#{resource_type}-#{field_type}", 'user-select-dropdown-target': 'form' }, class: 'hidden' do |f|
+    / Populated dynamically by JavaScript
+
+  / Hidden form for searching users
+  %form{ action: search_url, method: 'post', data: { turbo_frame: "user-dropdown-options-#{field_type}", 'user-select-dropdown-target': 'searchForm' }, class: 'hidden' }
+    = hidden_field_tag :authenticity_token, form_authenticity_token
+    = hidden_field_tag :_method, 'get'
+    = hidden_field_tag :field_type, field_type
+    = hidden_field_tag :q, '', data: { 'user-select-dropdown-target': 'queryInput' }
+    = hidden_field_tag :selected_ids, '', name: 'selected_ids'
+
+  / Card header with title and edit button
+  %div{ class: 'mb-3 flex items-center justify-between' }
+    %h3{ class: 'text-sm font-semibold text-slate-900' }= title
+    %div{ class: 'relative' }
+      %button{ class: 'inline-flex items-center px-2 py-1 text-xs text-blue-600 hover:text-blue-800 hover:bg-blue-50 font-medium rounded transition-colors', data: { action: 'click->user-select-dropdown#toggleDropdown' } }
+        Edit
+      / User search dropdown
+      = render 'shared/assignees/user_search_droplist', field_type: field_type
+
+  / Selected users display area
+  = render 'shared/assignees/selected_users_turbo', resource: resource, resource_type: resource_type, users: users, field_type: field_type, avatar_color: avatar_color, empty_icon: empty_icon, empty_message: empty_message

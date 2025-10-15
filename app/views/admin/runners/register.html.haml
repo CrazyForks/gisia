@@ -1,0 +1,85 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: 'Admin', path: admin_root_path }, { label: 'Runners', path: admin_runners_path }, { label: "Runner ##{@runner.id}", path: '#' }, { label: 'Register', path: '#' }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{ class: "w-full bg-white p-2 rounded-lg" }
+  %div{ class: "w-full max-w-6xl mx-auto" }
+
+    %div{class: 'py-6'}
+      %h1{ class: "text-2xl font-bold text-gray-900 mb-2" } Register Runner
+      %p{class: 'text-gray-600 mb-6'} Follow the steps below to register this runner
+
+    %div{class: 'bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6'}
+      %h3{class: 'text-lg font-semibold text-gray-900 mb-6'} Platform
+
+      %div{class: 'mb-6'}
+        %label{class: 'block text-sm font-medium text-gray-700 mb-3'} Operating systems
+        %div{class: 'grid grid-cols-1 md:grid-cols-3 gap-3'}
+          - [["Linux", "linux"], ["macOS", "osx"], ["Windows", "windows"]].each do |label, value|
+            %div{class: 'border border-gray-300 rounded-lg p-4 cursor-pointer hover:border-blue-500 hover:bg-blue-50'}
+              %div{class: 'flex items-center'}
+                %input{type: 'radio', value: value, name: 'platform', id: "platform-#{value}", class: 'h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300'}
+                %label{for: "platform-#{value}", class: 'ml-3 block text-sm font-medium text-gray-900'}= label
+
+      %div{class: 'mb-6'}
+        %label{class: 'block text-sm font-medium text-gray-700 mb-3'} Cloud
+        %div{class: 'grid grid-cols-1 md:grid-cols-2 gap-3'}
+          - [["Google Cloud", "google_cloud"], ["GKE", "gke"]].each do |label, value|
+            %div{class: 'border border-gray-300 rounded-lg p-4 cursor-pointer hover:border-blue-500 hover:bg-blue-50'}
+              %div{class: 'flex items-center'}
+                %input{type: 'radio', value: value, name: 'platform', id: "platform-#{value}", class: 'h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300'}
+                %label{for: "platform-#{value}", class: 'ml-3 block text-sm font-medium text-gray-900'}= label
+
+      %div{class: 'mb-6'}
+        %label{class: 'block text-sm font-medium text-gray-700 mb-3'} Containers
+        %div{class: 'grid grid-cols-1 md:grid-cols-2 gap-3'}
+          %div{class: 'border border-gray-300 rounded-lg p-4'}
+            = link_to "Docker", "https://docs.gitlab.com/runner/install/docker.html", target: "_blank", rel: "noopener noreferrer", class: "text-blue-600 hover:text-blue-800 font-medium"
+          %div{class: 'border border-gray-300 rounded-lg p-4'}
+            = link_to "Kubernetes", "https://docs.gitlab.com/runner/install/kubernetes.html", target: "_blank", rel: "noopener noreferrer", class: "text-blue-600 hover:text-blue-800 font-medium"
+
+      %p{class: 'text-sm text-gray-600 mt-4'}
+        GitLab Runner must be installed before you can register a runner.
+        = link_to "How do I install GitLab Runner?", "#", class: "text-blue-600 underline"
+
+    %div{class: 'bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6'}
+      %h3{class: 'text-lg font-semibold text-gray-900 mb-4'} Step 1
+      %p{class: 'text-gray-600 mb-4'}
+        Copy and paste the following command into your command line to register the runner.
+
+      %div{class: 'bg-gray-900 rounded-lg p-4 mb-4'}
+        %code{class: 'text-white text-sm font-mono block'}
+          $ gitlab-runner register --url #{Gitlab.config.gitlab.url} --token #{@runner.token}
+
+      %div{class: 'bg-yellow-50 border border-yellow-200 rounded-lg p-4'}
+        %p{class: 'text-sm text-yellow-800'}
+          %strong Warning:
+          The runner authentication token 
+          %code{class: 'bg-yellow-100 px-1 rounded text-xs'} #{@runner.token}
+          displays here for a short time only.
+          After you register the runner, this token is stored in
+          %code config.toml
+          and cannot be accessed again from the UI.
+
+    %div{class: 'bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6'}
+      %h3{class: 'text-lg font-semibold text-gray-900 mb-4'} Step 2
+      %p{class: 'text-gray-600'}
+        Choose an executor when prompted by the command line.
+        = link_to "Not sure which one to select?", "https://docs.gitlab.com/runner/executors/", target: "_blank", rel: "noopener noreferrer", class: "text-blue-600 underline"
+
+    %div{class: 'bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6'}
+      %h3{class: 'text-lg font-semibold text-gray-900 mb-4'} Step 3 (optional)
+      %p{class: 'text-gray-600 mb-4'}
+        Manually verify that the runner is available to pick up jobs.
+
+      %div{class: 'bg-gray-900 rounded-lg p-4 mb-4'}
+        %code{class: 'text-white text-sm font-mono block'}
+          $ gitlab-runner run
+
+      %p{class: 'text-sm text-gray-600'}
+        This may not be needed if you manage your runner as a
+        = link_to "system or user service", "https://docs.gitlab.com/runner/commands/#service-related-commands", target: "_blank", rel: "noopener noreferrer", class: "text-blue-600 underline"
+
+    %div{class: 'flex items-center gap-3'}
+      = link_to 'View runners', admin_runners_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200'
+

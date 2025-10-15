@@ -1,0 +1,126 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: 'Admin', path: admin_root_path }, { label: 'Projects', path: admin_projects_path }, { label: @project.name, path: '#' }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{class: 'w-full bg-white p-2 rounded-lg'}
+  %div{class: 'w-full max-w-6xl mx-auto'}
+
+    %div{class: 'py-6'}
+      %div{class: 'flex items-center justify-between mb-8'}
+        %div{class: 'flex items-center gap-4'}
+          %div{class: 'flex-shrink-0'}
+            = icon 'briefcase', class: 'w-12 h-12 text-gray-400'
+          %div
+            %h1{class: 'text-2xl font-bold text-gray-900'}= @project.name
+            %p{class: 'text-gray-600'}= @project.full_path
+        %div{class: 'flex items-center gap-3'}
+          = link_to edit_admin_project_path(@project), class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200' do
+            = icon 'pencil', class: 'w-4 h-4'
+            Edit Project
+
+    %div{class: 'grid grid-cols-1 md:grid-cols-4 gap-6 mb-8'}
+      %div{class: 'bg-blue-50 border border-blue-200 rounded-xl p-6'}
+        %div{class: 'text-center'}
+          %div{class: 'flex items-center justify-center mb-2'}
+            = icon 'users', class: 'w-8 h-8 text-blue-600'
+          %h3{class: 'text-lg font-semibold text-gray-900'} Members
+          %p{class: 'text-3xl font-bold text-blue-600 mt-2'}= @project.members.count
+
+      %div{class: 'bg-emerald-50 border border-emerald-200 rounded-xl p-6'}
+        %div{class: 'text-center'}
+          %div{class: 'flex items-center justify-center mb-2'}
+            = icon 'warning-circle', class: 'w-8 h-8 text-emerald-600'
+          %h3{class: 'text-lg font-semibold text-gray-900'} Issues
+          %p{class: 'text-3xl font-bold text-emerald-600 mt-2'}= @issues_count
+
+      %div{class: 'bg-purple-50 border border-purple-200 rounded-xl p-6'}
+        %div{class: 'text-center'}
+          %div{class: 'flex items-center justify-center mb-2'}
+            = icon 'git-merge', class: 'w-8 h-8 text-purple-600'
+          %h3{class: 'text-lg font-semibold text-gray-900'} Merge Requests
+          %p{class: 'text-3xl font-bold text-purple-600 mt-2'}= @merge_requests_count
+
+      %div{class: 'bg-orange-50 border border-orange-200 rounded-xl p-6'}
+        %div{class: 'text-center'}
+          %div{class: 'flex items-center justify-center mb-2'}
+            = icon 'tree-structure', class: 'w-8 h-8 text-orange-600'
+          %h3{class: 'text-lg font-semibold text-gray-900'} Pipelines
+          %p{class: 'text-3xl font-bold text-orange-600 mt-2'}= @pipelines_count
+
+    %div{class: 'grid grid-cols-1 lg:grid-cols-2 gap-6'}
+      %div
+        %div{class: 'bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6'}
+          %h3{class: 'text-lg font-semibold text-gray-900 mb-4'} Project Information
+          %dl{class: 'space-y-4'}
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} Project Name
+              %dd{class: 'mt-1 text-sm text-gray-900'}= @project.name
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} Path
+              %dd{class: 'mt-1 text-sm text-gray-900 font-mono'}= @project.full_path
+            - if @project.description.present?
+              %div
+                %dt{class: 'text-sm font-medium text-gray-500'} Description
+                %dd{class: 'mt-1 text-sm text-gray-900'}= @project.description
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} Visibility
+              %dd{class: 'mt-1'}
+                - case @project.namespace.visibility_level
+                - when Gitlab::VisibilityLevel::PUBLIC
+                  %span Public
+                - when Gitlab::VisibilityLevel::INTERNAL
+                  %span Internal
+                - when Gitlab::VisibilityLevel::PRIVATE
+                  %span Private
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} Project ID
+              %dd{class: 'mt-1 text-sm text-gray-900'}= @project.id
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} Namespace
+              %dd{class: 'mt-1 text-sm text-gray-900'}= @project.namespace.parent.full_name
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} Created
+              %dd{class: 'mt-1 text-sm text-gray-900'}= @project.created_at.strftime('%B %d, %Y at %I:%M %p')
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} Last Updated
+              %dd{class: 'mt-1 text-sm text-gray-900'}= @project.updated_at.strftime('%B %d, %Y at %I:%M %p')
+
+        %div{class: 'bg-white border border-gray-200 rounded-lg p-6'}
+          %div{class: 'flex items-center justify-between mb-4'}
+            %h3{class: 'text-lg font-semibold text-gray-900'} Repository Info
+          %dl{class: 'space-y-4'}
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} Default Branch
+              %dd{class: 'mt-1 text-sm text-gray-900 font-mono'}= @project.default_branch || 'main'
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} Repository Size
+              %dd{class: 'mt-1 text-sm text-gray-900'} N/A
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} HTTP Clone URL
+              %dd{class: 'mt-1 text-sm text-gray-900 font-mono break-all'}= @project.http_url_to_repo
+            %div
+              %dt{class: 'text-sm font-medium text-gray-500'} SSH Clone URL
+              %dd{class: 'mt-1 text-sm text-gray-900 font-mono break-all'}= @project.ssh_url_to_repo
+
+      %div
+        %div{class: 'bg-white border border-gray-200 rounded-lg p-6'}
+          %div{class: 'flex items-center justify-between mb-4'}
+            %h3{class: 'text-lg font-semibold text-gray-900'} Project Members
+            %span{class: 'text-sm text-gray-500'}= @project.members.count
+          - if @project_members.any?
+            %div{class: 'space-y-3'}
+              - @project_members.each do |member|
+                %div{class: 'flex items-center justify-between p-3 bg-gray-50 rounded-lg'}
+                  %div{class: 'flex items-center gap-3'}
+                    %div{class: 'w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center'}
+                      = icon 'user', class: 'w-4 h-4 text-blue-600'
+                    %div
+                      %div{class: 'text-sm font-medium text-gray-900'}= member.user.name
+                      %div{class: 'text-xs text-gray-500'}= member.user.username
+            - if @project.members.count > @project_members.count
+              %div{class: 'text-center pt-3'}
+                %span{class: 'text-sm text-gray-500'}
+                  And #{@project.members.count - @project_members.count} more members...
+          - else
+            %div{class: 'text-center py-6'}
+              %p{class: 'text-gray-500 text-sm'} No members in this project

@@ -1,0 +1,39 @@
+%div{ class: 'w-full bg-white p-6 rounded-lg shadow-md' }
+  %div{ class: 'w-full md:max-w-6xl mx-auto flex flex-col space-y-8' }
+
+    / Project Header
+    %div{ class: 'flex justify-between items-center' }
+      %div
+        %h2{ class: 'text-2xl font-semibold text-gray-900' }= @project.name
+        %div{ class: 'text-sm text-gray-500' }= @project.namespace.name + '/' + @path + " on #{@ref}"
+
+    %div{ class: 'flex flex-col md:space-x-8 space-y-4 md:space-y-0' }
+      %div{ class: 'w-full border border-gray-300 rounded-lg p-4 bg-gray-50 space-y-4' }
+        .flex.items-start.space-x-4
+          = link_to '#' do
+            = render 'shared/user_avatar', user: @commit.author, fallback_name: @commit.author_name, fallback_email: @commit.author_email, size: 32, css_class: 'w-8 h-8 rounded-full'
+
+          .flex-1.space-y-1
+            - commit_path = namespace_project_commit_path(@project.namespace.parent.full_path, @project.path, @commit.id)
+            = link_to @commit.title, commit_path, class: 'block font-medium truncate', target: '_blank'
+
+            %div.text-sm
+              = link_to @commit.author_name, '#', class: 'font-medium'
+              | commited
+              %time=time_ago_in_words(@commit.committed_date)+' ago'
+
+        .flex.items-center.justify-between.text-sm
+          = link_to 'History', namespace_project_commits_path(@project.namespace.parent.full_path, @project.path, "#{@ref}/#{@path}"), class: 'underline', target: '_blank'
+
+      %div{ class: 'w-full border border-gray-300 rounded-lg mt-4 pace-y-4' }
+        %div{class: 'flex justify-between text-sm border-b border-gray-300 px-4 py-2 bg-gray-50 rounded-t-md'}
+          %span{class: 'font-bold'}= @path
+          %span.text-xs.text-gray-500 Content preview
+        %div{class: 'code p-4'}
+          - if @blob
+            - viewer = @blob.rich_viewer || @blob.simple_viewer
+            = render 'projects/blob/viewers/viewer', viewer: viewer
+          - else
+            .text-center.text-gray-500.p-8
+              File not found
+

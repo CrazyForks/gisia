@@ -1,0 +1,50 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: 'Your work', path: '/' }, { label: 'Projects', path: dashboard_projects_path }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{ class: 'w-full bg-white p-6' }
+  %div{ class: 'w-full max-w-6xl mx-auto flex flex-col px-4' }
+    %div{ class: 'flex justify-between items-start mb-6' }
+      %div{ class: 'flex-1 min-w-0' }
+        %div{ class: 'flex items-center gap-3 mb-2' }
+          %div{ class: 'w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center' }
+            = icon 'folder', class: 'w-5 h-5 text-blue-600'
+          %div
+            %h1{ class: 'text-2xl font-semibold text-gray-900' }
+              = @project.name
+            - if @project.description.present?
+              %p{ class: 'text-sm text-gray-600 mt-1' }
+                = @project.description
+            - else
+              %p{ class: 'text-sm text-gray-500 mt-1' }
+                = @project.name
+      
+    
+    %div{ class: 'grid grid-cols-1 lg:grid-cols-4 gap-6' }
+      %div{ class: 'lg:col-span-3' }
+        = render 'files'
+      
+      %div{ class: 'lg:col-span-1' }
+        %div{ class: 'bg-white border border-slate-200 rounded-lg p-4' }
+          %h3{ class: 'text-base font-semibold text-gray-900 mb-4' }
+            Project Info
+          
+          %div{ class: 'space-y-4' }
+            %div{ data: { controller: 'copy' } }
+              %div{ class: 'flex items-center gap-2' }
+                %input{ type: 'text', value: @project.ssh_url_to_repo, readonly: true, class: 'flex-1 px-3 py-2 text-xs bg-gray-50 border border-gray-300 rounded-md font-mono text-gray-700 min-w-0', data: { copy_target: 'input' } }
+                %button{ class: 'px-2 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors flex-shrink-0', data: { action: 'click->copy#copy', copy_target: 'button' } }
+                  Copy
+            
+            %div{ class: 'space-y-3 pt-2 border-t border-gray-200' }
+              %div{ class: 'flex justify-between items-center' }
+                %span{ class: 'text-sm text-gray-600' }
+                  Created on:
+                %span{ class: 'text-sm text-gray-900 font-medium' }
+                  = @project.created_at.strftime('%b %d, %Y')
+              
+              %div{ class: 'flex justify-between items-center' }
+                %span{ class: 'text-sm text-gray-600' }
+                  Visibility:
+                %span{ class: 'text-sm text-gray-900 font-medium' }
+                  = @project.namespace.visibility

@@ -1,0 +1,5 @@
+%div{ id: "notes-list", data: { noteable_type: noteable.class.name.underscore, noteable_id: noteable.id } }
+  - if notes.any?
+    .space-y-4.mb-6
+      - notes.each do |note|
+        = render 'shared/notes/note', note: note

@@ -1,0 +1,11 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: @project.name, path: dashboard_project_path(@project) }, { label: 'Epics', path: namespace_project_epics_path(@project.namespace.parent.full_path, @project.namespace.path) }, { label: @epic.title, path: namespace_project_epic_path(@project.namespace.parent.full_path, @project.namespace.path, @epic) }, { label: 'Edit', path: nil }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{ class: 'w-full bg-white p-6' }
+  %div{ class: 'w-full max-w-6xl mx-auto flex flex-col px-4' }
+    %div{ class: 'mb-6' }
+      %h1{ class: 'text-2xl font-semibold text-slate-900 mb-2' } Edit Epic
+      %p{ class: 'text-slate-600' } Update the epic details.
+
+    = render 'form'

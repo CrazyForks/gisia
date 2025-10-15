@@ -1,0 +1,76 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: project_breadcrumb_name(@project), path: dashboard_project_path(@project) }, { label: 'Tags', path: namespace_project_tags_path(@project.namespace.parent.full_path, @project.namespace.path) }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{class: 'w-full bg-white p-6'}
+  %div{class: 'w-full max-w-6xl mx-auto flex flex-col px-4'}
+    
+    / -- Page Header --
+    %div{class: 'flex justify-between items-center mb-6'}
+      %div
+        %h1{class: 'text-2xl font-semibold text-gray-800'}
+          Tags for Project:
+          = @project.name
+
+    / -- Search --
+    %div{class: 'bg-gray-50 rounded-lg p-4 mb-6'}
+      = form_tag namespace_project_tags_path(@project.namespace.parent.full_path, @project.namespace.path), method: :get, local: true, class: 'flex gap-4 items-end', data: { turbo_frame: 'tags-list' } do
+        %div{class: 'flex-1'}
+          = label_tag :search, 'Search tags', class: 'block text-sm font-medium text-gray-700 mb-1'
+          = text_field_tag :search, params[:search], placeholder: 'e.g., v1.0, release, beta...', class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', data: { controller: 'debounced-search', action: 'input->debounced-search#input keypress->debounced-search#keypress' }
+
+    = turbo_frame_tag 'tags-list' do
+      %div{class: 'space-y-4'}
+        - if @tags.any?
+          %div{class: 'bg-white rounded-lg border border-gray-200 overflow-hidden'}
+            - @tags.each do |tag|
+              %div{class: "group flex items-center gap-4 px-6 py-4 hover:bg-slate-50/50 transition-all duration-200 border-b border-slate-100"}
+                %div{class: 'flex-shrink-0 w-10'}
+                  %div{class: "w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-200 bg-emerald-50 text-emerald-600 border-emerald-200"}
+                    = icon 'tag', class: 'w-4 h-4 font-medium'
+
+                %div{class: 'flex-1 min-w-0'}
+                  %div{class: 'flex items-center gap-3 mb-1'}
+                    %h3{class: 'text-base font-semibold text-slate-900 truncate'}
+                      = link_to tag.name, namespace_project_tree_path(@project.namespace.parent.full_path, @project.namespace.path, tag.name), class: 'hover:text-blue-600 transition-colors duration-200', data: { turbo: false }
+                    - if @releases.find { |r| r.tag == tag.name }
+                      %span{class: 'text-xs text-purple-700 bg-purple-100 px-2 py-0.5 rounded font-medium'}
+                        release
+                  
+                  - if tag.message.present?
+                    %div{class: 'text-sm text-slate-600 mb-2'}
+                      = truncate(tag.message, length: 100)
+                  
+                  %div{class: 'flex items-center gap-4 text-sm'}
+                    %div{class: 'flex items-center gap-1.5 text-slate-500'}
+                      = icon 'git-commit', class: 'w-3.5 h-3.5'
+                      %span{class: 'text-xs'}
+                        = tag.dereferenced_target.short_id if tag.dereferenced_target
+                    - if tag.dereferenced_target
+                      %div{class: 'flex items-center gap-1.5 text-slate-500'}
+                        = icon 'clock', class: 'w-3.5 h-3.5'
+                        %span{class: 'text-xs'}
+                          = time_ago_in_words(tag.dereferenced_target.committed_date) + ' ago'
+
+                %div{class: 'flex-shrink-0 w-48'}
+                  %div{class: 'flex items-center gap-1 justify-end'}
+                    = link_to namespace_project_tree_path(@project.namespace.parent.full_path, @project.namespace.path, tag.name), class: 'inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-all duration-200', data: { turbo: false } do
+                      = icon 'eye', class: 'w-3.5 h-3.5'
+                      %span Browse
+                    = link_to namespace_project_commits_path(@project.namespace.parent.full_path, @project.namespace.path, tag.name), class: 'inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-all duration-200 ml-1', data: { turbo: false } do
+                      = icon 'git-commit', class: 'w-3.5 h-3.5'
+                      %span Commits
+                    %button{class: 'inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-all duration-200 ml-1', title: 'Download archive'}
+                      = icon 'download', class: 'w-3.5 h-3.5'
+
+        - else
+          %div{class: 'text-center py-16 bg-slate-50'}
+            %div{class: 'mx-auto w-16 h-16 flex items-center justify-center rounded-2xl bg-slate-100 mb-6 shadow-sm'}
+              = icon 'tag', class: 'w-8 h-8 text-slate-400'
+            %h3{class: 'text-lg font-semibold text-slate-900 mb-2'} No tags found
+            %p{class: 'text-slate-500 max-w-sm mx-auto leading-relaxed'} 
+              - if params[:search].present?
+                No tags match your search for "#{params[:search]}". Try a different search term.
+              - else
+                This repository doesn't have any tags yet.
+

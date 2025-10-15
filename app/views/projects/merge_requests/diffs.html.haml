@@ -1,0 +1,7 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: project_path(@project), path: dashboard_project_path(@project) }, { label: 'Merge Request', path: merge_requests_path(@project) }, { label: "##{@merge_request.id}", path: merge_request_path(@merge_request)}]
+  = render 'shared/breadcrumb', nodes: nodes
+
+- content_for :mr_content do
+  = render 'projects/files/diff'
+= render 'detail'

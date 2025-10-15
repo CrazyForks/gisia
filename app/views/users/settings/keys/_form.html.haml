@@ -1,0 +1,43 @@
+= form_with model: @key, url: key_form_url(@key), local: true do |f|
+  
+  - if @key.errors.any?
+    %div{class: 'bg-red-50 border border-red-200 p-4 rounded-lg mb-6'}
+      %h3{class: 'text-red-800 font-medium mb-2'} Please correct the following errors:
+      %ul{class: 'text-red-700 text-sm space-y-1'}
+        - @key.errors.full_messages.each do |message|
+          %li= message
+
+  %div{class: 'space-y-5 mb-6'}
+    
+    %div
+      = f.label :title, class: 'flex items-center gap-2 text-sm font-medium text-gray-700 mb-2' do
+        = icon 'tag', class: 'w-4 h-4 text-blue-500'
+        Title
+      = f.text_field :title, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', placeholder: 'e.g., My MacBook Pro'
+    
+    %div
+      = f.label :key, class: 'flex items-center gap-2 text-sm font-medium text-gray-700 mb-2' do
+        = icon 'key', class: 'w-4 h-4 text-green-500'
+        SSH Key
+      = f.text_area :key, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', rows: 4, placeholder: 'Paste your SSH public key here'
+    
+    %div
+      = f.label :usage_type, class: 'flex items-center gap-2 text-sm font-medium text-gray-700 mb-2' do
+        = icon 'gear', class: 'w-4 h-4 text-purple-500'
+        Usage Type
+      = f.select :usage_type, options_for_select(@key.class.usage_types.map {|k, v| [k.humanize.titleize, k]}, @key.usage_type), { prompt: 'Select usage type' }, { class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500' }
+    
+    %div
+      = f.label :expires_at, class: 'flex items-center gap-2 text-sm font-medium text-gray-700 mb-2' do
+        = icon 'calendar', class: 'w-4 h-4 text-orange-500'
+        Expires At
+      = f.datetime_local_field :expires_at, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+
+  %div{class: 'flex items-center justify-between pt-4 border-t border-gray-100'}
+    = link_to users_settings_keys_path, class: 'text-gray-600 hover:text-gray-800 text-sm font-medium' do
+      Cancel
+    %div{class: 'flex items-center gap-3'}
+      - if @key.new_record?
+        = f.submit 'Create SSH Key', class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200'
+      - else
+        = f.submit 'Save Changes', class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200'

@@ -1,0 +1,2 @@
+.file-content.image_file.text-center.p-4
+  = image_tag(namespace_project_raw_path(@project.namespace.parent.full_path, @project.path, "#{@ref}/#{@path}"), alt: viewer.blob.name, class: 'max-w-full h-auto border border-gray-200 rounded shadow-sm')

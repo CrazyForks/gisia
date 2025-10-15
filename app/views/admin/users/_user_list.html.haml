@@ -1,0 +1,52 @@
+- if @users&.any?
+  %div{class: 'space-y-0 bg-white border border-gray-200 rounded-lg overflow-hidden'}
+    %div{class: 'bg-gray-100 px-6 py-3 border-b border-gray-200'}
+      %div{class: 'flex items-center justify-between'}
+        %div{class: 'flex items-center gap-3 flex-1 min-w-0'}
+          %div{class: 'flex-1 min-w-0'}
+            %div{class: 'text-xs font-medium text-gray-500 uppercase tracking-wider'} Name
+        %div{class: 'flex items-center gap-3 flex-shrink-0'}
+          %div{class: 'text-xs font-medium text-gray-500 uppercase tracking-wider w-16'} Projects
+          %div{class: 'text-xs font-medium text-gray-500 uppercase tracking-wider w-16'} Groups
+          %div{class: 'text-xs font-medium text-gray-500 uppercase tracking-wider w-24'} Created
+          %div{class: 'text-xs font-medium text-gray-500 uppercase tracking-wider w-24'} Activity
+          %div{class: 'text-xs font-medium text-gray-500 uppercase tracking-wider w-24'} Actions
+    - @users.each do |user|
+      %div{class: 'px-6 py-4 border-b border-gray-100 hover:bg-slate-50/50 transition-all duration-200 last:border-b-0'}
+        %div{class: 'flex items-center justify-between'}
+          %div{class: 'flex items-center gap-3 flex-1 min-w-0'}
+            %div{class: 'flex-shrink-0 h-10 w-10'}
+              %div{class: 'h-10 w-10 rounded-full bg-green-500 flex items-center justify-center text-white font-medium'}
+                = user.username&.first&.upcase || '?'
+            %div{class: 'flex-1 min-w-0'}
+              %div{class: 'flex items-center gap-2'}
+                = link_to admin_user_path(user), class: 'font-medium text-gray-900 hover:text-blue-600 transition-colors truncate' do
+                  = user.username
+                - if user.admin?
+                  %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700 flex-shrink-0'} Admin
+                - if user == current_user
+                  %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700 flex-shrink-0'} It's you
+                - if user.confirmed_at.nil?
+                  %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700 flex-shrink-0'} Pending
+              %p{class: 'text-gray-500 text-xs truncate mt-0.5'}= user.email
+          %div{class: 'flex items-center gap-3 flex-shrink-0'}
+            %div{class: 'text-xs text-gray-900 w-16 text-center'}
+              = user.projects.count
+            %div{class: 'text-xs text-gray-900 w-16 text-center'}
+              = user.groups.count
+            %div{class: 'text-xs text-gray-400 w-24'}
+              = user.created_at&.strftime('%b %d, %Y')
+            %div{class: 'text-xs text-gray-400 w-24'}
+              = user.updated_at&.strftime('%b %d, %Y') || 'Never'
+            %div{class: 'flex items-center gap-1 w-24'}
+              = link_to admin_user_path(user), class: 'p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg text-xs', data: { turbo_frame: '_top' } do
+                View
+              = link_to edit_admin_user_path(user), class: 'p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg text-xs', data: { turbo_frame: '_top' } do
+                Edit
+  = render 'shared/pagination', collection: @users, url_params: { search: params[:search], status: params[:status] }, turbo_frame: 'users_content'
+- else
+  %div{class: 'bg-white border border-gray-200 rounded-lg p-16 text-center'}
+    %div{class: 'w-16 h-16 rounded-full bg-indigo-50 flex items-center justify-center mx-auto mb-4'}
+      = icon 'users', class: 'w-8 h-8 text-indigo-500'
+    %h3{class: 'text-lg font-medium text-gray-900 mb-2'} No users found
+    %p{class: 'text-gray-500 text-sm'} Users will appear here when they are created.

@@ -1,0 +1,6 @@
+name: queue
+description: Queue database for SolidQueue jobs
+gitlab_schemas:
+  - gitlab_shared
+klass: SolidQueue::Record
+uses_load_balancing: false

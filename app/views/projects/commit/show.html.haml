@@ -1,0 +1,21 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: @project.name, path: dashboard_project_path(@project) }, { label: "Commits", path: '#'}]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{ class: 'w-full bg-white p-6 rounded-lg' }
+  %div{ class: 'w-full max-w-6xl mx-auto space-y-8' }
+
+    / -- Commit Header --
+    %p.text-gray-600.border-b
+      = @commit.short_id
+      =" commited by "
+      = link_to @commit.author_name, '#', class: 'font-medium text-blue-600 hover:underline'
+      %time= time_ago_in_words(@commit.committed_date) + ' ago'
+
+    %div.space-y-2
+      %h1.text-xl.font-semibold.text-gray-800
+        =  @commit.title
+
+    / -- Changed Files Summary --
+    %h2.text-sm.text-gray-800.mb-2 Changed files
+    = render 'projects/files/diff'

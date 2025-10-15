@@ -1,0 +1,3 @@
+= turbo_stream.replace "user-dropdown-options-#{@field_type}" do
+  = turbo_frame_tag "user-dropdown-options-#{@field_type}" do
+    = render 'shared/assignees/user_dropdown_options', users: @users, selected_ids: @selected_ids

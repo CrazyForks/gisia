@@ -1,0 +1,15 @@
+%div{class: 'w-full bg-white p-2 rounded-lg'}
+  %div{class: 'w-full max-w-6xl mx-auto'}
+
+    %div{class: 'py-6'}
+      %div{class: 'flex items-center gap-4 mb-6'}
+        %div{class: 'w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center text-white text-xl font-bold shadow-lg'}
+          = icon 'circles-three', class: 'w-8 h-8'
+        %div
+          %h1{class: 'text-2xl font-bold text-gray-900'}
+            = @group.new_record? ? 'Create Group' : 'Edit Group'
+          %p{class: 'text-gray-600'}
+            = @group.new_record? ? 'Create a new group to organize projects and collaborate' : 'Update your group details'
+
+    = turbo_frame_tag 'show_group' do
+      = render 'form'

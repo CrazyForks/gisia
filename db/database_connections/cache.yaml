@@ -1,0 +1,6 @@
+name: cache
+description: Cache database for SolidCache entries
+gitlab_schemas:
+  - gitlab_shared
+klass: SolidCache::Record
+uses_load_balancing: false
