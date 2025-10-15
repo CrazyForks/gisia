@@ -1,0 +1,36 @@
+# frozen_string_literal: true
+
+# ======================================================
+# Contains code from GitLab FOSS (MIT Licensed)
+# Copyright (c) GitLab Inc.
+# See .licenses/Gisia/others/gitlab-foss.dep.yml for full license
+# ======================================================
+
+module Gitlab
+  module GitalyClient
+    class QueueEnumerator
+      def initialize
+        @queue = Queue.new
+      end
+
+      def push(elem)
+        @queue << elem
+      end
+
+      def close
+        push(:close)
+      end
+
+      def each
+        return enum_for(:each) unless block_given?
+
+        loop do
+          elem = @queue.pop
+          break if elem == :close
+
+          yield elem
+        end
+      end
+    end
+  end
+end
