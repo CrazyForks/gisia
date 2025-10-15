@@ -1,0 +1,25 @@
+# frozen_string_literal: true
+
+# ======================================================
+# Contains code from GitLab FOSS (MIT Licensed)
+# Copyright (c) GitLab Inc.
+# See .licenses/Gisia/others/gitlab-foss.dep.yml for full license
+# ======================================================
+
+module Gitlab
+  module Auth
+    class TooManyIps < StandardError
+      attr_reader :user_id, :ip, :unique_ips_count
+
+      def initialize(user_id, ip, unique_ips_count)
+        @user_id = user_id
+        @ip = ip
+        @unique_ips_count = unique_ips_count
+      end
+
+      def message
+        "User #{user_id} from IP: #{ip} tried logging from too many ips: #{unique_ips_count}"
+      end
+    end
+  end
+end
