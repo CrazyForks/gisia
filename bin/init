@@ -1,0 +1,221 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+require 'pg'
+require 'tomlrb'
+
+def setup_config_symlinks
+  config_mappings = [
+    ['/gisia/config/web/gitlab.yml', '/rails/config/gitlab.yml'],
+    ['/gisia/config/web/secrets.yml', '/rails/config/secrets.yml'],
+    ['/gisia/config/web/.gitlab_shell_secret', '/rails/.gitlab_shell_secret'],
+    ['/gisia/config/web/.gitlab_workhorse_secret', '/rails/.gitlab_workhorse_secret'],
+    ['/gisia/config/redis/redis.yml', '/rails/config/redis.yml']
+  ]
+
+  config_mappings.each do |source, target|
+    if File.exist?(source)
+      if File.exist?(target) || File.symlink?(target)
+        File.delete(target)
+      end
+      File.symlink(source, target)
+      puts "Symlinked #{source} to #{target}"
+    else
+      puts "Warning: Source file #{source} does not exist"
+    end
+  end
+end
+
+def expand_praefect_config
+  config_path = '/gisia/config/coms/gitaly/praefect.config.toml'
+
+  unless File.exist?(config_path)
+    puts "Warning: praefect.config.toml does not exist at #{config_path}"
+    return
+  end
+
+  content = File.read(config_path)
+
+  unless content.include?('${')
+    puts "No environment variables to expand in #{config_path}"
+    return
+  end
+
+  puts "Expanding environment variables in #{config_path}"
+
+  expanded_content = content
+    .gsub('${DATABASE_USERNAME:-postgres}', "\"#{ENV['DATABASE_USERNAME'] || 'postgres'}\"")
+    .gsub('${DATABASE_HOST:-pg}', "\"#{ENV['DATABASE_HOST'] || 'pg'}\"")
+    .gsub('${DATABASE_PORT:-5432}', ENV['DATABASE_PORT'] || '5432')
+    .gsub('${DATABASE_PASSWORD}', "\"#{ENV['DATABASE_PASSWORD'] || ''}\"")
+
+  File.write(config_path, expanded_content)
+  puts "Successfully expanded and saved #{config_path}"
+end
+
+def expand_gitlab_config
+  config_path = '/gisia/config/web/gitlab.yml'
+
+  unless File.exist?(config_path)
+    puts "Warning: gitlab.yml does not exist at #{config_path}"
+    return
+  end
+
+  content = File.read(config_path)
+
+  unless content.include?('${GISIA_HOST}')
+    puts "No GISIA_HOST variable to expand in #{config_path}"
+    return
+  end
+
+  puts "Expanding GISIA_HOST environment variable in #{config_path}"
+
+  expanded_content = content.gsub('${GISIA_HOST}', ENV['GISIA_HOST'] || 'localhost')
+
+  File.write(config_path, expanded_content)
+  puts "Successfully expanded and saved #{config_path}"
+end
+
+def create_service_directories
+  directories = [
+    '/services/sockets',
+    '/services/gitaly/runtime',
+    '/services/gitaly/log/praefect-gitaly-0'
+  ]
+
+  directories.each do |dir|
+    if File.exist?(dir)
+      puts "Directory already exists: #{dir}"
+    else
+      FileUtils.mkdir_p(dir)
+      puts "Created directory: #{dir}"
+    end
+  end
+end
+
+def wait_for_postgres(host, port, user, password, timeout_seconds)
+  puts "Waiting for PostgreSQL to be ready at #{host}:#{port} (timeout: #{timeout_seconds}s)..."
+
+  start_time = Time.now
+  timeout = timeout_seconds
+
+  loop do
+    begin
+      conn = PG.connect(
+        host: host,
+        port: port,
+        user: user,
+        password: password,
+        dbname: 'postgres',
+        connect_timeout: 3
+      )
+      conn.close
+      puts "PostgreSQL is ready!"
+      return
+    rescue PG::Error => e
+      puts "PostgreSQL not ready: #{e.message}"
+    end
+
+    if Time.now - start_time >= timeout
+      raise "Timeout waiting for PostgreSQL after #{timeout_seconds}s"
+    end
+
+    puts "Waiting 2 seconds before retry..."
+    sleep 2
+  end
+end
+
+def setup_praefect_database
+  config_path = '/gisia/config/coms/gitaly/praefect.config.toml'
+
+  unless File.exist?(config_path)
+    puts "Warning: praefect.config.toml does not exist, skipping database setup"
+    return
+  end
+
+  content = File.read(config_path)
+  config = Tomlrb.parse(content)
+
+  database = config['database'] || {}
+
+  user = database['user'] || 'postgres'
+  host = database['host'] || 'localhost'
+  port = database['port'] || 5432
+  password = database['password'] || ''
+  dbname = database['dbname'] || 'gisia_praefect_prd'
+
+  wait_for_postgres(host, port, user, password, 30)
+
+  puts "Checking database connection to #{host}:#{port}..."
+
+  postgres_conn = PG.connect(
+    host: host,
+    port: port,
+    user: user,
+    password: password,
+    dbname: 'postgres'
+  )
+
+  result = postgres_conn.exec_params(
+    'SELECT 1 FROM pg_database WHERE datname = $1',
+    [dbname]
+  )
+
+  if result.ntuples.zero?
+    puts "Database '#{dbname}' does not exist, creating..."
+    postgres_conn.exec("CREATE DATABASE \"#{dbname}\"")
+    puts "Successfully created database '#{dbname}'"
+  else
+    puts "Database '#{dbname}' already exists"
+  end
+
+  postgres_conn.close
+
+  target_conn = PG.connect(
+    host: host,
+    port: port,
+    user: user,
+    password: password,
+    dbname: dbname
+  )
+  target_conn.close
+
+  puts "Successfully connected to database '#{dbname}'"
+end
+
+def generate_ssh_host_keys
+  ssh_keys = [
+    ['/gisia/coms/data/ssh/ssh_host_rsa_key', 'rsa'],
+    ['/gisia/coms/data/ssh/ssh_host_ed25519_key', 'ed25519'],
+    ['/gisia/coms/data/ssh/ssh_host_ecdsa_key', 'ecdsa']
+  ]
+
+  ssh_keys.each do |key_path, key_type|
+    if File.exist?(key_path)
+      puts "SSH host key already exists: #{key_path}"
+    else
+      puts "Generating #{key_path}..."
+
+      result = system('ssh-keygen', '-f', key_path, '-N', '', '-t', key_type)
+
+      unless result
+        raise "ssh-keygen failed for #{key_path}"
+      end
+
+      File.chmod(0600, key_path)
+      puts "Generated SSH host key: #{key_path}"
+    end
+  end
+end
+
+begin
+  expand_gitlab_config
+  setup_config_symlinks
+  expand_praefect_config
+  create_service_directories
+  generate_ssh_host_keys
+  setup_praefect_database
+rescue StandardError => e
+  warn "Error: #{e.message}"
+  exit 1
+end

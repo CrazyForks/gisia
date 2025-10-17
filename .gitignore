@@ -57,5 +57,4 @@
 /.playwright-mcp
 
 /node_modules
-/bin/init
 /config/credentials.yml.enc
