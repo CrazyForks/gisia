@@ -9,6 +9,17 @@
 # Licensed under AGPLv3 - see LICENSE file in this repository
 # ======================================================
 
+# https://github.com/heartcombo/devise/issues/5705#issuecomment-2442370072
+module Devise
+  def self.mappings
+    # Starting from Rails 8.0, routes are lazy-loaded by default in test and development environments.
+    # However, Devise's mappings are built during the routes loading phase.
+    # To ensure it works correctly, we need to load the routes first before accessing @@mappings.
+    Rails.application.try(:reload_routes_unless_loaded)
+    @@mappings
+  end
+end
+
 Devise.setup do |config|
   config.reload_routes = true
 
@@ -147,7 +158,7 @@ Devise.setup do |config|
   #
   # The :"*/*" and "*/*" formats below is required to match Internet
   # Explorer requests.
-  config.navigational_formats = [:"*/*", "*/*", :html, :zip]
+  config.navigational_formats = [:'*/*', '*/*', :html, :zip]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :post
@@ -165,4 +176,3 @@ Devise.setup do |config|
     manager.failure_app = Gitlab::DeviseFailure
   end
 end
-
