@@ -5,7 +5,7 @@ require 'pg'
 require 'tomlrb'
 
 if ENV['DATABASE_PASSWORD'].to_s.empty?
-  warn "Error: DATABASE_PASSWORD is not set. Did you forget to setup the .env file before running docker commands?"
+  warn "⚠️ Error: DATABASE_PASSWORD is not set. Did you forget to setup the .env file before running docker commands?"
   exit 1
 end
 
