@@ -4,6 +4,11 @@ require 'fileutils'
 require 'pg'
 require 'tomlrb'
 
+if ENV['DATABASE_PASSWORD'].to_s.empty?
+  warn "Error: DATABASE_PASSWORD is not set. Did you forget to setup the .env file before running docker commands?"
+  exit 1
+end
+
 def setup_config_symlinks
   config_mappings = [
     ['/gisia/config/web/gitlab.yml', '/rails/config/gitlab.yml'],
