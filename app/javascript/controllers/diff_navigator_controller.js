@@ -14,8 +14,9 @@ export default class extends Controller {
   }
 
   showFile(index) {
-    this.diffContainerTargets.forEach((container, i) => {
-      if (i === index) {
+    this.diffContainerTargets.forEach((container) => {
+      const containerIndex = parseInt(container.dataset.fileIndex)
+      if (containerIndex === index) {
         container.classList.remove("hidden")
       } else {
         container.classList.add("hidden")

@@ -13,6 +13,7 @@ import UserSelectDropdownController from "./user_select_dropdown_controller"
 import ReplyToggleController from "./reply_toggle_controller"
 import CopyController from "./copy_controller"
 import UsersSettingsKeysController from "./users/settings/keys_controller"
+import DiffNavigatorController from "./diff_navigator_controller"
 
 // Register controllers manually to ensure they're loaded
 application.register("search", SearchController)
@@ -27,5 +28,6 @@ application.register("user-select-dropdown", UserSelectDropdownController)
 application.register("reply-toggle", ReplyToggleController)
 application.register("copy", CopyController)
 application.register("users--settings--keys", UsersSettingsKeysController)
+application.register("diff-navigator", DiffNavigatorController)
 
 eagerLoadControllersFrom("controllers", application)
