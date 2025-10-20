@@ -54,7 +54,7 @@ test: &test
       statement_timeout: 15s
   ci:
     <<: *default
-    database: gisia_test_ci
+    database: gisia_test
     prepared_statements: false
     reaping_frequency: nil
     variables:
