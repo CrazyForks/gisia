@@ -7,7 +7,7 @@
 # ======================================================
 
 module AvatarsHelper
-  DEFAULT_AVATAR_PATH = 'no_avatar.png'
+  DEFAULT_AVATAR_PATH = 'no-avatar.png'
 
   # Takes both user and email and returns the avatar_icon by
   # user (preferred) or email.
