@@ -1,4 +1,4 @@
 %pre{class: 'highlight text-sm'}
   - lexer = Rouge::Lexer.guess_by_filename(viewer.blob.path) rescue Rouge::Lexers::PlainText
   - formatter = Rouge::Formatters::HTML.new
-  = formatter.format(lexer.lex(viewer.blob.raw)).html_safe
+  = formatter.format(lexer.lex(viewer.blob.data)).html_safe
