@@ -85,7 +85,7 @@ module ProjectsHelper
   end
 
   def history_link(project, ref, path, ref_type)
-    namespace_project_commits_path(project.namespace.parent.full_path, project.path, "#{ref}#{path}",
+    namespace_project_commits_path(project.namespace.parent.full_path, project.path, "#{ref}/#{path}",
       ref_type: ref_type || 'HEADS')
   end
 
