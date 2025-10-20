@@ -2479,7 +2479,8 @@ CREATE TABLE public.work_items (
     parent_id bigint,
     namespace_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    description_html text
 );
 
 
@@ -5598,6 +5599,7 @@ ALTER TABLE public.notes
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251020083414'),
 ('20251017060921'),
 ('20251017055554'),
 ('20251017055351'),
