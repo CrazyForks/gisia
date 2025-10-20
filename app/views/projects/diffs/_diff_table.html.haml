@@ -29,7 +29,7 @@
             - else
               %div{ class: "h-5" }
         %div{ class: "flex-1 px-2 leading-5 #{content_bg}" }
-          %span{ class: 'block whitespace-pre font-mono text-sm leading-5 overflow-visible' }= line[:rich_text].html_safe
+          %span{ class: 'block whitespace-pre-wrap break-words font-mono text-sm leading-5' }= line[:rich_text].html_safe
 
       - if @merge_request
         - line_notes = notes_for_line(line[:line_code], @merge_request)

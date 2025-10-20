@@ -24,7 +24,7 @@
                   %span{ class: 'text-green-600' }+#{file.added_lines}
                   %span{ class: 'text-red-600' }-#{file.removed_lines}
 
-  %div{ class: 'flex-1' }
+  %div{ class: 'flex-1 overflow-hidden' }
     - @diffs.diff_files.each_with_index do |file, index|
       %div{ class: "diff-file-container #{'hidden' if index != 0}", data: { file_index: index, file_id: diff_file_id(file), diff_navigator_target: 'diffContainer' } }
         %div{ class: 'bg-white border border-gray-200 m-4 rounded-lg overflow-hidden' }
