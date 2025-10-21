@@ -28,6 +28,54 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: application_settings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.application_settings (
+    id bigint NOT NULL,
+    default_branch_name text,
+    disable_feed_token boolean DEFAULT false NOT NULL,
+    enabled_git_access_protocol character varying,
+    receive_max_input_size integer,
+    gitlab_dedicated_instance boolean DEFAULT false NOT NULL,
+    admin_mode boolean DEFAULT false NOT NULL,
+    ci_cd_settings jsonb DEFAULT '{}'::jsonb NOT NULL,
+    allow_runner_registration_token boolean DEFAULT true NOT NULL,
+    valid_runner_registrars character varying[] DEFAULT '{project,group}'::character varying[],
+    runner_token_expiration_interval integer,
+    runners_registration_token_encrypted character varying,
+    max_attachment_size integer DEFAULT 100 NOT NULL,
+    require_personal_access_token_expiry boolean DEFAULT true NOT NULL,
+    hashed_storage_enabled boolean DEFAULT true NOT NULL,
+    diff_max_files integer DEFAULT 1000 NOT NULL,
+    diff_max_lines integer DEFAULT 50000 NOT NULL,
+    diff_max_patch_bytes integer DEFAULT 204800 NOT NULL,
+    custom_http_clone_url_root character varying(511),
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: application_settings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.application_settings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: application_settings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.application_settings_id_seq OWNED BY public.application_settings.id;
+
+
+--
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2525,6 +2573,13 @@ ALTER TABLE ONLY public.notes ATTACH PARTITION public.merge_request_notes FOR VA
 
 
 --
+-- Name: application_settings id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_settings ALTER COLUMN id SET DEFAULT nextval('public.application_settings_id_seq'::regclass);
+
+
+--
 -- Name: ci_build_needs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2900,6 +2955,14 @@ ALTER TABLE ONLY public.work_item_assignees ALTER COLUMN id SET DEFAULT nextval(
 --
 
 ALTER TABLE ONLY public.work_items ALTER COLUMN id SET DEFAULT nextval('public.work_items_id_seq'::regclass);
+
+
+--
+-- Name: application_settings application_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_settings
+    ADD CONSTRAINT application_settings_pkey PRIMARY KEY (id);
 
 
 --
@@ -5599,6 +5662,7 @@ ALTER TABLE public.notes
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251021143327'),
 ('20251021033018'),
 ('20251021030929'),
 ('20251020083414'),

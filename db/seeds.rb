@@ -17,7 +17,7 @@ unless User.exists?(email: 'root@gitnix')
     username: 'root',
     admin: true,
     name: 'Administrator'
-  )
+  ).confirm
 
   File.write('/rails/initial_root_password', "#{password}\n") if ENV['GISIA_DOCKER'] == 'true'
 end
