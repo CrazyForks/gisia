@@ -115,7 +115,7 @@ RSpec.describe 'Epics', type: :system, js: true do
     it 'searches by title' do
       visit namespace_project_epics_path(project.namespace.parent.full_path, project.path)
 
-      fill_in 'Search by title', with: 'Open'
+      fill_in 'Type to search', with: 'Open'
       find('input[name="search"]').send_keys(:enter)
 
       expect(page).to have_content('Open Epic')
