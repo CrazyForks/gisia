@@ -115,6 +115,7 @@ gem 'batch-loader', '~> 2.0.5'
 gem 'snowplow-tracker', '~> 0.8.0'
 
 # json
+gem 'jsonb_accessor', '~> 1.4'
 gem 'json_schemer', '~> 2.4'
 gem 'oj', '~> 3.16', '>= 3.16.10'
 
