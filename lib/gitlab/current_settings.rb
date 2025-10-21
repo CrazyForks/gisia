@@ -9,7 +9,6 @@
 # Licensed under AGPLv3 - see LICENSE file in this repository
 # ======================================================
 
-
 module Gitlab
   module CurrentSettings
     class << self
@@ -52,6 +51,8 @@ module Gitlab
       def ci_job_live_trace_enabled?
         false
       end
+
+      def runners_registration_token; end
 
       def current_application_settings
         OpenStruct.new(
@@ -107,7 +108,7 @@ module Gitlab
       end
 
       def custom_http_clone_url_root; end
-
     end
   end
 end
+

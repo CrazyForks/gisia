@@ -753,11 +753,23 @@ CREATE TABLE public.ci_runner_machine_builds (
 
 
 --
+-- Name: ci_runner_machines_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ci_runner_machines_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
 -- Name: ci_runner_machines; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.ci_runner_machines (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('public.ci_runner_machines_id_seq'::regclass) NOT NULL,
     runner_id bigint NOT NULL,
     sharding_key_id bigint,
     contacted_at timestamp(6) without time zone,
@@ -775,18 +787,6 @@ CREATE TABLE public.ci_runner_machines (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
-
-
---
--- Name: ci_runner_machines_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.ci_runner_machines_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
 
 
 --
@@ -2218,6 +2218,8 @@ ALTER SEQUENCE public.reviews_id_seq OWNED BY public.reviews.id;
 
 CREATE TABLE public.routes (
     id bigint NOT NULL,
+    source_type character varying NOT NULL,
+    source_id bigint NOT NULL,
     path character varying NOT NULL,
     name character varying,
     namespace_id bigint NOT NULL,
@@ -3083,7 +3085,7 @@ ALTER TABLE ONLY public.ci_runner_machine_builds
 --
 
 ALTER TABLE ONLY public.ci_runner_machines
-    ADD CONSTRAINT ci_runner_machines_pkey PRIMARY KEY (id, runner_type);
+    ADD CONSTRAINT ci_runner_machines_pkey PRIMARY KEY (id);
 
 
 --
@@ -5599,6 +5601,7 @@ ALTER TABLE public.notes
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251021030929'),
 ('20251020083414'),
 ('20251017060921'),
 ('20251017055554'),

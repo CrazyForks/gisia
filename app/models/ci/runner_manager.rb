@@ -17,6 +17,7 @@ module Ci
     include Ci::HasRunnerStatus
 
     self.table_name = 'ci_runner_machines'
+    self.primary_key = :id
 
     AVAILABLE_STATUSES = %w[online offline never_contacted stale].freeze
     AVAILABLE_STATUSES_INCL_DEPRECATED = AVAILABLE_STATUSES
