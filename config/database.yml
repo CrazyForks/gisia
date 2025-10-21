@@ -28,7 +28,7 @@ development:
       statement_timeout: 15s
   ci:
     <<: *default
-    database: gisia_development
+    database: gisia_development_ci
     variables:
       statement_timeout: 15s
   cache:
@@ -54,7 +54,7 @@ test: &test
       statement_timeout: 15s
   ci:
     <<: *default
-    database: gisia_test
+    database: gisia_test_ci
     prepared_statements: false
     reaping_frequency: nil
     variables:
@@ -78,7 +78,7 @@ production:
     database: gisia_production
   ci:
     <<: *default
-    database: gisia_production
+    database: gisia_production_ci
   cache:
     <<: *cache
     database: gisia_production_cache
