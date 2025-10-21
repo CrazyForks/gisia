@@ -2218,8 +2218,6 @@ ALTER SEQUENCE public.reviews_id_seq OWNED BY public.reviews.id;
 
 CREATE TABLE public.routes (
     id bigint NOT NULL,
-    source_type character varying NOT NULL,
-    source_id bigint NOT NULL,
     path character varying NOT NULL,
     name character varying,
     namespace_id bigint NOT NULL,
@@ -5601,6 +5599,7 @@ ALTER TABLE public.notes
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251021033018'),
 ('20251021030929'),
 ('20251020083414'),
 ('20251017060921'),
