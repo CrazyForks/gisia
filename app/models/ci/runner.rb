@@ -148,6 +148,12 @@ module Ci
       "runner:build_queue:#{token}"
     end
 
+    def registration_available?
+      authenticated_user_registration_type? &&
+        created_at > REGISTRATION_AVAILABILITY_TIME.ago &&
+        creation_state == 'started'
+    end
+
     def matches_build?(build)
       runner_matcher.matches?(build.build_matcher)
     end

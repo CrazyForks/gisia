@@ -26,7 +26,7 @@ class Admin::RunnersController < Admin::ApplicationController
   end
 
   def create
-    @runner = Ci::Runner.new(runner_type: :instance_type)
+    @runner = Ci::Runner.new(runner_type: :instance_type, registration_type: :authenticated_user)
     @runner.assign_attributes(runner_params)
 
     if @runner.save
@@ -69,7 +69,9 @@ class Admin::RunnersController < Admin::ApplicationController
     @runner = Ci::Runner.new
   end
 
-  def register; end
+  def register
+    render file: "#{Rails.root}/public/404.html", status: :not_found, layout: false unless @runner.registration_available?
+  end
 
   private
 
