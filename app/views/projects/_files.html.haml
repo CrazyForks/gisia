@@ -7,8 +7,9 @@
             = icon 'git-branch', class: 'w-4 h-4 text-slate-500'
             %span{ class: 'text-sm font-medium text-slate-700' }
               Branch:
-            = form_with url: request.path, method: :get, data: { controller: "projects" }, class: 'inline' do
-              = select_tag :ref, options_for_select(@branches, @current_ref), class: 'text-sm bg-white border border-slate-300 rounded px-2 py-1 text-slate-900 font-medium', data: { action: "change->projects#submit" }
+            - path_suffix = @path.present? && @path != '/' ? "/#{@path}" : ""
+            = form_with url: "#", method: :get, data: { branch_base_url: @branch_base_url, path_suffix: path_suffix }, class: 'inline', local: true do
+              = select_tag :ref, options_for_select(@branches, @current_ref), class: 'text-sm bg-white border border-slate-300 rounded px-2 py-1 text-slate-900 font-medium', onchange: "window.location.href = this.form.dataset.branchBaseUrl + '/' + this.value + this.form.dataset.pathSuffix"
           
           - if @path.present? && @path != '/'
             %div{ class: 'flex items-center gap-1 text-sm text-slate-500' }

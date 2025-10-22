@@ -1,4 +1,4 @@
 web: unset PORT && bin/rails server
 css: bin/rails tailwindcss:watch
 css-custom: yarn minify:css:watch
-js: yarn build --watch
+js: yarn build:watch

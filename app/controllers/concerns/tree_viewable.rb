@@ -21,7 +21,8 @@ module TreeViewable
     @logs = raw_logs.index_by { |row| row['file_name'] }
     @files = tree.entries
     @branches = repository.branch_names
-    @current_ref = ref
+    @current_ref = @ref
+    @branch_base_url = "/#{@project.namespace.full_path}/-/tree"
   end
 
   def tree
@@ -39,7 +40,15 @@ module TreeViewable
   end
 
   def ref
-    params['ref'] || project.default_branch
+    params['ref'] || extract_ref_from_id || project.default_branch
+  end
+
+  private
+
+  def extract_ref_from_id
+    return if params[:id].blank?
+    id = params[:id]
+    repository.branch_names.find { |branch| id == branch }
   end
 
   def ref_params

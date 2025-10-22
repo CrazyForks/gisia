@@ -14,6 +14,7 @@
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --external:@hotwired/turbo-rails --external:@hotwired/stimulus --external:@hotwired/stimulus-loading --external:lexxy --minify && yarn minify:css",
+    "build:watch": "nodemon --watch app/javascript --ext js --exec 'yarn build'",
     "build:css": "rails tailwindcss:build",
     "minify:css": "csso app/assets/stylesheets/rouge.css --output app/assets/builds/rouge.css && csso app/assets/stylesheets/lexxy-editor-content.css --output app/assets/builds/lexxy-editor-content.css",
     "minify:css:watch": "nodemon --watch app/assets/stylesheets --ext css --exec \"yarn minify:css\""
