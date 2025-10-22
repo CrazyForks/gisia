@@ -288,6 +288,10 @@ module Ci
       pending_state.try(:delete)
     end
 
+    def remove_token!
+      update!(token_encrypted: nil)
+    end
+
     protected
 
     def run_status_commit_hooks!

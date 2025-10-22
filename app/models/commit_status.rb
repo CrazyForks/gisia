@@ -117,6 +117,11 @@ class CommitStatus < ApplicationRecord
 
   scope :in_pipelines, ->(pipelines) { where(pipeline: pipelines) }
   scope :before_stage, ->(index) { where('stage_idx < ?', index) }
+  scope :updated_at_before, ->(date) { where("#{quoted_table_name}.updated_at < ?", date) }
+  scope :created_at_before, ->(date) { where("#{quoted_table_name}.created_at < ?", date) }
+  scope :scheduled_at_before, ->(date) {
+    where("#{quoted_table_name}.scheduled_at IS NOT NULL AND #{quoted_table_name}.scheduled_at < ?", date)
+  }
 
   def self.update_as_processed!
     # Marks items as processed
