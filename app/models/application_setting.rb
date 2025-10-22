@@ -34,6 +34,21 @@ class ApplicationSetting < ApplicationRecord
   before_validation :normalize_default_branch_name
   before_save :ensure_runners_registration_token
 
+  private_class_method def self.encryption_options_base_32_aes_256_gcm
+    {
+      mode: :per_attribute_iv,
+      key: :db_key_base_32,
+      algorithm: 'aes-256-gcm',
+      encode: true
+    }
+  end
+
+  validates :ci_jwt_signing_key,
+    rsa_key: true, allow_nil: true
+
+  validates :ci_job_token_signing_key,
+    rsa_key: true, allow_nil: true
+
   # Restricting the validation to `on: :update` only to avoid cyclical dependencies with
   # License <--> ApplicationSetting. This method calls a license check when we create
   # ApplicationSetting from defaults which in turn depends on ApplicationSetting record.
@@ -91,6 +106,13 @@ class ApplicationSetting < ApplicationRecord
   # We don't prepend for now because otherwise we'll need to
   # fix a lot of tests using allow_any_instance_of
   include ApplicationSettingImplementation
+
+  attr_encrypted :ci_jwt_signing_key, encryption_options_base_32_aes_256_gcm
+
+  attr_encrypted :ci_job_token_signing_key,
+    encryption_options_base_32_aes_256_gcm.merge(encode: false, encode_iv: false)
+
+  attr_encrypted :external_pipeline_validation_service_token, encryption_options_base_32_aes_256_gcm
 
   def normalize_default_branch_name
     self.default_branch_name = default_branch_name.presence

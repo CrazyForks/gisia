@@ -52,9 +52,7 @@ module Gitlab
       end
 
       def respond_to_organization_setting?(name, include_private)
-        return false unless ::Current.organization_assigned
-
-        ::Organizations::OrganizationSetting.for(::Current.organization.id).respond_to?(name, include_private)
+        return false
       end
     end
   end

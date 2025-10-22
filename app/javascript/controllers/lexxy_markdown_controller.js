@@ -100,9 +100,4 @@ export default class extends Controller {
   convertHtmlToMarkdown(html) {
     return $convertToMarkdownString(html)
   }
-
-  // Handle form submission to ensure markdown is submitted
-  handleFormSubmit(event) {
-    this.handleLexxyChange() // Ensure latest conversion
-  }
 }

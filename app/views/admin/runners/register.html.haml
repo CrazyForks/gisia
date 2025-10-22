@@ -16,7 +16,7 @@
 
       %div{class: 'bg-gray-900 rounded-lg p-4 mb-4'}
         %code{class: 'text-white text-sm font-mono block'}
-          $ docker run -d --name gisia-docker-runner gitlab/gitlab-runner:v18.2.1
+          docker run -d -v /var/run/docker.sock:/var/run/docker.sock --name gisia-docker-runner gitlab/gitlab-runner:v18.2.1
 
     %div{class: 'bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6'}
       %h3{class: 'text-lg font-semibold text-gray-900 mb-4'} Step 2: Register with Gitnix
@@ -25,7 +25,7 @@
 
       %div{class: 'bg-gray-900 rounded-lg p-4 mb-4'}
         %code{class: 'text-white text-sm font-mono block'}
-          $ docker exec -it gisia-docker-runner gitlab-runner register --url #{Gitlab.config.gitlab.url} --token #{@runner.token}
+          docker exec -it gisia-docker-runner gitlab-runner register --url #{Gitlab.config.gitlab.url} --token #{@runner.token}
 
       %div{class: 'bg-yellow-50 border border-yellow-200 rounded-lg p-4'}
         %p{class: 'text-sm text-yellow-800'}
