@@ -14,7 +14,7 @@ class Commit
   attr_reader :container
 
   delegate :author_name, :author_email, :message, :tree_entry, :committed_date, :parent, :parent_id,
-           to: :raw
+    to: :raw
 
   delegate :repository, to: :container
   delegate :project, to: :repository, allow_nil: true
@@ -25,6 +25,11 @@ class Commit
   COMMIT_SHA_PATTERN = Gitlab::Git::Commit::SHA_PATTERN
   WHOLE_WORD_COMMIT_SHA_PATTERN = /\b#{COMMIT_SHA_PATTERN}\b/
   EXACT_COMMIT_SHA_PATTERN = /\A#{COMMIT_SHA_PATTERN}\z/
+
+  DEFAULT_MAX_DIFF_LINES_SETTING = 50_000
+  DEFAULT_MAX_DIFF_FILES_SETTING = 1_000
+  MAX_DIFF_LINES_SETTING_UPPER_BOUND = 100_000
+  MAX_DIFF_FILES_SETTING_UPPER_BOUND = 3_000
 
   def initialize(raw_commit, container)
     raise 'Nil as raw commit passed' unless raw_commit
@@ -151,3 +156,4 @@ class Commit
     end
   end
 end
+

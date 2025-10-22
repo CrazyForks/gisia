@@ -41,6 +41,7 @@ Settings.gitlab['url'] ||= Settings.__send__(:build_gitlab_url)
 Settings.gitlab['user'] ||= 'git'
 Settings.gitlab['ssh_user'] ||= Settings.gitlab.user
 Settings.gitlab['max_request_duration_seconds'] ||= 57
+Settings.gitlab['max_attachment_size'] ||= 100
 
 
 Settings.gitlab['default_projects_features'] ||= {}
