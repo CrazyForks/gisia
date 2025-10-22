@@ -75,7 +75,14 @@ CREATE TABLE public.application_settings (
     encrypted_ci_job_token_signing_key bytea,
     encrypted_ci_job_token_signing_key_iv bytea,
     encrypted_ci_jwt_signing_key text,
-    encrypted_ci_jwt_signing_key_iv text
+    encrypted_ci_jwt_signing_key_iv text,
+    unique_ips_limit_enabled boolean DEFAULT false NOT NULL,
+    unique_ips_limit_per_user integer DEFAULT 10,
+    unique_ips_limit_time_window integer DEFAULT 3600,
+    external_pipeline_validation_service_timeout integer,
+    external_pipeline_validation_service_url text,
+    encrypted_external_pipeline_validation_service_token text,
+    encrypted_external_pipeline_validation_service_token_iv text
 );
 
 
@@ -5685,6 +5692,8 @@ ALTER TABLE public.notes
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251022063810'),
+('20251022063805'),
 ('20251022060046'),
 ('20251022054719'),
 ('20251022054526'),
