@@ -10,6 +10,7 @@
 # ======================================================
 
 class ApplicationRecord < ActiveRecord::Base
+  include DatabaseReflection
   include LegacyBulkInsert
   include DisablesSti
   include Transactions
