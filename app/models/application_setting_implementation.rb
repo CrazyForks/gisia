@@ -50,24 +50,6 @@ module ApplicationSettingImplementation
       {}
     end
 
-    def normalized_repository_storage_weights
-      strong_memoize(:normalized_repository_storage_weights) do
-        repository_storages_weights = repository_storages_weighted.slice(*Gitlab.config.repositories.storages.keys)
-        weights_total = repository_storages_weights.values.sum
-
-        repository_storages_weights.transform_values do |w|
-          next w if weights_total == 0
-
-          w.to_f / weights_total
-        end
-      end
-    end
-
-    # Choose one of the available repository storage options based on a normalized weighted probability.
-    def pick_repository_storage
-      normalized_repository_storage_weights.max_by { |_, weight| rand**(1.0 / weight) }.first
-    end
-
     def default_commit_email_hostname
       "users.noreply.#{Gitlab.config.gitlab.host}"
     end
@@ -103,6 +85,24 @@ module ApplicationSettingImplementation
     return unless Gitlab::CurrentSettings.allow_runner_registration_token
 
     ensure_runners_registration_token!
+  end
+
+  def normalized_repository_storage_weights
+    strong_memoize(:normalized_repository_storage_weights) do
+      repository_storages_weights = repository_storages_weighted.slice(*Gitlab.config.repositories.storages.keys)
+      weights_total = repository_storages_weights.values.sum
+
+      repository_storages_weights.transform_values do |w|
+        next w if weights_total == 0
+
+        w.to_f / weights_total
+      end
+    end
+  end
+
+  # Choose one of the available repository storage options based on a normalized weighted probability.
+  def pick_repository_storage
+    normalized_repository_storage_weights.max_by { |_, weight| rand**(1.0 / weight) }.first
   end
 
   def allowed_key_types

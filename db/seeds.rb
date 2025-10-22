@@ -8,7 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-unless User.exists?(email: 'root@gitnix')
+unless User.exists?(email: 'root@gisia')
   password = Devise.friendly_token
 
   User.create!(
@@ -20,7 +20,14 @@ unless User.exists?(email: 'root@gitnix')
   ).confirm
 
   File.write('/rails/initial_root_password', "#{password}\n") if ENV['GISIA_DOCKER'] == 'true'
+
+  puts 'Administrator user created'
 end
 
-puts 'Done'
+puts 'Initializing applications settings'
+
+Gitlab::CurrentSettings.current_application_settings
+
+puts 'done'
+
 
