@@ -26,7 +26,19 @@ end
 
 puts 'Initializing applications settings'
 
-Gitlab::CurrentSettings.current_application_settings
+settings = Gitlab::CurrentSettings.current_application_settings
+byebug
+if settings.encrypted_ci_job_token_signing_key.blank?
+  settings.ci_job_token_signing_key = OpenSSL::PKey::RSA.new(2048).to_pem
+  settings.save!
+  puts 'CI Job Token signing key generated'
+end
+
+if settings.encrypted_ci_jwt_signing_key.blank?
+  settings.ci_jwt_signing_key = OpenSSL::PKey::RSA.new(2048).to_pem
+  settings.save!
+  puts 'CI JWT signing key generated'
+end
 
 puts 'done'
 

@@ -67,7 +67,15 @@ CREATE TABLE public.application_settings (
     ci_max_includes integer DEFAULT 150 NOT NULL,
     ci_max_total_yaml_size_bytes integer DEFAULT 314572800 NOT NULL,
     personal_access_token_prefix text DEFAULT 'glpat-'::text,
-    repository_storages_weighted jsonb DEFAULT '{}'::jsonb NOT NULL
+    repository_storages_weighted jsonb DEFAULT '{}'::jsonb NOT NULL,
+    gitlab_shell_operation_limit integer DEFAULT 600,
+    pipeline_limit_per_project_user_sha integer DEFAULT 0 NOT NULL,
+    max_yaml_depth integer DEFAULT 100 NOT NULL,
+    max_yaml_size_bytes bigint DEFAULT 2097152 NOT NULL,
+    encrypted_ci_job_token_signing_key bytea,
+    encrypted_ci_job_token_signing_key_iv bytea,
+    encrypted_ci_jwt_signing_key text,
+    encrypted_ci_jwt_signing_key_iv text
 );
 
 
@@ -5677,6 +5685,10 @@ ALTER TABLE public.notes
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251022060046'),
+('20251022054719'),
+('20251022054526'),
+('20251022054356'),
 ('20251021155755'),
 ('20251021154337'),
 ('20251021143327'),
