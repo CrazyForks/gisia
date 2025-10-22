@@ -42,6 +42,8 @@ Settings.gitlab['user'] ||= 'git'
 Settings.gitlab['ssh_user'] ||= Settings.gitlab.user
 Settings.gitlab['max_request_duration_seconds'] ||= 57
 Settings.gitlab['max_attachment_size'] ||= 100
+Settings.gitlab['impersonation_enabled'] ||= true if Settings.gitlab['impersonation_enabled'].nil?
+Settings.gitlab['signin_enabled'] ||= true if Settings.gitlab['signin_enabled'].nil?
 
 
 Settings.gitlab['default_projects_features'] ||= {}

@@ -132,10 +132,11 @@ module Gitlab
           service_request_check(login, password, project) ||
           build_access_token_check(login, password) ||
           lfs_token_check(login, password, project, request) ||
-          oauth_access_token_check(password) ||
-          personal_access_token_check(password, project) ||
-          deploy_token_check(login, password, project) ||
-          user_with_password_for_git(login, password) ||
+          # Todo,
+          # oauth_access_token_check(password) ||
+          # personal_access_token_check(password, project) ||
+          #deploy_token_check(login, password, project) ||
+          # user_with_password_for_git(login, password) ||
           Gitlab::Auth::Result::EMPTY
 
         rate_limit!(rate_limiter, success: result.success?, login: login, request: request)

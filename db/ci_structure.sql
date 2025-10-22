@@ -82,7 +82,9 @@ CREATE TABLE public.application_settings (
     external_pipeline_validation_service_timeout integer,
     external_pipeline_validation_service_url text,
     encrypted_external_pipeline_validation_service_token text,
-    encrypted_external_pipeline_validation_service_token_iv text
+    encrypted_external_pipeline_validation_service_token_iv text,
+    password_authentication_enabled_for_git boolean DEFAULT true NOT NULL,
+    password_authentication_enabled_for_web boolean
 );
 
 
@@ -5692,6 +5694,7 @@ ALTER TABLE public.notes
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251022072049'),
 ('20251022063810'),
 ('20251022063805'),
 ('20251022060046'),

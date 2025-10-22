@@ -42,7 +42,8 @@ module ApplicationSettingImplementation
         ci_max_includes: 150,
         ci_max_total_yaml_size_bytes: 314_572_800, # max_yaml_size_bytes * ci_max_includes = 2.megabyte * 150
         personal_access_token_prefix: 'glpat-',
-        repository_storages_weighted: { 'default' => 100 }
+        repository_storages_weighted: { 'default' => 100 },
+        password_authentication_enabled_for_web: Settings.gitlab['signin_enabled']
       }
     end
 
