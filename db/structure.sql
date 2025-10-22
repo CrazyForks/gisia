@@ -52,7 +52,22 @@ CREATE TABLE public.application_settings (
     diff_max_patch_bytes integer DEFAULT 204800 NOT NULL,
     custom_http_clone_url_root character varying(511),
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    rsa_key_restriction integer DEFAULT 0 NOT NULL,
+    dsa_key_restriction integer DEFAULT 0 NOT NULL,
+    ecdsa_key_restriction integer DEFAULT 0 NOT NULL,
+    ecdsa_sk_key_restriction integer DEFAULT 0 NOT NULL,
+    ed25519_key_restriction integer DEFAULT 0 NOT NULL,
+    ed25519_sk_key_restriction integer DEFAULT 0 NOT NULL,
+    gitaly_timeout_default integer DEFAULT 55 NOT NULL,
+    gitaly_timeout_fast integer DEFAULT 10 NOT NULL,
+    gitaly_timeout_medium integer DEFAULT 30 NOT NULL,
+    plantuml_enabled boolean DEFAULT false NOT NULL,
+    plantuml_url character varying,
+    ci_max_includes integer DEFAULT 150 NOT NULL,
+    ci_max_total_yaml_size_bytes integer DEFAULT 314572800 NOT NULL,
+    personal_access_token_prefix text DEFAULT 'glpat-'::text,
+    repository_storages_weighted jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
 
@@ -5662,6 +5677,8 @@ ALTER TABLE public.notes
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251021155755'),
+('20251021154337'),
 ('20251021143327'),
 ('20251021033018'),
 ('20251021030929'),
