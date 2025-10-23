@@ -3,7 +3,7 @@
 module Ci
   module Builds
     class ArchiveTraceJob < ApplicationJob
-      retry_on StandardError, wait: :exponentially_longer, attempts: 3
+      retry_on StandardError, wait: :polynomially_longer, attempts: 3
 
       def perform(job_id)
         return unless build = Ci::Build.find_by_id(job_id)
