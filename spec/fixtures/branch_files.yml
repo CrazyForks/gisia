@@ -1,0 +1,31 @@
+main:
+  files:
+    - name: file-main-1.txt
+      type: blob
+    - name: file-main-2.txt
+      type: blob
+  logs:
+    - file_name: file-main-1.txt
+      committed_date: "2025-10-22T10:00:00Z"
+    - file_name: file-main-2.txt
+      committed_date: "2025-10-21T10:00:00Z"
+
+new-feature:
+  files:
+    - name: file-feature-1.txt
+      type: blob
+    - name: file-feature-2.txt
+      type: blob
+  logs:
+    - file_name: file-feature-1.txt
+      committed_date: "2025-10-20T10:00:00Z"
+    - file_name: file-feature-2.txt
+      committed_date: "2025-10-19T10:00:00Z"
+
+develop:
+  files:
+    - name: file-develop-1.txt
+      type: blob
+  logs:
+    - file_name: file-develop-1.txt
+      committed_date: "2025-10-18T10:00:00Z"
