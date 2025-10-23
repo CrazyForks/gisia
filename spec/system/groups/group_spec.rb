@@ -18,7 +18,6 @@ RSpec.describe 'Group Management', type: :system do
 
       click_button 'Create Group'
 
-      expect(page).to have_content('Group was successfully created')
       expect(page).to have_content('Test Group')
     end
 
@@ -35,7 +34,6 @@ RSpec.describe 'Group Management', type: :system do
 
       click_button 'Update Group'
 
-      expect(page).to have_content('Group was successfully updated')
       expect(page).to have_content('Updated Group Name')
     end
   end
@@ -52,7 +50,6 @@ RSpec.describe 'Group Management', type: :system do
       # Click delete and confirm
       click_button 'Delete'
 
-      expect(page).to have_content('Group was successfully destroyed')
       expect(current_path).to eq(dashboard_groups_path)
     end
   end

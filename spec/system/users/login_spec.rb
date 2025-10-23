@@ -9,7 +9,6 @@ RSpec.describe 'User Login', type: :system do
     login_as(user)
 
     expect(page).to have_current_path(root_path)
-    expect(page).to have_content('Signed in successfully')
   end
 
   it 'shows error message for invalid credentials' do

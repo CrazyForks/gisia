@@ -20,7 +20,7 @@ class Dashboard::ProjectsController < Dashboard::ApplicationController
     @project = Project.new(params_for_create)
 
     if @project.save
-      redirect_to @project.web_url, notice: 'Project was successfully created.'
+      redirect_to "/#{@project.full_path}", notice: 'Project was successfully created.'
     else
       render :new
     end

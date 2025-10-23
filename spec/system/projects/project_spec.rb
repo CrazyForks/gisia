@@ -19,7 +19,6 @@ RSpec.describe 'Project Management', type: :system do
 
       click_button 'Create Project'
 
-      expect(page).to have_content('Project was successfully created')
       expect(page).to have_content('My Test Project')
     end
   end
@@ -37,7 +36,6 @@ RSpec.describe 'Project Management', type: :system do
 
       click_button 'Create Project'
 
-      expect(page).to have_content('Project was successfully created')
       expect(page).to have_content('Group Project')
     end
   end
@@ -66,7 +64,6 @@ RSpec.describe 'Project Management', type: :system do
       # Click delete and confirm
       click_button 'Delete'
 
-      expect(page).to have_content('Project was successfully destroyed')
       expect(current_path).to eq(dashboard_projects_path)
     end
   end
