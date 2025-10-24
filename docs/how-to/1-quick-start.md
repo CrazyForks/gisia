@@ -2,6 +2,12 @@
 
 ## Start the Gisia services
 
+Create the project folder
+
+`mkdir gisia`
+
+`cd gisia`
+
 Init the config
 
 `docker run --rm -v ./:/output gisia/init:0.1.0`
