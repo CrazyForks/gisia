@@ -20,6 +20,16 @@ RSpec.describe 'Issue Comments', type: :system, js: true do
       expect(page).to have_content('This is a test comment on issue', wait: 5)
       expect(page).to have_content(user.name)
     end
+
+    it 'clears the editor after submitting a comment' do
+      fill_in_lexxy_editor('Test comment to clear', selector: "#editor-issue-#{issue.id}")
+      click_button 'Comment'
+
+      expect(page).to have_content('Test comment to clear', wait: 5)
+
+      editor_element = find("#editor-issue-#{issue.id}")
+      expect(editor_element.native.value).to eq('<p><br></p>')
+    end
   end
 
   describe 'creating replies' do
@@ -40,6 +50,22 @@ RSpec.describe 'Issue Comments', type: :system, js: true do
       end
 
       expect(page).to have_content('This is a reply to the comment', wait: 5)
+    end
+
+    it 'clears the reply editor after submitting a reply' do
+      within("#note_#{root_comment.id}") do
+        click_button 'Reply'
+      end
+
+      fill_in_lexxy_editor('Test reply to clear', selector: "#editor-reply-note-#{root_comment.id}")
+      within("#note-#{root_comment.id}-reply-form") do
+        click_button 'Reply'
+      end
+
+      expect(page).to have_content('Test reply to clear', wait: 5)
+
+      editor_element = find("#editor-reply-note-#{root_comment.id}")
+      expect(editor_element.native.value).to eq('<p><br></p>')
     end
 
     it 'shows replies count when there are replies' do
