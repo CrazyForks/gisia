@@ -2,6 +2,18 @@
 
 ## Start the Gisia services
 
+Init the config
+
+`docker run --rm -v ./:/output gisia/init:0.1.0`
+
+Modify and rename the `.env`
+
+`cp .env.example .env`
+
+Start the server
+
+`docker compose up -d`
+
 ## Show the adminstrator initial password
 
 ```shell

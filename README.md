@@ -18,17 +18,17 @@ Gisia is an open-source, DevOps platform designed for individuals and small team
 
 | Feature | Status | Notes |
 |----------|---------|-------|
-| **User Authentication** | ⚙️ In Progress | Local accounts |
-| **Git Repository Hosting** | 🔜 Planned | Lightweight Git server with SSH and HTTP(S) access |
-| **Issue Tracking** | 🔜 Planned | Simple issue board for personal or small team usage |
-| **CI/CD Pipelines** | 🔜 Planned | Basic runner support and pipeline definitions in YAML |
+| **User Authentication** | ✅ Done | Local accounts |
+| **Git Repository Hosting** | ✅ Done | Lightweight Git server with SSH and HTTP(S) access |
+| **CI/CD Pipelines** | ✅ Done | Basic runner support and pipeline definitions in YAML |
+| **Issue Tracking** | 🔜 Working on| Simple issue board for personal or small team usage |
 | **Merge Requests / Code Review** | 🔜 Planned | Inline diffs and comment threads |
 | **Notifications System** | 💤 Not Planned Yet | Email or webhook-based alerts |
 
 
-## 🛠️ Installation (Coming Soon)
+## 🛠️ Installation
 
-The installation guide will cover Docker-based and manual setups once CI/CD support is stabilized.
+[How To Guide](docs/how-to/1-quick-start.md)
 
 
 ## 💡 Dev Philosophy
@@ -42,15 +42,14 @@ Gisia is built with these principles in mind:
 
 ## 🤝 Contributing
 
-At this stage, Gisia is **not accepting direct code contributions** as the roadmap is still under development.
+We welcome contributions from the community! You can help by **fixing bugs, improving code, or suggesting new features**.
+All new features should start with an issue to discuss the idea.
 
-We welcome the community to:
 
-- **Create issues** for bug reports or feature requests.
-- **Suggest improvements** or ideas for the roadmap.
+### Legal Note
+By contributing, you confirm that your contributions are your original work or that you have the right to submit them. All contributions are included under this **project’s license**.
 
-Your feedback will help shape the direction of the platform before code contributions are opened.
-
+Thank you for helping improve the project!
 
 ## 📄 License
 
