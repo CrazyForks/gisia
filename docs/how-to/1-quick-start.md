@@ -29,3 +29,7 @@ docker exec -it gisia-web cat /rails/initial_root_password
 
 1. goto `/-/dashboard/projects`
 1. create a new project
+
+
+Next [How To Run Pipelines](2-run-pipelines.md)
+

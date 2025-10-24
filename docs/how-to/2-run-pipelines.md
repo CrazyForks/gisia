@@ -1,4 +1,4 @@
-# How to run test
+# How to run pipelines
 
 1. register a runner
 1. config your pipeline
