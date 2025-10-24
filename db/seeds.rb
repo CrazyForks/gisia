@@ -26,7 +26,7 @@ end
 
 puts 'Initializing applications settings'
 
-settings = ApplicationSetting.current_without_cache
+settings = ApplicationSetting.find_or_create_without_cache
 
 if settings.ci_job_token_signing_key.blank?
   settings.ci_job_token_signing_key = OpenSSL::PKey::RSA.new(2048).to_pem
