@@ -27,7 +27,7 @@ docker exec -it gisia-web cat /rails/initial_root_password
 ```
 ## Update user password
 
-1. login
+1. login as user `root`
 1. goto `/-/users/settings/password/edit`
 1. change your password
 

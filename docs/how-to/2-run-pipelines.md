@@ -19,6 +19,7 @@
 
 1. goto `/-/dashboard/projects`
 1. choose or create a project
+1. goto `/-/users/settings/keys` to add your SSH Keys
 1. use git to clone this project
 1. create `.gitlab-ci.yml` and commit with the following content
 1. then a pipeline should be created
