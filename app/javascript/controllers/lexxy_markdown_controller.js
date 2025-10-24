@@ -15,6 +15,7 @@ export default class extends Controller {
       const form = this.editorTarget.closest('form')
       if (form) {
         form.addEventListener('submit', this.handleFormSubmit.bind(this))
+        form.addEventListener('turbo:submit-end', this.handleSubmitEnd.bind(this))
       }
     }
   }
@@ -36,6 +37,21 @@ export default class extends Controller {
 
   handleFormSubmit(event) {
     this.updateHiddenField()
+  }
+
+  handleSubmitEnd(event) {
+    if (event.detail.success) {
+      this.clearEditor()
+    }
+  }
+
+  clearEditor() {
+    if (this.editorTarget.tagName === 'LEXXY-EDITOR') {
+      this.editorTarget.value = ''
+      if (this.hasHiddenFieldTarget) {
+        this.hiddenFieldTarget.value = ''
+      }
+    }
   }
 
   updateHiddenField() {
