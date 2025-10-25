@@ -46,14 +46,14 @@ module Ci
       end
 
       def archive_trace!
-        unless job.trace.archival_attempts_available?
+        unless trace.archival_attempts_available?
           Sidekiq.logger.warn(class: self.class, message: 'The job is out of archival attempts.', job_id: id)
 
-          job.trace.attempt_archive_cleanup!
+          trace.attempt_archive_cleanup!
           return
         end
 
-        unless job.trace.can_attempt_archival_now?
+        unless trace.can_attempt_archival_now?
           Sidekiq.logger.warn(class: self.class, message: 'The job can not be archived right now.', job_id: id)
           return
         end
