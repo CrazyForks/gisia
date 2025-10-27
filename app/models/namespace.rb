@@ -44,6 +44,7 @@ class Namespace < ApplicationRecord
     dependent: :destroy
   has_one :namespace_settings, foreign_key: :namespace_id, inverse_of: :namespace, autosave: true,
     dependent: :destroy, class_name: 'NamespaceSetting'
+  has_many :labels, foreign_key: :namespace_id, inverse_of: :namespace, dependent: :destroy
 
   before_validation :prepare_route
   after_validation :set_path_errors
