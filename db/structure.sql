@@ -1358,6 +1358,73 @@ ALTER SEQUENCE public.keys_id_seq OWNED BY public.keys.id;
 
 
 --
+-- Name: label_work_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.label_work_items (
+    id bigint NOT NULL,
+    label_id bigint NOT NULL,
+    work_item_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: label_work_items_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.label_work_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: label_work_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.label_work_items_id_seq OWNED BY public.label_work_items.id;
+
+
+--
+-- Name: labels; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.labels (
+    id bigint NOT NULL,
+    title character varying,
+    color character varying,
+    description text,
+    organization_id bigint,
+    rank integer DEFAULT 0,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: labels_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.labels_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: labels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.labels_id_seq OWNED BY public.labels.id;
+
+
+--
 -- Name: members; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2801,6 +2868,20 @@ ALTER TABLE ONLY public.keys ALTER COLUMN id SET DEFAULT nextval('public.keys_id
 
 
 --
+-- Name: label_work_items id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.label_work_items ALTER COLUMN id SET DEFAULT nextval('public.label_work_items_id_seq'::regclass);
+
+
+--
+-- Name: labels id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.labels ALTER COLUMN id SET DEFAULT nextval('public.labels_id_seq'::regclass);
+
+
+--
 -- Name: members id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3291,6 +3372,22 @@ ALTER TABLE ONLY public.issue_notes
 
 ALTER TABLE ONLY public.keys
     ADD CONSTRAINT keys_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: label_work_items label_work_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.label_work_items
+    ADD CONSTRAINT label_work_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: labels labels_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.labels
+    ADD CONSTRAINT labels_pkey PRIMARY KEY (id);
 
 
 --
@@ -4522,6 +4619,34 @@ CREATE INDEX index_keys_on_user_id ON public.keys USING btree (user_id);
 
 
 --
+-- Name: index_label_work_items_on_label_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_label_work_items_on_label_id ON public.label_work_items USING btree (label_id);
+
+
+--
+-- Name: index_label_work_items_on_work_item_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_label_work_items_on_work_item_id ON public.label_work_items USING btree (work_item_id);
+
+
+--
+-- Name: index_labels_on_organization_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_labels_on_organization_id ON public.labels USING btree (organization_id);
+
+
+--
+-- Name: index_labels_on_rank; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_labels_on_rank ON public.labels USING btree (rank);
+
+
+--
 -- Name: index_members_on_created_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5694,6 +5819,8 @@ ALTER TABLE public.notes
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251027143233'),
+('20251027143127'),
 ('20251022072049'),
 ('20251022063810'),
 ('20251022063805'),
