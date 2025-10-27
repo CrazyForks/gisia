@@ -22,4 +22,5 @@ module Gisia
   end
 
   VERSION = File.read(root.join('GISIA_VERSION')).strip.freeze
+  RUNNER_VERSION = File.read(root.join('RUNNER_VERSION')).strip.freeze
 end
