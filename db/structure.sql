@@ -1398,10 +1398,10 @@ CREATE TABLE public.labels (
     title character varying,
     color character varying,
     description text,
-    organization_id bigint,
     rank integer DEFAULT 0,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    namespace_id bigint
 );
 
 
@@ -4633,10 +4633,10 @@ CREATE INDEX index_label_work_items_on_work_item_id ON public.label_work_items U
 
 
 --
--- Name: index_labels_on_organization_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_labels_on_namespace_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_labels_on_organization_id ON public.labels USING btree (organization_id);
+CREATE INDEX index_labels_on_namespace_id ON public.labels USING btree (namespace_id);
 
 
 --
@@ -5819,6 +5819,7 @@ ALTER TABLE public.notes
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251027145625'),
 ('20251027143233'),
 ('20251027143127'),
 ('20251022072049'),
