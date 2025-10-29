@@ -1,0 +1,18 @@
+- content_for :title, "New Label"
+- content_for :breadcrumb do
+  - nodes = [{ label: project_breadcrumb_name(@project), path: dashboard_project_path(@project) }, { label: 'Settings', path: edit_namespace_project_path(@project.namespace.parent.full_path, @project.namespace.path) }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{class: 'w-full bg-white p-2 rounded-lg'}
+  %div{class: 'w-full max-w-6xl mx-auto'}
+    %div{class: 'py-6'}
+      %div{class: 'flex items-center gap-4 mb-6'}
+        %div{class: 'w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-xl font-bold'}
+          = icon 'tag', class: 'w-8 h-8'
+        %div
+          %h1{class: 'text-2xl font-bold text-gray-900'}
+            New Label
+          %p{class: 'text-gray-600'}
+            Create a new project label
+
+      = render 'form', label: @label, project: @project

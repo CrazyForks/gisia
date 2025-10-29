@@ -14,6 +14,7 @@ import ReplyToggleController from "./reply_toggle_controller"
 import CopyController from "./copy_controller"
 import UsersSettingsKeysController from "./users/settings/keys_controller"
 import DiffNavigatorController from "./diff_navigator_controller"
+import ColorPickerController from "./color_picker_controller"
 
 // Register controllers manually to ensure they're loaded
 application.register("search", SearchController)
@@ -29,5 +30,6 @@ application.register("reply-toggle", ReplyToggleController)
 application.register("copy", CopyController)
 application.register("users--settings--keys", UsersSettingsKeysController)
 application.register("diff-navigator", DiffNavigatorController)
+application.register("color-picker", ColorPickerController)
 
 eagerLoadControllersFrom("controllers", application)
