@@ -1,13 +1,13 @@
 # Gisia
 
-> **自托管个人 DevOps 平台 — 轻量级、隐私优先、完全属于你。**
-
-Gisia 是一个开源 DevOps 平台，为那些希望完全掌控开发工作流程的个人和小团队而设计。它提供基本的 Git 托管、CI/CD 自动化、问题跟踪等功能。
-
 <p>
 <a href="../../../README.md">English</a>
 <a href="README.md">简体中文</a>
 </p>
+
+> **自托管个人 DevOps 平台 — 轻量级、隐私优先、自主可控。**
+
+Gisia 是一个开源 DevOps 平台，为那些希望完全掌控开发工作流程的个人和小团队而设计。它提供基本的 Git 托管、CI/CD 自动化、问题跟踪等功能。
 
 <p align="center">
 <img src="../../images/readme-banner.jpg" title="usage screenshots">
@@ -38,7 +38,7 @@ Gisia 是一个开源 DevOps 平台，为那些希望完全掌控开发工作流
 
 ## 🛠️ 安装
 
-[如何安装](docs/how-to/1-quick-start.md)
+[如何安装](../../how-to/1-quick-start.md)
 
 查看 docs/releases 了解如何升级到指定版本
 
