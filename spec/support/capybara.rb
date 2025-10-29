@@ -3,7 +3,7 @@ require 'capybara/cuprite'
 require "capybara/cuprite"
 
 
-timeout = ENV['CI_SERVER'] ? 30 : 10
+timeout = ENV['CI_SERVER'] ? 30 : 5
 
 CAPYBARA_WINDOW_SIZE = [1920, 1080].freeze
 
