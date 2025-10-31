@@ -13,7 +13,10 @@ class Projects::IssuesController < Projects::ApplicationController
     @issues = @project.namespace.work_items.where(type: 'Issue')
                      .ransack(search_params)
                      .result(distinct: true)
-                     .includes(:author, :updated_by, :closed_by, :labels)
+
+    @issues = filter_by_labels(@issues, params[:labels]) if params[:labels].present?
+
+    @issues = @issues.includes(:author, :updated_by, :closed_by, :labels)
                      .order(created_at: :desc)
                      .page(params[:page])
                      .per(20)
@@ -114,6 +117,17 @@ class Projects::IssuesController < Projects::ApplicationController
   def set_counts
     @opened_count = @project.namespace.work_items.where(type: 'Issue', state_id: WorkItems::HasState::STATE_ID_MAP['opened']).count
     @closed_count = @project.namespace.work_items.where(type: 'Issue', state_id: WorkItems::HasState::STATE_ID_MAP['closed']).count
+  end
+
+  def filter_by_labels(issues, labels_param)
+    label_titles = labels_param.include?('|') ? labels_param.split('|').map(&:strip) : labels_param.split(',').map(&:strip)
+
+    if labels_param.include?('|')
+      issues.joins(:labels).where(labels: { title: label_titles }).distinct
+    else
+      label_link_ids = LabelLink.joins(:label).joins("INNER JOIN work_items ON work_items.id = label_links.labelable_id AND label_links.labelable_type = 'WorkItem'").where(labels: { title: label_titles }, work_items: { namespace_id: @project.namespace_id }).group('labelable_id').having('COUNT(*) = ?', label_titles.size).pluck('labelable_id')
+      issues.where(id: label_link_ids)
+    end
   end
 
   def issue_params

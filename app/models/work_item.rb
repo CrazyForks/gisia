@@ -45,7 +45,7 @@ class WorkItem < ApplicationRecord
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    %w[author updated_by closed_by namespace]
+    %w[author updated_by closed_by namespace labels]
   end
 
   def clear_closure_reason_references; end
