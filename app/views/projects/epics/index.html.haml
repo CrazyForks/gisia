@@ -65,7 +65,9 @@
               - if epic.labels.any?
                 %div{ class: 'flex flex-wrap gap-2' }
                   - epic.labels.each do |label|
-                    %span{ class: 'inline-flex items-center px-2 py-1 rounded-full text-xs font-medium', style: "background-color: #{label.color}20; color: #{label.color}" }
+                    - link_params = { labels: label.title }
+                    - link_params[:search] = params[:search] if params[:search].present?
+                    = link_to namespace_project_epics_path(@project.namespace.parent.full_path, @project.namespace.path, link_params), id: "epic_#{epic.id}_label_#{label.id}", class: 'inline-flex items-center px-2 py-1 rounded-full text-xs font-medium hover:opacity-80 transition-opacity', style: "background-color: #{label.color}20; color: #{label.color}" do
                       = label.title
 
       - if @epics.respond_to?(:current_page)

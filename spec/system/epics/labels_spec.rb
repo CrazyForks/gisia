@@ -133,6 +133,38 @@ RSpec.describe 'Epic Labels', type: :system, js: true do
       expect(page).not_to have_content('epic with 2 labels: aaa, bbb')
       expect(page).to have_content('epic with 3 labels: aaa, bbb, ccc')
     end
+
+    it 'clicking label on list page filters by that label' do
+      visit namespace_project_epics_path(project.namespace.parent.full_path, project.path)
+
+      expect(page).to have_content('epic with 1 label: aaa')
+      expect(page).to have_content('epic with 2 labels: aaa, bbb')
+      expect(page).to have_content('epic with 3 labels: aaa, bbb, ccc')
+
+      click_link("epic_#{epic_with_two_labels.id}_label_#{label_bbb.id}")
+
+      expect(page).not_to have_content('epic with no labels')
+      expect(page).not_to have_content('epic with 1 label: aaa')
+      expect(page).to have_content('epic with 2 labels: aaa, bbb')
+      expect(page).to have_content('epic with 3 labels: aaa, bbb, ccc')
+    end
+
+    it 'clicking label on list page preserves search keyword' do
+      visit namespace_project_epics_path(project.namespace.parent.full_path, project.path, search: 'epic with 2')
+
+      expect(page).to have_content('epic with 2 labels: aaa, bbb')
+      expect(page).not_to have_content('epic with 1 label: aaa')
+      expect(page).not_to have_content('epic with 3 labels: aaa, bbb, ccc')
+
+      click_link("epic_#{epic_with_two_labels.id}_label_#{label_aaa.id}")
+
+      expect(current_url).to include('search=epic+with+2')
+      expect(current_url).to include('labels=aaa')
+      expect(page).to have_content('epic with 2 labels: aaa, bbb')
+      expect(page).not_to have_content('epic with 1 label: aaa')
+      expect(page).not_to have_content('epic with 3 labels: aaa, bbb, ccc')
+    end
   end
+
 end
 

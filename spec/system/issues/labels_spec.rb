@@ -130,6 +130,38 @@ RSpec.describe 'Issue Labels', type: :system, js: true do
       expect(page).not_to have_content('issue with 2 labels: aaa, bbb')
       expect(page).to have_content('issue with 3 labels: aaa, bbb, ccc')
     end
+
+    it 'clicking label on list page filters by that label' do
+      visit namespace_project_issues_path(project.namespace.parent.full_path, project.path)
+
+      expect(page).to have_content('issue with 1 label: aaa')
+      expect(page).to have_content('issue with 2 labels: aaa, bbb')
+      expect(page).to have_content('issue with 3 labels: aaa, bbb, ccc')
+
+      click_link("issue_#{issue_with_two_labels.id}_label_#{label_bbb.id}")
+
+      expect(page).not_to have_content('issue with no labels')
+      expect(page).not_to have_content('issue with 1 label: aaa')
+      expect(page).to have_content('issue with 2 labels: aaa, bbb')
+      expect(page).to have_content('issue with 3 labels: aaa, bbb, ccc')
+    end
+
+    it 'clicking label on list page preserves search keyword' do
+      visit namespace_project_issues_path(project.namespace.parent.full_path, project.path, search: 'issue with 2')
+
+      expect(page).to have_content('issue with 2 labels: aaa, bbb')
+      expect(page).not_to have_content('issue with 1 label: aaa')
+      expect(page).not_to have_content('issue with 3 labels: aaa, bbb, ccc')
+
+      click_link("issue_#{issue_with_two_labels.id}_label_#{label_aaa.id}")
+
+      expect(current_url).to include('search=issue+with+2')
+      expect(current_url).to include('labels=aaa')
+      expect(page).to have_content('issue with 2 labels: aaa, bbb')
+      expect(page).not_to have_content('issue with 1 label: aaa')
+      expect(page).not_to have_content('issue with 3 labels: aaa, bbb, ccc')
+    end
   end
+
 end
 
