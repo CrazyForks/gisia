@@ -13,7 +13,10 @@ class Projects::EpicsController < Projects::ApplicationController
     @epics = @project.namespace.work_items.where(type: 'Epic')
                      .ransack(search_params)
                      .result(distinct: true)
-                     .includes(:author, :updated_by, :closed_by, :labels)
+
+    @epics = filter_by_labels(@epics, params[:labels]) if params[:labels].present?
+
+    @epics = @epics.includes(:author, :updated_by, :closed_by, :labels)
                      .order(created_at: :desc)
                      .page(params[:page])
                      .per(20)
@@ -112,6 +115,17 @@ class Projects::EpicsController < Projects::ApplicationController
   def set_counts
     @opened_count = @project.namespace.work_items.where(type: 'Epic', state_id: WorkItems::HasState::STATE_ID_MAP['opened']).count
     @closed_count = @project.namespace.work_items.where(type: 'Epic', state_id: WorkItems::HasState::STATE_ID_MAP['closed']).count
+  end
+
+  def filter_by_labels(epics, labels_param)
+    label_titles = labels_param.include?('|') ? labels_param.split('|').map(&:strip) : labels_param.split(',').map(&:strip)
+
+    if labels_param.include?('|')
+      epics.joins(:labels).where(labels: { title: label_titles }).distinct
+    else
+      label_link_ids = LabelLink.joins(:label).joins("INNER JOIN work_items ON work_items.id = label_links.labelable_id AND label_links.labelable_type = 'WorkItem'").where(labels: { title: label_titles }, work_items: { namespace_id: @project.namespace_id }).group('labelable_id').having('COUNT(*) = ?', label_titles.size).pluck('labelable_id')
+      epics.where(id: label_link_ids)
+    end
   end
 
   def epic_params
