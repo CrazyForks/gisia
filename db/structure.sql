@@ -1358,23 +1358,24 @@ ALTER SEQUENCE public.keys_id_seq OWNED BY public.keys.id;
 
 
 --
--- Name: label_work_items; Type: TABLE; Schema: public; Owner: -
+-- Name: label_links; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.label_work_items (
+CREATE TABLE public.label_links (
     id bigint NOT NULL,
     label_id bigint NOT NULL,
-    work_item_id bigint NOT NULL,
+    labelable_id bigint NOT NULL,
+    labelable_type character varying NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
 
 
 --
--- Name: label_work_items_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: label_links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.label_work_items_id_seq
+CREATE SEQUENCE public.label_links_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1383,10 +1384,10 @@ CREATE SEQUENCE public.label_work_items_id_seq
 
 
 --
--- Name: label_work_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: label_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.label_work_items_id_seq OWNED BY public.label_work_items.id;
+ALTER SEQUENCE public.label_links_id_seq OWNED BY public.label_links.id;
 
 
 --
@@ -2868,10 +2869,10 @@ ALTER TABLE ONLY public.keys ALTER COLUMN id SET DEFAULT nextval('public.keys_id
 
 
 --
--- Name: label_work_items id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: label_links id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.label_work_items ALTER COLUMN id SET DEFAULT nextval('public.label_work_items_id_seq'::regclass);
+ALTER TABLE ONLY public.label_links ALTER COLUMN id SET DEFAULT nextval('public.label_links_id_seq'::regclass);
 
 
 --
@@ -3375,11 +3376,11 @@ ALTER TABLE ONLY public.keys
 
 
 --
--- Name: label_work_items label_work_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: label_links label_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.label_work_items
-    ADD CONSTRAINT label_work_items_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.label_links
+    ADD CONSTRAINT label_links_pkey PRIMARY KEY (id);
 
 
 --
@@ -3790,6 +3791,13 @@ CREATE INDEX index_notes_on_updated_by_id ON ONLY public.notes USING btree (upda
 --
 
 CREATE INDEX epic_notes_updated_by_id_idx ON public.epic_notes USING btree (updated_by_id);
+
+
+--
+-- Name: idx_on_label_id_labelable_id_labelable_type_ba485d0134; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX idx_on_label_id_labelable_id_labelable_type_ba485d0134 ON public.label_links USING btree (label_id, labelable_id, labelable_type);
 
 
 --
@@ -4619,17 +4627,17 @@ CREATE INDEX index_keys_on_user_id ON public.keys USING btree (user_id);
 
 
 --
--- Name: index_label_work_items_on_label_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_label_links_on_label_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_label_work_items_on_label_id ON public.label_work_items USING btree (label_id);
+CREATE INDEX index_label_links_on_label_id ON public.label_links USING btree (label_id);
 
 
 --
--- Name: index_label_work_items_on_work_item_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_label_links_on_labelable_id_and_labelable_type; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_label_work_items_on_work_item_id ON public.label_work_items USING btree (work_item_id);
+CREATE INDEX index_label_links_on_labelable_id_and_labelable_type ON public.label_links USING btree (labelable_id, labelable_type);
 
 
 --
@@ -5813,12 +5821,21 @@ ALTER TABLE public.notes
 
 
 --
+-- Name: label_links fk_rails_d97dd08678; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.label_links
+    ADD CONSTRAINT fk_rails_d97dd08678 FOREIGN KEY (label_id) REFERENCES public.labels(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251031053851'),
 ('20251027145625'),
 ('20251027143233'),
 ('20251027143127'),
