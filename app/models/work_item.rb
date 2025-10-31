@@ -58,6 +58,13 @@ class WorkItem < ApplicationRecord
     '#' # Default for issues
   end
 
+  # `from` argument can be a Namespace or Project.
+  def to_reference(from = nil, full: false, absolute_path: false)
+    reference = "#{self.class.reference_prefix}#{iid}"
+
+    "#{namespace.to_reference_base(from, full: full, absolute_path: absolute_path)}#{reference}"
+  end
+
   # Override from Noteable concern
   def discussions_resolvable?
     true

@@ -21,11 +21,6 @@ class Issue < WorkItem
     '#'
   end
 
-  def to_reference(from = nil, full: false)
-    reference = "#{self.class.reference_prefix}#{iid}"
-    "#{namespace.to_reference_base(from, full: full)}#{reference}"
-  end
-
   def self.internal_id_scope_usage
     :issues
   end

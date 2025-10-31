@@ -79,6 +79,7 @@ class Project < ApplicationRecord
     delegate :owner
     delegate :visibility_level
     delegate :actual_limits, :actual_plan_name, :actual_plan, :root_ancestor, allow_nil: true
+    delegate :to_reference_base
   end
 
   with_options to: :pipeline_settings, allow_nil: true do
@@ -489,28 +490,6 @@ class Project < ApplicationRecord
       ProtectedBranch.protected?(self, ref_name)
     elsif Gitlab::Git.tag_ref?(resolved_ref)
       ProtectedTag.protected?(self, ref_name)
-    end
-  end
-
-  # `from` argument can be a Namespace or Project.
-  def to_reference_base(from = nil, full: false, absolute_path: false)
-    if full || cross_namespace_reference?(from)
-      absolute_path ? "/#{full_path}" : full_path
-    elsif cross_project_reference?(from)
-      path
-    end
-  end
-
-  def cross_namespace_reference?(from)
-    case from
-    when Project
-      namespace_id != from.namespace_id
-    when Namespaces::ProjectNamespace
-      namespace_id != from.parent_id
-    when Namespace
-      namespace != from
-    when User
-      true
     end
   end
 

@@ -20,6 +20,7 @@ class Namespace < ApplicationRecord
   include Namespaces::Traversal::Linear
   include Namespaces::Traversal::Cached
   include Namespaces::Traversal::Traversable
+  include Namespaces::HasReference
 
   URL_MAX_LENGTH = 255
   NUMBER_OF_ANCESTORS_ALLOWED = 20
@@ -153,12 +154,8 @@ class Namespace < ApplicationRecord
     false
   end
 
-  def to_reference_base(from = nil, full: false, absolute_path: false)
-    if full
-      absolute_path ? "/#{full_path}" : full_path
-    else
-      path
-    end
+  def project_namespace?
+    type == Namespaces::ProjectNamespace.sti_name
   end
 
   def full_path
