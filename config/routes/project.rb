@@ -28,6 +28,7 @@ constraints(::Constraints::ProjectUrlConstrainer.new) do
         draw :jobs
         draw :issues
         draw :epics
+        draw :boards
 
         # Notes routes
         resources :notes, only: [:show, :create, :edit, :update, :destroy] do
