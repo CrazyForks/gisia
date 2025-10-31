@@ -23,13 +23,13 @@ class Project < ApplicationRecord
   include Importable
   include Projects::MergeRequests
   include Projects::HasProtectedRefs
+  include Projects::HasBoard
 
   belongs_to :namespace, autosave: true, class_name: 'Namespaces::ProjectNamespace',
     foreign_key: 'namespace_id', inverse_of: :project, dependent: :destroy
   has_one :route, through: :namespace
   has_one :project_feature, inverse_of: :project, dependent: :destroy
   has_one :pipeline_settings, class_name: 'ProjectPipelineSetting', inverse_of: :project, dependent: :destroy
-  has_one :board, inverse_of: :project, dependent: :destroy
   has_many :all_pipelines, class_name: 'Ci::Pipeline', inverse_of: :project, dependent: :destroy
   has_many :variables, through: :namespace, class_name: 'Ci::Variable'
   has_many :builds, class_name: 'Ci::Build', inverse_of: :project
@@ -48,6 +48,9 @@ class Project < ApplicationRecord
   has_many :work_items, through: :namespace
   has_many :issues, -> { where(type: 'Issue') }, through: :namespace, source: :work_items, class_name: 'WorkItem'
   has_many :epics, -> { where(type: 'Epic') }, through: :namespace, source: :work_items, class_name: 'WorkItem'
+  has_many :labels, through: :namespace
+  has_one :board, through: :namespace
+
 
   accepts_nested_attributes_for :namespace
   accepts_nested_attributes_for :pipeline_settings

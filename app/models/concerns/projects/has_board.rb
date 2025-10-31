@@ -1,0 +1,62 @@
+# frozen_string_literal: true
+
+# ======================================================
+# Contains code from GitLab FOSS (MIT Licensed)
+# Copyright (c) GitLab Inc.
+# See .licenses/Gisia/others/gitlab-foss.dep.yml for full license
+#
+# Modifications and additions copyright (c) 2025 Liuming Tan
+# Licensed under AGPLv3 - see LICENSE file in this repository
+# ======================================================
+
+module Projects
+  module HasBoard
+    extend ActiveSupport::Concern
+
+    included do
+      after_create :create_default_board
+    end
+
+    private
+
+    def create_default_board
+      todo_label = namespace.labels.find_or_create_by(title: 'workflow::todo') do |label|
+        label.color = '#0052CC'
+      end
+
+      working_on_label = namespace.labels.find_or_create_by(title: 'workflow::working_on') do |label|
+        label.color = '#FFA500'
+      end
+
+      done_label = namespace.labels.find_or_create_by(title: 'workflow::done') do |label|
+        label.color = '#28A745'
+      end
+
+      board = Board.create!(
+        namespace: namespace,
+        updated_by_id: namespace.creator_id
+      )
+
+      BoardStage.create!(
+        board: board,
+        title: 'To Do',
+        label_ids: [todo_label.id],
+        rank: 0
+      )
+
+      BoardStage.create!(
+        board: board,
+        title: 'Working On',
+        label_ids: [working_on_label.id],
+        rank: 1
+      )
+
+      BoardStage.create!(
+        board: board,
+        title: 'Done',
+        label_ids: [done_label.id],
+        rank: 2
+      )
+    end
+  end
+end
