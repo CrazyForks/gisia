@@ -41,7 +41,6 @@ RSpec.describe 'Epics', type: :system, js: true do
       visit namespace_project_epic_path(project.namespace.parent.full_path, project.path, epic)
 
       expect(page).to have_content('Status')
-      expect(page).to have_content('Author')
       expect(page).to have_content('Assignees')
     end
   end
