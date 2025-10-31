@@ -159,7 +159,6 @@ ALTER SEQUENCE public.board_stages_id_seq OWNED BY public.board_stages.id;
 
 CREATE TABLE public.boards (
     id bigint NOT NULL,
-    project_id bigint NOT NULL,
     namespace_id bigint NOT NULL,
     updated_by_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
@@ -3996,13 +3995,6 @@ CREATE INDEX index_boards_on_namespace_id ON public.boards USING btree (namespac
 
 
 --
--- Name: index_boards_on_project_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_boards_on_project_id ON public.boards USING btree (project_id);
-
-
---
 -- Name: index_boards_on_updated_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5960,6 +5952,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251031144811'),
 ('20251031134526'),
 ('20251031134508'),
 ('20251031053851'),
