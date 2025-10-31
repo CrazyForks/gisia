@@ -13,7 +13,7 @@ class Projects::EpicsController < Projects::ApplicationController
     @epics = @project.namespace.work_items.where(type: 'Epic')
                      .ransack(search_params)
                      .result(distinct: true)
-                     .includes(:author, :updated_by, :closed_by)
+                     .includes(:author, :updated_by, :closed_by, :labels)
                      .order(created_at: :desc)
                      .page(params[:page])
                      .per(20)

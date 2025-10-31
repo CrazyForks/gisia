@@ -35,7 +35,7 @@
     - if @issues&.any?
       %div{ class: 'space-y-0' }
         - @issues.each_with_index do |issue, index|
-          %div{ class: "group flex items-start gap-4 px-6 py-5 hover:bg-slate-50/50 transition-all duration-200 #{'border-t border-slate-100' if index > 0}" }
+          %div{ class: "group flex items-start gap-4 px-6 py-2 hover:bg-slate-50/50 transition-all duration-200 #{'border-t border-slate-100' if index > 0}" }
             %div{ class: 'flex-1 min-w-0' }
               %div{ class: 'mb-2' }
                 %h3{ class: 'text-base font-semibold text-slate-900 hover:text-blue-600 transition-colors cursor-pointer' }
@@ -46,7 +46,7 @@
               - if issue.description.present?
                 %p{ class: 'text-sm text-slate-600 mb-3 line-clamp-2' }= truncate(strip_markdown(issue.description), length: 120)
 
-              %div{ class: 'flex items-center gap-4 text-sm' }
+              %div{ class: 'flex items-center gap-4 text-sm mb-3' }
                 %div{ class: 'flex items-center gap-2 text-slate-500' }
                   - if issue.author&.avatar&.present?
                     = image_tag issue.author.avatar_url, class: 'w-4 h-4 rounded-full'
@@ -61,6 +61,12 @@
                   %div{ class: 'flex items-center gap-1 text-slate-500' }
                     = icon 'calendar', class: 'w-3 h-3'
                     %span due #{issue.due_date.strftime("%b %d, %Y")}
+
+              - if issue.labels.any?
+                %div{ class: 'flex flex-wrap gap-2' }
+                  - issue.labels.each do |label|
+                    %span{ class: 'inline-flex items-center px-2 py-1 rounded-full text-xs font-medium', style: "background-color: #{label.color}20; color: #{label.color}" }
+                      = label.title
 
       - if @issues.respond_to?(:current_page)
         %div{ class: 'mt-8 flex justify-center' }

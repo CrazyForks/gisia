@@ -13,7 +13,7 @@ class Projects::IssuesController < Projects::ApplicationController
     @issues = @project.namespace.work_items.where(type: 'Issue')
                      .ransack(search_params)
                      .result(distinct: true)
-                     .includes(:author, :updated_by, :closed_by)
+                     .includes(:author, :updated_by, :closed_by, :labels)
                      .order(created_at: :desc)
                      .page(params[:page])
                      .per(20)
