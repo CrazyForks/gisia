@@ -91,6 +91,18 @@ class Projects::EpicsController < Projects::ApplicationController
     end
   end
 
+  def search_labels
+    @labels = @project.namespace.labels.limit(10)
+
+    @labels = @labels.ransack(title_cont: params[:q]).result if params[:q]
+
+    @selected_ids = params[:selected_ids]&.split(',')&.map(&:to_i) || []
+
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
   private
 
   def set_epic
@@ -103,6 +115,6 @@ class Projects::EpicsController < Projects::ApplicationController
   end
 
   def epic_params
-    params.require(:epic).permit(:title, :description, :confidential, :due_date, assignee_ids: [])
+    params.require(:epic).permit(:title, :description, :confidential, :due_date, assignee_ids: [], label_ids: [])
   end
 end
