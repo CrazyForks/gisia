@@ -46,9 +46,17 @@ class Projects::IssuesController < Projects::ApplicationController
     @issue.updated_by = current_user
 
     if @issue.update(issue_params)
-      redirect_to namespace_project_issue_path(@project.namespace.parent.full_path, @project.path, @issue), notice: 'Issue was successfully updated.'
+      respond_to do |format|
+        format.html do
+          redirect_to namespace_project_issue_path(@project.namespace.parent.full_path, @project.path, @issue), notice: 'Issue was successfully updated.'
+        end
+        format.turbo_stream
+      end
     else
-      render :edit, status: :unprocessable_entity
+      respond_to do |format|
+        format.html { render :edit, status: :unprocessable_entity }
+        format.turbo_stream { head :unprocessable_entity }
+      end
     end
   end
 
@@ -109,6 +117,6 @@ class Projects::IssuesController < Projects::ApplicationController
   end
 
   def issue_params
-    params.require(:issue).permit(:title, :description, :confidential, :due_date, assignee_ids: [])
+    params.require(:issue).permit(:title, :description, :confidential, :due_date, assignee_ids: [], label_ids: [])
   end
 end

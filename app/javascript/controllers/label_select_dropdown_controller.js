@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["dropdown", "options", "form", "searchForm", "queryInput", "selectedLabels", "checkbox"]
+  static targets = ["dropdown", "options", "form", "searchForm", "queryInput", "selectedLabels"]
   static values = { url: String, resourceId: String, resourceType: String, selected: String }
 
   connect() {
@@ -27,7 +27,6 @@ export default class extends Controller {
 
   selectedValueChanged() {
     this.loadSelectedLabels()
-    this.syncSelectedLabels()
   }
 
   syncSelectedLabels() {
@@ -42,8 +41,6 @@ export default class extends Controller {
         detail: { selectedIds }
       }))
     })
-
-    this.updateCheckboxStates()
 
     const searchInput = this.element.querySelector('input[type="text"]')
     if (searchInput && searchInput.value.trim()) {
@@ -113,13 +110,6 @@ export default class extends Controller {
     this.updateFormAndSubmit()
   }
 
-  updateCheckboxStates() {
-    this.checkboxTargets.forEach(checkbox => {
-      const labelId = checkbox.dataset.labelId
-      checkbox.checked = this.selectedLabels.has(labelId)
-    })
-  }
-
   updateFormAndSubmit() {
     const labelIds = Array.from(this.selectedLabels)
     const form = this.formTarget
@@ -148,8 +138,8 @@ export default class extends Controller {
     form.requestSubmit()
 
     setTimeout(() => {
-      this.selectedValue = labelIds.join(',')
-    }, 100)
+      this.hideDropdown()
+    }, 200)
   }
 
   showDropdown() {
