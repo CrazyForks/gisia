@@ -26,8 +26,8 @@ class WorkItem < ApplicationRecord
   has_many :children, class_name: 'WorkItem', foreign_key: 'parent_id'
   has_many :work_item_assignees, dependent: :destroy
   has_many :assignees, class_name: 'User', through: :work_item_assignees
-  has_many :label_work_items, dependent: :destroy
-  has_many :labels, through: :label_work_items
+  has_many :label_links, as: :labelable, dependent: :destroy
+  has_many :labels, through: :label_links
 
   validates :title, presence: true
   validates :confidential, inclusion: { in: [true, false] }

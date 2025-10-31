@@ -1,7 +1,8 @@
 class Label < ApplicationRecord
   belongs_to :namespace
-  has_many :label_work_items, dependent: :destroy
-  has_many :work_items, through: :label_work_items
+  has_many :label_links, dependent: :destroy
+  has_many :work_items, through: :label_links, source: :labelable, source_type: 'WorkItem'
+  has_many :merge_requests, through: :label_links, source: :labelable, source_type: 'MergeRequest'
 
   validates :title, presence: true
   validates :color, presence: true
