@@ -29,6 +29,7 @@ class Project < ApplicationRecord
   has_one :route, through: :namespace
   has_one :project_feature, inverse_of: :project, dependent: :destroy
   has_one :pipeline_settings, class_name: 'ProjectPipelineSetting', inverse_of: :project, dependent: :destroy
+  has_one :board, inverse_of: :project, dependent: :destroy
   has_many :all_pipelines, class_name: 'Ci::Pipeline', inverse_of: :project, dependent: :destroy
   has_many :variables, through: :namespace, class_name: 'Ci::Variable'
   has_many :builds, class_name: 'Ci::Build', inverse_of: :project
