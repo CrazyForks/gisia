@@ -120,6 +120,73 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: board_stages; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.board_stages (
+    id bigint NOT NULL,
+    board_id bigint NOT NULL,
+    title character varying,
+    label_ids jsonb DEFAULT '[]'::jsonb NOT NULL,
+    rank integer DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: board_stages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.board_stages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: board_stages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.board_stages_id_seq OWNED BY public.board_stages.id;
+
+
+--
+-- Name: boards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.boards (
+    id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    namespace_id bigint NOT NULL,
+    updated_by_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: boards_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.boards_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: boards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.boards_id_seq OWNED BY public.boards.id;
+
+
+--
 -- Name: ci_build_needs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2680,6 +2747,20 @@ ALTER TABLE ONLY public.application_settings ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- Name: board_stages id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.board_stages ALTER COLUMN id SET DEFAULT nextval('public.board_stages_id_seq'::regclass);
+
+
+--
+-- Name: boards id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.boards ALTER COLUMN id SET DEFAULT nextval('public.boards_id_seq'::regclass);
+
+
+--
 -- Name: ci_build_needs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3085,6 +3166,22 @@ ALTER TABLE ONLY public.application_settings
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: board_stages board_stages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.board_stages
+    ADD CONSTRAINT board_stages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: boards boards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.boards
+    ADD CONSTRAINT boards_pkey PRIMARY KEY (id);
 
 
 --
@@ -3882,6 +3979,34 @@ CREATE INDEX idx_on_target_project_id_merged_commit_sha_f498e76f62 ON public.mer
 --
 
 CREATE INDEX idx_on_target_project_id_squash_commit_sha_ae9a9a8632 ON public.merge_requests USING btree (target_project_id, squash_commit_sha);
+
+
+--
+-- Name: index_board_stages_on_board_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_board_stages_on_board_id ON public.board_stages USING btree (board_id);
+
+
+--
+-- Name: index_boards_on_namespace_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_boards_on_namespace_id ON public.boards USING btree (namespace_id);
+
+
+--
+-- Name: index_boards_on_project_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_boards_on_project_id ON public.boards USING btree (project_id);
+
+
+--
+-- Name: index_boards_on_updated_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_boards_on_updated_by_id ON public.boards USING btree (updated_by_id);
 
 
 --
@@ -5835,6 +5960,8 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251031134526'),
+('20251031134508'),
 ('20251031053851'),
 ('20251027145625'),
 ('20251027143233'),
