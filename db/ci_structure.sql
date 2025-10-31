@@ -162,7 +162,8 @@ CREATE TABLE public.boards (
     namespace_id bigint NOT NULL,
     updated_by_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    title character varying DEFAULT 'Default'::character varying
 );
 
 
@@ -5952,6 +5953,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251031152851'),
 ('20251031144811'),
 ('20251031134526'),
 ('20251031134508'),
