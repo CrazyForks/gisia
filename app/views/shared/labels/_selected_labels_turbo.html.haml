@@ -1,0 +1,10 @@
+= turbo_frame_tag "#{resource_type}-labels" do
+  %div{ data: { 'label-select-dropdown-target': 'selectedLabels' } }
+    - if labels&.any?
+      %div{ class: 'flex flex-wrap gap-2' }
+        - labels.each do |label|
+          %div{ class: 'inline-flex items-center gap-2 px-2 py-1 rounded-full text-xs font-medium', style: "background-color: #{label.color}20; color: #{label.color}" }
+            = label.title
+    - else
+      %div{ class: 'text-center py-3' }
+        %p{ class: 'text-xs text-slate-500' } No labels

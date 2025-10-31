@@ -1,0 +1,24 @@
+%div{ class: 'bg-white border border-slate-200 rounded-lg p-4', data: { controller: 'label-select-dropdown', 'label-select-dropdown-url-value': search_url, 'label-select-dropdown-selected-value': selected_label_ids, 'label-select-dropdown-resource-id-value': resource.id, 'label-select-dropdown-resource-type-value': resource_type } }
+
+  / Hidden form for updating resource with selected labels
+  = form_with url: update_url, local: false, method: :patch, data: { turbo_frame: "#{resource_type}-labels", 'label-select-dropdown-target': 'form' }, class: 'hidden' do |f|
+    / Populated dynamically by JavaScript
+
+  / Hidden form for searching labels
+  %form{ action: search_url, method: 'post', data: { turbo_frame: "label-dropdown-options", 'label-select-dropdown-target': 'searchForm' }, class: 'hidden' }
+    = hidden_field_tag :authenticity_token, form_authenticity_token
+    = hidden_field_tag :_method, 'get'
+    = hidden_field_tag :q, '', data: { 'label-select-dropdown-target': 'queryInput' }
+    = hidden_field_tag :selected_ids, '', name: 'selected_ids'
+
+  / Card header with title and edit button
+  %div{ class: 'mb-3 flex items-center justify-between' }
+    %h3{ class: 'text-sm font-semibold text-slate-900' } Labels
+    %div{ class: 'relative' }
+      %button{ class: 'inline-flex items-center px-2 py-1 text-xs text-blue-600 hover:text-blue-800 hover:bg-blue-50 font-medium rounded transition-colors', data: { action: 'click->label-select-dropdown#toggleDropdown' } }
+        Edit
+      / Label search dropdown
+      = render 'shared/labels/label_search_droplist'
+
+  / Selected labels display area
+  = render 'shared/labels/selected_labels_turbo', resource: resource, resource_type: resource_type, labels: labels, selected_label_ids: selected_label_ids

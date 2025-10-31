@@ -6,4 +6,8 @@ class Label < ApplicationRecord
   validates :title, presence: true
   validates :color, presence: true
   validates :namespace_id, presence: true
+
+  def self.ransackable_attributes(_auth_object = nil)
+    ['title']
+  end
 end

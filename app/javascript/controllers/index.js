@@ -10,6 +10,7 @@ import TagSelectController from "./projects/settings/tag_select_controller"
 import AvatarPreviewController from "./avatar_preview_controller"
 import LexxyMarkdownController from "./lexxy_markdown_controller"
 import UserSelectDropdownController from "./user_select_dropdown_controller"
+import LabelSelectDropdownController from "./label_select_dropdown_controller"
 import ReplyToggleController from "./reply_toggle_controller"
 import CopyController from "./copy_controller"
 import UsersSettingsKeysController from "./users/settings/keys_controller"
@@ -26,6 +27,7 @@ application.register("tag-select", TagSelectController)
 application.register("avatar-preview", AvatarPreviewController)
 application.register("lexxy-markdown", LexxyMarkdownController)
 application.register("user-select-dropdown", UserSelectDropdownController)
+application.register("label-select-dropdown", LabelSelectDropdownController)
 application.register("reply-toggle", ReplyToggleController)
 application.register("copy", CopyController)
 application.register("users--settings--keys", UsersSettingsKeysController)
