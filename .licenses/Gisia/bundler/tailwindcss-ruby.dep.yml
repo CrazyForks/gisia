@@ -1,6 +1,6 @@
 ---
 name: tailwindcss-ruby
-version: 4.0.12
+version: 4.1.16
 type: bundler
 summary: A self-contained `tailwindcss` executable.
 homepage: https://github.com/flavorjones/tailwindcss-ruby

@@ -1,6 +1,6 @@
 ---
 name: tailwindcss-rails
-version: 4.2.3
+version: 4.4.0
 type: bundler
 summary: Integrate Tailwind CSS with the asset pipeline in Rails.
 homepage: https://github.com/rails/tailwindcss-rails

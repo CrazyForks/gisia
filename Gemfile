@@ -71,8 +71,8 @@ gem 'doorkeeper', '~> 5.8', '>= 5.8.1'
 gem 'haml-rails', '~> 2.0'
 gem 'jwt', '~> 2.10', '>= 2.10.1'
 gem 'rails_icons', '~> 1.2'
-gem 'tailwindcss-rails', '~> 4.2'
-gem 'tailwindcss-ruby', '4.0.12'
+gem 'tailwindcss-rails', '~> 4.4'
+gem 'tailwindcss-ruby', '~> 4.1', '>= 4.1.16'
 
 gem 'attr_encrypted', '~> 4.2'
 ## Local Gems
