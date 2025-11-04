@@ -1,5 +1,9 @@
 # Quick start
 
+**⚠️ WARNING**
+
+Use official Docker installation instead of using snap on Ubuntu, see [issue #5 ](https://github.com/gisiahq/gisia/issues/5)
+
 ## Start the Gisia services
 
 Create the project folder
