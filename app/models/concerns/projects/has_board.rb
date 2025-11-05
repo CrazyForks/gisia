@@ -28,10 +28,6 @@ module Projects
         label.color = '#FFA500'
       end
 
-      done_label = namespace.labels.find_or_create_by(title: 'workflow::done') do |label|
-        label.color = '#28A745'
-      end
-
       board = Board.create!(
         namespace: namespace,
         updated_by_id: namespace.creator_id
@@ -54,7 +50,7 @@ module Projects
       BoardStage.create!(
         board: board,
         title: 'Done',
-        label_ids: [done_label.id],
+        label_ids: [],
         rank: 2
       )
     end
