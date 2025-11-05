@@ -12,6 +12,10 @@
         Plan
       %ul{class: 'space-y-0.5'}
         %li
+          = link_to namespace_project_boards_path(@project.namespace.parent.full_path, @project.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{sidebar_item_active?('plan', 'boards') ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
+            = icon 'kanban', class: "w-4 h-4 #{sidebar_item_active?('plan', 'boards') ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
+            %span Board
+        %li
           = link_to project_issues_path(@project), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{sidebar_item_active?('plan', 'issues') ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'note', class: "w-4 h-4 #{sidebar_item_active?('plan', 'issues') ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
             %span Issues

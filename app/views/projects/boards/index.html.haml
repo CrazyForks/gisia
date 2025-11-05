@@ -1,0 +1,24 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: @project.name, path: dashboard_project_path(@project) }, { label: 'Board', path: namespace_project_boards_path(@project.namespace.parent.full_path, @project.path) }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{ class: 'w-full bg-white', style: 'height: calc(100vh - 50px)' }
+  - if @stages_with_issues&.any?
+    %div{ class: 'px-6 py-4 overflow-x-auto', style: 'height: calc(100% - 64px)' }
+      %div{ class: 'flex gap-6 h-full' }
+        - @stages_with_issues.each do |stage_data|
+          - stage = stage_data[:stage]
+          - issues = stage_data[:issues]
+          %div{ class: 'flex flex-col flex-shrink-0 w-96 bg-slate-50 rounded-lg border border-slate-200' }
+            %div{ class: 'px-4 py-3 border-b border-slate-200 bg-white rounded-t-lg flex-shrink-0' }
+              %div{ class: 'flex items-center justify-between' }
+                %h2{ class: 'text-base font-semibold text-slate-900' }= stage.title
+                %span{ class: 'px-2 py-0.5 bg-slate-100 text-slate-600 rounded-full text-xs font-medium' }= issues.count
+
+            %div{ class: 'flex-1 overflow-y-auto p-3 space-y-3 min-h-0' }
+              - if issues.any?
+                - issues.each do |issue|
+                  = render 'shared/work_item_card', work_item: issue
+              - else
+                %div{ class: 'flex items-center justify-center py-8 text-slate-500 text-sm' }
+                  No issues

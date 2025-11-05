@@ -1,0 +1,21 @@
+%div{ class: 'p-3 bg-white border border-slate-200 rounded-lg hover:border-slate-300 hover:shadow-sm transition-all duration-200 cursor-pointer' }
+  = link_to work_item.title, issue_path(work_item), class: 'block text-sm font-medium text-slate-900 hover:text-blue-600 transition-colors mb-2 line-clamp-2'
+
+  - if work_item.labels.any?
+    %div{ class: 'flex flex-wrap gap-1 mb-2' }
+      - work_item.labels.each do |label|
+        %span{ class: 'inline-flex px-1.5 py-0.5 rounded text-xs font-medium', style: "background-color: #{label.color}20; color: #{label.color}" }
+          = label.title
+
+  %div{ class: 'flex items-center justify-between text-xs text-slate-500' }
+    %div{ class: 'flex items-center gap-1.5' }
+      - if work_item.author&.avatar&.present?
+        = image_tag work_item.author.avatar_url, class: 'w-4 h-4 rounded-full'
+      - else
+        %div{ class: 'w-4 h-4 rounded-full bg-gradient-to-br from-slate-400 to-slate-500 flex items-center justify-center text-xs font-bold text-white' }
+          = work_item.author&.name&.first&.upcase || '?'
+
+    - if work_item.due_date
+      %div{ class: 'flex items-center gap-0.5' }
+        = icon 'calendar', class: 'w-3 h-3'
+        = work_item.due_date.strftime("%b %d")

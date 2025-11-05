@@ -46,8 +46,8 @@ class Project < ApplicationRecord
   has_many :sourced_pipelines, class_name: 'Ci::Sources::Pipeline', foreign_key: :source_project_id
   has_many :source_pipelines, class_name: 'Ci::Sources::Pipeline', foreign_key: :project_id
   has_many :work_items, through: :namespace
-  has_many :issues, -> { where(type: 'Issue') }, through: :namespace, source: :work_items, class_name: 'WorkItem'
-  has_many :epics, -> { where(type: 'Epic') }, through: :namespace, source: :work_items, class_name: 'WorkItem'
+  has_many :issues, -> { includes(:namespace) }, through: :namespace
+  has_many :epics, -> { where(type: 'Epic').includes(:namespace) }, through: :namespace, source: :work_items, class_name: 'WorkItem'
   has_many :labels, through: :namespace
   has_one :board, through: :namespace
 

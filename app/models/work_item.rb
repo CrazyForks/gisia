@@ -39,6 +39,7 @@ class WorkItem < ApplicationRecord
   scope :confidential, -> { where(confidential: true) }
   scope :public_only, -> { where(confidential: false) }
   scope :with_state, ->(name) { where(state_id: name) }
+  scope :with_label_ids, ->(label_ids) { label_ids.blank? ? none : joins(:labels).where(labels: { id: label_ids }).distinct }
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[title description state_id author_id created_at updated_at]

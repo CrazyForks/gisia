@@ -31,7 +31,7 @@ module ApplicationHelper
 
   def sidebar_section_config
     {
-      plan: %w[projects/issues projects/epics],
+      plan: %w[projects/issues projects/epics projects/boards],
       repository: %w[projects projects/merge_requests projects/branches projects/tags projects/commits projects/tree projects/blob],
       ci_cd: %w[projects/pipelines projects/jobs]
     }
@@ -39,6 +39,10 @@ module ApplicationHelper
 
   def sidebar_item_config
     {
+      plan_boards: {
+        controller: 'projects/boards',
+        route_check: :namespace_project_boards_path_check
+      },
       plan_issues: {
         controller: 'projects/issues',
         route_check: :project_issues_path_check
@@ -80,6 +84,10 @@ module ApplicationHelper
     else
       controller_path == expected_controller
     end
+  end
+
+  def namespace_project_boards_path_check
+    namespace_project_boards_path(@project.namespace.parent.full_path, @project.path)
   end
 
   def project_issues_path_check
