@@ -16,6 +16,7 @@ import CopyController from "./copy_controller"
 import UsersSettingsKeysController from "./users/settings/keys_controller"
 import DiffNavigatorController from "./diff_navigator_controller"
 import ColorPickerController from "./color_picker_controller"
+import StageLabelSearchController from "./stage_label_search_controller"
 
 // Register controllers manually to ensure they're loaded
 application.register("search", SearchController)
@@ -33,5 +34,6 @@ application.register("copy", CopyController)
 application.register("users--settings--keys", UsersSettingsKeysController)
 application.register("diff-navigator", DiffNavigatorController)
 application.register("color-picker", ColorPickerController)
+application.register("stage-label-search", StageLabelSearchController)
 
 eagerLoadControllersFrom("controllers", application)

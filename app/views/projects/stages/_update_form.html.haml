@@ -1,0 +1,2 @@
+= form_with url: update_stage_namespace_project_board_stage_path(project.namespace.parent.full_path, project.path, board, stage), method: :patch, id: "board-stage-update-form-#{stage.id}", data: { turbo_frame: "selected-labels-#{stage.id}", stage_label_search_target: 'updateForm' }, style: 'display: none;' do |f|
+  %input{ type: 'hidden', name: 'stage[label_ids]', value: selected_label_ids&.join(',') || '', data: { 'stage-label-search-target': 'labelIds' } }

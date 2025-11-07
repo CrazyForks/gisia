@@ -1,0 +1,4 @@
+%button{ type: 'submit', form: "trigger-edit-stage-#{stage.id}", class: 'text-slate-400 hover:text-slate-600 p-0 bg-transparent border-0' }
+  = icon 'gear', class: 'w-4 h-4'
+
+%form{ id: "trigger-edit-stage-#{stage.id}", action: edit_stage_namespace_project_board_stage_path(@project.namespace.parent.full_path, @project.path, @board, stage), method: 'post', data: { turbo_stream: true }, style: 'display: none;' }

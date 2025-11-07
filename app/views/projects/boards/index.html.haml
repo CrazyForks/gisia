@@ -13,7 +13,12 @@
             %div{ class: 'px-4 py-3 border-b border-slate-200 bg-white rounded-t-lg flex-shrink-0' }
               %div{ class: 'flex items-center justify-between' }
                 %h2{ class: 'text-base font-semibold text-slate-900' }= stage.title
-                %span{ class: 'px-2 py-0.5 bg-slate-100 text-slate-600 rounded-full text-xs font-medium' }= issues.count
+                %div{ class: 'flex items-center gap-2' }
+                  - if @can_edit_board
+                    = render 'edit_stage_button', stage: stage
+                  %span{ class: 'px-2 py-0.5 bg-slate-100 text-slate-600 rounded-full text-xs font-medium' }= issues.count
+
+            = turbo_frame_tag "stage-labels-card-#{stage.id}"
 
             %div{ class: 'flex-1 overflow-y-auto p-3 space-y-3 min-h-0' }
               - if issues.any?

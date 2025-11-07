@@ -1,0 +1,3 @@
+= turbo_stream.replace "stage-label-dropdown-options-#{@stage.id}" do
+  = render 'droplist', stage: @stage, labels: @labels, selected_ids: @selected_ids
+
