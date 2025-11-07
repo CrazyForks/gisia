@@ -19,7 +19,13 @@ class Label < ApplicationRecord
   validates :color, presence: true
   validates :namespace_id, presence: true
 
+  scope :search_by_title, ->(keyword) { keyword.present? ? where('LOWER(title) LIKE ?', "%#{keyword.downcase}%") : none }
+
   def self.ransackable_attributes(_auth_object = nil)
     ['title']
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    ['namespace']
   end
 end
