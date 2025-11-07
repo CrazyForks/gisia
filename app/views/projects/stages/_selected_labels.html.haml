@@ -1,11 +1,11 @@
-- if (selected_label_ids || []).any?
-  %div{ class: 'flex flex-col gap-1 mt-1 pt-2 border-t border-slate-200' }
+%div{ class: 'flex flex-col gap-1 mt-1 pt-2 border-t border-slate-200' }
+  - if (selected_label_ids || []).any?
     %div{ class: 'flex flex-wrap gap-1' }
       - selected_label_ids.each do |label_id|
         - label = @project.namespace.labels.find_by(id: label_id)
         - if label
           %div{ class: 'inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs font-medium', id: "selected-label-#{stage.id}-#{label.id}", style: "background-color: #{label.color}20; color: #{label.color}" }
             = label.title
-    %div{ class: 'flex justify-end' }
-      %button{ type: 'button', class: 'px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded', data: { action: 'click->stage-label-search#hideCard' } }
-        Done
+  %div{ class: 'flex justify-end' }
+    %button{ type: 'button', class: 'px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded', data: { action: 'click->stage-label-search#hideCard' } }
+      Done
