@@ -16,7 +16,9 @@ class Projects::BoardsController < Projects::ApplicationController
   private
 
   def issues_for_stage(stage)
-    @project.namespace.issues.with_label_ids(stage.label_ids).includes(:author, :labels).order(created_at: :desc)
+    query = @project.namespace.issues.with_label_ids(stage.label_ids).includes(:author, :labels).order(created_at: :desc)
+    query = query.closed if stage.title == 'Closed'
+    query
   end
 
   def can_edit_board?
