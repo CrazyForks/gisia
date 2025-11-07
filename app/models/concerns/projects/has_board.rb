@@ -45,7 +45,7 @@ module Projects
 
       BoardStage.create!(
         board: board,
-        title: 'Done',
+        title: 'Closed',
         label_ids: [],
         rank: 2
       )

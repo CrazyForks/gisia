@@ -41,7 +41,18 @@ class WorkItem < ApplicationRecord
   scope :with_state, ->(name) { where(state_id: name) }
   scope :closed, -> { where(state_id: :closed) }
   scope :open, -> { where(state_id: :opened) }
-  scope :with_label_ids, ->(label_ids) { label_ids.blank? ? all : joins(:labels).where(labels: { id: label_ids }).distinct }
+  scope :with_label_ids, ->(label_ids) do
+    if label_ids.blank?
+      all
+    else
+      label_link_ids = LabelLink.joins(:label)
+                                .where(labels: { id: label_ids }, labelable_type: 'WorkItem')
+                                .group('labelable_id')
+                                .having('COUNT(*) = ?', label_ids.size)
+                                .pluck('labelable_id')
+      where(id: label_link_ids)
+    end
+  end
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[title description state_id author_id created_at updated_at]

@@ -1,5 +1,5 @@
 %div{ class: 'p-3 bg-white border border-slate-200 rounded-lg hover:border-slate-300 hover:shadow-sm transition-all duration-200 cursor-pointer' }
-  = link_to work_item.title, issue_path(work_item), class: 'block text-sm font-medium text-slate-900 hover:text-blue-600 transition-colors mb-2 line-clamp-2'
+  = link_to work_item.title, issue_path(work_item), turbo: false, target: '_blank', class: 'block text-sm font-medium text-slate-900 hover:text-blue-600 transition-colors mb-2 line-clamp-2'
 
   - if work_item.labels.any?
     %div{ class: 'flex flex-wrap gap-1 mb-2' }
