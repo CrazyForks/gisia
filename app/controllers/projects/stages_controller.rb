@@ -14,10 +14,11 @@ class Projects::StagesController < Projects::ApplicationController
   end
 
   def update_stage
-    label_ids = params[:stage][:label_ids]&.split(',')&.reject(&:blank?) || []
+    stage_params = params[:stage] || {}
+    label_ids = stage_params[:label_ids]&.split(',')&.reject(&:blank?) || []
     update_params = { label_ids: label_ids }.compact
-    update_params[:title] = params[:stage][:title] if params[:stage][:title].present?
-    update_params[:rank] = params[:stage][:rank] if params[:stage][:rank].present?
+    update_params[:title] = params[:title] if params[:title].present?
+    update_params[:rank] = params[:rank] if params[:rank].present?
     @stage.update(update_params)
 
     respond_to do |format|

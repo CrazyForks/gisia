@@ -1,12 +1,4 @@
 = turbo_stream.replace "selected-labels-#{@stage.id}" do
-  = render 'projects/stages/selected_labels', stage: @stage, selected_label_ids: @stage.label_ids
-
-= turbo_stream.replace "stage-labels-card-#{@stage.id}" do
-  - selected_ids_str = @stage.label_ids&.join(',') || ''
-  %div{ class: "bg-white border-b border-slate-200 p-4", id: "stage-labels-card-#{@stage.id}", data: { controller: 'stage-label-search', 'stage-label-search-stage-id-value': @stage.id, 'stage-label-search-selected-value': selected_ids_str, 'stage-label-search-target': 'card' } }
-
-    = render 'projects/stages/search_form', stage: @stage, board: @board, project: @project, selected_label_ids: @stage.label_ids
-    = render 'projects/stages/update_form', stage: @stage, board: @board, project: @project, selected_label_ids: @stage.label_ids
-
-    = turbo_frame_tag "selected-labels-#{@stage.id}" do
-      = render 'projects/stages/selected_labels', stage: @stage, selected_label_ids: @stage.label_ids
+  = turbo_frame_tag "selected-labels-#{@stage.id}" do
+    = render 'projects/stages/selected_labels', stage: @stage, selected_label_ids: @stage.label_ids
+    = render 'projects/stages/stage_edit_form', stage: @stage, board: @board, project: @project

@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["dropdown", "options", "updateForm", "searchForm", "queryInput", "card", "labelIds"]
+  static targets = ["dropdown", "options", "updateForm", "stageEditForm", "searchForm", "queryInput", "card", "labelIds"]
   static values = { stageId: Number, selected: String }
 
   searchTimeout = null
@@ -12,6 +12,9 @@ export default class extends Controller {
   }
 
   hideCard() {
+    if (this.hasStageEditFormTarget) {
+      this.stageEditFormTarget.requestSubmit()
+    }
     if (this.hasCardTarget) {
       this.cardTarget.classList.add('hidden')
     }
