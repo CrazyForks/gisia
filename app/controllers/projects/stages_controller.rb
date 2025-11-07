@@ -15,7 +15,10 @@ class Projects::StagesController < Projects::ApplicationController
 
   def update_stage
     label_ids = params[:stage][:label_ids]&.split(',')&.reject(&:blank?) || []
-    @stage.update(label_ids: label_ids)
+    update_params = { label_ids: label_ids }.compact
+    update_params[:title] = params[:stage][:title] if params[:stage][:title].present?
+    update_params[:rank] = params[:stage][:rank] if params[:stage][:rank].present?
+    @stage.update(update_params)
 
     respond_to do |format|
       format.turbo_stream

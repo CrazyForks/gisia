@@ -6,3 +6,8 @@
 
   = turbo_frame_tag "selected-labels-#{stage.id}" do
     = render 'projects/stages/selected_labels', stage: stage, selected_label_ids: selected_label_ids
+    = render 'projects/stages/stage_edit_form', stage: stage, board: @board, project: @project
+
+  %div{ class: 'flex justify-end pt-2 mt-2 border-slate-200' }
+    %button{ type: 'button', class: 'px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded', data: { action: 'click->stage-label-search#hideCard' } }
+      Done
