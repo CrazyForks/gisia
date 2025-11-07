@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Projects::StagesController < Projects::ApplicationController
+  include StageIssuesFilterable
+
   before_action :authorize_maintainer
   before_action :set_board
   before_action :set_stage
@@ -14,12 +16,25 @@ class Projects::StagesController < Projects::ApplicationController
   end
 
   def update_stage
-    stage_params = params[:stage] || {}
-    label_ids = stage_params[:label_ids]&.split(',')&.reject(&:blank?) || []
-    update_params = { label_ids: label_ids }.compact
+    update_params = {}
     update_params[:title] = params[:title] if params[:title].present?
     update_params[:rank] = params[:rank] if params[:rank].present?
     @stage.update(update_params)
+    @issues = issues_for_stage
+    @can_edit_board = can_edit_board?
+
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
+  def update_labels
+    stage_params = params[:stage] || {}
+    label_ids = stage_params[:label_ids]&.split(',')&.reject(&:blank?) || []
+    update_params = { label_ids: label_ids }.compact
+    @stage.update(update_params)
+    @issues = issues_for_stage
+    @can_edit_board = can_edit_board?
 
     respond_to do |format|
       format.turbo_stream
@@ -40,6 +55,11 @@ class Projects::StagesController < Projects::ApplicationController
   def authorize_maintainer
     access_level = @project.team.max_member_access(current_user.id)
     redirect_to root_path unless access_level >= Gitlab::Access::MAINTAINER
+  end
+
+  def can_edit_board?
+    access_level = @project.team.max_member_access(current_user.id)
+    access_level >= Gitlab::Access::MAINTAINER
   end
 
   def set_board

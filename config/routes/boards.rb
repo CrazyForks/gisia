@@ -5,6 +5,7 @@ resources :boards, only: [:index] do
     member do
       post :edit_stage
       patch :update_stage
+      patch :update_labels
       post :search_stage_labels
     end
   end

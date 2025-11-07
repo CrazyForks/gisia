@@ -1,0 +1,4 @@
+= turbo_stream.replace "selected-labels-#{@stage.id}" do
+  = turbo_frame_tag "selected-labels-#{@stage.id}" do
+    = render 'projects/stages/selected_labels', stage: @stage, selected_label_ids: @stage.label_ids
+    = render 'projects/stages/stage_edit_form', stage: @stage, board: @board, project: @project
