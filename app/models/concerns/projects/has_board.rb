@@ -20,10 +20,6 @@ module Projects
     private
 
     def create_default_board
-      todo_label = namespace.labels.find_or_create_by(title: 'workflow::todo') do |label|
-        label.color = '#0052CC'
-      end
-
       working_on_label = namespace.labels.find_or_create_by(title: 'workflow::working_on') do |label|
         label.color = '#FFA500'
       end
@@ -35,8 +31,8 @@ module Projects
 
       BoardStage.create!(
         board: board,
-        title: 'To Do',
-        label_ids: [todo_label.id],
+        title: 'Open',
+        label_ids: [],
         rank: 0
       )
 
