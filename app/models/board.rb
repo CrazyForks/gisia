@@ -12,6 +12,7 @@
 class Board < ApplicationRecord
   belongs_to :namespace
   belongs_to :updated_by, class_name: 'User'
+  has_one :project, through: :namespace
   has_many :stages, class_name: 'BoardStage', dependent: :destroy
 end
 

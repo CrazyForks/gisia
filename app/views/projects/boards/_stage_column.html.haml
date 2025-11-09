@@ -1,7 +1,10 @@
-= turbo_frame_tag "stage-column-#{stage.id}" do
-  %div{ class: 'flex flex-col flex-shrink-0 w-96 h-full bg-slate-50 rounded-lg border border-slate-200' }
+= turbo_frame_tag "stage-column-#{stage.id}", class: 'contents' do
+  %div{ class: 'flex flex-col flex-1 min-w-40 h-full bg-slate-50 rounded-lg border border-slate-200', id: (stage.closed? ? 'closed-stage' : nil) }
     = render 'projects/boards/stage_header', stage: stage, issues: issues
-    = turbo_frame_tag "stage-labels-card-#{stage.id}"
+    - if @show_edit_form
+      = render 'projects/stages/labels_edit_card', stage: stage, board: @board, project: @project, selected_label_ids: stage.label_ids
+    - else
+      = turbo_frame_tag "stage-labels-card-#{stage.id}"
     %div{ class: 'flex-1 overflow-y-auto p-3 space-y-3 min-h-0' }
       - if issues.any?
         - issues.each do |issue|

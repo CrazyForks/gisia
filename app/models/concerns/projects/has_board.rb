@@ -50,6 +50,7 @@ module Projects
       BoardStage.create!(
         board: board,
         title: 'Closed',
+        kind: :closed,
         label_ids: [],
         rank: 2
       )

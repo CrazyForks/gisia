@@ -5,7 +5,25 @@ class Projects::StagesController < Projects::ApplicationController
 
   before_action :authorize_maintainer
   before_action :set_board
-  before_action :set_stage
+  before_action :set_stage, except: [:create]
+
+  def create
+    @stage = @board.stages.build(title: params[:title] || 'List')
+    @stage.rank = closed_stage.rank if closed_stage
+
+    ActiveRecord::Base.transaction do
+      @stage.save
+      closed_stage.update(rank: closed_stage.rank + 1) if closed_stage
+    end
+
+    @issues = issues_for_stage
+    @can_edit_board = can_edit_board?
+    @show_edit_form = true
+
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
 
   def edit_stage
     @labels = @project.namespace.labels
@@ -68,5 +86,9 @@ class Projects::StagesController < Projects::ApplicationController
 
   def set_stage
     @stage = @board.stages.find(params[:id])
+  end
+
+  def closed_stage
+    @closed_stage ||= @board.stages.find_by(kind: :closed)
   end
 end

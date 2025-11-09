@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 resources :boards, only: [:index] do
-  resources :stages, only: [] do
+  resources :stages, only: [:create] do
     member do
       post :edit_stage
       patch :update_stage
