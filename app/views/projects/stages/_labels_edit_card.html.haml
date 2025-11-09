@@ -8,6 +8,9 @@
     = render 'projects/stages/selected_labels', stage: stage, selected_label_ids: selected_label_ids
     = render 'projects/stages/stage_edit_form', stage: stage, board: @board, project: @project
 
-  %div{ class: 'flex justify-end pt-2 mt-2 border-slate-200' }
+  %div{ class: 'flex justify-end gap-2 pt-2 mt-2 border-slate-200' }
+    - unless stage.closed?
+      = button_to namespace_project_board_stage_path(project.namespace.parent.full_path, project.path, board, stage), method: :delete, form: { data: { turbo_confirm: "Are you sure you want to delete this stage?" } }, class: 'px-2 py-0.5 bg-red-50 hover:bg-red-100 text-red-700 text-xs font-medium rounded', remote: true do
+        Delete
     %button{ type: 'button', class: 'px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded', data: { action: 'click->stage-label-search#hideCard' } }
       Done

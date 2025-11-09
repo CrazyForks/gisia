@@ -67,6 +67,18 @@ class Projects::StagesController < Projects::ApplicationController
     end
   end
 
+  def destroy
+    if @stage.closed?
+      flash.now[:alert] = "Cannot delete the closed stage"
+    else
+      @stage.destroy
+    end
+
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
   private
 
   def authorize_maintainer

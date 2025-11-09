@@ -1,2 +1,2 @@
 = turbo_stream.replace "stage-labels-card-#{@stage.id}" do
-  = render 'labels_edit_card', stage: @stage, selected_label_ids: @stage.label_ids
+  = render 'labels_edit_card', stage: @stage, board: @board, project: @project, selected_label_ids: @stage.label_ids
