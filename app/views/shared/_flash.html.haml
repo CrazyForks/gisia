@@ -1,7 +1,7 @@
-%div{class: 'min-h-screen flex flex-col'}
-  - if notice
-    %div{class: 'bg-green-500 text-white text-center py-3 px-5 rounded-md mt-4 mx-5'}
-      = notice
-  - if alert
-    %div{class: 'bg-red-500 text-white text-center py-3 px-5 rounded-md my-4 mx-5'}
-      = alert
+%div#flash{ class: 'fixed top-0 left-64 right-0 z-21' }
+  - if flash.any?
+    - flash.each do |type, message|
+      %div.flash-message{ class: "px-6 py-3 flex items-center justify-between #{type.to_sym == :alert ? 'bg-red-50 text-red-800 border-b border-red-200' : 'bg-green-50 text-green-800 border-b border-green-200'}", 'data-controller': 'flash-message' }
+        = message
+        %button.close-flash{ class: 'ml-4 text-lg font-bold cursor-pointer hover:opacity-70', type: 'button', 'data-action': 'click->flash-message#close' }
+          ×

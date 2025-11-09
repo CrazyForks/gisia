@@ -11,14 +11,13 @@ class Projects::StagesController < Projects::ApplicationController
     @stage = @board.stages.build(title: params[:title] || 'List')
     @stage.rank = closed_stage.rank if closed_stage
 
-    ActiveRecord::Base.transaction do
-      @stage.save
-      closed_stage.update(rank: closed_stage.rank + 1) if closed_stage
+    if @stage.save
+      @issues = issues_for_stage
+      @can_edit_board = can_edit_board?
+      @show_edit_form = true
+    else
+      flash.now[:alert] = @stage.errors.full_messages.join(', ')
     end
-
-    @issues = issues_for_stage
-    @can_edit_board = can_edit_board?
-    @show_edit_form = true
 
     respond_to do |format|
       format.turbo_stream

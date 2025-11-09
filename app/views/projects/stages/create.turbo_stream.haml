@@ -1,2 +1,6 @@
-= turbo_stream.before 'closed-stage' do
-  = render 'projects/boards/stage_column', stage: @stage, issues: @issues
+- if @stage.persisted?
+  = turbo_stream.before 'closed-stage' do
+    = render 'projects/boards/stage_column', stage: @stage, issues: @issues
+- else
+  = turbo_stream.replace 'flash' do
+    = render 'shared/flash'

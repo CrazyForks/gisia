@@ -7,5 +7,14 @@ class BoardStage < ApplicationRecord
 
   validates :kind, uniqueness: { scope: :board_id, if: -> { kind == 'closed' }, message: 'can only have one closed stage per board' }
 
+  after_save :increment_closed_stage_rank, if: :new_record?
+
   enum :kind, WorkItems::HasState::STATE_ID_MAP
+
+  private
+
+  def increment_closed_stage_rank
+    closed_stage = board.stages.find_by(kind: :closed)
+    closed_stage&.increment!(:rank)
+  end
 end
