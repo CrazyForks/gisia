@@ -130,7 +130,8 @@ CREATE TABLE public.board_stages (
     label_ids jsonb DEFAULT '[]'::jsonb NOT NULL,
     rank integer DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    kind integer DEFAULT 0
 );
 
 
@@ -3989,6 +3990,13 @@ CREATE INDEX index_board_stages_on_board_id ON public.board_stages USING btree (
 
 
 --
+-- Name: index_board_stages_on_board_id_and_closed_kind; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_board_stages_on_board_id_and_closed_kind ON public.board_stages USING btree (board_id, kind) WHERE (kind = 2);
+
+
+--
 -- Name: index_boards_on_namespace_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5953,6 +5961,8 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251109083811'),
+('20251109082817'),
 ('20251031152851'),
 ('20251031144811'),
 ('20251031134526'),
