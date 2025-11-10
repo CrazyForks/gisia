@@ -32,9 +32,10 @@ class ProjectsController < Projects::ApplicationController
 
   def update
     if @project.update(project_params)
-      redirect_to namespace_project_path(@project.namespace.parent.full_path, @project.path), notice: 'Project was successfully updated.'
+      redirect_to edit_namespace_project_path(@project.namespace.parent.full_path, @project.path), notice: 'Project was successfully updated.'
     else
-      render :edit
+      flash[:errors] = @project.errors.full_messages
+      redirect_to edit_namespace_project_path(@project.namespace.parent.full_path, @project.path), alert: 'Please correct the errors below.'
     end
   end
 
@@ -55,6 +56,7 @@ class ProjectsController < Projects::ApplicationController
       :name,
       :path,
       :description,
+      :workflows,
       :namespace_parent_id,
       namespace_attributes: %i[id parent_id visibility_level]
     )

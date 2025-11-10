@@ -96,6 +96,7 @@ class Project < ApplicationRecord
   after_initialize :use_hashed_storage
   before_validation :ensure_namespace
   validate :parent_namespace_present
+  validates :workflows, workflows: true
   after_commit :create_repository, on: :create
   after_create -> { create_or_load_association(:project_feature) }
   after_create -> { create_or_load_association(:ci_cd_settings) }
