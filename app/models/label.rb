@@ -20,6 +20,14 @@ class Label < ApplicationRecord
   validates :namespace_id, presence: true
 
   scope :search_by_title, ->(keyword) { keyword.present? ? where('LOWER(title) LIKE ?', "%#{keyword.downcase}%") : none }
+  scope :with_scopes, ->(prefixes) do
+    return none if prefixes.blank?
+
+    prefixes = Array(prefixes)
+    conditions = prefixes.map { |prefix| "title LIKE ?" }.join(' OR ')
+    values = prefixes.map { |prefix| "#{prefix}%" }
+    where(conditions, *values)
+  end
 
   def self.ransackable_attributes(_auth_object = nil)
     ['title']

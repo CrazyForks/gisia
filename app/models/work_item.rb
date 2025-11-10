@@ -15,6 +15,7 @@ class WorkItem < ApplicationRecord
   include Issuable
   include Referable
   include WorkItems::HasState
+  include WorkItems::HasWorkflows
 
   belongs_to :author, class_name: 'User'
   belongs_to :updated_by, class_name: 'User', optional: true

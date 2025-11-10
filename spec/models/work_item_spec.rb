@@ -32,6 +32,41 @@ RSpec.describe WorkItem, type: :model do
           expect(work_item).to be_closed
         end
       end
+
+      context 'with workflow labels' do
+        let(:project) { create(:project, workflows: 'workflow::, status::') }
+        let(:work_item) { create(:work_item, namespace: project.namespace) }
+        let(:workflow_label) { create(:label, namespace: project.namespace, title: 'workflow::dev') }
+        let(:status_label) { create(:label, namespace: project.namespace, title: 'status::todo') }
+        let(:other_label) { create(:label, namespace: project.namespace, title: 'priority::high') }
+
+        before do
+          work_item.labels << [workflow_label, status_label, other_label]
+        end
+
+        it 'removes workflow-scoped labels when closing' do
+          expect(work_item.labels).to include(workflow_label, status_label, other_label)
+
+          work_item.close
+
+          work_item.reload
+          expect(work_item.labels).not_to include(workflow_label, status_label)
+          expect(work_item.labels).to include(other_label)
+        end
+
+        context 'when project workflows are blank' do
+          let(:project) { create(:project, workflows: '') }
+
+          it 'does not remove any labels when closing' do
+            expect(work_item.labels).to include(workflow_label, status_label, other_label)
+
+            work_item.close
+
+            work_item.reload
+            expect(work_item.labels).to include(workflow_label, status_label, other_label)
+          end
+        end
+      end
     end
   end
 end
