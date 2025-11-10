@@ -6,10 +6,14 @@
       = render 'projects/stages/labels_edit_card', stage: stage, board: @board, project: @project, selected_label_ids: stage.label_ids
     - else
       = turbo_frame_tag "stage-labels-card-#{stage.id}"
-    %div{ class: 'flex-1 overflow-y-auto p-3 space-y-3 min-h-0' }
+    %div{ class: 'flex-1 overflow-y-auto p-3 space-y-3 min-h-0', data: { 'stage-id': stage.id, action: 'dragover->board-drag#dragOver dragleave->board-drag#dragLeave drop->board-drag#drop' } }
       - if issues.any?
         - issues.each do |issue|
           = render 'shared/work_item_card', work_item: issue
       - else
         %div{ class: 'flex items-center justify-center py-8 text-slate-500 text-sm' }
           No issues
+    - proj = local_assigns[:project] || @project
+    = form_with url: move_stage_namespace_project_issue_path(proj.namespace.parent.full_path, proj.path, 0), local: true, id: "move-stage-form-#{stage.id}", class: 'hidden' do |f|
+      = f.hidden_field :from_stage_id, value: ''
+      = f.hidden_field :to_stage_id, value: stage.id

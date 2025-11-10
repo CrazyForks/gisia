@@ -5,6 +5,10 @@ class BoardStage < ApplicationRecord
 
   scope :ordered, -> { order(:rank) }
 
+  def labels
+    Label.where(id: label_ids)
+  end
+
   validates :kind, uniqueness: { scope: :board_id, if: -> { kind == 'closed' }, message: 'can only have one closed stage per board' }
 
   after_create :increment_closed_stage_rank

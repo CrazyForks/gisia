@@ -1,0 +1,6 @@
+- if @from_stage
+  = turbo_stream.replace "stage-column-#{@from_stage.id}" do
+    = render 'projects/boards/stage_column', stage: @from_stage, issues: @from_stage_issues, project: @project
+
+= turbo_stream.replace "stage-column-#{@to_stage.id}" do
+  = render 'projects/boards/stage_column', stage: @to_stage, issues: @to_stage_issues, project: @project

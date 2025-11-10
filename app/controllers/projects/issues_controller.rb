@@ -1,4 +1,6 @@
 class Projects::IssuesController < Projects::ApplicationController
+  include StageIssuesFilterable
+
   before_action :set_issue, only: [:show, :edit, :update, :destroy, :close, :reopen, :move_stage]
   before_action :set_counts, only: [:index]
 
@@ -79,11 +81,16 @@ class Projects::IssuesController < Projects::ApplicationController
   end
 
   def move_stage
-    to_stage = @project.namespace.board.stages.find(params[:to_stage_id])
+    @to_stage = @project.namespace.board.stages.find(params[:to_stage_id])
+    @from_stage = @project.namespace.board.stages.find(params[:from_stage_id])
 
-    to_stage.labels.each do |label|
-      @issue.labels << label unless @issue.labels.include?(label)
-    end
+    @from_stage_issues = issues_for_stage(@from_stage) if @from_stage
+    @to_stage_issues = issues_for_stage(@to_stage)
+
+    return head :no_content if @from_stage == @to_stage
+
+    @issue.label_ids |= @to_stage.label_ids
+    @issue.save
 
     respond_to do |format|
       format.turbo_stream
