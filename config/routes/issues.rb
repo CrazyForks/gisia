@@ -8,5 +8,6 @@ resources :issues, constraints: { id: /\d+/ } do
   member do
     patch :close
     patch :reopen
+    post :move_stage
   end
 end

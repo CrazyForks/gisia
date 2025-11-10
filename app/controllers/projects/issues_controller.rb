@@ -1,5 +1,5 @@
 class Projects::IssuesController < Projects::ApplicationController
-  before_action :set_issue, only: [:show, :edit, :update, :destroy, :close, :reopen]
+  before_action :set_issue, only: [:show, :edit, :update, :destroy, :close, :reopen, :move_stage]
   before_action :set_counts, only: [:index]
 
   def index
@@ -76,6 +76,18 @@ class Projects::IssuesController < Projects::ApplicationController
   def reopen
     @issue.reopen!
     redirect_to namespace_project_issue_path(@project.namespace.parent.full_path, @project.path, @issue), notice: 'Issue was reopened.'
+  end
+
+  def move_stage
+    to_stage = @project.namespace.board.stages.find(params[:to_stage_id])
+
+    to_stage.labels.each do |label|
+      @issue.labels << label unless @issue.labels.include?(label)
+    end
+
+    respond_to do |format|
+      format.turbo_stream
+    end
   end
 
   def search_users
