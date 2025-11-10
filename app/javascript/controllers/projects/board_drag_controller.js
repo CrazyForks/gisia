@@ -32,10 +32,16 @@ export default class extends Controller {
     const toStageId = e.currentTarget.dataset.stageId
     const fromStageId = draggedCard.closest('[data-stage-id]').dataset.stageId
 
-    if (!workItemId || !toStageId || !fromStageId) return
+    if (!workItemId || !toStageId || !fromStageId) {
+      console.error('Missing values', { workItemId, toStageId, fromStageId })
+      return
+    }
 
     const form = document.querySelector(`#move-stage-form-${toStageId}`)
-    if (!form) return
+    if (!form) {
+      console.error(`Form not found: #move-stage-form-${toStageId}`)
+      return
+    }
 
     form.action = form.action.replace(/\/0\/move_stage/, `/${workItemId}/move_stage`)
 
