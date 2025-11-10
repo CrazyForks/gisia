@@ -1,7 +1,7 @@
 class Projects::IssuesController < Projects::ApplicationController
   include StageIssuesFilterable
 
-  before_action :set_issue, only: [:show, :edit, :update, :destroy, :close, :reopen, :move_stage]
+  before_action :set_issue, only: [:show, :edit, :update, :destroy, :close, :reopen, :move_stage, :link_labels, :unlink_label]
   before_action :set_counts, only: [:index]
 
   def index
@@ -83,13 +83,33 @@ class Projects::IssuesController < Projects::ApplicationController
   def move_stage
     @to_stage = @project.namespace.board.stages.find(params[:to_stage_id])
     @from_stage = @project.namespace.board.stages.find(params[:from_stage_id])
+    @board = @project.namespace.board
+    @can_edit_board = can_edit_board?
+
+    return head :no_content if @from_stage == @to_stage
+
+    @issue.relink_label_ids(@to_stage.label_ids)
+    @issue.save
 
     @from_stage_issues = issues_for_stage(@from_stage) if @from_stage
     @to_stage_issues = issues_for_stage(@to_stage)
 
-    return head :no_content if @from_stage == @to_stage
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
 
-    @issue.label_ids |= @to_stage.label_ids
+  def link_labels
+    @issue.relink_label_ids(label_params)
+    @issue.save
+
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
+  def unlink_label
+    @issue.label_ids = @issue.label_ids - label_params
     @issue.save
 
     respond_to do |format|
@@ -150,6 +170,10 @@ class Projects::IssuesController < Projects::ApplicationController
   end
 
   def issue_params
-    params.require(:issue).permit(:title, :description, :confidential, :due_date, assignee_ids: [], label_ids: [])
+    params.require(:issue).permit(:title, :description, :confidential, :due_date, assignee_ids: [])
+  end
+
+  def label_params
+    params.dig(:issue, :label_ids)&.map(&:to_i) || []
   end
 end

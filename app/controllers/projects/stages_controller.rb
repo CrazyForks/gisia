@@ -86,11 +86,6 @@ class Projects::StagesController < Projects::ApplicationController
     redirect_to root_path unless access_level >= Gitlab::Access::MAINTAINER
   end
 
-  def can_edit_board?
-    access_level = @project.team.max_member_access(current_user.id)
-    access_level >= Gitlab::Access::MAINTAINER
-  end
-
   def set_board
     @board = @project.namespace.board
   end

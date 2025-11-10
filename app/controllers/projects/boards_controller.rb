@@ -15,11 +15,5 @@ class Projects::BoardsController < Projects::ApplicationController
     end
   end
 
-  private
-
-  def can_edit_board?
-    access_level = @project.team.max_member_access(current_user.id)
-    access_level >= Gitlab::Access::MAINTAINER
-  end
 end
 

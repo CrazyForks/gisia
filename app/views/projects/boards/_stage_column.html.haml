@@ -1,7 +1,7 @@
 - newly_created ||= false
 = turbo_frame_tag "stage-column-#{stage.id}", class: 'flex flex-col flex-1 min-w-40 h-full' do
   %div{ class: "bg-slate-50 rounded-lg border border-slate-200 h-full flex flex-col#{newly_created ? ' bg-green-50 border-green-200 shadow-[0_0_0_3px_rgba(34,197,94,0.3)]' : ''}", id: (stage.closed? ? 'closed-stage' : nil) }
-    = render 'projects/boards/stage_header', stage: stage, issues: issues
+    = render 'projects/boards/stage_header', stage: stage, issues: issues, can_edit_board: @can_edit_board
     - if @show_edit_form
       = render 'projects/stages/labels_edit_card', stage: stage, board: @board, project: @project, selected_label_ids: stage.label_ids
     - else

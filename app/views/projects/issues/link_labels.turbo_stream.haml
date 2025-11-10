@@ -1,0 +1,2 @@
+= turbo_stream.replace "issue-labels" do
+  = render 'shared/labels/selected_labels_turbo', resource: @issue, resource_type: 'issue', labels: @issue.labels, selected_label_ids: @issue.label_ids.join(',')
