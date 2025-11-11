@@ -87,9 +87,12 @@ class Projects::IssuesController < Projects::ApplicationController
     @can_edit_board = can_edit_board?
 
     return head :no_content if @from_stage == @to_stage
+    return head :no_content if @issue.closed?
 
     @issue.relink_label_ids(@to_stage.label_ids)
     @issue.save
+
+    @issue.close!(current_user) if @to_stage.kind == 'closed'
 
     @from_stage_issues = issues_for_stage(@from_stage) if @from_stage
     @to_stage_issues = issues_for_stage(@to_stage)
