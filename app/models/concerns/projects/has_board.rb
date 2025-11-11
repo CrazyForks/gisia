@@ -14,46 +14,56 @@ module Projects
     extend ActiveSupport::Concern
 
     included do
-      after_create :create_default_board
+      after_create :initial_default_board
     end
 
     private
 
-    def create_default_board
-      todo_label = namespace.labels.find_or_create_by(title: 'workflow::todo') do |label|
-        label.color = '#0052CC'
+    def initial_default_board
+      initial_workflow_labels
+      board = initial_board
+      initial_stages(board) if board
+    end
+
+    def initial_workflow_labels
+      namespace.labels.find_or_create_by(title: 'workflow::todo') do |label|
+        label.color = '#66b5d5'
       end
 
-      working_on_label = namespace.labels.find_or_create_by(title: 'workflow::working_on') do |label|
+      namespace.labels.find_or_create_by(title: 'workflow::working_on') do |label|
         label.color = '#FFA500'
       end
+    end
 
-      board = Board.create!(
+    def initial_board
+      return namespace.board if namespace.board.present?
+
+      Board.create!(
         namespace: namespace,
         updated_by_id: namespace.creator_id
       )
+    end
 
-      BoardStage.create!(
-        board: board,
-        title: 'Todo',
-        label_ids: [todo_label.id],
-        rank: 0
-      )
+    def initial_stages(board)
+      todo_label = namespace.labels.find_by(title: 'workflow::todo')
+      working_on_label = namespace.labels.find_by(title: 'workflow::working_on')
 
-      BoardStage.create!(
-        board: board,
-        title: 'Working On',
-        label_ids: [working_on_label.id],
-        rank: 1
-      )
+      board.stages.find_or_create_by(title: 'Todo') do |stage|
+        stage.label_ids = [todo_label.id]
+        stage.rank = 0
+      end
 
-      BoardStage.create!(
-        board: board,
-        title: 'Closed',
-        kind: :closed,
-        label_ids: [],
-        rank: 20
-      )
+      board.stages.find_or_create_by(title: 'Working On') do |stage|
+        stage.label_ids = [working_on_label.id]
+        stage.rank = 1
+      end
+
+      board.stages.find_or_create_by(title: 'Closed') do |stage|
+        stage.kind = :closed
+        stage.label_ids = []
+        stage.rank = 20
+      end
     end
   end
 end
+
