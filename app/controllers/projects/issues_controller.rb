@@ -33,8 +33,7 @@ class Projects::IssuesController < Projects::ApplicationController
   end
 
   def create
-    @issue = Issue.new(issue_params)
-    @issue.namespace = @project.namespace
+    @issue = @project.namespace.issues.build(issue_params)
     @issue.author = current_user
 
     if @issue.save

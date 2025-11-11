@@ -31,8 +31,7 @@ class Projects::EpicsController < Projects::ApplicationController
   end
 
   def create
-    @epic = Epic.new(epic_params)
-    @epic.namespace = @project.namespace
+    @epic = @project.namespace.epics.build(issue_params)
     @epic.author = current_user
 
     if @epic.save
