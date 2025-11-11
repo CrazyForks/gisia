@@ -38,6 +38,8 @@ module Projects
     def initial_board
       return namespace.board if namespace.board.present?
 
+      create_welcome_issue
+
       Board.create!(
         namespace: namespace,
         updated_by_id: namespace.creator_id
@@ -63,6 +65,28 @@ module Projects
         stage.label_ids = []
         stage.rank = 20
       end
+    end
+
+    def create_welcome_issue
+      template = load_default_issue_template
+      return unless template
+
+      todo_label = namespace.labels.find_by(title: 'workflow::todo')
+      return unless todo_label
+
+      namespace.issues.find_or_create_by(title: template['title']) do |issue|
+        issue.description = template['description']
+        issue.author_id = namespace.creator_id
+        issue.labels << todo_label
+      end
+    end
+
+    def load_default_issue_template
+      template_path = Rails.root.join('config/fixtures/default_issues.yml')
+      return nil unless File.exist?(template_path)
+
+      data = YAML.load_file(template_path)
+      data&.dig('default_issue')
     end
   end
 end

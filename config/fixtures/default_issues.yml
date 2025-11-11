@@ -1,0 +1,20 @@
+default_issue:
+  title: "Welcome! Getting Started with Your Project"
+  description: |
+    This is a sample task to help you get started.
+
+    ## What you can do:
+    - Drag this issue between columns on project board (Todo → Working On → Closed)
+    - Add labels, assignees
+    - Close this issue when ready
+
+    ## Managing Issues with Board
+
+    ### Show Issues on Board
+    - Label an issue with workflow labels (`workflow::todo`, `workflow::working_on`) to display it on the project board
+    - Only issues with these workflow labels appear in the board columns
+
+    ### Filter Issues
+    - Click the gear icon ⚙️ on any column to filter issues
+    - Apply additional labels (like `sprint::1`) to narrow down what's displayed
+    - Multiple filters work together to show only matching issues
