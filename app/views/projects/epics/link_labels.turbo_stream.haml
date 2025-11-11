@@ -1,0 +1,5 @@
+= turbo_stream.replace "epic-labels" do
+  = render 'shared/labels/selected_labels_turbo', resource: @epic, resource_type: 'epic', labels: @epic.labels, selected_label_ids: @epic.label_ids.join(',')
+
+= turbo_stream.replace "label-dropdown-options" do
+  = render 'shared/labels/label_dropdown_options', labels: [], selected_ids: []

@@ -1,5 +1,5 @@
 class Projects::EpicsController < Projects::ApplicationController
-  before_action :set_epic, only: [:show, :edit, :update, :destroy, :close, :reopen]
+  before_action :set_epic, only: [:show, :edit, :update, :destroy, :close, :reopen, :link_labels, :unlink_label, :search_labels]
   before_action :set_counts, only: [:index]
 
   def index
@@ -99,7 +99,28 @@ class Projects::EpicsController < Projects::ApplicationController
 
     @labels = @labels.ransack(title_cont: params[:q]).result if params[:q]
 
-    @selected_ids = params[:selected_ids]&.split(',')&.map(&:to_i) || []
+    @selected_ids = @epic.label_ids
+
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
+  def link_labels
+    @epic.relink_label_ids(label_params)
+    @epic.save
+    @epic.reload
+
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
+  def unlink_label
+    label_id = unlink_label_params
+    @epic.label_ids = @epic.label_ids - [label_id]
+    @epic.save
+    @epic.reload
 
     respond_to do |format|
       format.turbo_stream
@@ -129,6 +150,14 @@ class Projects::EpicsController < Projects::ApplicationController
   end
 
   def epic_params
-    params.require(:epic).permit(:title, :description, :confidential, :due_date, assignee_ids: [], label_ids: [])
+    params.require(:epic).permit(:title, :description, :confidential, :due_date, assignee_ids: [])
+  end
+
+  def label_params
+    params.dig(:epic, :label_ids)&.map(&:to_i) || []
+  end
+
+  def unlink_label_params
+    params[:label_id]
   end
 end
