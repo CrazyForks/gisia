@@ -52,7 +52,7 @@ module Projects
         title: 'Closed',
         kind: :closed,
         label_ids: [],
-        rank: 2
+        rank: 20
       )
     end
   end

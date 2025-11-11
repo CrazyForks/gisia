@@ -15,6 +15,7 @@ class Projects::StagesController < Projects::ApplicationController
       @issues = issues_for_stage
       @can_edit_board = can_edit_board?
       @show_edit_form = true
+      @closed_stage_frame_id = "stage-column-#{closed_stage.id}" if closed_stage
     else
       flash.now[:alert] = @stage.errors.full_messages.join(', ')
     end

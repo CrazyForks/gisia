@@ -1,5 +1,5 @@
 - if @stage.persisted?
-  = turbo_stream.before 'closed-stage' do
+  = turbo_stream.before @closed_stage_frame_id do
     = render 'projects/boards/stage_column', stage: @stage, issues: @issues, newly_created: true
 - else
   = turbo_stream.replace 'flash' do
