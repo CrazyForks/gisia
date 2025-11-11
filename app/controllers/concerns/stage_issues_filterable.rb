@@ -18,3 +18,4 @@ module StageIssuesFilterable
     access_level >= Gitlab::Access::MAINTAINER
   end
 end
+
