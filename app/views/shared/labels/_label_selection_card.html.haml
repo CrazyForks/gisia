@@ -1,15 +1,18 @@
-%div{ class: 'bg-white border border-slate-200 rounded-lg p-4', data: { controller: 'label-select-dropdown', 'label-select-dropdown-url-value': search_url, 'label-select-dropdown-selected-value': selected_label_ids, 'label-select-dropdown-resource-id-value': resource.id, 'label-select-dropdown-resource-type-value': resource_type } }
+%div{ class: 'bg-white border border-slate-200 rounded-lg p-4', data: { controller: 'label-select-dropdown', 'label-select-dropdown-url-value': search_url, 'label-select-dropdown-unlink-url-value': unlink_url, 'label-select-dropdown-selected-value': selected_label_ids, 'label-select-dropdown-resource-id-value': resource.id, 'label-select-dropdown-resource-type-value': resource_type } }
 
   / Hidden form for updating resource with selected labels
   = form_with url: update_url, local: false, method: :patch, data: { turbo_frame: "#{resource_type}-labels", 'label-select-dropdown-target': 'form' }, class: 'hidden' do |f|
-    / Populated dynamically by JavaScript
+    = hidden_field_tag "#{resource_type}[label_ids][]", '', data: { 'label-select-dropdown-target': 'labelIdInput' }
+
+  / Hidden form for unlinking label
+  = form_with url: unlink_url, local: false, method: :delete, data: { turbo_frame: "#{resource_type}-labels-selected", 'label-select-dropdown-target': 'unlinkForm' }, class: 'hidden' do |f|
+    = hidden_field_tag :label_id, '', data: { 'label-select-dropdown-target': 'unlinkLabelId' }
 
   / Hidden form for searching labels
   %form{ action: search_url, method: 'post', data: { turbo_frame: "label-dropdown-options", 'label-select-dropdown-target': 'searchForm' }, class: 'hidden' }
     = hidden_field_tag :authenticity_token, form_authenticity_token
     = hidden_field_tag :_method, 'get'
     = hidden_field_tag :q, '', data: { 'label-select-dropdown-target': 'queryInput' }
-    = hidden_field_tag :selected_ids, '', name: 'selected_ids'
 
   / Card header with title and edit button
   %div{ class: 'mb-3 flex items-center justify-between' }

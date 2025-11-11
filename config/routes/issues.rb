@@ -3,7 +3,6 @@
 resources :issues, constraints: { id: /\d+/ } do
   collection do
     get :search_users
-    get :search_labels
   end
   member do
     patch :close
@@ -11,5 +10,6 @@ resources :issues, constraints: { id: /\d+/ } do
     post :move_stage
     patch :link_labels
     delete :unlink_label
+    get :search_labels
   end
 end

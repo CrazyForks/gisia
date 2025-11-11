@@ -5,7 +5,7 @@
     - labels.each do |label|
       - is_selected = defined?(selected_ids) && selected_ids&.include?(label.id)
       - bg_class = is_selected ? 'bg-blue-50 hover:bg-blue-100' : 'hover:bg-slate-50'
-      %div{ id: "droplist_label_#{label.id}", class: "px-3 py-2 #{bg_class} cursor-pointer border-b border-slate-100 last:border-b-0 flex items-center justify-between", data: { action: 'click->label-select-dropdown#selectLabel', label_id: label.id } }
+      %div{ id: "droplist_label_#{label.id}", class: "px-3 py-2 #{bg_class} cursor-pointer border-b border-slate-100 last:border-b-0 flex items-center justify-between", data: { action: 'click->label-select-dropdown#selectLabel', label_id: label.id, selected: is_selected } }
         %div{ class: 'flex items-center gap-2' }
           %div{ class: "w-3 h-3 rounded-full flex-shrink-0", style: "background-color: #{label.color}" }
           %span{ class: "text-sm font-medium text-slate-900" }= label.title

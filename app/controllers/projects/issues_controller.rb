@@ -1,7 +1,7 @@
 class Projects::IssuesController < Projects::ApplicationController
   include StageIssuesFilterable
 
-  before_action :set_issue, only: [:show, :edit, :update, :destroy, :close, :reopen, :move_stage, :link_labels, :unlink_label]
+  before_action :set_issue, only: [:show, :edit, :update, :destroy, :close, :reopen, :move_stage, :link_labels, :unlink_label, :search_labels]
   before_action :set_counts, only: [:index]
 
   def index
@@ -109,8 +109,10 @@ class Projects::IssuesController < Projects::ApplicationController
   end
 
   def unlink_label
-    @issue.label_ids = @issue.label_ids - label_params
+    label_id = unlink_label_params.to_i
+    @issue.label_ids = @issue.label_ids - [label_id]
     @issue.save
+    @issue.reload
 
     respond_to do |format|
       format.turbo_stream
@@ -140,7 +142,7 @@ class Projects::IssuesController < Projects::ApplicationController
 
     @labels = @labels.ransack(title_cont: params[:q]).result if params[:q]
 
-    @selected_ids = params[:selected_ids]&.split(',')&.map(&:to_i) || []
+    @selected_ids = @issue.label_ids
 
     respond_to do |format|
       format.turbo_stream
@@ -175,5 +177,9 @@ class Projects::IssuesController < Projects::ApplicationController
 
   def label_params
     params.dig(:issue, :label_ids)&.map(&:to_i) || []
+  end
+
+  def unlink_label_params
+    params[:label_id]
   end
 end
