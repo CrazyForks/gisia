@@ -117,7 +117,7 @@ class Projects::EpicsController < Projects::ApplicationController
   end
 
   def unlink_label
-    label_id = unlink_label_params
+    label_id = unlink_label_params.to_i
     @epic.label_ids = @epic.label_ids - [label_id]
     @epic.save
     @epic.reload

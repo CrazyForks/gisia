@@ -2,4 +2,4 @@
   = render 'shared/labels/selected_labels_turbo', resource: @issue, resource_type: 'issue', labels: @issue.labels, selected_label_ids: @issue.label_ids.join(',')
 
 = turbo_stream.replace "label-dropdown-options" do
-  = render 'shared/labels/label_dropdown_options', labels: [], selected_ids: []
+  = render 'shared/labels/label_dropdown_options', labels: [], selected_ids: @issue.label_ids

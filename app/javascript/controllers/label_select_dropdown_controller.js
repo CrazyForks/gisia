@@ -73,6 +73,8 @@ export default class extends Controller {
   unlinkLabel(labelId) {
     this.unlinkLabelIdTarget.value = labelId
     this.unlinkFormTarget.requestSubmit()
+    this.clearSearchInput()
+    this.hideDropdown()
   }
 
   showDropdown() {
