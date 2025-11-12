@@ -27,8 +27,8 @@
 class InternalId < ApplicationRecord
   extend Gitlab::Utils::StrongMemoize
 
-  belongs_to :project
   belongs_to :namespace
+  has_one :project, through: :namespace
 
   enum :usage, Enums::InternalId.usage_resources
 
@@ -174,11 +174,9 @@ class InternalId < ApplicationRecord
     end
 
     def create_record!(subject, scope, usage, value)
-      scope[:project].save! if scope[:project] && !scope[:project].persisted?
       scope[:namespace].save! if scope[:namespace] && !scope[:namespace].persisted?
 
       attributes = {
-        project_id: scope[:project]&.id || scope[:project_id],
         namespace_id: scope[:namespace]&.id || scope[:namespace_id],
         usage: usage_value,
         last_value: value

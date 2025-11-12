@@ -27,9 +27,7 @@ module Enums
         design_management_designs: 10,
         incident_management_oncall_schedules: 11,
         ml_experiments: 12,
-        ml_candidates: 13,
-        # Todo,
-        work_items: 71
+        ml_candidates: 13
       }
     end
   end
