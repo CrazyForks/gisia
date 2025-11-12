@@ -31,7 +31,7 @@ module Projects
       end
 
       namespace.labels.find_or_create_by(title: 'workflow::working_on') do |label|
-        label.color = '#FFA500'
+        label.color = '#ff7700'
       end
     end
 
