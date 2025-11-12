@@ -13,6 +13,7 @@
     "nodemon": "^3.0.2"
   },
   "scripts": {
+    "build:prd": "yarn build:js && yarn minify:css",
     "build": "yarn build:js && yarn build:tailwindcss &&  yarn minify:css",
     "build:js": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --external:@hotwired/turbo-rails --external:@hotwired/stimulus --external:@hotwired/stimulus-loading --external:lexxy --minify",
     "build:js:watch": "yarn build:js --watch",
