@@ -19,6 +19,7 @@ module Namespaces
     has_many :variables, class_name: 'Ci::Variable', foreign_key: :namespace_id, dependent: :destroy
     has_many :work_items, foreign_key: :namespace_id, dependent: :destroy
     has_many :issues, -> { where(type: 'Issue') }, foreign_key: :namespace_id, class_name: 'WorkItem', dependent: :destroy
+    has_many :epics, -> { where(type: 'Epic') }, foreign_key: :namespace_id, class_name: 'WorkItem', dependent: :destroy
 
     accepts_nested_attributes_for :project
 

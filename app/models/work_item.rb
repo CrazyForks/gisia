@@ -33,6 +33,7 @@ class WorkItem < ApplicationRecord
 
   validates :title, presence: true
   validates :confidential, inclusion: { in: [true, false] }
+  validates :type, presence: true, inclusion: { in: %w[Issue Epic] }
 
   before_validation :convert_description_to_html
 
