@@ -8,7 +8,7 @@ RSpec.describe WorkItem, type: :model do
   end
 
   describe 'state machine' do
-    let(:work_item) { create(:work_item) }
+    let(:work_item) { create(:issue) }
 
     describe '#close' do
       it 'updates closed_at timestamp' do
@@ -35,7 +35,7 @@ RSpec.describe WorkItem, type: :model do
 
       context 'with workflow labels' do
         let(:project) { create(:project, workflows: 'workflow::, status::') }
-        let(:work_item) { create(:work_item, namespace: project.namespace) }
+        let(:work_item) { create(:issue, namespace: project.namespace) }
         let(:workflow_label) { create(:label, namespace: project.namespace, title: 'workflow::dev') }
         let(:status_label) { create(:label, namespace: project.namespace, title: 'status::todo') }
         let(:other_label) { create(:label, namespace: project.namespace, title: 'priority::high') }

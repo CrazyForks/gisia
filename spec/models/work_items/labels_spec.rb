@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe WorkItems::HasLabels, type: :model do
-  subject(:work_item) { create(:work_item, namespace: namespace) }
+  subject(:work_item) { create(:issue, namespace: namespace) }
 
   let(:namespace) { create(:namespace) }
 
