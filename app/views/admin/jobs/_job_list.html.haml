@@ -19,7 +19,7 @@
             = icon 'list-checks', class: 'w-4 h-4 text-blue-500 flex-shrink-0'
             %div{class: 'flex-1 min-w-0'}
               %div{class: 'flex items-center gap-2'}
-                = link_to job_path(job), class: 'font-medium text-gray-900 hover:text-blue-600 transition-colors truncate' do
+                = link_to job_path(job), class: 'font-medium text-gray-900 hover:text-blue-600 transition-colors truncate', data: { turbo: false } do
                   = "##{job.id}"
                 - case job.status
                 - when 'pending'
@@ -37,13 +37,13 @@
               %p{class: 'text-gray-500 text-xs truncate mt-0.5'}= job.name
           %div{class: 'flex items-center gap-3 flex-shrink-0'}
             %div{class: 'text-xs text-gray-900 w-24 truncate'}
-              = link_to job.project.name, admin_project_path(job.project), class: 'hover:text-blue-600'
+              = link_to job.project.name, admin_project_path(job.project), class: 'hover:text-blue-600', data: { turbo: false }
             %div{class: 'text-xs text-gray-900 w-20'}
               %div{class: 'truncate'}= job.pipeline.sha[0..7] if job.pipeline
               %div{class: 'text-gray-500 truncate'}= job.ref
             %div{class: 'text-xs text-gray-900 w-20 truncate'}
               - if job.runner
-                = link_to "##{job.runner.id}", admin_runner_path(job.runner), class: 'hover:text-blue-600'
+                = link_to "##{job.runner.id}", admin_runner_path(job.runner), class: 'hover:text-blue-600', data: { turbo: false }
               - else
                 %span{class: 'text-gray-500'} No runner
             %div{class: 'text-xs text-gray-900 w-20'}

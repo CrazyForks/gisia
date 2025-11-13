@@ -18,7 +18,7 @@
               = icon 'gear', class: 'w-8 h-8 text-gray-400'
             %div{class: 'flex-1 min-w-0'}
               %div{class: 'flex items-center gap-2'}
-                = link_to admin_runner_path(runner), class: 'font-medium text-gray-900 hover:text-blue-600 transition-colors truncate' do
+                = link_to admin_runner_path(runner), class: 'font-medium text-gray-900 hover:text-blue-600 transition-colors truncate', data: { turbo: false } do
                   = "##{runner.id}"
                 %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700 flex-shrink-0'}
                   = runner.runner_type.humanize
