@@ -185,6 +185,7 @@ class InternalId < ApplicationRecord
       }
 
       attributes[:project_id] = scope[:namespace].project&.id if  scope[:namespace].is_a? ::Namespaces::ProjectNamespace
+      attributes[:namespace_id] = scope[:project].namespace&.id if  scope[:project]
       result = InternalId.insert(attributes)
 
       raise RecordAlreadyExists if result.empty?
