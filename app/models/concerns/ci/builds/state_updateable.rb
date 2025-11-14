@@ -53,7 +53,7 @@ module Ci
 
         metrics.increment_trace_operation(operation: :accepted)
 
-        ::Gitlab::Ci::Runner::Backoff.new(pending_state.created_at).then do |backoff|
+        ::Gitlab::Ci::Runner::Backoff.new(scoped_pending_state.created_at).then do |backoff|
           StateUpdateResult.new(status: 202, backoff: backoff.to_seconds)
         end
       end
@@ -67,15 +67,15 @@ module Ci
       end
 
       def pending_state_duration
-        Time.current - pending_state.created_at
+        Time.current - scoped_pending_state.created_at
       end
 
       def ensure_pending_state!
-        pending_state.created_at
+        scoped_pending_state.created_at
       end
 
-      def pending_state
-        strong_memoize(:pending_state) { ensure_pending_state }
+      def scoped_pending_state
+        strong_memoize(:scoped_pending_state) { ensure_pending_state }
       end
 
       def ensure_pending_state
@@ -85,7 +85,7 @@ module Ci
           trace_checksum: state_input.trace_checksum,
           trace_bytesize: state_input.trace_bytesize,
           failure_reason: state_input.failure_reason
-        ) || pending_state
+        ) || scoped_pending_state
       end
 
       def acceptable?
