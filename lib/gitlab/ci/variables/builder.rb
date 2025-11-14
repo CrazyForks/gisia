@@ -281,7 +281,7 @@ module Gitlab
         def user_defined_variables(options:, environment:, job_variables: nil, expose_group_variables: protected_ref?, expose_project_variables: protected_ref?) # rubocop:disable Lint/UnusedMethodArgument -- options will be used in EE
           Gitlab::Ci::Variables::Collection.new.tap do |variables|
             variables.concat(secret_instance_variables)
-            variables.concat(secret_group_variables(environment: environment, include_protected_vars: expose_group_variables))
+            # variables.concat(secret_group_variables(environment: environment, include_protected_vars: expose_group_variables))
             variables.concat(secret_project_variables(environment: environment, include_protected_vars: expose_project_variables))
             variables.concat(pipeline.variables)
             variables.concat(pipeline_schedule_variables)
