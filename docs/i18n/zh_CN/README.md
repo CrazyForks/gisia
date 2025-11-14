@@ -13,6 +13,10 @@ Gisia 是一个开源 DevOps 平台，为那些希望完全掌控开发工作流
 <img src="../../images/readme-banner.jpg" title="usage screenshots">
 </p>
 
+演示视频
+
+<video src="https://github.com/user-attachments/assets/1a76184f-342b-4408-82e3-6dccc61cc76a"></video>
+
 
 > [!WARNING]
 > ⚠️ Gisia 目前处于 **Alpha** 阶段。
