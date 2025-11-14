@@ -1,0 +1,4 @@
+test-job:
+  script:
+    - echo "Test is running..."
+    - echo "Test done"
