@@ -14,6 +14,11 @@ Gisia is an open-source, DevOps platform designed for individuals and small team
 <img src="docs/images/readme-banner.jpg" title="usage screenshots">
 </p>
 
+Quick overview demo video
+
+<video src="https://github.com/user-attachments/assets/1a76184f-342b-4408-82e3-6dccc61cc76a"></video>
+
+
 > [!WARNING]
 > ⚠️ Gisia is currently in **Alpha**.
 > 
