@@ -26,7 +26,6 @@ Quick overview demo video
 
 - **Regularly back up your repositories, configurations, and data — always before upgrading.**
 - Features and APIs may change without notice.
-- Use in production environments at your own risk
 
 
 ## 🚀 Features
