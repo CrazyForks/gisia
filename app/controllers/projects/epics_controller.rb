@@ -105,6 +105,16 @@ class Projects::EpicsController < Projects::ApplicationController
     end
   end
 
+  def search_epics
+    @epics = @project.namespace.epics.opened.limit(10)
+    @epics = @epics.ransack(title_cont: params[:q]).result if params[:q]
+    @selected_id = params[:selected_id]&.to_i
+
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
   def link_labels
     @epic.relink_label_ids(label_params)
     @epic.save
@@ -149,7 +159,7 @@ class Projects::EpicsController < Projects::ApplicationController
   end
 
   def epic_params
-    params.require(:epic).permit(:title, :description, :confidential, :due_date, assignee_ids: [])
+    params.require(:epic).permit(:title, :description, :confidential, :due_date, :parent_id, assignee_ids: [])
   end
 
   def label_params

@@ -3,6 +3,7 @@
 resources :epics, constraints: { id: /\d+/ } do
   collection do
     get :search_users
+    get :search_epics
   end
   member do
     patch :close
