@@ -17,15 +17,13 @@ class WorkItem < ApplicationRecord
   include WorkItems::HasState
   include WorkItems::HasWorkflows
   include WorkItems::HasLabels
+  include WorkItems::HasParent
 
   belongs_to :author, class_name: 'User'
   belongs_to :updated_by, class_name: 'User', optional: true
   belongs_to :closed_by, class_name: 'User', optional: true
-  belongs_to :parent, class_name: 'WorkItem', optional: true
   belongs_to :namespace
   has_one :project, through: :namespace
-
-  has_many :children, class_name: 'WorkItem', foreign_key: 'parent_id'
   has_many :work_item_assignees, dependent: :destroy
   has_many :assignees, class_name: 'User', through: :work_item_assignees
   has_many :label_links, as: :labelable, dependent: :destroy
