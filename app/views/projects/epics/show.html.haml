@@ -47,6 +47,8 @@
               .no-description.text-gray-500.italic
                 No description provided.
 
+            = render 'shared/epics/children_list', epic: @epic
+
             = render 'shared/notes/notes_with_form', notes: @notes, noteable: @epic
 
           .epic-sidebar.w-64.space-y-6

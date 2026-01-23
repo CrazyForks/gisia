@@ -1,0 +1,28 @@
+- child_epics = epic.children.where(type: 'Epic').includes(:author)
+- child_issues = epic.children.where(type: 'Issue').includes(:author)
+- total_count = child_epics.count + child_issues.count
+
+- if total_count > 0
+  %div{ class: 'mt-6 mb-6' }
+    %h2{ class: 'text-lg font-semibold text-slate-900 mb-3' }
+      Linked items
+      %span{ class: 'text-slate-500 font-normal' }= "(#{total_count})"
+
+    %div{ class: 'border border-slate-200 rounded-lg divide-y divide-slate-200' }
+      - child_epics.each do |child|
+        %div{ class: 'flex items-center gap-3 px-3 py-2' }
+          = icon 'notepad', class: 'w-4 h-4 text-slate-400 flex-shrink-0'
+          = link_to child.title, namespace_project_epic_path(child.project.namespace.parent.full_path, child.project.path, child), class: 'text-sm text-slate-700 hover:text-blue-600 hover:underline truncate flex-1', target: '_blank'
+          - if child.closed?
+            %span{ class: 'text-xs text-slate-500' } Closed
+          - else
+            %span{ class: 'text-xs text-slate-500' } Open
+
+      - child_issues.each do |child|
+        %div{ class: 'flex items-center gap-3 px-3 py-2' }
+          = icon 'note', class: 'w-4 h-4 text-slate-400 flex-shrink-0'
+          = link_to child.title, namespace_project_issue_path(child.project.namespace.parent.full_path, child.project.path, child), class: 'text-sm text-slate-700 hover:text-blue-600 hover:underline truncate flex-1', target: '_blank'
+          - if child.closed?
+            %span{ class: 'text-xs text-slate-500' } Closed
+          - else
+            %span{ class: 'text-xs text-slate-500' } Open
