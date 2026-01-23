@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["dropdown", "options", "form", "searchForm", "queryInput", "parentIdInput"]
+  static targets = ["dropdown", "options", "form", "searchForm", "queryInput", "parentIdInput", "selectedIdInput"]
   static values = { url: String }
 
   connect() {
@@ -47,6 +47,9 @@ export default class extends Controller {
 
   submitSearchForm(query) {
     this.queryInputTarget.value = query
+    if (this.hasSelectedIdInputTarget) {
+      this.selectedIdInputTarget.value = this.parentIdInputTarget.value
+    }
     this.searchFormTarget.requestSubmit()
   }
 
