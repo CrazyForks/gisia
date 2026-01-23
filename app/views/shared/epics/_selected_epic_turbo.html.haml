@@ -1,6 +1,8 @@
 = turbo_frame_tag "#{resource_type}-parent" do
   %div{ data: { 'epic-select-dropdown-target': 'selectedEpic' } }
-    - if parent.present?
+    - if defined?(error) && error.present?
+      %p{ class: 'text-xs text-red-600' }= error
+    - elsif parent.present?
       = link_to namespace_project_epic_path(parent.project.namespace.parent.full_path, parent.project.path, parent), class: 'text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline', data: { turbo: false } do
         = parent.title
     - else

@@ -55,7 +55,7 @@ class Projects::EpicsController < Projects::ApplicationController
     else
       respond_to do |format|
         format.html { render :edit, status: :unprocessable_entity }
-        format.turbo_stream { head :unprocessable_entity }
+        format.turbo_stream { render :update_error, status: :unprocessable_entity }
       end
     end
   end
