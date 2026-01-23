@@ -20,5 +20,8 @@ RSpec.describe 'User Login', type: :system do
 
     expect(page).to have_content('Invalid Username or password')
     expect(page).to have_current_path(new_user_session_path)
+    expect(page).to have_field('user[username]')
+    expect(page).to have_field('user[password]')
+    expect(page).to have_button('Log in')
   end
 end
