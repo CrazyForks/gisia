@@ -1,0 +1,14 @@
+%div{ id: 'epic-dropdown-options' }
+  - if epics.empty?
+    %div{ class: 'px-3 py-2 text-slate-500 text-sm' } Type to search epics...
+  - else
+    - epics.each do |epic|
+      - is_selected = defined?(selected_id) && selected_id == epic.id
+      - bg_class = is_selected ? 'bg-blue-50 hover:bg-blue-100' : 'hover:bg-slate-50'
+      %div{ class: "px-3 py-2 #{bg_class} cursor-pointer border-b border-slate-100 last:border-b-0 flex items-center justify-between", data: { action: 'click->epic-select-dropdown#selectEpic', epic_id: epic.id, selected: is_selected } }
+        %div{ class: 'flex flex-col' }
+          %span{ class: 'text-sm font-medium text-slate-900' }= epic.title
+          %span{ class: 'text-xs text-slate-500' }= epic.to_reference
+        - if is_selected
+          %div{ class: 'text-blue-600' }
+            = icon 'check', class: 'w-4 h-4'

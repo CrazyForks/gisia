@@ -1,0 +1,8 @@
+= turbo_frame_tag "#{resource_type}-parent" do
+  %div{ data: { 'epic-select-dropdown-target': 'selectedEpic' } }
+    - if parent.present?
+      %div
+        %div{ class: 'text-sm font-medium text-slate-900' }= parent.title
+        %div{ class: 'text-xs text-slate-500' }= parent.to_reference
+    - else
+      %p{ class: 'text-xs text-slate-500' } No parent epic

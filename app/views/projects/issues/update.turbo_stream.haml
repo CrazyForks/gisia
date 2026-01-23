@@ -5,3 +5,7 @@
 - if params[:issue]&.key?('label_ids')
   = turbo_stream.replace 'issue-labels' do
     = render 'shared/labels/selected_labels_turbo', resource: @issue, resource_type: 'issue', labels: @issue.labels, selected_label_ids: @issue.label_ids.join(',')
+
+- if params[:issue]&.key?('parent_id')
+  = turbo_stream.replace 'issue-parent' do
+    = render 'shared/epics/selected_epic_turbo', resource: @issue, resource_type: 'issue', parent: @issue.parent

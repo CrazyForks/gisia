@@ -151,6 +151,16 @@ class Projects::IssuesController < Projects::ApplicationController
     end
   end
 
+  def search_epics
+    @epics = @project.namespace.epics.opened.limit(10)
+    @epics = @epics.ransack(title_cont: params[:q]).result if params[:q]
+    @selected_id = params[:selected_id]&.to_i
+
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
   private
 
   def set_issue
@@ -174,7 +184,7 @@ class Projects::IssuesController < Projects::ApplicationController
   end
 
   def issue_params
-    params.require(:issue).permit(:title, :description, :confidential, :due_date, assignee_ids: [])
+    params.require(:issue).permit(:title, :description, :confidential, :due_date, :parent_id, assignee_ids: [])
   end
 
   def label_params
