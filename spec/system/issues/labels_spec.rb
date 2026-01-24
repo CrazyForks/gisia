@@ -19,9 +19,7 @@ RSpec.describe 'Issue Labels', type: :system, js: true do
 
       expect(page).not_to have_content('Bug')
 
-      all_buttons = page.all('button')
-      labels_edit_button = all_buttons.select { |btn| btn.text == 'Edit' }.last
-      labels_edit_button.click
+      click_button 'labels-edit-button'
 
       fill_in 'Search labels...', with: 'Bug'
       expect(page).to have_css("#droplist_label_#{label1.id}")
@@ -37,9 +35,7 @@ RSpec.describe 'Issue Labels', type: :system, js: true do
     it 'allows adding multiple labels on show page and persists after refresh' do
       visit namespace_project_issue_path(project.namespace.parent.full_path, project.path, issue)
 
-      all_buttons = page.all('button')
-      labels_edit_button = all_buttons.select { |btn| btn.text == 'Edit' }.last
-      labels_edit_button.click
+      click_button 'labels-edit-button'
 
       fill_in 'Search labels...', with: 'Bug'
       expect(page).to have_css("#droplist_label_#{label1.id}")
@@ -47,9 +43,7 @@ RSpec.describe 'Issue Labels', type: :system, js: true do
 
       expect(page).not_to have_field('Search labels...')
 
-      all_buttons = page.all('button')
-      labels_edit_button = all_buttons.select { |btn| btn.text == 'Edit' }.last
-      labels_edit_button.click
+      click_button 'labels-edit-button'
 
       fill_in 'Search labels...', with: 'Feature'
       expect(page).to have_css("#droplist_label_#{label2.id}")
@@ -71,9 +65,7 @@ RSpec.describe 'Issue Labels', type: :system, js: true do
       expect(page).to have_content('Bug')
       expect(page).to have_content('Feature')
 
-      all_buttons = page.all('button')
-      labels_edit_button = all_buttons.select { |btn| btn.text == 'Edit' }.last
-      labels_edit_button.click
+      click_button 'labels-edit-button'
 
       fill_in 'Search labels...', with: 'Bug'
       expect(page).to have_css("#droplist_label_#{label1.id}")
