@@ -35,8 +35,8 @@ Quick overview demo video
 | **User Authentication** | ✅ Done | Local accounts |
 | **Git Repository Hosting** | ✅ Done | Lightweight Git server with SSH and HTTP(S) access |
 | **CI/CD Pipelines** | ✅ Done | Basic runner support and pipeline definitions in YAML |
-| **Issue Tracking** | 🔜 Working on| Simple issue board for personal or small team usage |
-| **Merge Requests / Code Review** | 🔜 Planned | Inline diffs and comment threads |
+| **Issue Tracking** | ✅ Done| Simple issue board for personal or small team usage |
+| **Merge Requests / Code Review** | 🔜 Working on | Inline diffs and comment threads |
 | **Notifications System** | 💤 Not Planned Yet | Email or webhook-based alerts |
 
 
