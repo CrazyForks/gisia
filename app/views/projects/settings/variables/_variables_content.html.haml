@@ -1,5 +1,5 @@
 %div{id: 'variables_content', class: 'p-6', 'data-controller': 'variable-drawer'}
-  - if @project.namespace.variables.any?
+  - if @project.variables.any?
     %div{class: 'mb-4 flex justify-between items-center'}
       %h3{class: 'text-base font-medium text-gray-900'}
         Project Variables
@@ -7,7 +7,7 @@
         = icon 'plus', class: 'w-4 h-4'
         %span Add variable
     %div{class: 'space-y-3'}
-      - @project.namespace.variables.each do |variable|
+      - @project.variables.each do |variable|
         %div{class: 'flex items-center justify-between py-3 px-4 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100'}
           %div{class: 'flex items-center gap-4'}
             %div{class: 'flex items-center gap-2'}

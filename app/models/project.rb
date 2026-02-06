@@ -31,7 +31,7 @@ class Project < ApplicationRecord
   has_one :project_feature, inverse_of: :project, dependent: :destroy
   has_one :pipeline_settings, class_name: 'ProjectPipelineSetting', inverse_of: :project, dependent: :destroy
   has_many :all_pipelines, class_name: 'Ci::Pipeline', inverse_of: :project, dependent: :destroy
-  has_many :variables, through: :namespace, class_name: 'Ci::Variable'
+  has_many :variables, class_name: 'Ci::Variable', foreign_key: :namespace_id, primary_key: :namespace_id
   has_many :builds, class_name: 'Ci::Build', inverse_of: :project
   has_many :pipeline_metadata, class_name: 'Ci::PipelineMetadata', inverse_of: :project
   has_many :ci_refs, class_name: 'Ci::Ref', inverse_of: :project, dependent: :destroy
