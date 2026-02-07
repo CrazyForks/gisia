@@ -10,7 +10,6 @@
 # ======================================================
 
 class Projects::MergeRequestsController < Projects::ApplicationController
-  before_action :feature_disabled
   before_action :define_new_vars, only: %i[new edit]
   before_action :set_mr, only: %i[show commits diffs pipelines edit update merge close]
   before_action :set_counts, only: [:index]
@@ -122,10 +121,6 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   end
 
   private
-
-  def feature_disabled
-    head :not_found
-  end
 
   def merge_request_params
     params.require(:merge_request).permit(:source_project_id, :source_branch, :target_project_id, :target_branch, :title, :description,
