@@ -30,6 +30,20 @@ module Projects
       protected_tags.push.allowed? max_access(user), name
     end
 
+    def create_default_protected_branch
+      branch_name = default_branch || 'main'
+      return if protected_branches.exists?(name: branch_name)
+
+      ProtectedBranch.create!(
+        namespace_id: namespace_id,
+        name: branch_name,
+        access_level: 'maintainer',
+        allow_push: true,
+        allow_force_push: false,
+        allow_merge_to: true
+      )
+    end
+
     private
 
     def max_access(user)

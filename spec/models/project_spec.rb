@@ -1,6 +1,32 @@
 require 'rails_helper'
 
 RSpec.describe Project, type: :model do
+  describe 'HasProtectedRefs concern' do
+    subject(:project) { create(:project, creator: user, parent_namespace: user.namespace) }
+
+    let_it_be(:user) { create(:user) }
+
+    describe '#create_default_protected_branch' do
+      it 'creates a protected branch for the default branch' do
+        expect(project.protected_branches.count).to eq(1)
+      end
+
+      it 'sets the correct attributes on the protected branch' do
+        branch = project.protected_branches.first
+        expect(branch.name).to eq('main')
+        expect(branch.access_level).to eq('maintainer')
+        expect(branch.allow_push).to be(true)
+        expect(branch.allow_force_push).to be(false)
+        expect(branch.allow_merge_to).to be(true)
+      end
+
+      it 'does not create a duplicate protected branch' do
+        project.create_default_protected_branch
+        expect(project.protected_branches.count).to eq(1)
+      end
+    end
+  end
+
   describe 'HasBoard concern' do
     subject(:project) { create(:project, creator: user, parent_namespace: user.namespace) }
 

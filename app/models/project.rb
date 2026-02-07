@@ -102,6 +102,7 @@ class Project < ApplicationRecord
   after_create -> { create_or_load_association(:ci_cd_settings) }
   after_create -> { create_or_load_association(:pipeline_settings) }
   after_create :add_creator_as_owner
+  after_create :create_default_protected_branch
 
   add_authentication_token_field :runners_token,
     encrypted: :required,
