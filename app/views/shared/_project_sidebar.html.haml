@@ -21,7 +21,7 @@
             %span Board
         %li
           = link_to namespace_project_epics_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{sidebar_item_active?('plan', 'epics') ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
-            = icon 'notepad', class: "w-4 h-4 #{sidebar_item_active?('plan', 'epics') ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
+            = icon 'shield-chevron', class: "w-4 h-4 #{sidebar_item_active?('plan', 'epics') ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
             %span Epics
 
     %div{class: 'mb-6'}
