@@ -36,7 +36,7 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   def new; end
 
   def show
-    @notes = @merge_request.notes.inc_relations_for_view.fresh
+    @notes = @merge_request.notes.where(type: 'MergeRequestNote').inc_relations_for_view.fresh
   end
 
   def commits
