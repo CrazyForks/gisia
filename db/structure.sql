@@ -1781,7 +1781,8 @@ CREATE TABLE public.merge_requests (
     squash boolean DEFAULT false NOT NULL,
     squash_commit_sha bytea,
     state_id smallint DEFAULT 1 NOT NULL,
-    in_progress_merge_commit_sha character varying
+    in_progress_merge_commit_sha character varying,
+    description_html text
 );
 
 
@@ -6031,6 +6032,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260209135517'),
 ('20260209134658'),
 ('20260209133940'),
 ('20260207093159'),
