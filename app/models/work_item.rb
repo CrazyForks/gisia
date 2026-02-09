@@ -18,6 +18,7 @@ class WorkItem < ApplicationRecord
   include WorkItems::HasWorkflows
   include WorkItems::HasLabels
   include WorkItems::HasParent
+  include HasDescription
 
   belongs_to :author, class_name: 'User'
   belongs_to :updated_by, class_name: 'User', optional: true
@@ -32,8 +33,6 @@ class WorkItem < ApplicationRecord
   validates :title, presence: true
   validates :confidential, inclusion: { in: [true, false] }
   validates :type, presence: true, inclusion: { in: %w[Issue Epic] }
-
-  before_validation :convert_description_to_html
 
   has_internal_id :iid, scope: :namespace
 
@@ -108,11 +107,4 @@ class WorkItem < ApplicationRecord
     author&.banned?
   end
 
-  private
-
-  def convert_description_to_html
-    return unless description_changed? && description.present?
-
-    self.description_html = Banzai::Renderer.render(description)
-  end
 end

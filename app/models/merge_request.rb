@@ -17,6 +17,7 @@ class MergeRequest < ApplicationRecord
   include Noteable
 
   include Diffable
+  include HasDescription
   include RefComparable
   include ManualInverseAssociation
   include MergeRequests::ReloadDiffs
