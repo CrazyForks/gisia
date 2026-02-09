@@ -15,6 +15,7 @@ import EpicSelectDropdownController from "./epic_select_dropdown_controller"
 import ReplyToggleController from "./reply_toggle_controller"
 import CopyController from "./copy_controller"
 import UsersSettingsKeysController from "./users/settings/keys_controller"
+import DiffCommentController from "./diff_comment_controller"
 import DiffNavigatorController from "./diff_navigator_controller"
 import ColorPickerController from "./color_picker_controller"
 import StageLabelSearchController from "./stage_label_search_controller"
@@ -36,6 +37,7 @@ application.register("epic-select-dropdown", EpicSelectDropdownController)
 application.register("reply-toggle", ReplyToggleController)
 application.register("copy", CopyController)
 application.register("users--settings--keys", UsersSettingsKeysController)
+application.register("diff-comment", DiffCommentController)
 application.register("diff-navigator", DiffNavigatorController)
 application.register("color-picker", ColorPickerController)
 application.register("stage-label-search", StageLabelSearchController)

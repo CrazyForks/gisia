@@ -9,7 +9,7 @@
   <%= turbo_stream.remove "comment-form-#{@diff_note.line_code}" %>
   <%= turbo_stream.update "comment-button-#{@diff_note.line_code}", "" %>
 <% else %>
-  <% # Reply note - insert before reply form with indentation %>
+  <%= turbo_stream.remove "no-replies-#{@diff_note.discussion_id}" %>
   <%= turbo_stream.before "note-#{@diff_note.discussion_id}-reply-form" do %>
     <div class="ml-8 mb-4">
       <%= render 'shared/notes/note', note: @diff_note %>

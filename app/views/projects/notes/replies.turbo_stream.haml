@@ -4,7 +4,7 @@
       - @replies.each do |reply|
         = render 'shared/notes/note', note: reply
   - else
-    .no-replies.ml-8.text-sm.text-gray-500.mb-4
+    .no-replies.ml-8.text-sm.text-gray-500.mb-4{ id: "no-replies-#{@note.id}" }
       No replies yet.
 
   .reply-form.ml-8.mt-4.p-4.border.border-slate-200.rounded-lg.bg-slate-50{ id: "note-#{@note.id}-reply-form" }
