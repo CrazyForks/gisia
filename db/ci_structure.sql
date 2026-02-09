@@ -1598,7 +1598,6 @@ ALTER SEQUENCE public.merge_request_diff_commit_users_id_seq OWNED BY public.mer
 --
 
 CREATE TABLE public.merge_request_diff_commits (
-    id bigint NOT NULL,
     authored_date timestamp(6) without time zone,
     committed_date timestamp(6) without time zone,
     merge_request_diff_id bigint NOT NULL,
@@ -1613,23 +1612,10 @@ CREATE TABLE public.merge_request_diff_commits (
 
 
 --
--- Name: merge_request_diff_commits_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.merge_request_diff_commits_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
 -- Name: merge_request_diff_files; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.merge_request_diff_files (
-    id bigint NOT NULL,
     merge_request_diff_id bigint NOT NULL,
     relative_order integer NOT NULL,
     new_file boolean NOT NULL,
@@ -1651,15 +1637,48 @@ CREATE TABLE public.merge_request_diff_files (
 
 
 --
--- Name: merge_request_diff_files_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: merge_request_diffs; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.merge_request_diff_files_id_seq
+CREATE TABLE public.merge_request_diffs (
+    id bigint NOT NULL,
+    state character varying,
+    merge_request_id bigint NOT NULL,
+    base_commit_sha character varying,
+    real_size character varying,
+    head_commit_sha character varying,
+    start_commit_sha character varying,
+    commits_count integer DEFAULT 0,
+    external_diff character varying,
+    external_diff_store integer DEFAULT 1,
+    stored_externally boolean,
+    files_count smallint DEFAULT 0,
+    sorted boolean DEFAULT false NOT NULL,
+    diff_type smallint DEFAULT 1 NOT NULL,
+    patch_id_sha bytea,
+    project_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: merge_request_diffs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.merge_request_diffs_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
+
+
+--
+-- Name: merge_request_diffs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.merge_request_diffs_id_seq OWNED BY public.merge_request_diffs.id;
 
 
 --
@@ -2987,6 +3006,13 @@ ALTER TABLE ONLY public.merge_request_diff_commit_users ALTER COLUMN id SET DEFA
 
 
 --
+-- Name: merge_request_diffs id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.merge_request_diffs ALTER COLUMN id SET DEFAULT nextval('public.merge_request_diffs_id_seq'::regclass);
+
+
+--
 -- Name: merge_request_reviewers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3528,6 +3554,14 @@ ALTER TABLE ONLY public.merge_request_diff_commits
 
 ALTER TABLE ONLY public.merge_request_diff_files
     ADD CONSTRAINT merge_request_diff_files_pkey PRIMARY KEY (merge_request_diff_id, relative_order);
+
+
+--
+-- Name: merge_request_diffs merge_request_diffs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.merge_request_diffs
+    ADD CONSTRAINT merge_request_diffs_pkey PRIMARY KEY (id);
 
 
 --
@@ -4873,6 +4907,41 @@ CREATE INDEX index_merge_request_diff_files_on_project_id ON public.merge_reques
 
 
 --
+-- Name: index_merge_request_diffs_on_external_diff; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_merge_request_diffs_on_external_diff ON public.merge_request_diffs USING btree (external_diff);
+
+
+--
+-- Name: index_merge_request_diffs_on_external_diff_store; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_merge_request_diffs_on_external_diff_store ON public.merge_request_diffs USING btree (external_diff_store);
+
+
+--
+-- Name: index_merge_request_diffs_on_head_commit_sha; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_merge_request_diffs_on_head_commit_sha ON public.merge_request_diffs USING btree (head_commit_sha);
+
+
+--
+-- Name: index_merge_request_diffs_on_merge_request_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_merge_request_diffs_on_merge_request_id ON public.merge_request_diffs USING btree (merge_request_id);
+
+
+--
+-- Name: index_merge_request_diffs_on_project_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_merge_request_diffs_on_project_id ON public.merge_request_diffs USING btree (project_id);
+
+
+--
 -- Name: index_merge_request_reviewers_on_merge_request_id_and_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5962,6 +6031,9 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260209134658'),
+('20260209133940'),
+('20260207093159'),
 ('20251113082640'),
 ('20251113081628'),
 ('20251112151807'),
