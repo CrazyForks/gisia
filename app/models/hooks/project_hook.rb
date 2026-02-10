@@ -17,11 +17,9 @@ class ProjectHook < WebHook
 
   self.allow_legacy_sti_class = true
 
-  self.limit_scope = :project
+  has_one :project, through: :namespace
 
-  belongs_to :project
-
-  scope :for_projects, ->(project) { where(project: project) }
+  scope :for_projects, ->(project) { where(namespace_id: project.namespace_id) }
 
   def self.available_hooks
     AVAILABLE_HOOKS

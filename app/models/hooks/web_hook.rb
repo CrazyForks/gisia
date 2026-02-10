@@ -14,6 +14,8 @@ class WebHook < ApplicationRecord
 
   MAX_PARAM_LENGTH = 8192
 
+  belongs_to :namespace
+
   attr_encrypted :url,
     mode: :per_attribute_iv,
     algorithm: 'aes-256-gcm',

@@ -49,6 +49,7 @@ class Project < ApplicationRecord
   has_many :issues, -> { includes(:namespace) }, through: :namespace
   has_many :epics, -> { where(type: 'Epic').includes(:namespace) }, through: :namespace, source: :work_items, class_name: 'WorkItem'
   has_many :labels, through: :namespace
+  has_many :hooks, class_name: 'ProjectHook', through: :namespace, source: :web_hooks
   has_one :board, through: :namespace
 
 
