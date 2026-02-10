@@ -51,6 +51,7 @@ module Gitlab
       #{config.root}/lib
       #{config.root}/app/models/members
       #{config.root}/app/coders
+      #{config.root}/app/models/hooks
     ]
     config.eager_load_paths.push(*additional_paths)
     config.autoload_paths.push(*additional_paths)
