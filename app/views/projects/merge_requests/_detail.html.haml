@@ -46,11 +46,11 @@
             %span Edit
 
           - unless @merge_request.merged? || @merge_request.closed?
-            = link_to merge_namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), method: :patch, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition-colors', data: { confirm: 'Are you sure you want to merge this merge request?' } do
+            = link_to merge_namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), method: :post, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition-colors', data: { confirm: 'Are you sure you want to merge this merge request?', turbo_method: :post } do
               = icon 'git-merge', class: 'w-4 h-4'
               %span Merge
 
-            = link_to close_namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), method: :patch, class: 'inline-flex items-center gap-2 px-3 py-2 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-md text-sm font-medium transition-colors', data: { confirm: 'Are you sure you want to close this merge request?' } do
+            = link_to close_namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), method: :post, class: 'inline-flex items-center gap-2 px-3 py-2 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-md text-sm font-medium transition-colors', data: { confirm: 'Are you sure you want to close this merge request?', turbo_method: :post } do
               = icon 'archive', class: 'w-4 h-4'
               %span Close
 

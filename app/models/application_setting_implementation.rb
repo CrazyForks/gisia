@@ -82,6 +82,10 @@ module ApplicationSettingImplementation
     end
   end
 
+  def commit_email_hostname
+    super.presence || self.class.default_commit_email_hostname
+  end
+
   def runners_registration_token
     return unless Gitlab::CurrentSettings.allow_runner_registration_token
 

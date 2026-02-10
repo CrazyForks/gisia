@@ -78,13 +78,13 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   end
 
   def merge
-    if @merge_request.opened?
-      @merge_request.update!(status: 'merged', merged_at: Time.current, merge_user: current_user)
-      redirect_to namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request),
-        notice: 'Merge request was successfully merged.'
+    result = MergeRequests::MergeService.new(merge_request: @merge_request, current_user: current_user).execute
+    mr_path = namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request)
+
+    if result[:status] == :success
+      redirect_to mr_path, notice: 'Merge request was successfully merged.'
     else
-      redirect_to namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request),
-        alert: 'Merge request cannot be merged.'
+      redirect_to mr_path, alert: result[:message]
     end
   end
 

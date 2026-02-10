@@ -103,6 +103,22 @@ class User < ApplicationRecord
     can?(:admin_all_resources)
   end
 
+  def commit_email_or_default
+    return private_commit_email if self.commit_email == Gitlab::PrivateCommitEmail::TOKEN
+
+    # The commit email is the same as the primary email if undefined
+    self.commit_email.presence || self.email
+  end
+
+
+  # Todo, add timezone
+  def timezone
+  end
+
+  # Todo, setup commit_email
+  def commit_email
+  end
+
   private
 
   def set_default_name
@@ -115,3 +131,4 @@ class User < ApplicationRecord
     ns.name = name
   end
 end
+

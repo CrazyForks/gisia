@@ -13,7 +13,7 @@ class Commit
   attr_accessor :raw
   attr_reader :container
 
-  delegate :author_name, :author_email, :message, :tree_entry, :committed_date, :parent, :parent_id,
+  delegate :author_name, :author_email, :message, :tree_entry, :committed_date, :parent, :parent_id, :parent_ids,
     to: :raw
 
   delegate :repository, to: :container

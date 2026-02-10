@@ -34,6 +34,10 @@ module Gitlab
           end
         end
       end
+
+      def measure(*_args)
+        yield
+      end
     end
   end
 end

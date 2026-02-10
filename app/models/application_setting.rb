@@ -57,6 +57,8 @@ class ApplicationSetting < ApplicationRecord
   validates :disable_feed_token,
     inclusion: { in: [true, false], message: N_('must be a boolean value') }, on: :update
 
+  validates :commit_email_hostname, format: { with: /\A[^@]+\z/ }
+
   validates :enabled_git_access_protocol,
     inclusion: { in: %w[ssh http], allow_blank: true }
   validates :gitlab_dedicated_instance,

@@ -24,6 +24,8 @@ class MergeRequest < ApplicationRecord
   include MergeRequests::Pipelines
   include MergeRequests::Variables
 
+  MERGE_LEASE_TIMEOUT = 15.minutes.to_i
+
   belongs_to :target_project, class_name: 'Project'
   belongs_to :source_project, class_name: 'Project'
   belongs_to :merge_user, class_name: 'User', optional: true
@@ -38,11 +40,14 @@ class MergeRequest < ApplicationRecord
   has_many :reviews, inverse_of: :merge_request, dependent: :destroy
   has_many :reviewed_by_users, -> { distinct }, through: :reviews, source: :author
 
+  has_one :metrics, class_name: 'MergeRequest::Metrics', inverse_of: :merge_request, autosave: true
+
   has_many :notes, as: :noteable, inverse_of: :noteable, dependent: :destroy
   has_many :diff_notes, -> { where(type: 'DiffNote') }, as: :noteable, class_name: 'DiffNote', dependent: :destroy
 
   after_update :clear_memoized_shas
   after_save :keep_around_commit, unless: :importing?
+  after_commit :ensure_metrics!, on: [:create, :update], unless: :importing?
 
   validates :source_branch, presence: true
   validates :target_project, presence: true
@@ -136,7 +141,11 @@ class MergeRequest < ApplicationRecord
   end
 
   def diffs(diff_options = {})
-    compare.diffs(diff_options.merge(expanded: true))
+    if opened?
+      compare.diffs(diff_options.merge(expanded: true))
+    else
+      merge_request_diff.diffs(diff_options)
+    end
   end
 
   MAX_RECENT_DIFF_HEAD_SHAS = 100
@@ -177,5 +186,35 @@ class MergeRequest < ApplicationRecord
 
   def reached_diff_commits_limit?
     false
+  end
+
+  def default_merge_commit_message(user: nil)
+    "Merge branch '#{source_branch}' into '#{target_branch}'"
+  end
+
+  def update_and_mark_in_progress_merge_commit_sha(commit_id)
+    update_column(:in_progress_merge_commit_sha, commit_id)
+  end
+
+  def in_locked_state
+    lock_mr
+    yield
+  ensure
+    unlock_mr if locked?
+  end
+
+  def merged_at
+    metrics&.merged_at
+  end
+
+  def merge_exclusive_lease
+    lease_key = "merge_requests_merge_service:#{id}"
+    Gitlab::ExclusiveLease.new(lease_key, timeout: MERGE_LEASE_TIMEOUT)
+  end
+
+  private
+
+  def ensure_metrics!
+    MergeRequest::Metrics.record!(self)
   end
 end

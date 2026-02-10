@@ -84,7 +84,8 @@ CREATE TABLE public.application_settings (
     encrypted_external_pipeline_validation_service_token text,
     encrypted_external_pipeline_validation_service_token_iv text,
     password_authentication_enabled_for_git boolean DEFAULT true NOT NULL,
-    password_authentication_enabled_for_web boolean
+    password_authentication_enabled_for_web boolean,
+    commit_email_hostname character varying
 );
 
 
@@ -1682,6 +1683,58 @@ ALTER SEQUENCE public.merge_request_diffs_id_seq OWNED BY public.merge_request_d
 
 
 --
+-- Name: merge_request_metrics; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.merge_request_metrics (
+    id bigint NOT NULL,
+    merge_request_id bigint NOT NULL,
+    latest_build_started_at timestamp without time zone,
+    latest_build_finished_at timestamp without time zone,
+    first_deployed_to_production_at timestamp without time zone,
+    merged_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    merged_by_id bigint,
+    latest_closed_by_id bigint,
+    latest_closed_at timestamp with time zone,
+    first_comment_at timestamp with time zone,
+    first_commit_at timestamp with time zone,
+    last_commit_at timestamp with time zone,
+    diff_size integer,
+    modified_paths_size integer,
+    commits_count integer,
+    first_approved_at timestamp with time zone,
+    first_reassigned_at timestamp with time zone,
+    added_lines integer,
+    removed_lines integer,
+    target_project_id bigint,
+    pipeline_id bigint,
+    first_contribution boolean DEFAULT false NOT NULL,
+    reviewer_first_assigned_at timestamp with time zone
+);
+
+
+--
+-- Name: merge_request_metrics_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.merge_request_metrics_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: merge_request_metrics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.merge_request_metrics_id_seq OWNED BY public.merge_request_metrics.id;
+
+
+--
 -- Name: merge_request_notes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3014,6 +3067,13 @@ ALTER TABLE ONLY public.merge_request_diffs ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
+-- Name: merge_request_metrics id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.merge_request_metrics ALTER COLUMN id SET DEFAULT nextval('public.merge_request_metrics_id_seq'::regclass);
+
+
+--
 -- Name: merge_request_reviewers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3563,6 +3623,14 @@ ALTER TABLE ONLY public.merge_request_diff_files
 
 ALTER TABLE ONLY public.merge_request_diffs
     ADD CONSTRAINT merge_request_diffs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: merge_request_metrics merge_request_metrics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.merge_request_metrics
+    ADD CONSTRAINT merge_request_metrics_pkey PRIMARY KEY (id);
 
 
 --
@@ -4943,6 +5011,27 @@ CREATE INDEX index_merge_request_diffs_on_project_id ON public.merge_request_dif
 
 
 --
+-- Name: index_merge_request_metrics_on_merge_request_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_merge_request_metrics_on_merge_request_id ON public.merge_request_metrics USING btree (merge_request_id);
+
+
+--
+-- Name: index_merge_request_metrics_on_merged_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_merge_request_metrics_on_merged_at ON public.merge_request_metrics USING btree (merged_at);
+
+
+--
+-- Name: index_merge_request_metrics_on_pipeline_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_merge_request_metrics_on_pipeline_id ON public.merge_request_metrics USING btree (pipeline_id);
+
+
+--
 -- Name: index_merge_request_reviewers_on_merge_request_id_and_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6032,6 +6121,8 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260210034916'),
+('20260210031106'),
 ('20260209135517'),
 ('20260209134658'),
 ('20260209133940'),

@@ -11,6 +11,7 @@
 
 module Issuable
   extend ActiveSupport::Concern
+  include AfterCommitQueue
 
   included do
     scope :with_state, ->(*states) { where(state_id: states.flatten.map { |s|  WorkItems::HasState::STATE_ID_MAP[s] }) }
