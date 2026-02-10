@@ -107,14 +107,22 @@ class MergeRequest < ApplicationRecord
   end
 
   def commits(limit: nil, load_from_gitaly: false, page: nil)
-    commits_arr = if compare_commits
-                    reversed_commits = compare_commits.reverse
-                    limit ? reversed_commits.take(limit) : reversed_commits
-                  else
-                    []
-                  end
+    if opened?
+      commits_arr = if compare_commits
+                      reversed_commits = compare_commits.reverse
+                      limit ? reversed_commits.take(limit) : reversed_commits
+                    else
+                      []
+                    end
 
-    CommitCollection.new(source_project, commits_arr, source_branch)
+      CommitCollection.new(source_project, commits_arr, source_branch)
+    else
+      diff_commits = merge_request_diff.merge_request_diff_commits.limit(limit)
+      commits_list = diff_commits.with_users
+        .map { |commit| Commit.from_hash(commit.to_hash, source_project) }
+
+      CommitCollection.new(source_project, commits_list, source_branch)
+    end
   end
 
   def recent_commits(limit: MergeRequestDiff::COMMITS_SAFE_SIZE, load_from_gitaly: false, page: nil)
@@ -122,7 +130,9 @@ class MergeRequest < ApplicationRecord
   end
 
   def commits_count
-    if compare_commits
+    if merge_request_diff.persisted?
+      merge_request_diff.commits_count
+    elsif compare_commits
       compare_commits.size
     else
       0
