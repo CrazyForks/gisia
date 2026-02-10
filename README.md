@@ -48,7 +48,7 @@ Quick overview demo video
 
 ## ⏫ Upgrade
 
-check the docs/releases to see how to upgrade to a specified version
+check the `docs/releases` to see how to upgrade to a specified version
 
 ## 💡 Dev Philosophy
 
