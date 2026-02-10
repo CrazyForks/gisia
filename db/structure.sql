@@ -2718,6 +2718,44 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
+-- Name: web_hooks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.web_hooks (
+    id bigint NOT NULL,
+    namespace_id bigint NOT NULL,
+    type character varying DEFAULT 'ProjectHook'::character varying,
+    push_events boolean DEFAULT true NOT NULL,
+    tag_push_events boolean DEFAULT false,
+    encrypted_url character varying,
+    encrypted_url_iv character varying,
+    name text,
+    description text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: web_hooks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.web_hooks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: web_hooks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.web_hooks_id_seq OWNED BY public.web_hooks.id;
+
+
+--
 -- Name: work_item_assignees; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3225,6 +3263,13 @@ ALTER TABLE ONLY public.user_uploads ALTER COLUMN id SET DEFAULT nextval('public
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Name: web_hooks id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.web_hooks ALTER COLUMN id SET DEFAULT nextval('public.web_hooks_id_seq'::regclass);
 
 
 --
@@ -3823,6 +3868,14 @@ ALTER TABLE ONLY public.user_uploads
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: web_hooks web_hooks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.web_hooks
+    ADD CONSTRAINT web_hooks_pkey PRIMARY KEY (id);
 
 
 --
@@ -5592,6 +5645,20 @@ CREATE UNIQUE INDEX index_users_on_username ON public.users USING btree (usernam
 
 
 --
+-- Name: index_web_hooks_on_namespace_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_web_hooks_on_namespace_id ON public.web_hooks USING btree (namespace_id);
+
+
+--
+-- Name: index_web_hooks_on_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_web_hooks_on_type ON public.web_hooks USING btree (type);
+
+
+--
 -- Name: index_work_item_assignees_on_assignee_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6121,6 +6188,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260210125013'),
 ('20260210034916'),
 ('20260210031106'),
 ('20260209135517'),
