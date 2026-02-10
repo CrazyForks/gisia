@@ -14,6 +14,7 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   before_action :set_mr, only: %i[show commits diffs pipelines edit update merge close]
   before_action :set_counts, only: [:index]
   before_action :check_mr_author_authorization, only: [:update]
+  before_action :check_mr_open, only: [:edit, :update]
 
   def index
     status_param = params[:status].presence || 'opened'
@@ -89,7 +90,7 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   end
 
   def close
-    @merge_request.update!(status: 'closed')
+    @merge_request.close!
     redirect_to namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request),
       notice: 'Merge request was closed.'
   end
@@ -151,5 +152,12 @@ class Projects::MergeRequestsController < Projects::ApplicationController
         format.json { render json: { error: 'You are not authorized to update this merge request.' }, status: :forbidden }
       end
     end
+  end
+
+  def check_mr_open
+    return if @merge_request.opened?
+
+    redirect_to namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request),
+      alert: 'This merge request is no longer open and cannot be edited.'
   end
 end
