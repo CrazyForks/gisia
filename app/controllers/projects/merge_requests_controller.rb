@@ -45,8 +45,7 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   end
 
   def create
-    @merge_request = MergeRequest.new(merge_request_params.merge(author_id: current_user.id, target_project: project,
-      source_project: project))
+    @merge_request = MergeRequest.new(merge_request_create_params)
 
     if @merge_request.save
       redirect_to namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request),
@@ -126,6 +125,12 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   def merge_request_params
     params.require(:merge_request).permit(:source_project_id, :source_branch, :target_project_id, :target_branch, :title, :description,
       assignee_ids: [], reviewer_ids: [])
+  end
+
+  def merge_request_create_params
+    mr_params = merge_request_params.merge(author_id: current_user.id, source_project: project, target_project: project)
+    mr_params[:title] = "Merge #{mr_params[:source_branch]} into #{mr_params[:target_branch]}" if mr_params[:title].blank?
+    mr_params
   end
 
   def define_new_vars
