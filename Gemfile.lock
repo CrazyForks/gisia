@@ -163,6 +163,7 @@ GEM
     drb (2.2.1)
     ed25519 (1.4.0)
     encryptor (3.0.0)
+    equatable (0.7.0)
     erubi (1.13.1)
     erubis (2.7.0)
     et-orbi (1.2.11)
@@ -520,6 +521,7 @@ GEM
     msgpack (1.8.0)
     multi_json (1.15.0)
     mutex_m (0.3.0)
+    necromancer (0.3.0)
     net-http (0.6.0)
       uri
     net-http-persistent (4.0.6)
@@ -572,8 +574,9 @@ GEM
     parser (3.3.8.0)
       ast (~> 2.4.1)
       racc
-    pastel (0.8.0)
-      tty-color (~> 0.5)
+    pastel (0.5.2)
+      equatable (~> 0.5)
+      tty-screen (~> 0.4)
     pathname-common_prefix (0.0.2)
     pg (1.5.9)
     pg_query (6.1.0)
@@ -894,16 +897,12 @@ GEM
     timeout (0.4.3)
     tomlrb (2.0.3)
     trailblazer-option (0.1.2)
-    tty-color (0.6.0)
-    tty-cursor (0.7.1)
     tty-option (0.3.0)
-    tty-prompt (0.23.1)
-      pastel (~> 0.8)
-      tty-reader (~> 0.8)
-    tty-reader (0.9.0)
-      tty-cursor (~> 0.7)
-      tty-screen (~> 0.8)
-      wisper (~> 2.0)
+    tty-platform (0.1.0)
+    tty-prompt (0.2.0)
+      necromancer (~> 0.3.0)
+      pastel (~> 0.5.1)
+      tty-platform (~> 0.1.0)
     tty-screen (0.8.2)
     turbo-rails (2.0.13)
       actionpack (>= 7.1.0)
@@ -928,7 +927,7 @@ GEM
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    wisper (2.0.1)
+    wisper (3.0.0)
     xml-simple (1.1.9)
       rexml
     xpath (3.2.0)
@@ -1052,6 +1051,7 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   web-console
+  wisper (~> 3.0)
 
 BUNDLED WITH
    2.7.2

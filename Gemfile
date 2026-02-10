@@ -151,6 +151,9 @@ gem 'rubyzip', '~> 2.4.0', require: 'zip'
 
 gem 'apollo_upload_server', '~> 2.1.6'
 
+# Events
+gem 'wisper', '~> 3.0'
+
 # I18n
 gem 'rails-i18n', '~> 8.0', '>= 8.0.2'
 gem 'gettext_i18n_rails', '~> 2.0'
