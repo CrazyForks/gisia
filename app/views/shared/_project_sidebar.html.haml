@@ -67,6 +67,10 @@
             = icon 'gear', class: "w-4 h-4 #{current_page?(edit_namespace_project_path(@project.namespace.parent.full_path, @project.path)) ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
             %span General
         %li
+          = link_to namespace_project_settings_webhooks_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{current_page?(namespace_project_settings_webhooks_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
+            = icon 'flow-arrow', class: "w-4 h-4 #{current_page?(namespace_project_settings_webhooks_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
+            %span Webhooks
+        %li
           = link_to edit_namespace_project_settings_repository_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{current_page?(edit_namespace_project_settings_repository_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'folder', class: "w-4 h-4 #{current_page?(edit_namespace_project_settings_repository_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
             %span Repository

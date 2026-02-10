@@ -1,0 +1,5 @@
+= turbo_stream.replace 'webhooks-content' do
+  = turbo_frame_tag 'webhooks-content' do
+    = render 'list'
+  = turbo_stream.replace 'flash' do
+    = render 'shared/flash'
