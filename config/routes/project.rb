@@ -57,6 +57,14 @@ constraints(::Constraints::ProjectUrlConstrainer.new) do
               post :edit_form
             end
           end
+          resources :webhooks, only: [:index, :create, :update, :destroy] do
+            collection do
+              post :new_form
+            end
+            member do
+              post :edit_form
+            end
+          end
         end
       end
     end
