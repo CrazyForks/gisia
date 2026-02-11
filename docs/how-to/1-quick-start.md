@@ -14,7 +14,7 @@ Create the project folder
 
 Init the config
 
-`docker run --rm -v ./:/output gisia/init:0.2.0`
+`docker run --rm -v ./:/output gisia/init:0.3.1`
 
 Modify and rename the `.env`
 
