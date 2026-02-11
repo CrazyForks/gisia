@@ -20,7 +20,7 @@ Quick overview demo video
 
 
 > [!WARNING]
-> ⚠️ Gisia is currently in **Alpha**.
+> ⚠️ Gisia is currently in **Beta**.
 > 
 > That means it is under active development and may contain bugs or breaking changes between versions.
 
@@ -36,8 +36,8 @@ Quick overview demo video
 | **Git Repository Hosting** | ✅ Done | Lightweight Git server with SSH and HTTP(S) access |
 | **CI/CD Pipelines** | ✅ Done | Basic runner support and pipeline definitions in YAML |
 | **Issue Tracking** | ✅ Done| Simple issue board for personal or small team usage |
-| **Merge Requests / Code Review** | 🔜 Working on | Inline diffs and comment threads |
-| **Notifications System** | 💤 Not Planned Yet | Email or webhook-based alerts |
+| **Merge Requests / Code Review** | ✅ Done | Inline diffs and comment threads |
+| **Webhooks** | ✅ Done | Webhooks to call URL of 3rd party services|
 
 
 ## 🛠️ Installation
