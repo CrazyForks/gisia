@@ -46,6 +46,9 @@ module Projects
 
       def update
         if @webhook.update(webhook_params)
+          @webhooks = @project.namespace.web_hooks.order(id: :desc)
+          flash.now[:notice] = 'Webhook was successfully updated.'
+
           respond_to do |format|
             format.turbo_stream { render :update }
             format.html { redirect_to webhooks_path(@project), notice: 'Webhook was successfully updated.' }
