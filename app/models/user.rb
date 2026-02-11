@@ -103,6 +103,10 @@ class User < ApplicationRecord
     can?(:admin_all_resources)
   end
 
+  def public_email
+    email
+  end
+
   def commit_email_or_default
     return private_commit_email if self.commit_email == Gitlab::PrivateCommitEmail::TOKEN
 

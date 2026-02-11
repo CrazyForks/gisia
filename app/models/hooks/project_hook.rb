@@ -10,19 +10,12 @@
 # ======================================================
 
 class ProjectHook < WebHook
-  AVAILABLE_HOOKS = [
-    :push_hooks,
-    :tag_push_hooks,
-  ].freeze
-
   self.allow_legacy_sti_class = true
 
   has_one :project, through: :namespace
 
   scope :for_projects, ->(project) { where(namespace_id: project.namespace_id) }
-
-  def self.available_hooks
-    AVAILABLE_HOOKS
-  end
+  scope :branch_push, -> { where(push_events: true) }
+  scope :tag_push, -> { where(tag_push_events: true) }
 end
 

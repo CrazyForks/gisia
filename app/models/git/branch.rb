@@ -13,12 +13,32 @@ module Git
   class Branch < Base
     include HasBranchHook
     include MergeRequests::Refreshable
+    include Wisper::Publisher
 
     delegate :oldrev, :newrev, :ref, to: :change
 
     def push
       create_pipelines!
       refresh!
+      publish_webhook_event
+    end
+
+    private
+
+    def publish_webhook_event
+      commits = project.repository.commits_between(oldrev, newrev)
+      payload = Gitlab::DataBuilder::Push.build(
+        project: project,
+        user: current_user,
+        oldrev: oldrev,
+        newrev: newrev,
+        ref: ref,
+        commits: commits,
+        push_options: params[:push_options] || {}
+      )
+
+      broadcast(:branch_push, project, payload)
     end
   end
 end
+

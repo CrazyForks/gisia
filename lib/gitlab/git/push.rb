@@ -50,6 +50,12 @@ module Gitlab
         end
       end
 
+      def tag_push?
+        strong_memoize(:tag_push) do
+          Gitlab::Git.tag_ref?(@ref)
+        end
+      end
+
       def modified_paths
         unless branch_updated?
           raise ArgumentError, 'Unable to calculate modified paths!'

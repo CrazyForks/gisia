@@ -18,7 +18,17 @@ module Gitlab
     delegate :build, to: :class
 
     def project_url(project, **)
-      ::Gitlab::Routing.url_helpers.namespace_project_url(project.namespace.parent&.full_path,project.namespace.path, **)
+      ::Gitlab::Routing.url_helpers.namespace_project_url(project.namespace.parent&.full_path, project.namespace.path, **)
+    end
+
+    def commit_url(commit, **)
+      project = commit.project
+      ::Gitlab::Routing.url_helpers.namespace_project_commit_url(
+        project.namespace.parent&.full_path,
+        project.namespace.path,
+        commit.id,
+        **
+      )
     end
 
     class << self

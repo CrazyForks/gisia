@@ -477,6 +477,27 @@ class Project < ApplicationRecord
        instance_level_devops_adoption]
   end
 
+  def hook_attrs
+    {
+      id: id,
+      name: name,
+      description: description,
+      web_url: web_url,
+      # avatar_url: avatar_url(only_path: false),
+      git_ssh_url: ssh_url_to_repo,
+      git_http_url: http_url_to_repo,
+      namespace: namespace.name,
+      visibility_level: visibility_level,
+      path_with_namespace: full_path,
+      default_branch: default_branch,
+      ci_config_path: ci_config_path_or_default,
+      homepage: web_url,
+      url: url_to_repo,
+      ssh_url: ssh_url_to_repo,
+      http_url: http_url_to_repo
+    }
+  end
+
   def full_path_slug
     Gitlab::Utils.slugify(full_path.to_s)
   end

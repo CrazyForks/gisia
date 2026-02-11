@@ -14,6 +14,7 @@ module Git
     def push
       changes = params[:changes]
       process_changes_by_action(changes.branch_changes)
+      process_changes_by_action(changes.tag_changes)
     end
 
     private

@@ -79,6 +79,24 @@ class Commit
       end
   end
 
+  def timestamp
+    committed_date.xmlschema
+  end
+
+  def hook_attrs(with_changed_files: false)
+    {
+      id: id,
+      message: message,
+      title: title,
+      timestamp: timestamp,
+      url: Gitlab::UrlBuilder.commit_url(self),
+      author: {
+        name: author_name,
+        email: author_email
+      }
+    }
+  end
+
   def raw_diffs(...)
     raw.diffs(...)
   end
