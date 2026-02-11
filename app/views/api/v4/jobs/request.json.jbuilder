@@ -32,30 +32,16 @@ json.image do
 end
 
 
-json.services do
-  if @job.services.present?
-    @job.services.each do |service|
-      json.partial! 'service', service: service
-    end
-  else
-    json.array! []
-  end
+json.services @job.services do |service|
+  json.partial! 'service', service: service
 end
 
-json.artifacts do
-  if @job.artifacts.present?
-    json.partial! 'artifacts', artifacts: @job.artifacts
-  else
-    json.nil!
-  end
+json.artifacts @job.artifacts do |artifact|
+  json.partial! 'artifacts', artifacts: artifact
 end
 
-json.cache do
-  if @job.cache.present?
-    json.partial! 'cache', cache: @job.cache
-  else
-    json.array! []
-  end
+json.cache @job.cache do |single_cache|
+  json.partial! 'cache', cache: single_cache
 end
 
 json.credentials @job.credentials do |credential|
