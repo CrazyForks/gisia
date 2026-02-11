@@ -107,7 +107,7 @@ class MergeRequest < ApplicationRecord
   end
 
   def commits(limit: nil, load_from_gitaly: false, page: nil)
-    if opened?
+    if use_live_comparison?
       commits_arr = if compare_commits
                       reversed_commits = compare_commits.reverse
                       limit ? reversed_commits.take(limit) : reversed_commits
@@ -130,10 +130,10 @@ class MergeRequest < ApplicationRecord
   end
 
   def commits_count
-    if merge_request_diff.persisted?
+    if use_live_comparison?
+      compare_commits&.size || 0
+    elsif merge_request_diff.persisted?
       merge_request_diff.commits_count
-    elsif compare_commits
-      compare_commits.size
     else
       0
     end
@@ -151,7 +151,7 @@ class MergeRequest < ApplicationRecord
   end
 
   def diffs(diff_options = {})
-    if opened?
+    if use_live_comparison?
       compare.diffs(diff_options.merge(expanded: true))
     else
       merge_request_diff.diffs(diff_options)
@@ -223,6 +223,10 @@ class MergeRequest < ApplicationRecord
   end
 
   private
+
+  def use_live_comparison?
+    opened? || merge_request_diff.empty?
+  end
 
   def ensure_metrics!
     MergeRequest::Metrics.record!(self)
