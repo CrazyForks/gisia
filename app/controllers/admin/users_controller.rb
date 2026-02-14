@@ -32,11 +32,12 @@ class Admin::UsersController < Admin::ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.skip_confirmation!
 
     if @user.save
       redirect_to admin_user_path(@user), notice: 'User was successfully created.'
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -46,12 +47,13 @@ class Admin::UsersController < Admin::ApplicationController
     update_params = user_params
 
     # Remove password fields if they're blank
+    update_params = update_params.except(:username)
     update_params = update_params.except(:password, :password_confirmation) if update_params[:password].blank?
 
     if @user.update(update_params)
       redirect_to admin_user_path(@user), notice: 'User was successfully updated.'
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -71,10 +73,8 @@ class Admin::UsersController < Admin::ApplicationController
   end
 
   def set_user_stats
-    all_users = User.all
-    @users_count = all_users.count
-    @pending_approval_count = all_users.confirmed.count
-    @admin_count = all_users.admins.count
-    @without_2fa_count = @users_count - @admin_count
+    @users_count = User.count
+    @pending_approval_count = User.where(confirmed_at: nil).count
+    @admin_count = User.admins.count
   end
 end
