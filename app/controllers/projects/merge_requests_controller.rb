@@ -134,7 +134,7 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   end
 
   def define_new_vars
-    @merge_request = MergeRequest.new(source_project: project, target_project: project)
+    @merge_request ||= MergeRequest.new(source_project: project, target_project: project)
     @branches = project.repository.branch_names
     @projects = Project.all
     @users = User.all

@@ -9,6 +9,15 @@
       %p{ class: 'text-slate-600' } Create a new merge request by selecting source and target projects and branches.
 
     = form_with model: @merge_request, url: namespace_project_merge_requests_path, local: true, data: { turbo: false } do |f|
+      - if @merge_request.errors.any?
+        %div{ class: 'bg-red-50 border border-red-200 rounded-lg p-4 mb-6' }
+          %div{ class: 'flex' }
+            = icon 'warning', class: 'w-5 h-5 text-red-400 mt-0.5'
+            %div{ class: 'ml-3' }
+              %h3{ class: 'text-sm font-medium text-red-800' } Unable to create merge request
+              %ul{ class: 'mt-1 text-sm text-red-700 list-disc list-inside' }
+                - @merge_request.errors.full_messages.each do |message|
+                  %li= message
 
       %div{ class: 'space-y-6' }
         %div{ class: 'hidden' }
