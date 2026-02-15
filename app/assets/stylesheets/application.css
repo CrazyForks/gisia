@@ -52,3 +52,7 @@
   background: #d1d5db;
 }
 
+svg circle:not([fill]), svg circle[fill=""] {
+  fill: currentColor;
+}
+
