@@ -5260,6 +5260,13 @@ CREATE INDEX index_namespaces_on_path ON public.namespaces USING btree (path);
 
 
 --
+-- Name: index_namespaces_on_path_and_parent_id_and_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_namespaces_on_path_and_parent_id_and_type ON public.namespaces USING btree (path, parent_id, type);
+
+
+--
 -- Name: index_namespaces_on_traversal_ids; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6188,6 +6195,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260215144032'),
 ('20260210125013'),
 ('20260210034916'),
 ('20260210031106'),

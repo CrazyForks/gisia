@@ -54,6 +54,7 @@ class Namespace < ApplicationRecord
 
   validates :route, presence: true
   validates :creator, presence: true
+  validates :name, uniqueness: { scope: :parent_id, case_sensitive: false }, on: :create
   validates :path,
     presence: true,
     length: { maximum: URL_MAX_LENGTH }
