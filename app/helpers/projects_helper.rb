@@ -19,7 +19,7 @@ module ProjectsHelper
     names = project.route.name.split(' / ')
     paths = project.route.path.split('/')
     names.map.with_index do |name, i|
-      path = i == names.size - 1 ? project_path(project) : '/' + paths[0..i].join('/')
+      path = i == names.size - 1 ? project_path(project) : '#'
       { label: name, path: path }
     end
   end
