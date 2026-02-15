@@ -137,7 +137,7 @@ class Projects::MergeRequestsController < Projects::ApplicationController
     @merge_request ||= MergeRequest.new(source_project: project, target_project: project)
     @branches = project.repository.branch_names
     @projects = Project.all
-    @users = User.all
+    @users = project.users
   end
 
   def set_mr
