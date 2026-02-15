@@ -1,6 +1,6 @@
 
 - content_for :breadcrumb do
-  - nodes = [{ label: project_breadcrumb_name(@project), path: project_path(@project) }, { label: 'Issues', path: namespace_project_issues_path(@project.namespace.parent.full_path, @project.path) }, { label: @issue.to_reference, path: namespace_project_issue_path(@project.namespace.parent.full_path, @project.path, @issue) }, { label: 'Edit', path: edit_namespace_project_issue_path(@project.namespace.parent.full_path, @project.path, @issue) }]
+  - nodes = [*project_breadcrumb_nodes(@project), { label: 'Issues', path: namespace_project_issues_path(@project.namespace.parent.full_path, @project.path) }, { label: @issue.to_reference, path: namespace_project_issue_path(@project.namespace.parent.full_path, @project.path, @issue) }, { label: 'Edit', path: edit_namespace_project_issue_path(@project.namespace.parent.full_path, @project.path, @issue) }]
   = render 'shared/breadcrumb', nodes: nodes
 
 %div{ class: 'w-full bg-white p-6' }

@@ -15,6 +15,15 @@ module ProjectsHelper
     project.route.name.sub('/', '>')
   end
 
+  def project_breadcrumb_nodes(project)
+    names = project.route.name.split(' / ')
+    paths = project.route.path.split('/')
+    names.map.with_index do |name, i|
+      path = i == names.size - 1 ? project_path(project) : '/' + paths[0..i].join('/')
+      { label: name, path: path }
+    end
+  end
+
   def project_path(_project)
     namespace_project_path(@project.namespace.parent.full_path, @project.path)
   end

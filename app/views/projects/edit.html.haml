@@ -1,3 +1,7 @@
+- content_for :breadcrumb do
+  - nodes = [*project_breadcrumb_nodes(@project), { label: 'Settings', path: edit_namespace_project_path(@project.namespace.parent.full_path, @project.namespace.path) }]
+  = render 'shared/breadcrumb', nodes: nodes
+
 %div{class: 'w-full bg-white p-2 rounded-lg'}
   %div{class: 'w-full max-w-6xl mx-auto'}
 

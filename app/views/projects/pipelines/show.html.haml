@@ -1,5 +1,5 @@
 - content_for :breadcrumb do
-  - nodes = [{ label: project_breadcrumb_name(@project), path: project_path(@project) }, { label: 'Pipelines', path: pipelines_path(@project) }, { label: "##{@pipeline.id}", path: pipeline_path(@pipeline)}]
+  - nodes = [*project_breadcrumb_nodes(@project), { label: 'Pipelines', path: pipelines_path(@project) }, { label: "##{@pipeline.id}", path: pipeline_path(@pipeline)}]
   = render 'shared/breadcrumb', nodes: nodes
 
 - content_for :pipeline_content do
