@@ -1,5 +1,5 @@
 - content_for :breadcrumb do
-  - nodes = [{ label: @project.name, path: dashboard_project_path(@project) }, { label: 'Merge Requests', path: namespace_project_merge_requests_path(@project.namespace.parent.full_path, @project.path) }, { label: "##{@merge_request.id}", path: namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request) }, { label: 'Edit' }]
+  - nodes = [{ label: project_breadcrumb_name(@project), path: project_path(@project) }, { label: 'Merge Requests', path: namespace_project_merge_requests_path(@project.namespace.parent.full_path, @project.path) }, { label: "##{@merge_request.id}", path: namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request) }, { label: 'Edit' }]
   = render 'shared/breadcrumb', nodes: nodes
 
 %div{ class: 'w-full bg-white p-6' }

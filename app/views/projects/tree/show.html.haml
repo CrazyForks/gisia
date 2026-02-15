@@ -1,3 +1,7 @@
+- content_for :breadcrumb do
+  - nodes = [{ label: project_breadcrumb_name(@project), path: project_path(@project) }, { label: 'Files', path: project_path(@project) }]
+  = render 'shared/breadcrumb', nodes: nodes
+
 %div{ class: 'w-full bg-white p-6' }
   %div{ class: 'w-full max-w-6xl mx-auto flex flex-col px-4' }
     %div{ class: 'flex justify-between items-start mb-6' }

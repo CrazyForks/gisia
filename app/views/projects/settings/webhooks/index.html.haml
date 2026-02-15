@@ -1,6 +1,6 @@
 - content_for :title, "Webhooks Settings"
 - content_for :breadcrumb do
-  - nodes = [{ label: project_breadcrumb_name(@project), path: dashboard_project_path(@project) }, { label: 'Settings', path: edit_namespace_project_path(@project.namespace.parent.full_path, @project.namespace.path) }, { label: 'Webhooks', path: webhooks_path(@project) }]
+  - nodes = [{ label: project_breadcrumb_name(@project), path: project_path(@project) }, { label: 'Settings', path: edit_namespace_project_path(@project.namespace.parent.full_path, @project.namespace.path) }, { label: 'Webhooks', path: webhooks_path(@project) }]
   = render 'shared/breadcrumb', nodes: nodes
 
 %div{class: 'w-full bg-white p-2 rounded-lg'}

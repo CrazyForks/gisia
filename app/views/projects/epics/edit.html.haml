@@ -1,5 +1,5 @@
 - content_for :breadcrumb do
-  - nodes = [{ label: @project.name, path: dashboard_project_path(@project) }, { label: 'Epics', path: namespace_project_epics_path(@project.namespace.parent.full_path, @project.namespace.path) }, { label: @epic.title, path: namespace_project_epic_path(@project.namespace.parent.full_path, @project.namespace.path, @epic) }, { label: 'Edit', path: nil }]
+  - nodes = [{ label: project_breadcrumb_name(@project), path: project_path(@project) }, { label: 'Epics', path: namespace_project_epics_path(@project.namespace.parent.full_path, @project.namespace.path) }, { label: @epic.title, path: namespace_project_epic_path(@project.namespace.parent.full_path, @project.namespace.path, @epic) }, { label: 'Edit', path: nil }]
   = render 'shared/breadcrumb', nodes: nodes
 
 %div{ class: 'w-full bg-white p-6' }
