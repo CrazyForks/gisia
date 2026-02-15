@@ -2,7 +2,7 @@
 
 module Projects
   module Settings
-    class CiCdController < Projects::ApplicationController
+    class CiCdController < Projects::Settings::ApplicationController
       layout 'project_settings'
 
       def edit

@@ -1,6 +1,6 @@
 module Projects
   module Settings
-    class LabelsController < Projects::ApplicationController
+    class LabelsController < Projects::Settings::ApplicationController
       include LabelsHelper
       before_action :set_label, only: [:edit_form, :update, :destroy]
 

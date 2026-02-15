@@ -98,4 +98,10 @@ module ProjectsHelper
     namespace = note.namespace
     namespace_project_note_path(namespace.parent.full_path, namespace.path, note)
   end
+
+  def can_access_project_settings?(project, user)
+    return false unless user
+
+    user.admin? || project.team.member?(user, Accessible::MAINTAINER)
+  end
 end

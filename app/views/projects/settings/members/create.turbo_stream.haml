@@ -1,0 +1,7 @@
+= turbo_stream.replace 'members-content' do
+  = turbo_frame_tag 'members-content' do
+    %div{class: 'flex justify-end mb-4'}
+      = button_to new_member_form_path(@project), method: :post, class: 'px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium text-sm border-none cursor-pointer' do
+        = icon 'plus', class: 'w-4 h-4 inline-block mr-2'
+        Add Member
+    = render 'list'

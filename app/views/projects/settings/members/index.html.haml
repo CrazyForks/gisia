@@ -1,0 +1,23 @@
+- content_for :title, "Members Settings"
+- content_for :breadcrumb do
+  - nodes = [{ label: project_breadcrumb_name(@project), path: dashboard_project_path(@project) }, { label: 'Settings', path: edit_namespace_project_path(@project.namespace.parent.full_path, @project.namespace.path) }, { label: 'Members', path: settings_members_path(@project) }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{class: 'w-full bg-white p-2 rounded-lg'}
+  %div{class: 'w-full max-w-6xl mx-auto'}
+    %div{class: 'py-6'}
+      %div{class: 'flex items-center justify-between mb-6'}
+        %div{class: 'flex items-center gap-4'}
+          %div{class: 'w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xl font-bold'}
+            = icon 'users', class: 'w-8 h-8'
+          %div
+            %h1{class: 'text-2xl font-bold text-gray-900'}
+              Members
+            %p{class: 'text-gray-600'}
+              Manage project members and their roles
+      = turbo_frame_tag 'members-content' do
+        %div{class: 'flex justify-end mb-4'}
+          = button_to new_member_form_path(@project), method: :post, class: 'px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium text-sm border-none cursor-pointer' do
+            = icon 'plus', class: 'w-4 h-4 inline-block mr-2'
+            Add Member
+        = render 'list'

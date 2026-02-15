@@ -2,7 +2,7 @@
 
 module Projects
   module Settings
-    class VariablesController < Projects::ApplicationController
+    class VariablesController < Projects::Settings::ApplicationController
       def create
         @variable = @project.namespace.variables.build(variable_params)
 

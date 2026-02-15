@@ -2,6 +2,9 @@ default: &default
   ci_builds_batch_archive_trace_cron_job:
     class: "Ci::Builds::BatchArchiveTraceJob"
     schedule: "1 * * * *"
+  remove_expired_members_job:
+    class: "RemoveExpiredMembersJob"
+    schedule: "10 0 * * *"
   drop_running_job:
     class: "Ci::StuckBuilds::DropRunningJob"
     schedule: "*/30 * * * *"

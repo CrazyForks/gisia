@@ -11,12 +11,14 @@
 
 class Member < ApplicationRecord
   include Accessible
+  include Expirable
   include Importable
 
   belongs_to :user
   belongs_to :created_by, class_name: 'User', optional: true
   belongs_to :namespace
 
+  scope :active, -> { non_request }
   scope :request, -> { where.not(requested_at: nil) }
   scope :non_request, -> { where(requested_at: nil) }
 

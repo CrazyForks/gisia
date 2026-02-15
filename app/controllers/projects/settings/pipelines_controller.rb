@@ -2,7 +2,7 @@
 
 module Projects
   module Settings
-    class PipelinesController < Projects::ApplicationController
+    class PipelinesController < Projects::Settings::ApplicationController
       layout 'project_settings'
 
       def update

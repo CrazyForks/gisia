@@ -213,6 +213,7 @@ class ProjectTeam
       default_value: Gitlab::Access::NO_ACCESS
     ) do |user_ids|
       project.members
+             .active
              .where(user: user_ids)
              .group(:user_id)
              .maximum(:access_level)

@@ -1,6 +1,6 @@
 module Projects
   module Settings
-    class WebhooksController < Projects::ApplicationController
+    class WebhooksController < Projects::Settings::ApplicationController
       include WebhooksHelper
       before_action :set_webhook, only: [:edit_form, :update, :destroy]
 

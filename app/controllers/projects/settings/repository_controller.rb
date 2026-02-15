@@ -2,7 +2,7 @@
 
 module Projects
   module Settings
-    class RepositoryController < Projects::ApplicationController
+    class RepositoryController < Projects::Settings::ApplicationController
       layout 'project_settings'
 
       def edit

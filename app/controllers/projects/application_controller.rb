@@ -16,8 +16,16 @@ class Projects::ApplicationController < ApplicationController
 
   before_action :project
   before_action :repository
+  before_action :authorize_project_access!
 
   private
+
+  def authorize_project_access!
+    return if current_user&.admin?
+    return if @project && @project.team.member?(current_user)
+
+    head :not_found
+  end
 
   def project
     return @project if @project

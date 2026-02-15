@@ -49,6 +49,14 @@ constraints(::Constraints::ProjectUrlConstrainer.new) do
           resources :variables, only: [:create, :update, :destroy], controller: 'variables'
           resources :protected_branches, only: [:index, :show, :create, :update, :destroy]
           resources :protected_tags, only: [:index, :show, :create, :update, :destroy]
+          resources :members, only: [:index, :create, :update, :destroy] do
+            collection do
+              post :new_form
+            end
+            member do
+              post :edit_form
+            end
+          end
           resources :labels, only: [:index, :create, :update, :destroy] do
             collection do
               post :new_form

@@ -2,7 +2,7 @@
 
 module Projects
   module Settings
-    class ProtectedRefsController < Projects::ApplicationController
+    class ProtectedRefsController < Projects::Settings::ApplicationController
   layout 'project_settings'
 
   before_action :set_protected_ref, only: %i[show update destroy]
