@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
 class Dashboard::ProjectsController < Dashboard::ApplicationController
-  before_action :set_project, only: %i[show destroy]
+  before_action :set_project, only: %i[destroy]
   before_action :set_available_namespaces, only: %i[new create]
   before_action :verify_namespace_ownership, only: %i[create]
 
   def index
     @projects = current_user.projects.order(id: :desc)
   end
-
-  def show; end
 
   def new
     @project = Project.new

@@ -35,7 +35,7 @@ Rails.application.routes.draw do
   root 'dashboard/home#home'
   scope path: '-' do
     namespace :dashboard do
-      resources :projects, except: [:edit]
+      resources :projects, except: %i[edit show]
       resources :groups
     end
 
