@@ -55,6 +55,6 @@ class Admin::ProjectsController < Admin::ApplicationController
   end
 
   def project_params
-    params.require(:project).permit(:name, :description, namespace_attributes: %i[id visibility_level])
+    params.require(:project).permit(:name, :path, :description, namespace_attributes: %i[id visibility_level])
   end
 end
