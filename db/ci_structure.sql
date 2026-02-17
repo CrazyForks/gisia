@@ -819,7 +819,7 @@ CREATE TABLE public.ci_pipelines (
     pipeline_schedule_id bigint,
     auto_canceled_by_id bigint,
     committed_at timestamp(6) without time zone,
-    ci_ref_id bigint NOT NULL,
+    ci_ref_id bigint,
     lock_version integer DEFAULT 0
 );
 
@@ -6195,6 +6195,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260217091012'),
 ('20260215144032'),
 ('20260210125013'),
 ('20260210034916'),
