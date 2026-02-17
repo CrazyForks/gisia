@@ -1,0 +1,15 @@
+- nodes = [{ label: 'User Settings', path: users_settings_profile_path }, { label: 'New Access Token', path: new_users_settings_personal_access_token_path }]
+= render 'shared/breadcrumb', nodes: nodes
+
+%div{class: 'w-full bg-white p-2 rounded-lg'}
+  %div{class: 'w-full max-w-6xl mx-auto'}
+
+    %div{class: 'py-6'}
+      %div{class: 'flex items-center gap-4 mb-6'}
+        %div{class: 'w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-xl font-bold'}
+          = icon 'shield-check', class: 'w-8 h-8'
+        %div
+          %h1{class: 'text-2xl font-bold text-gray-900'} Add Access Token
+          %p{class: 'text-gray-600'} Create a new personal access token
+
+      = render 'form'

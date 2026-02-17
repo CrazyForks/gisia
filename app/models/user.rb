@@ -23,6 +23,7 @@ class User < ApplicationRecord
   FEED_TOKEN_PREFIX = 'glft-'
 
   has_many :keys
+  has_many :personal_access_tokens, dependent: :destroy
   has_many :project_members, -> { where(requested_at: nil) }
   has_many :projects, -> { distinct }, through: :project_members
   has_many :group_members, -> {

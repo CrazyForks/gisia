@@ -22,8 +22,12 @@
             = icon 'lock', class: 'w-4 h-4 text-gray-600 group-hover:text-blue-600'
             %span Password
         %li
+          = link_to users_settings_personal_access_tokens_path, class: "flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-800 rounded hover:bg-gray-50 hover:text-blue-700 group" do
+            = icon 'shield-check', class: 'w-4 h-4 text-gray-600 group-hover:text-blue-600'
+            %span Access Tokens
+        %li
           = link_to users_settings_keys_path, class: "flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-800 rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'key', class: 'w-4 h-4 text-gray-600 group-hover:text-blue-600'
-            %span Keys
+            %span SSH Keys
 
   = render 'shared/sidebar_footer'

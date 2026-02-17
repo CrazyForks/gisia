@@ -14,6 +14,7 @@ import LabelSelectDropdownController from "./label_select_dropdown_controller"
 import EpicSelectDropdownController from "./epic_select_dropdown_controller"
 import ReplyToggleController from "./reply_toggle_controller"
 import CopyController from "./copy_controller"
+import ClipboardController from "./clipboard_controller"
 import UsersSettingsKeysController from "./users/settings/keys_controller"
 import DiffCommentController from "./diff_comment_controller"
 import DiffNavigatorController from "./diff_navigator_controller"
@@ -36,6 +37,7 @@ application.register("label-select-dropdown", LabelSelectDropdownController)
 application.register("epic-select-dropdown", EpicSelectDropdownController)
 application.register("reply-toggle", ReplyToggleController)
 application.register("copy", CopyController)
+application.register("clipboard", ClipboardController)
 application.register("users--settings--keys", UsersSettingsKeysController)
 application.register("diff-comment", DiffCommentController)
 application.register("diff-navigator", DiffNavigatorController)

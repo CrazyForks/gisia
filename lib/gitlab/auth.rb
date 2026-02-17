@@ -4,6 +4,9 @@
 # Contains code from GitLab FOSS (MIT Licensed)
 # Copyright (c) GitLab Inc.
 # See .licenses/Gisia/others/gitlab-foss.dep.yml for full license
+#
+# Modifications and additions copyright (c) 2025-present Liuming Tan
+# Licensed under AGPLv3 - see LICENSE file in this repository
 # ======================================================
 
 module Gitlab
@@ -134,8 +137,8 @@ module Gitlab
           lfs_token_check(login, password, project, request) ||
           # Todo,
           # oauth_access_token_check(password) ||
-          # personal_access_token_check(password, project) ||
-          #deploy_token_check(login, password, project) ||
+          personal_access_token_check(password, project) ||
+          # deploy_token_check(login, password, project) ||
           # user_with_password_for_git(login, password) ||
           Gitlab::Auth::Result::EMPTY
 
@@ -301,7 +304,6 @@ module Gitlab
 
         finder_options = { state: 'active' }
         finder_options[:impersonation] = false unless Gitlab.config.gitlab.impersonation_enabled
-
         token = PersonalAccessTokensFinder.new(finder_options).find_by_token(password)
 
         return unless token

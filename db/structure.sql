@@ -2096,6 +2096,76 @@ ALTER SEQUENCE public.oauth_applications_id_seq OWNED BY public.oauth_applicatio
 
 
 --
+-- Name: personal_access_token_last_used_ips; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.personal_access_token_last_used_ips (
+    id bigint NOT NULL,
+    personal_access_token_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    ip_address inet
+);
+
+
+--
+-- Name: personal_access_token_last_used_ips_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.personal_access_token_last_used_ips_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: personal_access_token_last_used_ips_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.personal_access_token_last_used_ips_id_seq OWNED BY public.personal_access_token_last_used_ips.id;
+
+
+--
+-- Name: personal_access_tokens; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.personal_access_tokens (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    name character varying NOT NULL,
+    revoked boolean DEFAULT false,
+    expires_at date,
+    scopes character varying DEFAULT '--- []\n'::character varying NOT NULL,
+    token_digest character varying,
+    last_used_at timestamp(6) without time zone,
+    description text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: personal_access_tokens_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.personal_access_tokens_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: personal_access_tokens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.personal_access_tokens_id_seq OWNED BY public.personal_access_tokens.id;
+
+
+--
 -- Name: plan_limits; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3175,6 +3245,20 @@ ALTER TABLE ONLY public.oauth_applications ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- Name: personal_access_token_last_used_ips id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.personal_access_token_last_used_ips ALTER COLUMN id SET DEFAULT nextval('public.personal_access_token_last_used_ips_id_seq'::regclass);
+
+
+--
+-- Name: personal_access_tokens id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.personal_access_tokens ALTER COLUMN id SET DEFAULT nextval('public.personal_access_tokens_id_seq'::regclass);
+
+
+--
 -- Name: plan_limits id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3759,6 +3843,22 @@ ALTER TABLE ONLY public.oauth_applications
 
 
 --
+-- Name: personal_access_token_last_used_ips personal_access_token_last_used_ips_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.personal_access_token_last_used_ips
+    ADD CONSTRAINT personal_access_token_last_used_ips_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: personal_access_tokens personal_access_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.personal_access_tokens
+    ADD CONSTRAINT personal_access_tokens_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: plan_limits plan_limits_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4091,6 +4191,13 @@ CREATE UNIQUE INDEX idx_on_organization_id_name_email_0254cd9454 ON public.merge
 
 
 --
+-- Name: idx_on_personal_access_token_id_bf77e61c9c; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_personal_access_token_id_bf77e61c9c ON public.personal_access_token_last_used_ips USING btree (personal_access_token_id);
+
+
+--
 -- Name: idx_on_resource_owner_id_application_id_created_at_971a753b2e; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4137,6 +4244,34 @@ CREATE INDEX idx_on_target_project_id_merged_commit_sha_f498e76f62 ON public.mer
 --
 
 CREATE INDEX idx_on_target_project_id_squash_commit_sha_ae9a9a8632 ON public.merge_requests USING btree (target_project_id, squash_commit_sha);
+
+
+--
+-- Name: idx_pat_last_used_ips_on_pat_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_pat_last_used_ips_on_pat_id ON public.personal_access_token_last_used_ips USING btree (personal_access_token_id);
+
+
+--
+-- Name: idx_pat_on_token_digest; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX idx_pat_on_token_digest ON public.personal_access_tokens USING btree (token_digest);
+
+
+--
+-- Name: idx_pat_on_user_id_and_expires_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_pat_on_user_id_and_expires_at ON public.personal_access_tokens USING btree (user_id, expires_at);
+
+
+--
+-- Name: idx_pat_on_user_id_and_last_used_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_pat_on_user_id_and_last_used_at ON public.personal_access_tokens USING btree (user_id, last_used_at, id);
 
 
 --
@@ -5344,6 +5479,13 @@ CREATE UNIQUE INDEX index_oauth_applications_on_uid ON public.oauth_applications
 
 
 --
+-- Name: index_personal_access_tokens_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_personal_access_tokens_on_user_id ON public.personal_access_tokens USING btree (user_id);
+
+
+--
 -- Name: index_plan_limits_on_plan_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6195,6 +6337,9 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260217142228'),
+('20260217132430'),
+('20260217132421'),
 ('20260217091012'),
 ('20260215144032'),
 ('20260210125013'),
