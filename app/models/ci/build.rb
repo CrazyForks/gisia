@@ -102,6 +102,36 @@ module Ci
     delegate :ensure_persistent_ref, to: :pipeline
     delegate :name, to: :project, prefix: true
 
+    def clone(current_user:, new_job_variables_attributes: [])
+      new_build = super
+
+      if action? && new_job_variables_attributes.any?
+        new_build.job_variables = []
+        new_build.job_variables_attributes = new_job_variables_attributes
+      end
+
+      new_build
+    end
+
+    def self.clone_accessors
+      %i[pipeline project ref tag options name
+        allow_failure stage_idx
+        yaml_variables when environment coverage_regex
+        description protected needs_attributes
+        job_variables_attributes
+        scheduling_type ci_stage partition_id execution_config_id].freeze
+    end
+
+    def job_variables_attributes
+      strong_memoize(:job_variables_attributes) do
+        job_variables.internal_source.map do |variable|
+          variable.attributes.except('id', 'job_id', 'encrypted_value', 'encrypted_value_iv').tap do |attrs|
+            attrs[:value] = variable.value
+          end
+        end
+      end
+    end
+
     def auto_retry
       strong_memoize(:auto_retry) do
         Gitlab::Ci::Build::AutoRetry.new(self)

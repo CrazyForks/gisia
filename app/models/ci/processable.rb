@@ -17,6 +17,7 @@ module Ci
     include FromUnion
     include Ci::Metadatable
     include Ci::Builds::Processable
+    include Ci::Retryable
 
     extend ::Gitlab::Utils::Override
 
@@ -84,6 +85,20 @@ module Ci
 
     def dependency_variables
       []
+    end
+
+    def needs_attributes
+      strong_memoize(:needs_attributes) do
+        needs.map { |need| need.attributes.except('id', 'build_id') }
+      end
+    end
+
+    def clone(current_user:, new_job_variables_attributes: [])
+      new_attributes = self.class.clone_accessors.index_with do |attribute|
+        public_send(attribute)
+      end
+      new_attributes[:user] = current_user
+      self.class.new(new_attributes)
     end
 
     private

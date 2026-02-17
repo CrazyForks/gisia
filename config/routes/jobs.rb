@@ -12,6 +12,7 @@
 resources :jobs, only: %i[index show], constraints: { id: /\d+/ } do
   member do
     get :raw
+    post :retry
   end
 end
 

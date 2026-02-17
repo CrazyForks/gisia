@@ -13,7 +13,7 @@ class Projects::JobsController < Projects::ApplicationController
   include SendFileUpload
   include WorkhorseHelper
 
-  before_action :job, only: [:show, :raw]
+  before_action :job, only: [:show, :raw, :retry]
 
   def index
     @jobs = project.builds
@@ -27,6 +27,16 @@ class Projects::JobsController < Projects::ApplicationController
   end
 
   def show; end
+
+  def retry
+    new_job = @job.retry!(current_user)
+
+    if new_job
+      redirect_to namespace_project_job_path(new_job.project.namespace.parent.full_path, new_job.project.path, new_job)
+    else
+      redirect_to namespace_project_job_path(project.namespace.parent.full_path, project.path, @job), alert: @job.errors.full_messages.to_sentence
+    end
+  end
 
   def raw
     if @job.trace.archived?

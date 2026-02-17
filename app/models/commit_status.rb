@@ -165,4 +165,13 @@ class CommitStatus < ApplicationRecord
 
   # TODO: Temporary technical debt so we can ignore `stage`: https://gitlab.com/gitlab-org/gitlab/-/issues/507579
   alias_method :stage, :stage_name
+
+  def update_older_statuses_retried!
+    pipeline
+      .statuses
+      .latest
+      .where(name: name)
+      .where.not(id: id)
+      .update_all(retried: true, processed: true)
+  end
 end
