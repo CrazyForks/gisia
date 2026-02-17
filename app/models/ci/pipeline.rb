@@ -46,7 +46,7 @@ module Ci
 
     belongs_to :user
     belongs_to :merge_request, class_name: 'MergeRequest', optional: true
-    belongs_to :ci_ref, class_name: 'Ci::Ref', foreign_key: :ci_ref_id, inverse_of: :pipelines
+    belongs_to :ci_ref, class_name: 'Ci::Ref', foreign_key: :ci_ref_id, inverse_of: :pipelines, optional: true
 
     has_many :statuses, class_name: 'CommitStatus', foreign_key: :commit_id, inverse_of: :pipeline
     has_many :stages, inverse_of: :pipeline
@@ -73,6 +73,8 @@ module Ci
     has_many :sourced_pipelines, class_name: 'Ci::Sources::Pipeline', foreign_key: :source_pipeline_id,
       inverse_of: :source_pipeline
     has_one :source_pipeline, class_name: 'Ci::Sources::Pipeline', inverse_of: :pipeline
+    has_one :parent_pipeline, -> { merge(Ci::Sources::Pipeline.same_project) }, through: :source_pipeline, source: :source_pipeline
+    has_one :source_bridge, through: :source_pipeline, source: :source_bridge
 
     # Returns the pipelines that associated with the given merge request.
     # In general, please use `Ci::PipelinesForMergeRequestFinder` instead,
@@ -352,6 +354,14 @@ module Ci
 
     def self_and_downstreams
       object_hierarchy.base_and_descendants
+    end
+
+    def self_and_upstreams
+      object_hierarchy.base_and_ancestors
+    end
+
+    def child?
+      parent_pipeline? && parent_pipeline.present?
     end
 
     # With only parent-child pipelines

@@ -20,10 +20,26 @@
             = time_ago_in_words(@pipeline.created_at) + ' ago'
           %span •
           - if @pipeline.merge_request?
-            %span 
+            %span
               For Merge Request
               = link_to " ##{@pipeline.merge_request.id}", merge_request_path(@pipeline.merge_request), class: 'text-blue-600 hover:text-blue-700 font-medium transition-colors'
           - else
             %span For #{@pipeline.ref}
-    
+          - if @pipeline.source_pipeline.present?
+            - upstream = @pipeline.source_pipeline.source_pipeline
+            %span •
+            %span
+              Upstream
+              = link_to "##{upstream.id}", pipeline_jobs_path(upstream), class: 'text-gray-700 hover:text-gray-900 font-medium transition-colors'
+              in
+              = link_to upstream.project.full_path, namespace_project_path(upstream.project.namespace.parent.full_path, upstream.project.path), class: 'text-gray-700 hover:text-gray-900 font-medium transition-colors'
+          - if @pipeline.sourced_pipelines.any?
+            %span •
+            %span
+              Downstream
+              - @pipeline.sourced_pipelines.includes(pipeline: :project).each do |sp|
+                = link_to "##{sp.pipeline.id}", pipeline_jobs_path(sp.pipeline), class: 'text-gray-700 hover:text-gray-900 font-medium transition-colors'
+                in
+                = link_to sp.pipeline.project.full_path, namespace_project_path(sp.pipeline.project.namespace.parent.full_path, sp.pipeline.project.path), class: 'text-gray-700 hover:text-gray-900 font-medium transition-colors'
+
     = yield :pipeline_content
