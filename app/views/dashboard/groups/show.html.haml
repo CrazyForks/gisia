@@ -1,30 +1,27 @@
 - content_for :breadcrumb do
-  - nodes = [{ label: 'Your work', path: '/' }, { label: 'Groups', path: dashboard_groups_path }]
+  - nodes = [{ label: 'Your work', path: '/' }, { label: 'Groups', path: dashboard_groups_path }, { label: @group.name, path: dashboard_group_path(@group) }]
   = render 'shared/breadcrumb', nodes: nodes
 
-%div{ class: "w-full bg-white p-2 rounded-lg" }
-  %div{ class: "w-full max-w-6xl mx-auto" }
-    = turbo_frame_tag 'show_group' do
-      %h2{ class: 'text-3xl font-semibold mb-6' }= @group.name
-      %div{ class: 'space-y-4' }
-        %div{ class: 'flex justify-between items-center' }
-          %span{ class: 'font-medium text-gray-700' } Path:
-          %span{ class: 'text-gray-900' }= @group.path
+%div{class: 'w-full bg-white p-2 rounded-lg'}
+  %div{class: 'w-full max-w-6xl mx-auto'}
 
-        %div{ class: 'flex justify-between items-center' }
-          %span{ class: 'font-medium text-gray-700' } URl URL:
-          - dashboard_path = dashboard_group_path(@group)
-          = link_to dashboard_path, dashboard_path, target: '_blank', class: 'text-gray-900'
+    %div{class: 'py-6'}
+      %div{class: 'flex items-center gap-4 mb-6'}
+        %div{class: 'w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-xl font-bold'}
+          = icon 'circles-three', class: 'w-8 h-8'
+        %div
+          %div{class: 'flex items-center gap-2'}
+            %h1{class: 'text-2xl font-bold text-gray-900'}= @group.name
+            - if @group.visibility_level == 0
+              = icon 'lock', class: 'w-4 h-4 text-gray-400'
+            - elsif @group.visibility_level == 10
+              = icon 'users', class: 'w-4 h-4 text-gray-400'
+            - else
+              = icon 'globe', class: 'w-4 h-4 text-gray-400'
+          - if @group.description.present?
+            %p{class: 'text-gray-600'}= @group.description
 
-      %div{ class: 'flex justify-between items-center mt-6' }
-        = link_to 'Back', dashboard_groups_path, class: 'text-gray-600 hover:underline'
-        %div{ class: 'space-x-4 relative', data: {controller: 'dashboard' } }
-          = link_to '#', class: 'py-2 px-4 rounded-md',
-                  data: { action: 'click->dashboard#toggleMenu' } do
-            = icon 'dots-three-vertical'
-          %div{ class: 'absolute right-0 bg-white border border-gray-300 rounded-sm shadow-lg hidden', data: { 'dashboard-target': 'menu' } }
-            %div{ class: 'px-2 text-gray-700 hover:bg-gray-100' }
-              = link_to 'Edit', edit_dashboard_group_path(@group), class: 'block'
-            %div{ class: 'px-2 text-gray-700 hover:bg-gray-100' }
-              = button_to 'Delete', dashboard_group_path(@group), method: :delete, data: { confirm: 'Are you sure?' }, class: 'block'
+      %div{class: 'flex items-center justify-between mb-4'}
+        %h2{class: 'text-lg font-semibold text-gray-900'} Projects
 
+      = render 'dashboard/projects/project_list', projects: @projects, namespace_prefix: @group.full_name

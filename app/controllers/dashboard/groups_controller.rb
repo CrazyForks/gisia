@@ -8,7 +8,9 @@ class Dashboard::GroupsController < Dashboard::ApplicationController
     @groups = current_user.groups.order(id: :desc)
   end
 
-  def show; end
+  def show
+    @projects = @group.namespace.descendant_projects.order(id: :desc)
+  end
 
   def new
     @group = Group.new
