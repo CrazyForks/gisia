@@ -38,19 +38,38 @@ RSpec.describe 'Group Management', type: :system do
     end
   end
 
-  describe 'deleting a group' do
+  describe 'deleting a group from groups list', :js do
     let_it_be(:group) { create(:group, creator: user) }
 
-    it 'allows user to delete a group' do
+    it 'removes the group from the list' do
+      visit dashboard_groups_path
+
+      find('[data-action="click->dashboard#toggleMenu"]').click
+
+      accept_confirm do
+        click_button 'Delete'
+      end
+
+      expect(page).not_to have_content(group.name)
+    end
+  end
+
+  describe 'deleting a project from group show page', :js do
+    let_it_be(:group) { create(:group, creator: user) }
+    let_it_be(:project) { create(:project, creator: user, parent_namespace: group.namespace) }
+
+    it 'removes the project row from the list' do
       visit dashboard_group_path(group)
 
-      # Click the menu dropdown (dots icon)
-      find('[data-action="click->dashboard#toggleMenu"]').click
-      
-      # Click delete and confirm
-      click_button 'Delete'
+      expect(page).to have_content(project.name)
 
-      expect(current_path).to eq(dashboard_groups_path)
+      find('[data-action="click->dashboard#toggleMenu"]').click
+
+      accept_confirm do
+        click_button 'Delete'
+      end
+
+      expect(page).not_to have_css("#project-#{project.id}")
     end
   end
 end

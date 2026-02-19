@@ -55,7 +55,7 @@
                       = link_to edit_dashboard_group_path(group), class: 'flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50' do
                         = icon 'pencil', class: 'w-4 h-4'
                         Edit
-                      = button_to dashboard_group_path(group), method: :delete, data: { confirm: "Are you sure?" }, class: 'flex items-center gap-2 px-3 py-2 text-sm text-red-700 hover:bg-red-50 w-full text-left' do
+                      = button_to dashboard_group_path(group), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this group?" }, class: 'flex items-center gap-2 px-3 py-2 text-sm text-red-700 hover:bg-red-50 w-full text-left' do
                         = icon 'trash', class: 'w-4 h-4'
                         Delete
       - else
