@@ -72,7 +72,7 @@
                 - elsif !token.active?
                   %span{class: 'inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-700'} Expired
                 - else
-                  = button_to revoke_users_settings_personal_access_token_path(token), method: :put, data: { confirm: "Are you sure you want to revoke \"#{token.name}\"?" }, class: 'inline-flex items-center gap-1 px-3 py-1.5 text-sm text-red-600 font-medium rounded hover:bg-red-50 transition-colors' do
+                  = button_to revoke_users_settings_personal_access_token_path(token), method: :put, data: { turbo_confirm: "Are you sure you want to revoke \"#{token.name}\"?" }, class: 'inline-flex items-center gap-1 px-3 py-1.5 text-sm text-red-600 font-medium rounded hover:bg-red-50 transition-colors' do
                     = icon 'prohibit', class: 'w-4 h-4'
                     Revoke
       - else

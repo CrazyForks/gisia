@@ -59,7 +59,7 @@ RSpec.describe 'Personal Access Tokens', type: :system, js: true do
 
       fill_in 'Token name', with: 'deploy-token'
       fill_in 'Expiration date', with: 30.days.from_now.to_date.to_s
-      check 'api'
+      find('#scope_api').check
       click_button 'Create personal access token'
 
       expect(page).to have_current_path(users_settings_personal_access_tokens_path)

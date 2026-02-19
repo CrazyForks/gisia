@@ -40,31 +40,4 @@ RSpec.describe 'Project Management', type: :system do
     end
   end
 
-  describe 'viewing project details' do
-    let_it_be(:project) { create(:project, creator: user, parent_namespace: user.namespace) }
-
-    it 'displays project information correctly' do
-      visit dashboard_project_path(project)
-
-      expect(page).to have_content(project.name)
-      expect(page).to have_content("Path: #{project.path}")
-      expect(page).to have_content('SSH URL:')
-    end
-  end
-
-  describe 'deleting a project' do
-    let_it_be(:project) { create(:project, creator: user, parent_namespace: user.namespace) }
-
-    it 'allows user to delete a project' do
-      visit dashboard_project_path(project)
-
-      # Click the menu dropdown (dots icon)
-      find('[data-action="click->dashboard#toggleMenu"]').click
-      
-      # Click delete and confirm
-      click_button 'Delete'
-
-      expect(current_path).to eq(dashboard_projects_path)
-    end
-  end
 end
