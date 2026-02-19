@@ -5545,7 +5545,7 @@ CREATE INDEX index_project_pipeline_settings_on_project_id ON public.project_pip
 -- Name: index_projects_on_lower_name; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_projects_on_lower_name ON public.projects USING btree (lower((name)::text));
+CREATE INDEX index_projects_on_lower_name ON public.projects USING btree (lower((name)::text));
 
 
 --
@@ -6337,6 +6337,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260219093655'),
 ('20260217142228'),
 ('20260217132430'),
 ('20260217132421'),
