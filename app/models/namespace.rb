@@ -109,7 +109,7 @@ class Namespace < ApplicationRecord
   end
 
   def name_with_type
-    "#{type} - #{name}"
+    "#{type} - #{full_name}"
   end
 
   def resource

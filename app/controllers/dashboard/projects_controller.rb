@@ -12,6 +12,7 @@ class Dashboard::ProjectsController < Dashboard::ApplicationController
   def new
     @project = Project.new
     @project.build_namespace
+    @selected_namespace_id = params[:namespace_id]&.to_i || @available_namespaces.first&.id
   end
 
   def create
