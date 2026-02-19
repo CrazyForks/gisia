@@ -26,7 +26,10 @@ class Dashboard::ProjectsController < Dashboard::ApplicationController
 
   def destroy
     @project.destroy!
-    redirect_to dashboard_projects_path, status: :see_other, notice: 'Project was successfully destroyed.'
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to dashboard_projects_path }
+    end
   end
 
   private
