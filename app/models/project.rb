@@ -137,6 +137,10 @@ class Project < ApplicationRecord
     false
   end
 
+  def organization
+    nil
+  end
+
   def pages_enabled?
     false
   end

@@ -27,7 +27,7 @@
       %div{class: 'space-y-2'}
         - PersonalAccessToken::AVAILABLE_SCOPES.each do |scope|
           %label{class: 'flex items-start gap-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer'}
-            = check_box_tag 'personal_access_token[scopes][]', scope.to_s, @token.scopes&.include?(scope.to_s), class: 'mt-0.5 rounded border-gray-300 text-violet-600 focus:ring-violet-500'
+            = check_box_tag 'personal_access_token[scopes][]', scope.to_s, @token.scopes&.include?(scope.to_s), id: "scope_#{scope}", class: 'mt-0.5 rounded border-gray-300 text-violet-600 focus:ring-violet-500'
             %div
               %span{class: 'text-sm font-medium text-gray-900'}= scope
               %p{class: 'text-xs text-gray-500 mt-0.5'}

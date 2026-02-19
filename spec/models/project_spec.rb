@@ -27,6 +27,16 @@ RSpec.describe Project, type: :model do
     end
   end
 
+  describe '#organization' do
+    subject(:project) { create(:project, creator: user, parent_namespace: user.namespace) }
+
+    let_it_be(:user) { create(:user) }
+
+    it 'returns nil' do
+      expect(project.organization).to be_nil
+    end
+  end
+
   describe 'HasBoard concern' do
     subject(:project) { create(:project, creator: user, parent_namespace: user.namespace) }
 
