@@ -3,7 +3,7 @@
 - else
   - url = dashboard_group_path(@group)
 
-= form_with model: @group, url: url do |f|
+= form_with model: @group, url: url, data: { turbo: false } do |f|
   
   - if @group.errors.any?
     %div{class: 'bg-red-50 border border-red-200 p-4 rounded-lg mb-6'}

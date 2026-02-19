@@ -54,6 +54,30 @@ RSpec.describe 'Group Management', type: :system do
     end
   end
 
+  describe 'creating a new project from group show page', :js do
+    let_it_be(:group) { create(:group, creator: user) }
+
+    it 'pre-selects the group namespace in the namespace dropdown' do
+      visit dashboard_group_path(group)
+      click_link 'New Project'
+
+      expect(page).to have_select('Namespace', selected: group.namespace.name_with_type)
+    end
+
+    it 'creates the project under the group namespace' do
+      visit dashboard_group_path(group)
+      click_link 'New Project'
+
+      expect(page).to have_select('Namespace', selected: group.namespace.name_with_type)
+
+      fill_in 'Project Name', with: 'Group Project'
+      fill_in 'Project Path', with: 'group-project'
+      click_button 'Create Project'
+
+      expect(page).to have_content('Group Project')
+    end
+  end
+
   describe 'deleting a project from group show page', :js do
     let_it_be(:group) { create(:group, creator: user) }
     let_it_be(:project) { create(:project, creator: user, parent_namespace: group.namespace) }
