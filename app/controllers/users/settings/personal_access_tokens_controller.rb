@@ -7,7 +7,6 @@ module Users
 
       def index
         @tokens = current_user.personal_access_tokens.order(created_at: :desc)
-        @new_token = flash[:new_token]
       end
 
       def new
@@ -19,8 +18,12 @@ module Users
         @token.scopes = params[:personal_access_token][:scopes]&.reject(&:blank?) || []
 
         if @token.save
-          flash[:new_token] = @token.token
-          redirect_to users_settings_personal_access_tokens_path, notice: "Personal access token \"#{@token.name}\" created successfully."
+          @new_token = @token.token
+          @tokens = current_user.personal_access_tokens.order(created_at: :desc)
+          respond_to do |format|
+            format.turbo_stream { render :create }
+            format.html { redirect_to users_settings_personal_access_tokens_path }
+          end
         else
           render :new, status: :unprocessable_entity
         end

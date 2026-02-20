@@ -1,0 +1,53 @@
+- if @tokens.any?
+  %div
+    - @tokens.each do |token|
+      %div{class: 'flex items-center justify-between py-3'}
+        %div{class: 'flex-1 min-w-0'}
+          %div{class: 'flex items-center gap-3 mb-1'}
+            = icon 'shield-check', class: "w-4 h-4 #{token.active? ? 'text-violet-500' : 'text-gray-400'}", variant: 'regular'
+            %span{class: "font-medium #{token.active? ? 'text-gray-900' : 'text-gray-500'}"}= token.name
+            - token.scopes.each do |scope|
+              %span{class: 'inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600'}= scope
+          - if token.description.present?
+            %p{class: "text-sm #{token.active? ? 'text-gray-500' : 'text-gray-400'} mb-1"}= token.description
+          %div{class: "text-sm #{token.active? ? 'text-gray-600' : 'text-gray-500'}"}
+            %div{class: 'flex items-center gap-4'}
+              %span{class: 'flex items-center gap-1'}
+                = icon 'calendar', class: 'w-4 h-4'
+                Created #{token.created_at.strftime('%b %d, %Y')}
+              - if token.last_used_at.present?
+                %span{class: 'flex items-center gap-1'}
+                  = icon 'clock', class: 'w-4 h-4'
+                  Last used #{time_ago_in_words(token.last_used_at)} ago
+              - if token.expires_at.present?
+                %span{class: 'flex items-center gap-1'}
+                  = icon 'hourglass', class: 'w-4 h-4'
+                  - if token.expires_at < Date.current
+                    %span{class: 'text-red-600 font-medium'} Expired
+                  - elsif token.expires_at < 7.days.from_now.to_date
+                    %span{class: 'text-amber-600 font-medium'}
+                      Expires #{token.expires_at.strftime('%b %d, %Y')}
+                  - else
+                    Expires #{token.expires_at.strftime('%b %d, %Y')}
+              - else
+                %span{class: 'flex items-center gap-1'}
+                  = icon 'hourglass', class: 'w-4 h-4'
+                  No expiration
+        %div{class: 'ml-4 shrink-0'}
+          - if token.revoked?
+            %span{class: 'inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700'} Revoked
+          - elsif !token.active?
+            %span{class: 'inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-700'} Expired
+          - else
+            = button_to revoke_users_settings_personal_access_token_path(token), method: :put, data: { turbo_confirm: "Are you sure you want to revoke \"#{token.name}\"?" }, class: 'inline-flex items-center gap-1 px-3 py-1.5 text-sm text-red-600 font-medium rounded hover:bg-red-50 transition-colors' do
+              = icon 'prohibit', class: 'w-4 h-4'
+              Revoke
+- else
+  %div{class: 'text-center py-12'}
+    %div{class: 'w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4'}
+      = icon 'shield-check', class: 'w-8 h-8 text-gray-400'
+    %h3{class: 'text-lg font-medium text-gray-900 mb-2'} No tokens found
+    %p{class: 'text-gray-500 mb-4'} Add your first personal access token to get started
+    = link_to new_users_settings_personal_access_token_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-violet-600 text-white text-sm font-medium rounded-lg hover:bg-violet-700 transition-colors' do
+      = icon 'plus', class: 'w-4 h-4'
+      Add Your First Token

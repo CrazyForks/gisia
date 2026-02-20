@@ -1,0 +1,22 @@
+= turbo_stream.replace 'pat-content' do
+  = turbo_frame_tag 'pat-content' do
+    %div{class: 'mb-6 p-4 bg-green-50 border border-green-200 rounded-lg', data: { controller: 'clipboard' }}
+      %div{class: 'flex items-start gap-3'}
+        = icon 'check-circle', class: 'w-5 h-5 text-green-600 mt-0.5'
+        %div{class: 'flex-1'}
+          %p{class: 'text-sm font-medium text-green-800 mb-2'} Your new personal access token has been created. Copy it now — you won't be able to see it again.
+          %div{class: 'flex items-center gap-2'}
+            %input{type: 'password', class: 'flex-1 px-3 py-2 bg-white border border-green-300 rounded text-sm font-mono text-gray-900', value: @new_token, readonly: true, data: { 'clipboard-target': 'source' }}
+            %button{type: 'button', class: 'px-3 py-2 bg-white border border-green-300 text-gray-600 text-sm rounded hover:bg-gray-50 transition-colors', data: { action: 'click->clipboard#toggle' }}
+              = icon 'eye', class: 'w-4 h-4'
+            %button{type: 'button', class: 'px-3 py-2 bg-green-600 text-white text-sm font-medium rounded hover:bg-green-700 transition-colors', data: { action: 'click->clipboard#copy' }}
+              = icon 'copy', class: 'w-4 h-4'
+
+    %div{class: 'mb-6'}
+      %div{class: 'flex items-center justify-between'}
+        %h2{class: 'text-lg font-semibold text-gray-900'} Your Tokens
+        = link_to new_users_settings_personal_access_token_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-violet-600 text-white text-sm font-medium rounded-lg hover:bg-violet-700 transition-colors' do
+          = icon 'plus', class: 'w-4 h-4'
+          Add Token
+
+    = render 'tokens_list'

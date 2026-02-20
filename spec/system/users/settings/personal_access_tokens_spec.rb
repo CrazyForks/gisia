@@ -45,13 +45,12 @@ RSpec.describe 'Personal Access Tokens', type: :system, js: true do
   end
 
   describe 'add token' do
-    it 'navigates to new page when clicking Add Token' do
+    it 'shows the token form inline when clicking Add Token' do
       visit users_settings_personal_access_tokens_path
 
       click_link 'Add Token'
 
-      expect(page).to have_current_path(new_users_settings_personal_access_token_path)
-      expect(page).to have_content('Add Access Token')
+      expect(page).to have_field('Token name')
     end
 
     it 'creates a token with valid data and shows the token value' do
@@ -62,7 +61,6 @@ RSpec.describe 'Personal Access Tokens', type: :system, js: true do
       find('#scope_api').check
       click_button 'Create personal access token'
 
-      expect(page).to have_current_path(users_settings_personal_access_tokens_path)
       expect(page).to have_content('Your new personal access token has been created')
       expect(page).to have_content('deploy-token')
     end

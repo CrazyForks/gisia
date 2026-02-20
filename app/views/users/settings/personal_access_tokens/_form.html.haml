@@ -1,4 +1,4 @@
-= form_with model: @token, url: users_settings_personal_access_tokens_path, local: true do |f|
+= form_with model: @token, url: users_settings_personal_access_tokens_path do |f|
 
   - if @token.errors.any?
     %div{class: 'bg-red-50 border border-red-200 p-4 rounded-lg mb-6'}

@@ -4,10 +4,28 @@ export default class extends Controller {
   static targets = ["source"]
 
   copy() {
-    const text = this.sourceTarget.textContent
-    navigator.clipboard.writeText(text).then(() => {
+    const source = this.sourceTarget
+    const text = source.tagName === 'INPUT' ? source.value : source.textContent
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => this.showFeedback())
+    } else {
+      const textarea = document.createElement('textarea')
+      textarea.value = text
+      textarea.style.position = 'fixed'
+      textarea.style.opacity = '0'
+      document.body.appendChild(textarea)
+      textarea.focus()
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
       this.showFeedback()
-    })
+    }
+  }
+
+  toggle() {
+    const source = this.sourceTarget
+    source.type = source.type === 'password' ? 'text' : 'password'
   }
 
   showFeedback() {
