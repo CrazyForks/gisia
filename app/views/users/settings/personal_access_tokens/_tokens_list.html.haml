@@ -4,7 +4,7 @@
       %div{class: 'flex items-center justify-between py-3'}
         %div{class: 'flex-1 min-w-0'}
           %div{class: 'flex items-center gap-3 mb-1'}
-            = icon 'shield-check', class: "w-4 h-4 #{token.active? ? 'text-violet-500' : 'text-gray-400'}", variant: 'regular'
+            = icon 'shield-check', class: "w-4 h-4 #{token.active? ? 'text-blue-500' : 'text-gray-400'}", variant: 'regular'
             %span{class: "font-medium #{token.active? ? 'text-gray-900' : 'text-gray-500'}"}= token.name
             - token.scopes.each do |scope|
               %span{class: 'inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600'}= scope
@@ -48,6 +48,6 @@
       = icon 'shield-check', class: 'w-8 h-8 text-gray-400'
     %h3{class: 'text-lg font-medium text-gray-900 mb-2'} No tokens found
     %p{class: 'text-gray-500 mb-4'} Add your first personal access token to get started
-    = link_to new_users_settings_personal_access_token_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-violet-600 text-white text-sm font-medium rounded-lg hover:bg-violet-700 transition-colors' do
+    = link_to new_users_settings_personal_access_token_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors' do
       = icon 'plus', class: 'w-4 h-4'
       Add Your First Token
