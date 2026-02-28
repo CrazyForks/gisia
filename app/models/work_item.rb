@@ -41,6 +41,7 @@ class WorkItem < ApplicationRecord
   scope :with_state, ->(name) { where(state_id: name) }
   scope :closed, -> { where(state_id: :closed) }
   scope :open, -> { where(state_id: :opened) }
+  scope :with_assignee, ->(user_id) { joins(:assignees).where(users: { id: user_id }) }
   scope :with_label_ids, ->(label_ids) do
     if label_ids.blank?
       all
@@ -55,11 +56,11 @@ class WorkItem < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[title description state_id author_id created_at updated_at]
+    %w[title description state_id author_id created_at updated_at iid]
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    %w[author updated_by closed_by namespace labels]
+    %w[author updated_by closed_by namespace labels assignees]
   end
 
   def clear_closure_reason_references; end

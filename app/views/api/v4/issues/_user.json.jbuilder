@@ -1,0 +1,6 @@
+json.id user.id
+json.username user.username
+json.name user.name
+json.state user.state
+json.avatar_url nil
+json.web_url "#{request.base_url}/#{user.username}"

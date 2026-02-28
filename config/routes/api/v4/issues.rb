@@ -1,0 +1,1 @@
+resources :issues, only: [:index]
