@@ -8,6 +8,12 @@ default: &default
   drop_running_job:
     class: "Ci::StuckBuilds::DropRunningJob"
     schedule: "*/30 * * * *"
+  drop_pending_job:
+    class: "Ci::StuckBuilds::DropPendingJob"
+    schedule: "0 * * * *"
+  drop_scheduled_job:
+    class: "Ci::StuckBuilds::DropScheduledJob"
+    schedule: "35 * * * *"
 
 
 development:

@@ -569,6 +569,45 @@ class Project < ApplicationRecord
     archived? || namespace.self_or_ancestors_archived?
   end
 
+  def shared_runners_enabled?
+    true
+  end
+
+  def shared_runners_available?
+    shared_runners_enabled?
+  end
+
+  def shared_runners
+    @shared_runners ||= shared_runners_enabled? ? Ci::Runner.instance_type : Ci::Runner.none
+  end
+
+  def available_shared_runners
+    @available_shared_runners ||= shared_runners_available? ? shared_runners : Ci::Runner.none
+  end
+
+
+  def all_runners
+    Ci::Runner.from_union([shared_runners])
+  end
+
+  def all_available_runners
+    Ci::Runner.from_union([available_shared_runners])
+  end
+
+  def any_online_runners?(&block)
+    online_runners_with_tags.any?(&block)
+  end
+
+  def online_runners_with_tags
+    @online_runners_with_tags ||= active_runners.online
+  end
+
+  def active_runners
+    strong_memoize(:active_runners) do
+      all_available_runners.active
+    end
+  end
+
   private
 
   def runners_token_prefix

@@ -20,7 +20,7 @@ module Ci
       end
 
       new_job = clone(current_user: current_user)
-      new_job.enqueue! if new_job.save!
+      new_job.save!
       new_job.update_older_statuses_retried!
 
       ProcessPipelineJob.perform_later(pipeline_id)

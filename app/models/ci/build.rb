@@ -23,6 +23,7 @@ module Ci
     include Ci::Builds::TraceArchivable
 
     TOKEN_PREFIX = 'glcbt-'
+    RUNNERS_STATUS_CACHE_EXPIRATION = 1.minute
 
     has_one :runner_manager_build,
       class_name: 'Ci::RunnerManagerBuild',
@@ -115,11 +116,11 @@ module Ci
 
     def self.clone_accessors
       %i[pipeline project ref tag options name
-        allow_failure stage_idx
-        yaml_variables when environment coverage_regex
-        description protected needs_attributes
-        job_variables_attributes
-        scheduling_type ci_stage partition_id execution_config_id].freeze
+         allow_failure stage_idx
+         yaml_variables when environment coverage_regex
+         description protected needs_attributes
+         job_variables_attributes
+         scheduling_type ci_stage partition_id execution_config_id].freeze
     end
 
     def job_variables_attributes
@@ -301,6 +302,35 @@ module Ci
       ::Ci::RunningBuild.where(build_id: id)
     end
 
+    def any_runners_online?
+      cache_for_online_runners do
+        project.any_online_runners? { |runner| runner.match_build_if_online?(self) }
+      end
+    end
+
+    def stuck?
+      pending? && !any_runners_online?
+    end
+
+    def doom!
+      transaction do
+        now = Time.current
+        attrs = { status: :failed, failure_reason: :data_integrity_failure, updated_at: now }
+        attrs[:finished_at] = now unless finished_at.present?
+        update_columns(attrs)
+        all_queuing_entries.delete_all
+        all_runtime_metadata.delete_all
+      end
+
+      Gitlab::AppLogger.info(
+        message: 'Build doomed',
+        class: self.class.name,
+        build_id: id,
+        pipeline_id: pipeline_id,
+        project_id: project_id
+      )
+    end
+
     def hide_secrets(data, _metrics = ::Gitlab::Ci::Trace::Metrics.new)
       # Todo,
       data
@@ -322,12 +352,36 @@ module Ci
       update!(token_encrypted: nil)
     end
 
+    def build_matcher
+      strong_memoize(:build_matcher) do
+        Gitlab::Ci::Matching::BuildMatcher.new({
+          protected: protected?,
+          tag_list: tag_list,
+          build_ids: [id],
+          project: project
+        })
+      end
+    end
+
+    def tag_list
+      []
+    end
+
     protected
 
     def run_status_commit_hooks!
       status_commit_hooks.reverse_each do |hook|
         instance_eval(&hook)
       end
+    end
+
+    private
+
+    def cache_for_online_runners(&block)
+      Rails.cache.fetch(
+        ['has-online-runners', id],
+        expires_in: RUNNERS_STATUS_CACHE_EXPIRATION
+      ) { yield }
     end
   end
 end

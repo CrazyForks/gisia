@@ -106,6 +106,8 @@ module Ci
     before_save :ensure_token
     after_destroy :cleanup_runner_queue
 
+    scope :active, ->(value = true) { where(active: value) }
+
     def heartbeat(creation_state: nil)
       values = { contacted_at: Time.current }
       values[:creation_state] = creation_state if creation_state.present?
@@ -179,12 +181,41 @@ module Ci
     def self.stale_deadline
       STALE_TIMEOUT.ago
     end
-  end
 
-  def tick_runner_queue
-    SecureRandom.hex.tap do |new_update|
-      ::Gitlab::Workhorse.set_key_and_notify(runner_queue_key, new_update,
-        expire: RUNNER_QUEUE_EXPIRY_TIME, overwrite: true)
+    def tick_runner_queue
+      SecureRandom.hex.tap do |new_update|
+        ::Gitlab::Workhorse.set_key_and_notify(runner_queue_key, new_update,
+          expire: RUNNER_QUEUE_EXPIRY_TIME, overwrite: true)
+      end
+    end
+
+    def match_build_if_online?(build)
+      active? && online? && matches_build?(build)
+    end
+
+    def matches_build?(build)
+      runner_matcher.matches?(build.build_matcher)
+    end
+
+    def runner_matcher
+      Gitlab::Ci::Matching::RunnerMatcher.new({
+        runner_ids: [id],
+        runner_type: runner_type,
+        public_projects_minutes_cost_factor: public_projects_minutes_cost_factor,
+        private_projects_minutes_cost_factor: private_projects_minutes_cost_factor,
+        run_untagged: run_untagged,
+        access_level: access_level,
+        tag_list: tag_list,
+        allowed_plan_ids: []
+      })
+    end
+
+    def public_projects_minutes_cost_factor
+      1.0
+    end
+
+    def private_projects_minutes_cost_factor
+      1.0
     end
   end
 end
