@@ -32,6 +32,7 @@ module API
           handle_state_event
           handle_add_labels
           handle_remove_labels
+          return unless set_epic_parent
 
           if @issue.update(update_params)
             handle_assignees(@issue, params[:assignee_ids]) if params[:assignee_ids]
@@ -88,6 +89,24 @@ module API
           return if params[:remove_label_ids].blank?
 
           @issue.labels = @issue.labels.reject { |l| Array(params[:remove_label_ids]).map(&:to_i).include?(l.id) }
+        end
+
+        def set_epic_parent
+          return true unless params.key?(:epic_id)
+
+          if params[:epic_id].blank?
+            @issue.parent_id = nil
+            return true
+          end
+
+          epic = @project.namespace.epics.find_by(id: params[:epic_id])
+          unless epic
+            not_found!
+            return false
+          end
+
+          @issue.parent_id = epic.id
+          true
         end
 
         def create_params

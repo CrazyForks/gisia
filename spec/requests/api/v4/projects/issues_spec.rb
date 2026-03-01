@@ -245,6 +245,39 @@ RSpec.describe 'API::V4::Projects::Issues', type: :request do
       expect(json_response['assignees'].map { |a| a['id'] }).to eq([new_assignee.id])
     end
 
+    it 'links the issue to an epic with epic_id' do
+      epic = create(:epic, namespace: project.namespace)
+
+      put "/api/v4/projects/#{project.id}/issues/#{issue.iid}",
+        params: { epic_id: epic.id },
+        headers: auth_headers
+
+      expect(response).to have_http_status(:ok)
+      expect(json_response['epic_id']).to eq(epic.id)
+      expect(issue.reload.parent_id).to eq(epic.id)
+    end
+
+    it 'unlinks the issue from an epic with epic_id null' do
+      epic = create(:epic, namespace: project.namespace)
+      issue.update_column(:parent_id, epic.id)
+
+      put "/api/v4/projects/#{project.id}/issues/#{issue.iid}",
+        params: { epic_id: nil },
+        headers: auth_headers
+
+      expect(response).to have_http_status(:ok)
+      expect(json_response['epic_id']).to be_nil
+      expect(issue.reload.parent_id).to be_nil
+    end
+
+    it 'returns 404 when epic_id does not exist' do
+      put "/api/v4/projects/#{project.id}/issues/#{issue.iid}",
+        params: { epic_id: 0 },
+        headers: auth_headers
+
+      expect(response).to have_http_status(:not_found)
+    end
+
     it 'returns 404 for unknown iid' do
       put "/api/v4/projects/#{project.id}/issues/99999",
         params: { title: 'x' },
