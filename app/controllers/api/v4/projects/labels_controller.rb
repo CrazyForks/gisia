@@ -54,15 +54,15 @@ module API
         end
 
         def authorize_read_label!
-          forbidden! unless current_user.can?(:read_label, @label)
+          forbidden! unless current_user.can?(:read_label, @project)
         end
 
         def authorize_update_label!
-          forbidden! unless current_user.can?(:admin_label, @label)
+          forbidden! unless current_user.can?(:admin_label, @project)
         end
 
         def authorize_destroy_label!
-          forbidden! unless current_user.can?(:admin_label, @label)
+          forbidden! unless current_user.can?(:admin_label, @project)
         end
 
         def set_label
