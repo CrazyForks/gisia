@@ -17,7 +17,7 @@
       url: namespace_project_jobs_path(@project.namespace.parent.full_path, @project.namespace.path),
       clear_url: namespace_project_jobs_path(@project.namespace.parent.full_path, @project.namespace.path),
       statuses: @statuses
-    %div{class: 'space-y-4'}
+    %div{id: 'jobs-list', class: 'space-y-4'}
       = render 'projects/pipelines/jobs'
       
       / -- Pagination --
