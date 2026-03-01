@@ -26,4 +26,20 @@ module Issuable
   def assignee_username_list
     assignees.map(&:username).to_sentence
   end
+
+  def assignee_or_author?(user)
+    author_id == user.id || assignee?(user)
+  end
+
+  def assignee?(user)
+    if assignees.loaded?
+      assignees.to_a.include?(user)
+    else
+      assignees.exists?(user.id)
+    end
+  end
+
+  def incident_type_issue?
+    false
+  end
 end

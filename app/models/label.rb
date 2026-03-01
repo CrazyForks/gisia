@@ -36,4 +36,8 @@ class Label < ApplicationRecord
   def self.ransackable_associations(_auth_object = nil)
     ['namespace']
   end
+
+  def preloaded_parent_container
+    namespace.project
+  end
 end
