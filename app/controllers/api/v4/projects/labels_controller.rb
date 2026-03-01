@@ -5,6 +5,11 @@ module API
     module Projects
       class LabelsController < ::API::V4::ProjectBaseController
         before_action :set_label, only: [:show, :update, :destroy]
+        before_action :authorize_read_labels!, only: [:index]
+        before_action :authorize_admin_label!, only: [:create]
+        before_action :authorize_read_label!, only: [:show]
+        before_action :authorize_update_label!, only: [:update]
+        before_action :authorize_destroy_label!, only: [:destroy]
 
         def index
           labels = @project.labels
@@ -39,6 +44,26 @@ module API
         end
 
         private
+
+        def authorize_read_labels!
+          forbidden! unless current_user.can?(:read_label, @project)
+        end
+
+        def authorize_admin_label!
+          forbidden! unless current_user.can?(:admin_label, @project)
+        end
+
+        def authorize_read_label!
+          forbidden! unless current_user.can?(:read_label, @label)
+        end
+
+        def authorize_update_label!
+          forbidden! unless current_user.can?(:admin_label, @label)
+        end
+
+        def authorize_destroy_label!
+          forbidden! unless current_user.can?(:admin_label, @label)
+        end
 
         def set_label
           @label = @project.labels.find_by(id: params[:id])

@@ -1,7 +1,13 @@
 class Projects::IssuesController < Projects::ApplicationController
   include StageIssuesFilterable
+  include Projects::IssueAuthorizable
 
+  before_action :authorize_read_issues!, only: [:index, :search_users, :search_epics]
+  before_action :authorize_create_issue!, only: [:new, :create]
   before_action :set_issue, only: [:show, :edit, :update, :destroy, :close, :reopen, :move_stage, :link_labels, :unlink_label, :search_labels]
+  before_action :authorize_read_issuable!, only: [:show, :search_labels]
+  before_action :authorize_update_issuable!, only: [:edit, :update, :close, :reopen, :move_stage, :link_labels, :unlink_label]
+  before_action :authorize_destroy_issuable!, only: [:destroy]
   before_action :set_counts, only: [:index]
 
   def index
@@ -162,6 +168,14 @@ class Projects::IssuesController < Projects::ApplicationController
   end
 
   private
+
+  def issuable_resource
+    @issue
+  end
+
+  def authorization_denied!
+    head :not_found
+  end
 
   def set_issue
     @issue = @project.namespace.work_items.where(type: 'Issue').find(params[:id])

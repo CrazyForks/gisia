@@ -2,7 +2,12 @@ module Projects
   module Settings
     class LabelsController < Projects::Settings::ApplicationController
       include LabelsHelper
+      before_action :authorize_read_labels!, only: [:index, :new_form, :new]
+      before_action :authorize_admin_label!, only: [:create]
       before_action :set_label, only: [:edit_form, :update, :destroy]
+      before_action :authorize_read_label!, only: [:edit_form]
+      before_action :authorize_update_label!, only: [:update]
+      before_action :authorize_destroy_label!, only: [:destroy]
 
       def index
         @labels = @project.namespace.labels.order(id: :desc)
@@ -66,6 +71,26 @@ module Projects
       end
 
       private
+
+      def authorize_read_labels!
+        head :forbidden unless current_user.can?(:read_label, @project)
+      end
+
+      def authorize_admin_label!
+        head :forbidden unless current_user.can?(:admin_label, @project)
+      end
+
+      def authorize_read_label!
+        head :forbidden unless current_user.can?(:read_label, @project)
+      end
+
+      def authorize_update_label!
+        head :forbidden unless current_user.can?(:admin_label, @project)
+      end
+
+      def authorize_destroy_label!
+        head :forbidden unless current_user.can?(:admin_label, @project)
+      end
 
       def set_label
         @label = @project.namespace.labels.find(params[:id])

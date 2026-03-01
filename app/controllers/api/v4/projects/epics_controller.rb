@@ -5,8 +5,14 @@ module API
     module Projects
       class EpicsController < ::API::V4::ProjectBaseController
         include API::V4::IssueFilterable
+        include ::Projects::IssueAuthorizable
 
         before_action :find_epic!, only: [:show, :update, :destroy]
+        before_action :authorize_read_issues!, only: [:index]
+        before_action :authorize_create_issue!, only: [:create]
+        before_action :authorize_read_issuable!, only: [:show]
+        before_action :authorize_update_issuable!, only: [:update]
+        before_action :authorize_destroy_issuable!, only: [:destroy]
 
         def index
           @epics = paginate(apply_filters(@project.namespace.epics).order(created_at: :desc))
@@ -41,6 +47,10 @@ module API
         end
 
         private
+
+        def issuable_resource
+          @epic
+        end
 
         def find_epic!
           @epic = @project.namespace.epics.find_by(iid: params[:epic_iid])

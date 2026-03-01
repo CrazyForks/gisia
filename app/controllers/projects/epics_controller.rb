@@ -1,5 +1,12 @@
 class Projects::EpicsController < Projects::ApplicationController
+  include Projects::IssueAuthorizable
+
+  before_action :authorize_read_issues!, only: [:index, :search_users, :search_epics]
+  before_action :authorize_create_issue!, only: [:new, :create]
   before_action :set_epic, only: [:show, :edit, :update, :destroy, :close, :reopen, :link_labels, :unlink_label, :search_labels]
+  before_action :authorize_read_issuable!, only: [:show, :search_labels]
+  before_action :authorize_update_issuable!, only: [:edit, :update, :close, :reopen, :link_labels, :unlink_label]
+  before_action :authorize_destroy_issuable!, only: [:destroy]
   before_action :set_counts, only: [:index]
 
   def index
@@ -137,6 +144,14 @@ class Projects::EpicsController < Projects::ApplicationController
   end
 
   private
+
+  def issuable_resource
+    @epic
+  end
+
+  def authorization_denied!
+    head :not_found
+  end
 
   def set_epic
     @epic = @project.namespace.work_items.where(type: 'Epic').find(params[:id])
