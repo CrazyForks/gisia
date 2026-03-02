@@ -1,0 +1,113 @@
+---
+name: gisia-<%= @project.full_path.gsub('/', '-') %>-issues-skills
+description: Manage issues for the project <%= @project.full_path %> via the Gitnix API. Covers listing, creating, updating, closing, and deleting issues, including label and assignee management.
+---
+
+## Issues — `<%= @project.full_path %>`
+
+Manage issues for this project. All requests require a personal access token passed in the `PRIVATE-TOKEN` header.
+
+**Base URL:** <%= request.base_url %>/api/v4/projects/<%= @project.id %>
+
+**Authentication:**
+
+```bash
+curl <%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+---
+
+### List Issues
+
+```bash
+curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+**Query parameters:**
+
+- `state` (optional) — Filter by state: `opened` or `closed`
+- `labels` (optional) — Comma-separated label names. Only issues that have **all** listed labels are returned
+- `author_id` (optional) — Return issues created by a specific user ID
+- `assignee_id` (optional) — Return issues assigned to a specific user ID
+- `iids` (optional) — Return only issues with the given internal IDs, e.g. `iids[]=1&iids[]=2`
+- `search` (optional) — Search term matched against title and description
+- `in` (optional) — Scope for `search`: `title`, `description`, or both (default)
+- `page` (optional) — Page number (default: `1`)
+- `per_page` (optional) — Items per page, max `100` (default: `20`)
+
+**Pagination headers returned:**
+
+| Header | Description |
+|--------|-------------|
+| `X-Total` | Total number of issues |
+| `X-Total-Pages` | Total number of pages |
+| `X-Page` | Current page |
+| `X-Per-Page` | Items per page |
+| `X-Next-Page` | Next page number (empty if on last page) |
+| `X-Prev-Page` | Previous page number (empty if on first page) |
+
+---
+
+### Get a Single Issue
+
+```bash
+curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues/:issue_iid" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:issue_iid` — Issue IID (the number shown in the UI, e.g. `#3`)
+
+---
+
+### Create an Issue
+
+```bash
+curl -X POST "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Your issue title"}'
+```
+
+**Fields:**
+
+- `title` (required) — Issue title
+- `description` (optional) — Issue body
+- `due_date` (optional) — Due date in `YYYY-MM-DD` format
+- `confidential` (optional) — Boolean, default `false`
+- `assignee_ids` (optional) — Array of user IDs to assign
+- `label_ids` (optional) — Array of label IDs scoped to this project
+
+---
+
+### Update an Issue
+
+```bash
+curl -X PUT "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues/:issue_iid" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"state_event": "close"}'
+```
+
+**Fields:**
+
+- `title` (optional) — New title
+- `description` (optional) — New description
+- `due_date` (optional) — New due date (`YYYY-MM-DD`)
+- `confidential` (optional) — Boolean
+- `state_event` (optional) — `close` or `reopen`
+- `assignee_ids` (optional) — Replaces all current assignees
+- `add_label_ids` (optional) — Adds labels without removing existing ones
+- `remove_label_ids` (optional) — Removes specific labels, keeps the rest
+
+---
+
+### Delete an Issue
+
+```bash
+curl -X DELETE "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues/:issue_iid" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+Returns `204 No Content` on success.

@@ -1,0 +1,32 @@
+---
+name: gisia-<%= @project.full_path.gsub('/', '-') %>-skills
+description: Gitnix project API skill guide for <%= @project.full_path %>. Use this to discover and operate all resources available within this project via the REST API.
+---
+
+## Project Skills for `<%= @project.full_path %>`
+
+**Base URL:** <%= request.base_url %>/api/v4
+
+**Authentication:**
+
+```bash
+curl <%= request.base_url %>/api/v4/... \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+---
+
+### Available Skill Endpoints
+
+| Skill | Endpoint |
+|-------|----------|
+| Project (this file) | `<%= request.base_url %>/<%= @project.full_path %>/-/skill.md` |
+| Issues | `<%= request.base_url %>/<%= @project.full_path %>/-/issues/skill.md` |
+
+**Save all skill files locally:**
+```bash
+mkdir -p ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>
+curl -s <%= request.base_url %>/<%= @project.full_path %>/-/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/skill.md
+curl -s <%= request.base_url %>/<%= @project.full_path %>/-/issues/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/issues.md
+```
+
