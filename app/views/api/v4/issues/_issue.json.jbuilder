@@ -42,7 +42,7 @@ json.type 'ISSUE'
 json.due_date issue.due_date
 json.confidential issue.confidential
 
-json.web_url "#{Gitlab.config.gitlab.url}/#{namespace_path}/issues/#{issue.iid}"
+json.web_url "#{Gitlab.config.gitlab.url}/#{namespace_path}/-/issues/#{issue.id}"
 
 json.references do
   json.short "##{issue.iid}"
