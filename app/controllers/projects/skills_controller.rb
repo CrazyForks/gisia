@@ -3,9 +3,6 @@
 class Projects::SkillsController < Projects::ApplicationController
   include Gitlab::Auth::AuthFinders
 
-  skip_before_action :authenticate_user!
-  prepend_before_action :authenticate_skill_request!
-
   def project
     render formats: [:text], content_type: 'text/markdown', layout: false
   end
@@ -24,7 +21,9 @@ class Projects::SkillsController < Projects::ApplicationController
     end || super
   end
 
-  def authenticate_skill_request!
+  def authenticate_unless_public!
+    return if @project&.public?
+
     if request.headers['PRIVATE-TOKEN'].present?
       head :unauthorized unless current_user
     else
