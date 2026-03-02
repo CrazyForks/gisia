@@ -22,7 +22,7 @@ constraints(::Constraints::ProjectUrlConstrainer.new) do
       as: :project
     ) do
       scope '-' do
-        get 'skill.md', to: 'skills#project', format: false, as: :project_skill_md
+        get 'skill.md', to: 'skills#project_skill', format: false, as: :project_skill_md
         get 'issues/skill.md', to: 'skills#issues', format: false, as: :issues_skill_md
 
         draw :repository

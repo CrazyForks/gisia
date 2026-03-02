@@ -3,8 +3,8 @@
 class Projects::SkillsController < Projects::ApplicationController
   include Gitlab::Auth::AuthFinders
 
-  def project
-    render formats: [:text], content_type: 'text/markdown', layout: false
+  def project_skill
+    render 'project', formats: [:text], content_type: 'text/markdown', layout: false
   end
 
   def issues

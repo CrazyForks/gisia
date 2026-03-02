@@ -15,7 +15,7 @@ class Projects::ApplicationController < ApplicationController
   layout 'project'
 
   skip_before_action :authenticate_user!
-  before_action :set_project
+  before_action :project
   before_action :authenticate_unless_public!
   before_action :repository
   before_action :authorize_project_access!
@@ -36,7 +36,7 @@ class Projects::ApplicationController < ApplicationController
     head :not_found
   end
 
-  def set_project
+  def project
     return @project if @project
     return unless params[:project_id] || params[:id]
 
