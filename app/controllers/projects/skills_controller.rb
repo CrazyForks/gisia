@@ -11,6 +11,14 @@ class Projects::SkillsController < Projects::ApplicationController
     render formats: [:text], content_type: 'text/markdown', layout: false
   end
 
+  def epics
+    render formats: [:text], content_type: 'text/markdown', layout: false
+  end
+
+  def labels
+    render formats: [:text], content_type: 'text/markdown', layout: false
+  end
+
   private
 
   def current_user

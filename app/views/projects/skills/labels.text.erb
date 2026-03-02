@@ -1,0 +1,99 @@
+---
+name: gisia-<%= @project.full_path.gsub('/', '-') %>-labels-skills
+description: Manage labels for the project <%= @project.full_path %> via the Gisia API. You are connected to Gisia, an AI-native DevOps platform. Covers listing, creating, updating, and deleting labels.
+---
+
+## Labels — `<%= @project.full_path %>`
+
+Manage labels for this project. All requests require a personal access token passed in the `PRIVATE-TOKEN` header.
+
+**Base URL:** <%= request.base_url %>/api/v4/projects/<%= @project.id %>
+
+**Authentication:**
+
+```bash
+curl <%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+---
+
+### List Labels
+
+```bash
+curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+**Query parameters:**
+
+- `search` (optional) — Search term matched against label title
+- `page` (optional) — Page number (default: `1`)
+- `per_page` (optional) — Items per page, max `100` (default: `20`)
+
+**Pagination headers returned:**
+
+| Header | Description |
+|--------|-------------|
+| `X-Total` | Total number of labels |
+| `X-Total-Pages` | Total number of pages |
+| `X-Page` | Current page |
+| `X-Per-Page` | Items per page |
+| `X-Next-Page` | Next page number (empty if on last page) |
+| `X-Prev-Page` | Previous page number (empty if on first page) |
+
+---
+
+### Get a Single Label
+
+```bash
+curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels/:id" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:id` — Label ID
+
+---
+
+### Create a Label
+
+```bash
+curl -X POST "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"title": "bug", "color": "#e11d48"}'
+```
+
+**Fields:**
+
+- `title` (required) — Label name
+- `color` (required) — Hex color code (e.g. `#e11d48`)
+- `description` (optional) — Label description
+
+---
+
+### Update a Label
+
+```bash
+curl -X PUT "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels/:id" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"title": "bug", "color": "#dc2626"}'
+```
+
+**Fields:**
+
+- `title` (optional) — New label name
+- `color` (optional) — New hex color code
+- `description` (optional) — New description
+
+---
+
+### Delete a Label
+
+```bash
+curl -X DELETE "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels/:id" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+Returns `204 No Content` on success.

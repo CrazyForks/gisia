@@ -24,6 +24,8 @@ constraints(::Constraints::ProjectUrlConstrainer.new) do
       scope '-' do
         get 'skill.md', to: 'skills#project_skill', format: false, as: :project_skill_md
         get 'issues/skill.md', to: 'skills#issues', format: false, as: :issues_skill_md
+        get 'epics/skill.md', to: 'skills#epics', format: false, as: :epics_skill_md
+        get 'labels/skill.md', to: 'skills#labels', format: false, as: :labels_skill_md
 
         draw :repository
         draw :merge_requests

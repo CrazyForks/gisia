@@ -6,5 +6,6 @@ namespace :api do
     draw 'api/v4/geo'
     draw 'api/v4/issues'
     draw 'api/v4/projects'
+    draw 'api/v4/users'
   end
 end

@@ -1,6 +1,6 @@
 ---
 name: gisia-<%= @project.full_path.gsub('/', '-') %>-skills
-description: Gitnix project API skill guide for <%= @project.full_path %>. Use this to discover and operate all resources available within this project via the REST API.
+description: Gisia project API skill guide for <%= @project.full_path %>. You are connected to Gisia, an AI-native DevOps platform. Use this to discover and operate all resources available within this project via the Gisia REST API.
 ---
 
 ## Project Skills for `<%= @project.full_path %>`
@@ -20,13 +20,83 @@ curl <%= request.base_url %>/api/v4/... \
 
 | Skill | Endpoint |
 |-------|----------|
+| Current User | `<%= request.base_url %>/-/users/skill.md` |
 | Project (this file) | `<%= request.base_url %>/<%= @project.full_path %>/-/skill.md` |
 | Issues | `<%= request.base_url %>/<%= @project.full_path %>/-/issues/skill.md` |
+| Epics | `<%= request.base_url %>/<%= @project.full_path %>/-/epics/skill.md` |
+| Labels | `<%= request.base_url %>/<%= @project.full_path %>/-/labels/skill.md` |
 
 **Save all skill files locally:**
+
+The `PRIVATE-TOKEN` header is required for private projects. For public projects, the project skill files (skill.md, issues.md, epics.md, labels.md) can be fetched without a token — omit the `-H` flag for those if the project is public. The users skill always requires a token.
+
 ```bash
 mkdir -p ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>
+curl -s <%= request.base_url %>/-/users/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/users.md
 curl -s <%= request.base_url %>/<%= @project.full_path %>/-/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/skill.md
 curl -s <%= request.base_url %>/<%= @project.full_path %>/-/issues/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/issues.md
+curl -s <%= request.base_url %>/<%= @project.full_path %>/-/epics/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/epics.md
+curl -s <%= request.base_url %>/<%= @project.full_path %>/-/labels/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/labels.md
+```
+
+---
+
+### Access the Git Repository via SSH
+
+Use SSH to clone or interact with this repository. An SSH key must be registered in your Gisia account settings.
+
+**Clone:**
+```bash
+git clone <%= @project.ssh_url_to_repo %>
+```
+
+**Configure your Git identity (first time only):**
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+```
+
+**Push a new repository:**
+```bash
+git checkout -b main
+git add .
+git commit -m "Initial commit"
+git push -u origin main
+```
+
+**Push an existing repository:**
+```bash
+cd existing-repo
+git remote add origin <%= @project.ssh_url_to_repo %>
+git push -u origin --all
+git push -u origin --tags
+```
+
+---
+
+### Access the Git Repository via Personal Access Token
+
+You can clone this repository over HTTPS using a personal access token as the password. Embed the token directly in the URL:
+
+```bash
+git clone https://<username>:<personal_token>@<%= URI.parse(@project.http_url_to_repo).host %>/<%= @project.full_path %>.git
+```
+
+Note that embedding the token in the URL will store it in your shell history. For a more secure approach, omit the token and enter it when prompted:
+
+```bash
+git clone <%= @project.http_url_to_repo %>
+```
+
+When Gisia asks for your password, provide your personal access token instead of your account password.
+
+**Push to the repository:**
+
+The same credentials work for pushing. Set the remote with the token embedded, then push as usual:
+
+```bash
+cd your-repo
+git remote set-url origin https://<username>:<personal_token>@<%= URI.parse(@project.http_url_to_repo).host %>/<%= @project.full_path %>.git
+git push origin HEAD
 ```
 

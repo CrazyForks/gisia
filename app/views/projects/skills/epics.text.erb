@@ -1,0 +1,116 @@
+---
+name: gisia-<%= @project.full_path.gsub('/', '-') %>-epics-skills
+description: Manage epics for the project <%= @project.full_path %> via the Gisia API. You are connected to Gisia, an AI-native DevOps platform. Covers listing, creating, updating, closing, and deleting epics.
+---
+
+## Epics — `<%= @project.full_path %>`
+
+Manage epics for this project. All requests require a personal access token passed in the `PRIVATE-TOKEN` header.
+
+**Base URL:** <%= request.base_url %>/api/v4/projects/<%= @project.id %>
+
+**Authentication:**
+
+```bash
+curl <%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+---
+
+### List Epics
+
+```bash
+curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+**Query parameters:**
+
+- `state` (optional) — Filter by state: `opened` or `closed`
+- `labels` (optional) — Comma-separated label names. Only epics that have **all** listed labels are returned
+- `author_id` (optional) — Return epics created by a specific user ID
+- `iids` (optional) — Return only epics with the given internal IDs, e.g. `iids[]=1&iids[]=2`
+- `search` (optional) — Search term matched against title and description
+- `in` (optional) — Scope for `search`: `title`, `description`, or both (default)
+- `page` (optional) — Page number (default: `1`)
+- `per_page` (optional) — Items per page, max `100` (default: `20`)
+
+**Pagination headers returned:**
+
+| Header | Description |
+|--------|-------------|
+| `X-Total` | Total number of epics |
+| `X-Total-Pages` | Total number of pages |
+| `X-Page` | Current page |
+| `X-Per-Page` | Items per page |
+| `X-Next-Page` | Next page number (empty if on last page) |
+| `X-Prev-Page` | Previous page number (empty if on first page) |
+
+---
+
+### Get a Single Epic
+
+```bash
+curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics/:epic_iid" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:epic_iid` — Epic IID (the number shown in the UI)
+
+---
+
+### Get Issues for an Epic
+
+```bash
+curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics/:epic_iid/issues" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+---
+
+### Create an Epic
+
+```bash
+curl -X POST "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Your epic title"}'
+```
+
+**Fields:**
+
+- `title` (required) — Epic title
+- `description` (optional) — Epic body
+- `due_date` (optional) — Due date in `YYYY-MM-DD` format
+- `confidential` (optional) — Boolean, default `false`
+
+---
+
+### Update an Epic
+
+```bash
+curl -X PUT "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics/:epic_iid" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"state_event": "close"}'
+```
+
+**Fields:**
+
+- `title` (optional) — New title
+- `description` (optional) — New description
+- `due_date` (optional) — New due date (`YYYY-MM-DD`)
+- `confidential` (optional) — Boolean
+- `state_event` (optional) — `close` or `reopen`
+
+---
+
+### Delete an Epic
+
+```bash
+curl -X DELETE "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics/:epic_iid" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+Returns `204 No Content` on success.

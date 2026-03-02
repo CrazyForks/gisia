@@ -1,0 +1,60 @@
+---
+name: gisia-users-skills
+description: Retrieve the currently authenticated user on Gisia, an AI-native DevOps platform. Use this to confirm your identity and obtain your user ID for use in other API calls.
+---
+
+## Current Authenticated User
+
+**Base URL:** <%= request.base_url %>/api/v4
+
+**Authentication:**
+
+```bash
+curl <%= request.base_url %>/api/v4/user \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+---
+
+### Get Current User
+
+```bash
+curl "<%= request.base_url %>/api/v4/user" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+**Response fields:**
+
+| Field | Description |
+|-------|-------------|
+| `id` | User ID |
+| `username` | Username |
+| `name` | Display name |
+| `email` | Email address |
+| `state` | Account state: `active`, `blocked`, or `banned` |
+| `locked` | Whether the account is locked |
+| `admin` | Whether the user has admin privileges |
+| `created_at` | Account creation timestamp |
+| `confirmed_at` | Email confirmation timestamp |
+| `last_sign_in_at` | Last sign-in timestamp |
+| `current_sign_in_at` | Current session sign-in timestamp |
+| `web_url` | Profile URL |
+
+**Example response:**
+
+```json
+{
+  "id": 1,
+  "username": "john_smith",
+  "name": "John Smith",
+  "email": "john@example.com",
+  "state": "active",
+  "locked": false,
+  "admin": false,
+  "created_at": "2024-01-15T08:00:58Z",
+  "confirmed_at": "2024-01-15T09:05:22Z",
+  "last_sign_in_at": "2024-06-01T11:41:01Z",
+  "current_sign_in_at": "2024-06-02T06:36:55Z",
+  "web_url": "<%= request.base_url %>/john_smith"
+}
+```

@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     end
 
     draw 'users/settings'
+    get 'users/skill.md', to: 'users/skills#show', format: false, as: :users_skill_md
   end
 
   draw :admin

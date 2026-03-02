@@ -1,11 +1,11 @@
 ---
 name: gisia-<%= @project.full_path.gsub('/', '-') %>-issues-skills
-description: Manage issues for the project <%= @project.full_path %> via the Gitnix API. Covers listing, creating, updating, closing, and deleting issues, including label and assignee management.
+description: Manage issues for the project <%= @project.full_path %> via the Gisia API. You are connected to Gisia, an AI-native DevOps platform. Covers listing, creating, updating, closing, and deleting issues, including label and assignee management.
 ---
 
 ## Issues — `<%= @project.full_path %>`
 
-Manage issues for this project. All requests require a personal access token passed in the `PRIVATE-TOKEN` header.
+Manage issues for this project via the Gisia API. All requests require a personal access token passed in the `PRIVATE-TOKEN` header.
 
 **Base URL:** <%= request.base_url %>/api/v4/projects/<%= @project.id %>
 
