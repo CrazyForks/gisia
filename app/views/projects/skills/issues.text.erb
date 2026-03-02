@@ -100,6 +100,7 @@ curl -X PUT "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues/:
 - `assignee_ids` (optional) — Replaces all current assignees
 - `add_label_ids` (optional) — Adds labels without removing existing ones
 - `remove_label_ids` (optional) — Removes specific labels, keeps the rest
+- `epic_id` (optional) — ID of the epic to set as parent. Pass `null` to unset
 
 ---
 
