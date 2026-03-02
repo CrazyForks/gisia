@@ -31,6 +31,7 @@ class Projects::ApplicationController < ApplicationController
   def authorize_project_access!
     return if @project&.public?
     return if current_user&.admin?
+    return if @project&.internal? && current_user
     return if @project && @project.team.member?(current_user)
 
     head :not_found

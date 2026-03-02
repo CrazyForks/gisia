@@ -31,6 +31,80 @@ RSpec.describe 'Projects::AccessControl', type: :request do
     namespace_project_settings_members_path(project.namespace.parent.full_path, project.namespace.path)
   end
 
+  describe 'visibility: private project' do
+    context 'when unauthenticated' do
+      it 'redirects to login' do
+        get project_path
+        expect(response).to have_http_status(:found)
+      end
+    end
+
+    context 'when logged in as a non-member' do
+      before { sign_in non_member }
+
+      it 'returns 404' do
+        get project_path
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'when logged in as a member' do
+      before { sign_in developer_user }
+
+      it 'returns 200' do
+        get project_path
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+
+  describe 'visibility: internal project' do
+    let_it_be(:internal_project) do
+      create(:project, creator: owner, parent_namespace: owner.namespace).tap do |p|
+        p.namespace.update!(visibility_level: Gitlab::VisibilityLevel::INTERNAL)
+      end
+    end
+
+    let(:internal_project_path) do
+      namespace_project_path(internal_project.namespace.parent.full_path, internal_project.path)
+    end
+
+    context 'when unauthenticated' do
+      it 'redirects to login' do
+        get internal_project_path
+        expect(response).to have_http_status(:found)
+      end
+    end
+
+    context 'when logged in as any user (non-member)' do
+      before { sign_in non_member }
+
+      it 'returns 200' do
+        get internal_project_path
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+
+  describe 'visibility: public project' do
+    let_it_be(:public_project) do
+      create(:project, creator: owner, parent_namespace: owner.namespace).tap do |p|
+        p.namespace.update!(visibility_level: Gitlab::VisibilityLevel::PUBLIC)
+      end
+    end
+
+    let(:public_project_path) do
+      namespace_project_path(public_project.namespace.parent.full_path, public_project.path)
+    end
+
+    context 'when unauthenticated' do
+      it 'returns 200' do
+        get public_project_path
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+
   describe 'project access (authorize_project_access!)' do
     context 'when user is a non-member' do
       before { sign_in non_member }
