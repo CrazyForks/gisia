@@ -77,15 +77,8 @@ module Ci
         pending_builds = strategy.builds_matching_tag_ids(pending_builds, runner.tags.ids)
         pending_builds = strategy.builds_with_any_tags(pending_builds) unless runner.run_untagged?
 
-        pending_builds.each do |pending_build|
-          build = Ci::Build.find_by(id: pending_build.build_id)
-
-          if build.nil?
-            pending_build.delete
-            next
-          end
-
-          yield build
+        pending_builds.each do |build|
+          yield Ci::Build.find_by!(id: build.build_id)
         end
       end
 
