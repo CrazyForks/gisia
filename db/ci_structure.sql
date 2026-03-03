@@ -6307,6 +6307,14 @@ ALTER TABLE public.notes
 
 
 --
+-- Name: ci_pending_builds fk_rails_725a2644a3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ci_pending_builds
+    ADD CONSTRAINT fk_rails_725a2644a3 FOREIGN KEY (build_id) REFERENCES public.ci_builds(id) ON DELETE CASCADE;
+
+
+--
 -- Name: notes fk_rails_76db6d50c6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6337,6 +6345,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260303033611'),
 ('20260219093655'),
 ('20260217142228'),
 ('20260217132430'),
