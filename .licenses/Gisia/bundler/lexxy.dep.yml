@@ -1,6 +1,6 @@
 ---
 name: lexxy
-version: 0.1.8.beta
+version: 0.8.0.beta
 type: bundler
 summary: A new editor for Action Text based on Meta's Lexical framework.
 homepage: https://github.com/basecamp/lexxy
