@@ -69,6 +69,10 @@ reviewed:
     - webrick
     - websocket-driver
     - websocket-extensions
+    - tsort
+  yarn:
+    - dompurify
+    - marked
 
 apps:
   - source_path: './'
