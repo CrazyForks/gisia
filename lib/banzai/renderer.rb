@@ -14,8 +14,7 @@ module Banzai
     def self.render(text, context = {})
       return '' unless text.present?
 
-      # Use CommonMarker for basic markdown rendering
-      html = CommonMarker.render_html(text, :DEFAULT)
+      html = CommonMarker.render_html(text, :DEFAULT, [:table, :strikethrough, :autolink, :tagfilter, :tasklist])
 
       # Basic sanitization
       Sanitize.fragment(html, Sanitize::Config::RELAXED).html_safe

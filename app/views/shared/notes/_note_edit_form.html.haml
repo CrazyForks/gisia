@@ -9,7 +9,7 @@
 
       = form_with url: note_path(note), method: :patch, local: false, id: "note-form-#{note.id}" do |f|
         %div{ 'data-controller': 'lexxy-markdown', 'data-lexxy-markdown-initial-content-value': note.note }
-          %lexxy-editor{ id: "editor-note-#{note.id}", 'data-lexxy-markdown-target': 'editor', class: 'w-full min-h-20 border border-slate-300 rounded-md text-sm bg-white', style: '--lexxy-toolbar-height: 32px; --lexxy-toolbar-button-size: 24px;', attachments: 'false' }
+          %lexxy-editor{ id: "editor-note-#{note.id}", 'data-lexxy-markdown-target': 'editor', class: 'w-full min-h-20 text-sm', attachments: 'false' }
           = f.hidden_field 'note[note]', 'data-lexxy-markdown-target': 'hiddenField'
 
       .flex.justify-end.gap-2.mt-3

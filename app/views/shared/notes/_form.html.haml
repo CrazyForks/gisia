@@ -5,7 +5,7 @@
     = hidden_field_tag :target_id, noteable.id
 
     %div{ 'data-controller': 'lexxy-markdown', 'data-lexxy-markdown-initial-content-value': '' }
-      %lexxy-editor{ id: "editor-#{noteable.class.name.underscore}-#{noteable.id}", 'data-lexxy-markdown-target': 'editor', placeholder: 'Write a comment...', class: 'w-full min-h-20 border border-slate-300 rounded-md text-sm bg-white', style: '--lexxy-toolbar-height: 32px; --lexxy-toolbar-button-size: 24px;', attachments: 'false' }
+      %lexxy-editor{ id: "editor-#{noteable.class.name.underscore}-#{noteable.id}", 'data-lexxy-markdown-target': 'editor', placeholder: 'Write a comment...', class: 'w-full min-h-20 text-sm', attachments: 'false' }
       = f.hidden_field :note, 'data-lexxy-markdown-target': 'hiddenField'
 
     .flex.justify-end.mt-3

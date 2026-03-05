@@ -90,3 +90,35 @@
   text-decoration: underline !important;
 }
 
+.lexxy-editor__content table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: calc(100% - 0.5ch);
+  margin: 0.25ch;
+}
+
+.lexxy-editor__content table th,
+.lexxy-editor__content table td {
+  border: 1px solid var(--lexxy-color-ink-lighter);
+  min-width: 5ch;
+  padding: 1ch;
+  text-align: start;
+}
+
+.lexxy-editor__content table th.lexxy-content__table-cell--header {
+  background-color: var(--lexxy-color-table-header-bg);
+  font-weight: bold;
+}
+
+lexxy-editor {
+  --lexxy-toolbar-button-size: 38px;
+}
+
+lexxy-toolbar {
+  --lexxy-toolbar-icon-size: 0.875em;
+}
+
+.lexxy-editor__toolbar-button[name="upload"] {
+  display: none !important;
+}
+

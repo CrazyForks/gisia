@@ -9,6 +9,9 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
+@import url("lexxy-variables.css");
+@import url("lexxy-content.css");
+@import url("lexxy-editor.css");
 @import url("lexxy-editor-content.css");
 
 /* Dropdown option check icon */
