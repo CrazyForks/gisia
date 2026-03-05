@@ -1,12 +1,12 @@
 ---
 name: dompurify
-version: 3.2.6
+version: 3.3.1
 type: yarn
-homepage: https://github.com/cure53/DOMPurify
+homepage: git://github.com/cure53/DOMPurify.git
 license: Apache License 2.0
 licenses:
 - sources: LICENSE
-  text: |2
+  text: |+
     DOMPurify
     Copyright 2025 Dr.-Ing. Mario Heiderich, Cure53
 
@@ -576,3 +576,4 @@ licenses:
           the Mozilla Public License, v. 2.0.
 
 notices: []
+...

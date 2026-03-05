@@ -1,0 +1,10 @@
+---
+name: "@37signals/lexxy"
+version: 0.8.0-beta
+type: yarn
+homepage: https://github.com/basecamp/lexxy.git
+license: mit
+licenses:
+- sources: README.md
+  text: The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+notices: []
