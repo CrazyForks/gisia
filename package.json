@@ -5,7 +5,8 @@
   "author": "Liuming Tan <mtanpub@gmail.com>",
   "license": "AGPL-3.0",
   "dependencies": {
-    "@lexical/markdown": "^0.35.0"
+    "@lexical/markdown": "^0.35.0",
+    "@37signals/lexxy": "0.8.0-beta"
   },
   "devDependencies": {
     "esbuild": "^0.25.10",
