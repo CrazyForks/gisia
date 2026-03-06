@@ -13,9 +13,9 @@ Gisia 是一个开源 DevOps 平台，为那些希望完全掌控开发工作流
 <img src="../../images/readme-banner.jpg" title="usage screenshots">
 </p>
 
-演示视频
+AI bot 技能演示
 
-<video src="https://github.com/user-attachments/assets/1a76184f-342b-4408-82e3-6dccc61cc76a"></video>
+<video src="https://github.com/user-attachments/assets/70181798-058b-462f-a769-cf09537dcab9"></video>
 
 
 > [!WARNING]
@@ -37,6 +37,7 @@ Gisia 是一个开源 DevOps 平台，为那些希望完全掌控开发工作流
 | **问题跟踪** | ✅ 已完成 | 简单的问题板，适合个人或小团队使用 |
 | **合并请求 / 代码审查** | ✅ 已完成 | 内联对比和评论线程 |
 | **Webhooks** | ✅ 已完成 | Webhooks 调用第三方服务的 URL |
+| **AI Bot 技能** | ✅ 已完成 | 机器可读的技能文件，让 AI 机器人可以通过 API 克隆、推送并管理问题和史诗 |
 
 
 ## 🛠️ 安装
