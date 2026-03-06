@@ -33,9 +33,11 @@ module Routable
     route = Route.find_by(path: path.to_s)
 
     return unless route
-    return route.source unless route_scope
 
-    route_scope.find_by(id: route.source_id)
+    source = route.source
+    return source unless route_scope
+
+    source if source.is_a?(route_scope.klass)
   end
 
   class_methods do

@@ -29,7 +29,7 @@
                   = icon 'circles-three', class: 'w-4 h-4 text-purple-500 flex-shrink-0'
                   %div{class: 'flex-1 min-w-0'}
                     %div{class: 'flex items-center gap-2'}
-                      = link_to namespace_show_path(group.namespace.full_path), class: 'font-medium text-gray-900 hover:text-blue-600 transition-colors truncate' do
+                      = link_to namespace_show_path(group.namespace.full_path), class: 'font-medium text-gray-900 hover:text-blue-600 transition-colors truncate', data: { turbo_frame: "_top" } do
                         = group.full_name
                       - if group.private?
                         %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700 flex-shrink-0'}
