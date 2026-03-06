@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   scope path: '-' do
     namespace :dashboard do
       resources :projects, except: %i[edit show]
-      resources :groups
+      resources :groups, except: %i[show]
     end
 
     draw 'users/settings'
@@ -45,5 +45,6 @@ Rails.application.routes.draw do
 
   draw :admin
   draw :project
+  draw :namespace
   draw :git_http
 end

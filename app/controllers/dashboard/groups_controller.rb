@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 
 class Dashboard::GroupsController < Dashboard::ApplicationController
-  before_action :set_group, only: %i[show edit update destroy]
+  before_action :set_group, only: %i[edit update destroy]
   before_action :set_available_namespaces, only: %i[new create edit update]
 
   def index
     @groups = current_user.groups.order(id: :desc)
-  end
-
-  def show
-    @projects = @group.namespace.descendant_projects.order(id: :desc)
   end
 
   def new

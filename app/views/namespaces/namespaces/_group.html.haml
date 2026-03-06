@@ -1,0 +1,31 @@
+- group = @namespace.group
+
+- content_for :breadcrumb do
+  - nodes = [{ label: group.name, path: namespace_show_path(@namespace.full_path) }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{class: 'w-full bg-white p-2 rounded-lg'}
+  %div{class: 'w-full max-w-6xl mx-auto'}
+    %div{class: 'py-6'}
+      %div{class: 'flex items-center gap-4 mb-6'}
+        %div{class: 'w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-xl font-bold'}
+          = icon 'circles-three', class: 'w-8 h-8'
+        %div
+          %div{class: 'flex items-center gap-2'}
+            %h1{class: 'text-2xl font-bold text-gray-900'}= group.name
+            - if @namespace.visibility_level == 0
+              = icon 'lock', class: 'w-4 h-4 text-gray-400'
+            - elsif @namespace.visibility_level == 10
+              = icon 'users', class: 'w-4 h-4 text-gray-400'
+            - else
+              = icon 'globe', class: 'w-4 h-4 text-gray-400'
+          - if group.description.present?
+            %p{class: 'text-gray-600'}= group.description
+
+      %div{class: 'flex items-center justify-between mb-4'}
+        %h2{class: 'text-lg font-semibold text-gray-900'} Projects
+        = link_to new_dashboard_project_path(namespace_id: @namespace.id), class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200', data: { turbo_frame: "project_form", turbo_action: "advance" } do
+          = icon 'plus', class: 'w-4 h-4'
+          New Project
+
+      = render 'dashboard/projects/project_list', projects: @projects, namespace_prefix: group.full_name

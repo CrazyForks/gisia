@@ -1,0 +1,6 @@
+- if @namespace.group_namespace?
+  = render 'group'
+- elsif @is_owner
+  = render 'user'
+- else
+  = render 'user_public'
