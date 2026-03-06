@@ -23,6 +23,16 @@ module Ci
 
     ACTIONABLE_WHEN = %w[manual delayed].freeze
 
+    scope :interruptible, -> do
+      joins(:metadata).merge(Ci::BuildMetadata.with_interruptible)
+    end
+
+    scope :not_interruptible, -> do
+      joins(:metadata).where.not(
+        Ci::BuildMetadata.table_name => { id: Ci::BuildMetadata.scoped_build.with_interruptible.select(:id) }
+      )
+    end
+
     has_one :trigger, through: :pipeline
     has_one :sourced_pipeline, class_name: 'Ci::Sources::Pipeline', foreign_key: :source_job_id, inverse_of: :source_job
 

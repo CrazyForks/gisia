@@ -98,6 +98,12 @@ module Ci
     scope :order_id_asc, -> { order(id: :asc) }
     scope :order_id_desc, -> { order(id: :desc) }
 
+    scope :conservative_interruptible, -> do
+      where_not_exists(
+        Ci::Build.scoped_pipeline.with_status(STARTED_STATUSES).not_interruptible
+      )
+    end
+
     has_internal_id :iid, scope: :project, presence: false,
       track_if: -> { !importing? },
       ensure_if: -> { !importing? },
@@ -303,6 +309,14 @@ module Ci
     def set_failed(failure_reason)
       self.failure_reason = failure_reason.to_s
       self.status = 'failed'
+    end
+
+    def cancelable?
+      statuses.cancelable.any? && source != 'external'
+    end
+
+    def auto_cancel_on_new_commit
+      pipeline_metadata&.auto_cancel_on_new_commit || 'conservative'
     end
 
     def auto_cancel_on_job_failure

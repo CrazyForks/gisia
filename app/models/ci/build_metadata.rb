@@ -36,6 +36,12 @@ module Ci
     attribute :config_options, ::Gitlab::Database::Type::SymbolizedJsonb.new
     attribute :config_variables, ::Gitlab::Database::Type::SymbolizedJsonb.new
 
+    scope :scoped_build, -> do
+      where(arel_table[:build_id].eq(Ci::Build.arel_table[:id]))
+    end
+
+    scope :with_interruptible, -> { where(interruptible: true) }
+
     chronic_duration_attr_reader :timeout_human_readable, :timeout
 
     def update_timeout_state
