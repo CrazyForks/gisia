@@ -9,7 +9,7 @@
 # Licensed under AGPLv3 - see LICENSE file in this repository
 # ======================================================
 
-class CommitStatus < ApplicationRecord
+class CommitStatus < Ci::ApplicationRecord
   include Ci::Partitionable
   include Ci::HasStatus
   include Ci::HasCommitBuildStatus
