@@ -19,8 +19,11 @@ module ProjectsHelper
     names = project.route.name.split(' / ')
     paths = project.route.path.split('/')
     names.map.with_index do |name, i|
-      path = i == names.size - 1 ? project_path(project) : '#'
-      { label: name, path: path }
+      if i == names.size - 1
+        { label: name, path: project_path(project) }
+      else
+        { label: name, path: namespace_show_path(paths[0..i].join('/')) }
+      end
     end
   end
 
