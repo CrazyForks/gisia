@@ -41,6 +41,42 @@ curl -s <%= request.base_url %>/<%= @project.full_path %>/-/labels/skill.md -H "
 
 ---
 
+### Customizing Skills
+
+Each skill file served by Gisia can be overridden per-project by committing a replacement Markdown file into the repository. When a custom file is present, Gisia serves it directly instead of the default generated content.
+
+**File locations (relative to repo root):**
+
+| Skill | Repo path |
+|-------|-----------|
+| Project | `.gisiabot/skills/project.md` |
+| Issues | `.gisiabot/skills/issues.md` |
+| Epics | `.gisiabot/skills/epics.md` |
+| Labels | `.gisiabot/skills/labels.md` |
+
+**Example — override the issues skill:**
+
+```bash
+mkdir -p .gisiabot/skills
+# Write your custom instructions into the file
+echo "# Custom Issues Skill" > .gisiabot/skills/issues.md
+git add .gisiabot/skills/issues.md
+git commit -m "Add custom issues skill"
+git push
+```
+
+Once pushed, `<%= request.base_url %>/<%= @project.full_path %>/-/issues/skill.md` will return your custom file instead of the default.
+
+To revert to the default, delete the file and push:
+
+```bash
+git rm .gisiabot/skills/issues.md
+git commit -m "Remove custom issues skill"
+git push
+```
+
+---
+
 ### Access the Git Repository via SSH
 
 Use SSH to clone or interact with this repository. An SSH key must be registered in your Gisia account settings.
