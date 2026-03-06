@@ -57,6 +57,10 @@ module Routable
         route_scope: route_scope
       )
     end
+
+    def find_by_full_path!(path, follow_redirects: false)
+      find_by_full_path(path, follow_redirects: follow_redirects) || raise(ActiveRecord::RecordNotFound)
+    end
   end
 
   def full_name

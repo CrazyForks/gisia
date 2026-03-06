@@ -41,6 +41,10 @@ class Group < ApplicationRecord
 
   after_update :sync_namespace if :name_changed? || :path_changed?
 
+  def to_param
+    namespace.full_path
+  end
+
   def visibility_level_field
     :visibility_level
   end

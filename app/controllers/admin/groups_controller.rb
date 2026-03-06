@@ -53,9 +53,7 @@ class Admin::GroupsController < Admin::ApplicationController
   private
 
   def set_group
-    @group = Group.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to admin_groups_path, alert: 'Group not found.'
+    @group = Group.find_by_full_path(params[:id]) || redirect_to(admin_groups_path, alert: 'Group not found.')
   end
 
   def group_params

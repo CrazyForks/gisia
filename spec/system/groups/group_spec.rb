@@ -58,14 +58,14 @@ RSpec.describe 'Group Management', type: :system do
     let_it_be(:group) { create(:group, creator: user) }
 
     it 'pre-selects the group namespace in the namespace dropdown' do
-      visit dashboard_group_path(group)
+      visit namespace_show_path(group)
       click_link 'New Project'
 
       expect(page).to have_select('Namespace', selected: group.namespace.name_with_type)
     end
 
     it 'creates the project under the group namespace' do
-      visit dashboard_group_path(group)
+      visit namespace_show_path(group)
       click_link 'New Project'
 
       expect(page).to have_select('Namespace', selected: group.namespace.name_with_type)
@@ -83,7 +83,7 @@ RSpec.describe 'Group Management', type: :system do
     let_it_be(:project) { create(:project, creator: user, parent_namespace: group.namespace) }
 
     it 'removes the project row from the list' do
-      visit dashboard_group_path(group)
+      visit namespace_show_path(group)
 
       expect(page).to have_content(project.name)
 

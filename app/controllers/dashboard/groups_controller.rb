@@ -44,7 +44,7 @@ class Dashboard::GroupsController < Dashboard::ApplicationController
   private
 
   def set_group
-    @group = Group.find(params[:id])
+    @group = Group.find_by_full_path!(params[:id])
   end
 
   def group_params
