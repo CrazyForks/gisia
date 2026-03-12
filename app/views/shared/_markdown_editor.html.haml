@@ -1,0 +1,45 @@
+-# locals: f, field, placeholder, min_height, initial_content, textarea_id: nil
+%div{ 'data-controller': 'markdown-editor',
+      'data-markdown-editor-initial-content-value': initial_content,
+      'data-markdown-editor-preview-url-value': markdown_preview_path }
+  .border.border-slate-300.rounded-md.overflow-hidden
+    .flex.items-center.gap-0.5.border-b.border-slate-200.bg-slate-50.px-2.py-1
+      %button{ type: 'button', 'data-action': 'click->markdown-editor#bold', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Bold' }
+        = icon 'text-b', class: 'w-4 h-4', variant: 'bold'
+      %button{ type: 'button', 'data-action': 'click->markdown-editor#italic', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Italic' }
+        = icon 'text-italic', class: 'w-4 h-4', variant: 'bold'
+      %button{ type: 'button', 'data-action': 'click->markdown-editor#strikethrough', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Strikethrough' }
+        = icon 'text-strikethrough', class: 'w-4 h-4', variant: 'bold'
+      .w-px.h-4.bg-slate-300.mx-1
+      %button{ type: 'button', 'data-action': 'click->markdown-editor#insertLink', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Link' }
+        = icon 'link', class: 'w-4 h-4', variant: 'bold'
+      %button{ type: 'button', 'data-action': 'click->markdown-editor#insertQuote', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Quote' }
+        = icon 'quotes', class: 'w-4 h-4', variant: 'bold'
+      %button{ type: 'button', 'data-action': 'click->markdown-editor#insertCode', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Code' }
+        = icon 'code', class: 'w-4 h-4', variant: 'bold'
+      .w-px.h-4.bg-slate-300.mx-1
+      %button{ type: 'button', 'data-action': 'click->markdown-editor#insertUnorderedList', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Bullet list' }
+        = icon 'list-bullets', class: 'w-4 h-4', variant: 'bold'
+      %button{ type: 'button', 'data-action': 'click->markdown-editor#insertOrderedList', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Numbered list' }
+        = icon 'list-numbers', class: 'w-4 h-4', variant: 'bold'
+      .w-px.h-4.bg-slate-300.mx-1
+      %button{ type: 'button', 'data-action': 'click->markdown-editor#insertTable', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Table' }
+        = icon 'table', class: 'w-4 h-4', variant: 'bold'
+      %button{ type: 'button', 'data-action': 'click->markdown-editor#insertHr', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Horizontal rule' }
+        = icon 'minus', class: 'w-4 h-4', variant: 'bold'
+    .flex.border-b.border-slate-200.bg-slate-50.px-1
+      %button{ type: 'button',
+               'data-markdown-editor-target': 'editTab',
+               'data-action': 'click->markdown-editor#showEdit',
+               class: 'px-3 py-1.5 text-xs font-medium text-slate-700 border-b-2 border-blue-500' } Edit
+      %button{ type: 'button',
+               'data-markdown-editor-target': 'previewTab',
+               'data-action': 'click->markdown-editor#showPreview',
+               class: 'px-3 py-1.5 text-xs font-medium text-slate-500 border-b-2 border-transparent' } Preview
+    %textarea{ 'data-markdown-editor-target': 'textarea',
+               'data-action': 'input->markdown-editor#sync input->markdown-editor#autoResize',
+               id: textarea_id,
+               placeholder: placeholder,
+               class: "w-full px-3 py-2 text-sm font-mono resize-none focus:outline-none overflow-hidden block bg-white #{min_height}" }
+    .hidden.px-3.py-2.md-preview.bg-white{ 'data-markdown-editor-target': 'preview' }
+  = f.hidden_field field, 'data-markdown-editor-target': 'hiddenField'

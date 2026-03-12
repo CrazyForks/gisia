@@ -17,7 +17,7 @@ RSpec.describe 'Epics', type: :system, js: true do
       expect(page).to have_content('New Epic')
 
       fill_in 'Title', with: 'Test Epic Title'
-      fill_in_lexxy_editor('This is a test epic description', selector: '#epic-description-editor')
+      fill_in_markdown_editor('This is a test epic description', selector: '#epic-description-editor')
 
       click_button 'Create Epic'
 
@@ -55,7 +55,7 @@ RSpec.describe 'Epics', type: :system, js: true do
       expect(current_path).to eq(edit_namespace_project_epic_path(project.namespace.parent.full_path, project.path, epic))
 
       fill_in 'Title', with: 'Updated Epic Title'
-      fill_in_lexxy_editor('Updated epic description', selector: '#epic-description-editor')
+      fill_in_markdown_editor('Updated epic description', selector: '#epic-description-editor')
 
       # Check if form shows any validation errors before submitting
       click_button 'Update Epic'

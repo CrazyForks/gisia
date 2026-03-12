@@ -13,10 +13,9 @@ RSpec.describe 'Epic Comments', type: :system, js: true do
 
   describe 'creating root comments' do
     it 'allows creating a new comment' do
-      fill_in_lexxy_editor('This is a test comment on epic', selector: "#editor-epic-#{epic.id}")
+      fill_in_markdown_editor('This is a test comment on epic', selector: "#editor-epic-#{epic.id}")
       click_button 'Comment'
 
-      # Wait for turbo stream response
       expect(page).to have_content('This is a test comment on epic', wait: 5)
       expect(page).to have_content(user.name)
     end
@@ -34,8 +33,8 @@ RSpec.describe 'Epic Comments', type: :system, js: true do
         click_button 'Reply'
       end
 
-      fill_in_lexxy_editor('This is a reply to the comment', selector: "#editor-reply-note-#{root_comment.id}")
       within("#note-#{root_comment.id}-reply-form") do
+        fill_in_markdown_editor('This is a reply to the comment', selector: "#editor-reply-note-#{root_comment.id}")
         click_button 'Reply'
       end
 
@@ -88,18 +87,15 @@ RSpec.describe 'Epic Comments', type: :system, js: true do
     it 'allows editing own comments' do
       within("#note_#{comment.id}") do
         click_button 'Edit'
+        expect(find("#editor-note-#{comment.id}").value).to eq('Original comment')
       end
-
-      expect(page).to have_content('Original comment')
     end
 
     it 'updates comment content after editing' do
       within("#note_#{comment.id}") do
         click_button 'Edit'
+        fill_in_markdown_editor('Updated comment content', selector: "#editor-note-#{comment.id}")
       end
-
-      # Edit the comment content using the specific edit form editor ID
-      fill_in_lexxy_editor('Updated comment content', selector: "#editor-note-#{comment.id}")
       click_button 'Save'
 
       expect(page).to have_content('Updated comment content', wait: 5)

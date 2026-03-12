@@ -8,7 +8,7 @@ import VariableDrawerController from "./variable_drawer_controller"
 import BranchSelectController from "./projects/settings/branch_select_controller"
 import TagSelectController from "./projects/settings/tag_select_controller"
 import AvatarPreviewController from "./avatar_preview_controller"
-import LexxyMarkdownController from "./lexxy_markdown_controller"
+import MarkdownEditorController from "./markdown_editor_controller"
 import UserSelectDropdownController from "./user_select_dropdown_controller"
 import LabelSelectDropdownController from "./label_select_dropdown_controller"
 import EpicSelectDropdownController from "./epic_select_dropdown_controller"
@@ -32,7 +32,7 @@ application.register("variable-drawer", VariableDrawerController)
 application.register("branch-select", BranchSelectController)
 application.register("tag-select", TagSelectController)
 application.register("avatar-preview", AvatarPreviewController)
-application.register("lexxy-markdown", LexxyMarkdownController)
+application.register("markdown-editor", MarkdownEditorController)
 application.register("user-select-dropdown", UserSelectDropdownController)
 application.register("label-select-dropdown", LabelSelectDropdownController)
 application.register("epic-select-dropdown", EpicSelectDropdownController)

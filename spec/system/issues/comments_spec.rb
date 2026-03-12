@@ -13,22 +13,20 @@ RSpec.describe 'Issue Comments', type: :system, js: true do
 
   describe 'creating root comments' do
     it 'allows creating a new comment' do
-      fill_in_lexxy_editor('This is a test comment on issue', selector: "#editor-issue-#{issue.id}")
+      fill_in_markdown_editor('This is a test comment on issue', selector: "#editor-issue-#{issue.id}")
       click_button 'Comment'
 
-      # Wait for turbo stream response
       expect(page).to have_content('This is a test comment on issue', wait: 5)
       expect(page).to have_content(user.name)
     end
 
     it 'clears the editor after submitting a comment' do
-      fill_in_lexxy_editor('Test comment to clear', selector: "#editor-issue-#{issue.id}")
+      fill_in_markdown_editor('Test comment to clear', selector: "#editor-issue-#{issue.id}")
       click_button 'Comment'
 
       expect(page).to have_content('Test comment to clear', wait: 5)
 
-      editor_element = find("#editor-issue-#{issue.id}")
-      expect(editor_element.native.value).to eq('<p><br></p>')
+      expect(find("#editor-issue-#{issue.id}").value).to eq('')
     end
   end
 
@@ -44,8 +42,8 @@ RSpec.describe 'Issue Comments', type: :system, js: true do
         click_button 'Reply'
       end
 
-      fill_in_lexxy_editor('This is a reply to the comment', selector: "#editor-reply-note-#{root_comment.id}")
       within("#note-#{root_comment.id}-reply-form") do
+        fill_in_markdown_editor('This is a reply to the comment', selector: "#editor-reply-note-#{root_comment.id}")
         click_button 'Reply'
       end
 
@@ -57,15 +55,16 @@ RSpec.describe 'Issue Comments', type: :system, js: true do
         click_button 'Reply'
       end
 
-      fill_in_lexxy_editor('Test reply to clear', selector: "#editor-reply-note-#{root_comment.id}")
       within("#note-#{root_comment.id}-reply-form") do
+        fill_in_markdown_editor('Test reply to clear', selector: "#editor-reply-note-#{root_comment.id}")
         click_button 'Reply'
       end
 
       expect(page).to have_content('Test reply to clear', wait: 5)
 
-      editor_element = find("#editor-reply-note-#{root_comment.id}")
-      expect(editor_element.native.value).to eq('<p><br></p>')
+      within("#note-#{root_comment.id}-reply-form") do
+        expect(find("#editor-reply-note-#{root_comment.id}").value).to eq('')
+      end
     end
 
     it 'shows replies count when there are replies' do
@@ -85,20 +84,17 @@ RSpec.describe 'Issue Comments', type: :system, js: true do
     before do
       visit namespace_project_issue_path(project.namespace.parent.full_path, project.path, issue)
 
-      # Create reply through browser interaction
       within("#note_#{root_comment.id}") do
         click_button 'Reply'
       end
 
-      fill_in_lexxy_editor('Reply comment', selector: "#editor-reply-note-#{root_comment.id}")
       within("#note-#{root_comment.id}-reply-form") do
+        fill_in_markdown_editor('Reply comment', selector: "#editor-reply-note-#{root_comment.id}")
         click_button 'Reply'
       end
 
-      # Refresh page to verify reply count is persisted
       page.refresh
 
-      # Wait for reply to be created and page to update
       expect(page).to have_content('1 replies', wait: 5)
     end
 
@@ -127,18 +123,15 @@ RSpec.describe 'Issue Comments', type: :system, js: true do
     it 'allows editing own comments' do
       within("#note_#{comment.id}") do
         click_button 'Edit'
+        expect(find("#editor-note-#{comment.id}").value).to eq('Original comment')
       end
-
-      expect(page).to have_content('Original comment')
     end
 
     it 'updates comment content after editing' do
       within("#note_#{comment.id}") do
         click_button 'Edit'
+        fill_in_markdown_editor('Updated comment content', selector: "#editor-note-#{comment.id}")
       end
-
-      # Edit the comment content using the specific edit form editor ID
-      fill_in_lexxy_editor('Updated comment content', selector: "#editor-note-#{comment.id}")
       click_button 'Save'
 
       expect(page).to have_content('Updated comment content', wait: 5)

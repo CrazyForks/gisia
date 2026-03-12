@@ -47,4 +47,5 @@ Rails.application.routes.draw do
   draw :project
   draw :namespace
   draw :git_http
+  draw :markdown
 end

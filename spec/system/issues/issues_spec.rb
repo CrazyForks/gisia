@@ -17,7 +17,7 @@ RSpec.describe 'Issues', type: :system, js: true do
       expect(page).to have_content('New Issue')
 
       fill_in 'Title', with: 'Test Issue Title'
-      fill_in_lexxy_editor('This is a test issue description', selector: '#issue-description-editor')
+      fill_in_markdown_editor('This is a test issue description', selector: '#issue-description-editor')
 
       click_button 'Create Issue'
 
@@ -57,7 +57,7 @@ RSpec.describe 'Issues', type: :system, js: true do
       expect(current_path).to eq(edit_namespace_project_issue_path(project.namespace.parent.full_path, project.path, issue))
 
       fill_in 'Title', with: 'Updated Issue Title'
-      fill_in_lexxy_editor('Updated description', selector: '#issue-description-editor')
+      fill_in_markdown_editor('Updated description', selector: '#issue-description-editor')
 
       click_button 'Update Issue'
 

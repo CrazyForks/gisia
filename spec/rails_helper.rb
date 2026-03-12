@@ -48,7 +48,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::IntegrationHelpers, type: :system
   config.include LoginHelpers, type: :system
-  config.include LexxyHelpers, type: :system
+  config.include MarkdownEditorHelpers, type: :system
 
   # Use rack_test by default, cuprite for js: true
   config.before(:each, type: :system) do |example|

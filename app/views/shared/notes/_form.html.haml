@@ -4,9 +4,7 @@
     = f.hidden_field :noteable_id, value: noteable.id
     = hidden_field_tag :target_id, noteable.id
 
-    %div{ 'data-controller': 'lexxy-markdown', 'data-lexxy-markdown-initial-content-value': '' }
-      %lexxy-editor{ id: "editor-#{noteable.class.name.underscore}-#{noteable.id}", 'data-lexxy-markdown-target': 'editor', placeholder: 'Write a comment...', class: 'w-full min-h-20 text-sm', attachments: 'false' }
-      = f.hidden_field :note, 'data-lexxy-markdown-target': 'hiddenField'
+    = render 'shared/markdown_editor', f: f, field: :note, placeholder: 'Write a comment...', min_height: 'min-h-40', initial_content: '', textarea_id: "editor-#{noteable.class.name.underscore}-#{noteable.id}"
 
     .flex.justify-end.mt-3
       = f.submit 'Comment', class: 'px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md'
