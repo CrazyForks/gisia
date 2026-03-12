@@ -4,6 +4,7 @@ class Dashboard::ProjectsController < Dashboard::ApplicationController
   before_action :set_project, only: %i[destroy]
   before_action :set_available_namespaces, only: %i[new create]
   before_action :verify_namespace_ownership, only: %i[create]
+  before_action :authorize_destroy_project!, only: %i[destroy]
 
   def index
     @projects = current_user.projects.order(id: :desc)
@@ -74,5 +75,12 @@ class Dashboard::ProjectsController < Dashboard::ApplicationController
     unless available_namespace_ids.include?(namespace_parent_id)
       redirect_to dashboard_projects_path, alert: 'You are not authorized to use this namespace.'
     end
+  end
+
+  def authorize_destroy_project!
+    return if current_user.admin?
+    return if @project.team.member?(current_user, Accessible::OWNER)
+
+    redirect_to dashboard_projects_path, alert: 'You are not authorized to perform this action.'
   end
 end

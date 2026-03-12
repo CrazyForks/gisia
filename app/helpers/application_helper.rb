@@ -1,4 +1,20 @@
 module ApplicationHelper
+  def can_admin_group?(group)
+    current_user&.admin? || group.members.with_user(current_user).with_at_least_access_level(Accessible::MAINTAINER).exists?
+  end
+
+  def can_destroy_group?(group)
+    current_user&.admin? || group.members.with_user(current_user).with_at_least_access_level(Accessible::OWNER).exists?
+  end
+
+  def can_admin_project?(project)
+    current_user&.admin? || project.team.member?(current_user, Accessible::MAINTAINER)
+  end
+
+  def can_destroy_project?(project)
+    current_user&.admin? || project.team.member?(current_user, Accessible::OWNER)
+  end
+
   def key_form_url(key)
     key.new_record? ? users_settings_keys_path : users_settings_key_path(key)
   end

@@ -3,6 +3,8 @@
 class Dashboard::GroupsController < Dashboard::ApplicationController
   before_action :set_group, only: %i[edit update destroy]
   before_action :set_available_namespaces, only: %i[new create edit update]
+  before_action :authorize_manage_group!, only: %i[edit update]
+  before_action :authorize_destroy_group!, only: %i[destroy]
 
   def index
     @groups = current_user.groups.order(id: :desc)
@@ -57,5 +59,19 @@ class Dashboard::GroupsController < Dashboard::ApplicationController
 
   def available_namespaces_for_user
     current_user.groups.map(&:namespace)
+  end
+
+  def authorize_manage_group!
+    return if current_user.admin?
+    return if @group.members.with_user(current_user).with_at_least_access_level(Accessible::MAINTAINER).exists?
+
+    redirect_to dashboard_groups_path, alert: 'You are not authorized to perform this action.'
+  end
+
+  def authorize_destroy_group!
+    return if current_user.admin?
+    return if @group.members.with_user(current_user).with_at_least_access_level(Accessible::OWNER).exists?
+
+    redirect_to dashboard_groups_path, alert: 'You are not authorized to perform this action.'
   end
 end

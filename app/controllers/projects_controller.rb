@@ -16,6 +16,7 @@ class ProjectsController < Projects::ApplicationController
   before_action :check_empty_repository, only: [:show]
   before_action :assign_ref_vars, only: [:show]
   before_action :set_tree, only: [:show]
+  before_action :authorize_edit_project!, only: %i[edit update]
   before_action :set_available_namespaces, only: %i[edit update]
   before_action :verify_namespace_ownership, only: %i[update]
 
@@ -60,6 +61,13 @@ class ProjectsController < Projects::ApplicationController
       :namespace_parent_id,
       namespace_attributes: %i[id parent_id visibility_level]
     )
+  end
+
+  def authorize_edit_project!
+    return if current_user&.admin?
+    return if @project.team.member?(current_user, Accessible::MAINTAINER)
+
+    head :forbidden
   end
 
   def set_available_namespaces
