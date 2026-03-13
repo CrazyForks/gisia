@@ -62,8 +62,9 @@ Gisia is built with these principles in mind:
 
 ## 🤝 Contributing
 
-We welcome contributions from the community! You can help by **fixing bugs, improving code, or suggesting new features**.
-All new features should start with an issue to discuss the idea.
+We welcome contributions from the community! You can help by **fixing bugs or improving existing code**.
+
+We are not accepting code contributions for new features at this time. If you have a feature idea, please [open a feature issue](../../issues/new) to start a discussion — we'd love to hear your thoughts.
 
 
 ### Legal Note
