@@ -12,5 +12,5 @@
 require_relative '../../lib/gitlab/i18n'
 require_relative '../../lib/gitlab/i18n/pluralization'
 
-Gitlab::I18n.setup(domain: 'gitlab', default_locale: :en)
+Gitlab::I18n.setup(domain: 'gisia', default_locale: :en)
 

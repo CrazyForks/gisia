@@ -1,3 +1,14 @@
+# frozen_string_literal: true
+
+# ======================================================
+# Contains code from GitLab FOSS (MIT Licensed)
+# Copyright (c) GitLab Inc.
+# See .licenses/Gisia/others/gitlab-foss.dep.yml for full license
+#
+# Modifications and additions copyright (c) 2025-present Liuming Tan
+# Licensed under AGPLv3 - see LICENSE file in this repository
+# ======================================================
+
 module ApplicationHelper
   def can_admin_group?(group)
     current_user&.admin? || group.members.with_user(current_user).with_at_least_access_level(Accessible::MAINTAINER).exists?
@@ -13,6 +24,10 @@ module ApplicationHelper
 
   def can_destroy_project?(project)
     current_user&.admin? || project.team.member?(current_user, Accessible::OWNER)
+  end
+
+  def locale_path
+    asset_path("locale/#{Gitlab::I18n.locale}/app.js")
   end
 
   def format_datetime(time, user = nil, format: :long)

@@ -1,5 +1,5 @@
 !!!
-%html{:lang => "en"}
+%html{lang: I18n.locale}
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title= content_for(:title) || "Gitnix"
@@ -12,6 +12,8 @@
     %link{:href => "/icon.png", :rel => "icon", :type => "image/png"}/
     %link{:href => "/icon.png", :rel => "apple-touch-icon"}/
     = stylesheet_link_tag :app, "data-turbo-track": "reload"
+    - unless I18n.locale.to_s == 'en'
+      = javascript_include_tag locale_path
     = javascript_importmap_tags
   %body.bg-gray-100.text-gray-900.font-sans
     .min-h-screen.flex.flex-col

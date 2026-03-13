@@ -4,6 +4,9 @@
 # Contains code from GitLab FOSS (MIT Licensed)
 # Copyright (c) GitLab Inc.
 # See .licenses/Gisia/others/gitlab-foss.dep.yml for full license
+#
+# Modifications and additions copyright (c) 2025-present Liuming Tan
+# Licensed under AGPLv3 - see LICENSE file in this repository
 # ======================================================
 
 module Gitlab
@@ -44,7 +47,7 @@ module Gitlab
       # rubocop:enable
 
       NOT_FOUND_ERROR = lambda do |locale|
-        po = File.expand_path("../../../locale/#{locale}/gitlab.po", __dir__)
+        po = File.expand_path("../../../locale/#{locale}/gisia.po", __dir__)
 
         forms = File.read(po)[/Plural-Forms:.*; plural=(.*?);\\n/, 1] if File.exist?(po)
         suggestion = <<~TEXT if forms
