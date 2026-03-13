@@ -30,7 +30,7 @@ module Notes
     end
 
     def notes
-      Note.where(id: id).or(Note.where(discussion_id: id))
+      @notes ||= Note.where(id: id).or(Note.where(discussion_id: id)).load
     end
 
     def discussion

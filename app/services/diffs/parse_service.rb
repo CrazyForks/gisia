@@ -113,21 +113,7 @@ module Diffs
     def generate_line_code(old_line, new_line, type)
       return nil if type == 'hunk_header'
 
-      file_hash = Digest::SHA1.hexdigest(diff_file.file_path)
-
-      case type
-      when 'addition'
-        # For additions: use 0 for old_line, actual new_line
-        "#{file_hash}_0_#{new_line}"
-      when 'deletion'
-        # For deletions: use actual old_line, 0 for new_line
-        "#{file_hash}_#{old_line}_0"
-      when 'context'
-        # For context: use both actual line numbers
-        "#{file_hash}_#{old_line}_#{new_line}"
-      else
-        "#{file_hash}_#{old_line}_#{new_line}"
-      end
+      Gitlab::Git.diff_line_code(diff_file.file_path, new_line, old_line)
     end
 
     def discussable?(type)

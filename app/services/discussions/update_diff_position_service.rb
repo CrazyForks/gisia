@@ -25,6 +25,7 @@ module Discussions
           end
         else
           note.position = position
+          note.line_code = nil
           note.change_position = nil
         end
       end

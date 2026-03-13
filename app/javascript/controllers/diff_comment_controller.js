@@ -20,32 +20,27 @@ export default class extends Controller {
     event.preventDefault()
     const button = event.currentTarget
     const lineCode = button.dataset.lineCode
+    const lineType = button.dataset.lineType
 
-    // Find the top-level diff row (the one with flex items-stretch min-h-5 group relative)
     const lineRow = button.closest('.group.relative')
 
-    // Hide any existing comment forms
     this.hideAllCommentForms()
 
-    // Create and insert comment form after the line
-    this.insertCommentForm(lineRow, lineCode)
+    this.insertCommentForm(lineRow, lineCode, lineType)
 
-    // Hide the comment button
     button.style.opacity = '0'
   }
 
-  insertCommentForm(lineRow, lineCode) {
-    // Check if form already exists
+  insertCommentForm(lineRow, lineCode, lineType) {
     const existingForm = this.element.querySelector(`#comment-form-${lineCode}`)
     if (existingForm) {
       existingForm.remove()
     }
 
-    // Create form as a separate full-width row at same level as diff lines
     const formContainer = document.createElement('div')
     formContainer.className = 'diff-comment-form-wrapper'
     formContainer.innerHTML = `
-      <div class="border-t border-b border-gray-300 bg-gray-50 p-4 w-full" id="comment-form-${lineCode}" data-line-code="${lineCode}">
+      <div class="border-t border-b border-gray-300 bg-gray-50 p-4 w-full" id="comment-form-${lineCode}" data-line-code="${lineCode}" data-line-type="${lineType}">
         <div class="mb-3">
           <span class="text-sm text-gray-600">
             Commenting on this line
@@ -107,6 +102,7 @@ export default class extends Controller {
     const form = this.element.querySelector(`#comment-form-${lineCode}`)
     const textarea = form.querySelector('textarea')
     const content = textarea.value.trim()
+    const lineType = form.dataset.lineType
 
     if (!content) {
       textarea.focus()
@@ -129,8 +125,7 @@ export default class extends Controller {
         return
       }
 
-      // Build position data similar to GitLab FOSS format
-      const position = this.buildPositionData(lineCode)
+      const position = this.buildPositionData(lineCode, lineType)
 
       const response = await fetch(apiEndpoint, {
         method: 'POST',
@@ -158,51 +153,42 @@ export default class extends Controller {
     }
   }
 
-  buildPositionData(lineCode) {
-    // Parse line code format: file_hash_old_line_new_line
+  buildPositionData(lineCode, lineType) {
     const parts = lineCode.split('_')
     if (parts.length < 3) return null
 
-    const fileHash = parts[0]
-    const oldLine = parts[1] !== '' ? parseInt(parts[1]) : null
-    const newLine = parts[2] !== '' ? parseInt(parts[2]) : null
+    const rawOldLine = parseInt(parts[1])
+    const rawNewLine = parseInt(parts[2])
 
-    // Extract file path from diff header
-    const fileHeaders = this.element.querySelectorAll('.diff-file-header .font-mono')
-    let filePath = '.gitlab-ci.yml' // fallback
+    const oldLine = lineType === 'addition' ? null : rawOldLine
+    const newLine = lineType === 'deletion' ? null : rawNewLine
 
-    fileHeaders.forEach(header => {
-      const text = header.textContent.trim()
-      if (text && !text.startsWith('@@') && text.includes('.')) {
-        filePath = text
-      }
-    })
+    const oldPath = this.element.dataset.oldPath
+    const newPath = this.element.dataset.newPath
 
-    // Extract SHA values from the page (they should be available in the merge request context)
     const baseSha = this.element.dataset.baseSha
     const startSha = this.element.dataset.startSha
     const headSha = this.element.dataset.headSha
 
-    // Build position object similar to GitLab FOSS format
     return {
       base_sha: baseSha,
       start_sha: startSha,
       head_sha: headSha,
-      old_path: filePath,
-      new_path: filePath,
+      old_path: oldPath,
+      new_path: newPath,
       position_type: 'text',
       old_line: oldLine,
       new_line: newLine,
       line_range: {
         start: {
           line_code: lineCode,
-          type: newLine ? 'new' : 'old',
+          type: lineType === 'addition' ? 'new' : lineType === 'deletion' ? 'old' : null,
           old_line: oldLine,
           new_line: newLine
         },
         end: {
           line_code: lineCode,
-          type: newLine ? 'new' : 'old',
+          type: lineType === 'addition' ? 'new' : lineType === 'deletion' ? 'old' : null,
           old_line: oldLine,
           new_line: newLine
         }

@@ -39,8 +39,7 @@ module MergeRequests
     def reload_diff(current_user = nil)
       return unless open?
 
-      # Todo, update tracer
-      # MergeRequests::ReloadDiffsService.new(self, current_user).execute
+      MergeRequests::ReloadDiffsService.new(self, current_user).execute
     end
 
     def diff_refs
