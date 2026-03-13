@@ -9,24 +9,24 @@
   %div{class: 'flex-1 overflow-y-auto px-4 py-6 sidebar-scroll'}
     %div{class: 'mb-6'}
       %h2{class: 'text-xs font-semibold text-gray-500 uppercase mb-2 px-2'}
-        Overview
+        = _('Overview')
       %ul{class: 'space-y-0.5'}
         %li
           = link_to admin_root_path, class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{current_page?(admin_root_path) ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'chart-bar', class: "w-4 h-4 #{current_page?(admin_root_path) ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-            %span Dashboard
+            %span= _('Dashboard')
         %li
           = link_to admin_users_path, class: "flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-800 rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'users', class: 'w-4 h-4 text-gray-600 group-hover:text-blue-600'
-            %span Users
+            %span= _('Users')
         %li
           = link_to admin_projects_path, class: "flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-800 rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'briefcase', class: 'w-4 h-4 text-gray-600 group-hover:text-blue-600'
-            %span Projects
+            %span= _('Projects')
         %li
           = link_to admin_groups_path, class: "flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-800 rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'circles-three', class: 'w-4 h-4 text-gray-600 group-hover:text-blue-600'
-            %span Groups
+            %span= _('Groups')
 
     %div{class: 'mb-6'}
       %h2{class: 'text-xs font-semibold text-gray-500 uppercase mb-2 px-2'}
@@ -35,11 +35,10 @@
         %li
           = link_to admin_runners_path, class: "flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-800 rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'computer-tower', class: 'w-4 h-4 text-gray-600 group-hover:text-blue-600'
-            %span Runners
+            %span= _('Runners')
         %li
           = link_to admin_jobs_path, class: "flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-800 rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'play-circle', class: 'w-4 h-4 text-gray-600 group-hover:text-blue-600'
-            %span Jobs
+            %span= _('Jobs')
 
   = render 'shared/sidebar_footer'
-

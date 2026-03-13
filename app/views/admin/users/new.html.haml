@@ -1,18 +1,18 @@
 - content_for :breadcrumb do
-  - nodes = [{ label: 'Admin', path: admin_root_path }, { label: 'Users', path: admin_users_path }, { label: 'New User', path: '#' }]
+  - nodes = [{ label: _('Admin'), path: admin_root_path }, { label: _('Users'), path: admin_users_path }, { label: _('New User'), path: '#' }]
   = render 'shared/breadcrumb', nodes: nodes
 
 %div{class: 'w-full bg-white p-2 rounded-lg'}
   %div{class: 'w-full max-w-6xl mx-auto'}
 
     %div{class: 'py-6'}
-      %h1{class: 'text-2xl font-bold text-gray-900 mb-2'} New User
+      %h1{class: 'text-2xl font-bold text-gray-900 mb-2'}= _('New User')
 
-    %p{class: 'text-gray-600 mb-6'} Create a new user account
+    %p{class: 'text-gray-600 mb-6'}= _('Create a new user account')
 
     = form_with model: [:admin, @user], local: true do |f|
       %div{class: 'bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6'}
-        %h3{class: 'text-lg font-semibold text-gray-900 mb-6'} Basic Information
+        %h3{class: 'text-lg font-semibold text-gray-900 mb-6'}= _('Basic Information')
 
         %div{class: 'grid grid-cols-1 md:grid-cols-2 gap-6 mb-4'}
           %div
@@ -34,15 +34,15 @@
             %p{class: 'mt-1 text-sm text-red-600'}= @user.errors[:name].first
 
       %div{class: 'bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6'}
-        %h3{class: 'text-lg font-semibold text-gray-900 mb-6'} Permissions & Status
+        %h3{class: 'text-lg font-semibold text-gray-900 mb-6'}= _('Permissions & Status')
 
         %div{class: 'flex items-center mb-4'}
           = f.check_box :admin, class: 'h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded'
-          = f.label :admin, 'Administrator', class: 'ml-2 block text-sm text-gray-900'
-          %p{class: 'ml-6 text-xs text-gray-500'} Grants full access to the admin area
+          = f.label :admin, _('Administrator'), class: 'ml-2 block text-sm text-gray-900'
+          %p{class: 'ml-6 text-xs text-gray-500'}= _('Grants full access to the admin area')
 
       %div{class: 'bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6'}
-        %h3{class: 'text-lg font-semibold text-gray-900 mb-6'} Password
+        %h3{class: 'text-lg font-semibold text-gray-900 mb-6'}= _('Password')
 
         %div{class: 'grid grid-cols-1 md:grid-cols-2 gap-6'}
           %div
@@ -58,5 +58,5 @@
               %p{class: 'mt-1 text-sm text-red-600'}= @user.errors[:password_confirmation].first
 
       %div{class: 'flex items-center gap-3'}
-        = f.submit 'Create User', class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200'
-        = link_to 'Cancel', admin_users_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 transition-all duration-200'
+        = f.submit _('Create User'), class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200'
+        = link_to _('Cancel'), admin_users_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 transition-all duration-200'

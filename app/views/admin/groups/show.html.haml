@@ -1,5 +1,5 @@
 - content_for :breadcrumb do
-  - nodes = [{ label: 'Admin', path: admin_root_path }, { label: 'Groups', path: admin_groups_path }, { label: @group.name, path: '#' }]
+  - nodes = [{ label: _('Admin'), path: admin_root_path }, { label: _('Groups'), path: admin_groups_path }, { label: @group.name, path: '#' }]
   = render 'shared/breadcrumb', nodes: nodes
 
 %div{class: 'w-full bg-white p-2 rounded-lg'}
@@ -16,65 +16,65 @@
         %div{class: 'flex items-center gap-3'}
           = link_to edit_admin_group_path(@group), class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200' do
             = icon 'pencil', class: 'w-4 h-4'
-            Edit Group
+            = _('Edit Group')
 
     %div{class: 'grid grid-cols-1 md:grid-cols-3 gap-6 mb-8'}
       %div{class: 'bg-blue-50 border border-blue-200 rounded-xl p-6'}
         %div{class: 'text-center'}
           %div{class: 'flex items-center justify-center mb-2'}
             = icon 'users', class: 'w-8 h-8 text-blue-600'
-          %h3{class: 'text-lg font-semibold text-gray-900'} Members
+          %h3{class: 'text-lg font-semibold text-gray-900'}= _('Members')
           %p{class: 'text-3xl font-bold text-blue-600 mt-2'}= @group.members.count
 
       %div{class: 'bg-emerald-50 border border-emerald-200 rounded-xl p-6'}
         %div{class: 'text-center'}
           %div{class: 'flex items-center justify-center mb-2'}
             = icon 'briefcase', class: 'w-8 h-8 text-emerald-600'
-          %h3{class: 'text-lg font-semibold text-gray-900'} Projects
+          %h3{class: 'text-lg font-semibold text-gray-900'}= _('Projects')
           %p{class: 'text-3xl font-bold text-emerald-600 mt-2'}= @group.namespace.descendant_projects.count
 
       %div{class: 'bg-purple-50 border border-purple-200 rounded-xl p-6'}
         %div{class: 'text-center'}
           %div{class: 'flex items-center justify-center mb-2'}
             = icon 'eye', class: 'w-8 h-8 text-purple-600'
-          %h3{class: 'text-lg font-semibold text-gray-900'} Visibility
+          %h3{class: 'text-lg font-semibold text-gray-900'}= _('Visibility')
           %div{class: 'mt-2'}
             - case @group.namespace.visibility_level
             - when Gitlab::VisibilityLevel::PUBLIC
-              %span{class: 'inline-flex items-center px-2 py-1 rounded text-sm font-medium bg-green-100 text-green-700'} Public
+              %span{class: 'inline-flex items-center px-2 py-1 rounded text-sm font-medium bg-green-100 text-green-700'}= _('Public')
             - when Gitlab::VisibilityLevel::INTERNAL
-              %span{class: 'inline-flex items-center px-2 py-1 rounded text-sm font-medium bg-yellow-100 text-yellow-700'} Internal
+              %span{class: 'inline-flex items-center px-2 py-1 rounded text-sm font-medium bg-yellow-100 text-yellow-700'}= _('Internal')
             - when Gitlab::VisibilityLevel::PRIVATE
-              %span{class: 'inline-flex items-center px-2 py-1 rounded text-sm font-medium bg-gray-100 text-gray-700'} Private
+              %span{class: 'inline-flex items-center px-2 py-1 rounded text-sm font-medium bg-gray-100 text-gray-700'}= _('Private')
 
     %div{class: 'grid grid-cols-1 lg:grid-cols-2 gap-6'}
       %div
         %div{class: 'bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6'}
-          %h3{class: 'text-lg font-semibold text-gray-900 mb-4'} Group Information
+          %h3{class: 'text-lg font-semibold text-gray-900 mb-4'}= _('Group Information')
           %dl{class: 'space-y-4'}
             %div
-              %dt{class: 'text-sm font-medium text-gray-500'} Group Name
+              %dt{class: 'text-sm font-medium text-gray-500'}= _('Group Name')
               %dd{class: 'mt-1 text-sm text-gray-900'}= @group.name
             %div
-              %dt{class: 'text-sm font-medium text-gray-500'} Path
+              %dt{class: 'text-sm font-medium text-gray-500'}= _('Path')
               %dd{class: 'mt-1 text-sm text-gray-900 font-mono'}= @group.namespace.path
             - if @group.description.present?
               %div
-                %dt{class: 'text-sm font-medium text-gray-500'} Description
+                %dt{class: 'text-sm font-medium text-gray-500'}= _('Description')
                 %dd{class: 'mt-1 text-sm text-gray-900'}= @group.description
             %div
-              %dt{class: 'text-sm font-medium text-gray-500'} Group ID
+              %dt{class: 'text-sm font-medium text-gray-500'}= _('Group ID')
               %dd{class: 'mt-1 text-sm text-gray-900'}= @group.id
             %div
-              %dt{class: 'text-sm font-medium text-gray-500'} Created
+              %dt{class: 'text-sm font-medium text-gray-500'}= _('Created')
               %dd{class: 'mt-1 text-sm text-gray-900'}= format_datetime(@group.created_at, current_user)
             %div
-              %dt{class: 'text-sm font-medium text-gray-500'} Last Updated
+              %dt{class: 'text-sm font-medium text-gray-500'}= _('Last Updated')
               %dd{class: 'mt-1 text-sm text-gray-900'}= format_datetime(@group.updated_at, current_user)
 
         %div{class: 'bg-white border border-gray-200 rounded-lg p-6'}
           %div{class: 'flex items-center justify-between mb-4'}
-            %h3{class: 'text-lg font-semibold text-gray-900'} Projects
+            %h3{class: 'text-lg font-semibold text-gray-900'}= _('Projects')
             %span{class: 'text-sm text-gray-500'}= @group.namespace.descendant_projects.count
           - if @projects.any?
             %div{class: 'space-y-3'}
@@ -87,23 +87,23 @@
                   %div
                     - case project.namespace.visibility_level
                     - when Gitlab::VisibilityLevel::PUBLIC
-                      %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700'} Public
+                      %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700'}= _('Public')
                     - when Gitlab::VisibilityLevel::INTERNAL
-                      %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-700'} Internal
+                      %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-700'}= _('Internal')
                     - when Gitlab::VisibilityLevel::PRIVATE
-                      %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700'} Private
+                      %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700'}= _('Private')
             - if @group.namespace.descendant_projects.count > @projects.count
               %div{class: 'text-center pt-3'}
                 %span{class: 'text-sm text-gray-500'}
-                  And #{@group.namespace.descendant_projects.count - @projects.count} more projects...
+                  = format(_('And %{count} more projects...'), count: @group.namespace.descendant_projects.count - @projects.count)
           - else
             %div{class: 'text-center py-6'}
-              %p{class: 'text-gray-500 text-sm'} No projects in this group
+              %p{class: 'text-gray-500 text-sm'}= _('No projects in this group')
 
       %div
         %div{class: 'bg-white border border-gray-200 rounded-lg p-6'}
           %div{class: 'flex items-center justify-between mb-4'}
-            %h3{class: 'text-lg font-semibold text-gray-900'} Group Members
+            %h3{class: 'text-lg font-semibold text-gray-900'}= _('Group Members')
             %span{class: 'text-sm text-gray-500'}= @group.members.count
           - if @members.any?
             %div{class: 'space-y-3'}
@@ -118,7 +118,7 @@
             - if @group.members.count > @members.count
               %div{class: 'text-center pt-3'}
                 %span{class: 'text-sm text-gray-500'}
-                  And #{@group.members.count - @members.count} more members...
+                  = format(_('And %{count} more members...'), count: @group.members.count - @members.count)
           - else
             %div{class: 'text-center py-6'}
-              %p{class: 'text-gray-500 text-sm'} No members in this group
+              %p{class: 'text-gray-500 text-sm'}= _('No members in this group')

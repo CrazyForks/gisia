@@ -1,4 +1,4 @@
-- nodes = [{ label: 'User Settings', path: users_settings_profile_path }, { label: 'SSH Keys', path: users_settings_keys_path}]
+- nodes = [{ label: _('User Settings'), path: users_settings_profile_path }, { label: _('SSH Keys'), path: users_settings_keys_path}]
 = render 'shared/breadcrumb', nodes: nodes
 
 %div{class: 'w-full bg-white p-2 rounded-lg'}
@@ -9,15 +9,15 @@
         %div{class: 'w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-xl font-bold'}
           = icon 'key', class: 'w-8 h-8'
         %div
-          %h1{class: 'text-2xl font-bold text-gray-900'} SSH Keys
-          %p{class: 'text-gray-600'} Manage your SSH keys for secure access
+          %h1{class: 'text-2xl font-bold text-gray-900'}= _('SSH Keys')
+          %p{class: 'text-gray-600'}= _('Manage your SSH keys for secure access')
 
     %div{class: 'mb-6'}
       %div{class: 'flex items-center justify-between'}
-        %h2{class: 'text-lg font-semibold text-gray-900'} Your Keys
+        %h2{class: 'text-lg font-semibold text-gray-900'}= _('Your Keys')
         = link_to new_users_settings_key_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200', data: { turbo_frame: "project_form", turbo_action: "advance" } do
           = icon 'plus', class: 'w-4 h-4'
-          Add Key
+          = _('Add Key')
 
     - if @keys.any?
       %div{class: 'space-y-3'}
@@ -37,29 +37,29 @@
                   - if key.last_used_at.present?
                     %span{class: 'flex items-center gap-1'}
                       = icon 'clock', class: 'w-4 h-4'
-                      Last used #{time_ago_in_words(key.last_used_at)} ago
+                      = format(_('Last used %{time} ago'), time: time_ago_in_words(key.last_used_at))
                   - if key.expires_at.present?
                     %span{class: 'flex items-center gap-1'}
                       = icon 'calendar', class: 'w-4 h-4'
-                      Expires #{key.expires_at.strftime('%b %d, %Y')}
-            
+                      = format(_('Expires %{date}'), date: key.expires_at.strftime('%b %d, %Y'))
+
             %div{class: 'flex items-center', data: { controller: "users--settings--keys" }}
               %div{class: 'relative'}
                 = link_to '#', class: 'p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-50 block', data: { action: "click->users--settings--keys#toggleMenu" } do
                   = icon 'dots-three-vertical', class: 'w-4 h-4'
-                %div{class: 'absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10 py-1 min-w-24', data: { "users--settings--keys-target": "menu" }}
+                %div{class: 'absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg hidden z-10 py-1 min-w-24', data: { "users--settings--keys-target": "menu" }}
                   = link_to edit_users_settings_key_path(key), class: 'flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50' do
                     = icon 'pencil', class: 'w-4 h-4'
-                    Edit
-                  = button_to users_settings_key_path(key), method: :delete, data: { confirm: "Are you sure?" }, class: 'flex items-center gap-2 px-3 py-2 text-sm text-red-700 hover:bg-red-50 w-full text-left' do
+                    = _('Edit')
+                  = button_to users_settings_key_path(key), method: :delete, data: { confirm: _('Are you sure?') }, class: 'flex items-center gap-2 px-3 py-2 text-sm text-red-700 hover:bg-red-50 w-full text-left' do
                     = icon 'trash', class: 'w-4 h-4'
-                    Delete
+                    = _('Delete')
     - else
       %div{class: 'text-center py-12'}
         %div{class: 'w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4'}
           = icon 'key', class: 'w-8 h-8 text-gray-400'
-        %h3{class: 'text-lg font-medium text-gray-900 mb-2'} No SSH keys found
-        %p{class: 'text-gray-500 mb-4'} Add your first SSH key to get started with secure access
+        %h3{class: 'text-lg font-medium text-gray-900 mb-2'}= _('No SSH keys found')
+        %p{class: 'text-gray-500 mb-4'}= _('Add your first SSH key to get started with secure access')
         = link_to new_users_settings_key_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200', data: { turbo_frame: "project_form", turbo_action: "advance" } do
           = icon 'plus', class: 'w-4 h-4'
-          Add Your First Key
+          = _('Add Your First Key')

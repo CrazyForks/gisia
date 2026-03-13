@@ -14,40 +14,40 @@
             %div{class: 'flex items-center gap-4'}
               %span{class: 'flex items-center gap-1'}
                 = icon 'calendar', class: 'w-4 h-4'
-                Created #{token.created_at.strftime('%b %d, %Y')}
+                = format(_('Created %{date}'), date: token.created_at.strftime('%b %d, %Y'))
               - if token.last_used_at.present?
                 %span{class: 'flex items-center gap-1'}
                   = icon 'clock', class: 'w-4 h-4'
-                  Last used #{time_ago_in_words(token.last_used_at)} ago
+                  = format(_('Last used %{time} ago'), time: time_ago_in_words(token.last_used_at))
               - if token.expires_at.present?
                 %span{class: 'flex items-center gap-1'}
                   = icon 'hourglass', class: 'w-4 h-4'
                   - if token.expires_at < Date.current
-                    %span{class: 'text-red-600 font-medium'} Expired
+                    %span{class: 'text-red-600 font-medium'}= _('Expired')
                   - elsif token.expires_at < 7.days.from_now.to_date
                     %span{class: 'text-amber-600 font-medium'}
-                      Expires #{token.expires_at.strftime('%b %d, %Y')}
+                      = format(_('Expires %{date}'), date: token.expires_at.strftime('%b %d, %Y'))
                   - else
-                    Expires #{token.expires_at.strftime('%b %d, %Y')}
+                    = format(_('Expires %{date}'), date: token.expires_at.strftime('%b %d, %Y'))
               - else
                 %span{class: 'flex items-center gap-1'}
                   = icon 'hourglass', class: 'w-4 h-4'
-                  No expiration
+                  = _('No expiration')
         %div{class: 'ml-4 shrink-0'}
           - if token.revoked?
-            %span{class: 'inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700'} Revoked
+            %span{class: 'inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700'}= _('Revoked')
           - elsif !token.active?
-            %span{class: 'inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-700'} Expired
+            %span{class: 'inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-700'}= _('Expired')
           - else
-            = button_to revoke_users_settings_personal_access_token_path(token), method: :put, data: { turbo_confirm: "Are you sure you want to revoke \"#{token.name}\"?" }, class: 'inline-flex items-center gap-1 px-3 py-1.5 text-sm text-red-600 font-medium rounded hover:bg-red-50 transition-colors' do
+            = button_to revoke_users_settings_personal_access_token_path(token), method: :put, data: { turbo_confirm: format(_('Are you sure you want to revoke "%{name}"?'), name: token.name) }, class: 'inline-flex items-center gap-1 px-3 py-1.5 text-sm text-red-600 font-medium rounded hover:bg-red-50 transition-colors' do
               = icon 'prohibit', class: 'w-4 h-4'
-              Revoke
+              = _('Revoke')
 - else
   %div{class: 'text-center py-12'}
     %div{class: 'w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4'}
       = icon 'shield-check', class: 'w-8 h-8 text-gray-400'
-    %h3{class: 'text-lg font-medium text-gray-900 mb-2'} No tokens found
-    %p{class: 'text-gray-500 mb-4'} Add your first personal access token to get started
+    %h3{class: 'text-lg font-medium text-gray-900 mb-2'}= _('No tokens found')
+    %p{class: 'text-gray-500 mb-4'}= _('Add your first personal access token to get started')
     = link_to new_users_settings_personal_access_token_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors' do
       = icon 'plus', class: 'w-4 h-4'
-      Add Your First Token
+      = _('Add Your First Token')

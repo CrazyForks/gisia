@@ -248,6 +248,898 @@ msgstr ""
 msgid "must be a valid json schema"
 msgstr ""
 
+msgid "Admin"
+msgstr "管理员"
+
+msgid "Dashboard"
+msgstr "控制台"
+
+msgid "Admin Dashboard"
+msgstr "管理员控制台"
+
+msgid "System overview and administration"
+msgstr "系统概览与管理"
+
+msgid "System Statistics"
+msgstr "系统统计"
+
+msgid "Users"
+msgstr "用户"
+
+msgid "Groups"
+msgstr "群组"
+
+msgid "Projects"
+msgstr "项目"
+
+msgid "Runners"
+msgstr "运行器"
+
+msgid "Pipelines"
+msgstr "流水线"
+
+msgid "Jobs"
+msgstr "作业"
+
+msgid "Group"
+msgstr "群组"
+
+msgid "Members"
+msgstr "成员"
+
+msgid "Created"
+msgstr "创建时间"
+
+msgid "Actions"
+msgstr "操作"
+
+msgid "Private"
+msgstr "私有"
+
+msgid "Internal"
+msgstr "内部"
+
+msgid "Public"
+msgstr "公开"
+
+msgid "View"
+msgstr "查看"
+
+msgid "Edit"
+msgstr "编辑"
+
+msgid "Are you sure you want to delete this group? This action cannot be undone."
+msgstr "确定要删除此群组吗？此操作无法撤销。"
+
+msgid "Delete"
+msgstr "删除"
+
+msgid "No groups found"
+msgstr "未找到群组"
+
+msgid "Groups will appear here when they are created."
+msgstr "创建群组后将显示在此处。"
+
+msgid "Edit Group"
+msgstr "编辑群组"
+
+msgid "Update group settings and information"
+msgstr "更新您的个人信息"
+
+msgid "Basic Information"
+msgstr "基本信息"
+
+msgid "Group name"
+msgstr "群组名称"
+
+msgid "Group path"
+msgstr "群组路径"
+
+msgid "The group path is used in URLs."
+msgstr "群组路径用于 URL 中。"
+
+msgid "Changing the path will update all URLs for this group and its projects."
+msgstr "更改路径将更新此群组及其项目的所有 URL。"
+
+msgid "Description"
+msgstr "描述"
+
+msgid "Update Group"
+msgstr "更新群组"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Are you sure you want to delete this group?"
+msgstr "确定要删除此群组吗？"
+
+msgid "Delete Group"
+msgstr "删除群组"
+
+msgid "Manage group namespaces and memberships"
+msgstr "管理群组命名空间和成员资格"
+
+msgid "Total Groups"
+msgstr "群组总数"
+
+msgid "Active Groups"
+msgstr "活跃群组"
+
+msgid "Group Members"
+msgstr "群组成员"
+
+msgid "Search groups"
+msgstr "搜索群组"
+
+msgid "All visibility levels"
+msgstr "所有可见性级别"
+
+msgid "Loading..."
+msgstr "加载中..."
+
+msgid "Visibility"
+msgstr "可见性"
+
+msgid "Group Information"
+msgstr "群组信息"
+
+msgid "Group Name"
+msgstr "群组名称"
+
+msgid "Path"
+msgstr "路径"
+
+msgid "Group ID"
+msgstr "群组 ID"
+
+msgid "Last Updated"
+msgstr "最后更新"
+
+msgid "And %{count} more projects..."
+msgstr "还有 %{count} 个项目..."
+
+msgid "No projects in this group"
+msgstr "此群组中没有项目"
+
+msgid "And %{count} more members..."
+msgstr "还有 %{count} 个成员..."
+
+msgid "No members in this group"
+msgstr "此群组中没有成员"
+
+msgid "Job"
+msgstr "作业"
+
+msgid "Project"
+msgstr "项目"
+
+msgid "Commit"
+msgstr "提交"
+
+msgid "Runner"
+msgstr "运行器"
+
+msgid "Duration"
+msgstr "持续时间"
+
+msgid "Pending"
+msgstr "待处理"
+
+msgid "Running"
+msgstr "运行中"
+
+msgid "Success"
+msgstr "成功"
+
+msgid "Failed"
+msgstr "失败"
+
+msgid "Canceled"
+msgstr "已取消"
+
+msgid "No runner"
+msgstr "无运行器"
+
+msgid "Are you sure you want to cancel this job?"
+msgstr "确定要取消此作业吗？"
+
+msgid "No jobs found"
+msgstr "未找到作业"
+
+msgid "Jobs will appear here when CI/CD pipelines are executed."
+msgstr "执行 CI/CD 流水线后，作业将显示在此处。"
+
+msgid "Manage and monitor CI/CD jobs across all projects"
+msgstr "管理和监控所有项目的 CI/CD 作业"
+
+msgid "Are you sure you want to cancel all running and pending jobs?"
+msgstr "确定要取消所有运行中和待处理的作业吗？"
+
+msgid "Cancel All"
+msgstr "全部取消"
+
+msgid "All Jobs"
+msgstr "所有作业"
+
+msgid "All statuses"
+msgstr "所有状态"
+
+msgid "All projects"
+msgstr "所有项目"
+
+msgid "Search projects..."
+msgstr "搜索项目..."
+
+msgid "Namespace"
+msgstr "命名空间"
+
+msgid "Are you sure you want to delete this project? This action cannot be undone."
+msgstr "确定要删除此项目吗？此操作无法撤销。"
+
+msgid "No projects found"
+msgstr "未找到项目"
+
+msgid "Projects will appear here when they are created."
+msgstr "创建项目后将显示在此处。"
+
+msgid "Edit Project"
+msgstr "编辑项目"
+
+msgid "Update settings for %{name}"
+msgstr "更新 %{name} 的设置"
+
+msgid "Project ID: %{id} • Created %{date}"
+msgstr "项目 ID：%{id} • 创建于 %{date}"
+
+msgid "Project name"
+msgstr "项目名称"
+
+msgid "Project path"
+msgstr "项目路径"
+
+msgid "The project path is used in URLs and repository cloning."
+msgstr "项目路径用于 URL 和仓库克隆。"
+
+msgid "Changing the path will update all URLs for this project."
+msgstr "更改路径将更新此项目的所有 URL。"
+
+msgid "A brief description helps others understand your project."
+msgstr "简短描述可帮助他人了解您的项目。"
+
+msgid "Enter a description for your project..."
+msgstr "请输入项目描述..."
+
+msgid "Visibility Level"
+msgstr "可见性级别"
+
+msgid "Choose who can see and access this project."
+msgstr "选择谁可以查看和访问此项目。"
+
+msgid "Private - Only project members can access"
+msgstr "私有 - 仅项目成员可访问"
+
+msgid "Internal - Authenticated users can access"
+msgstr "内部 - 已认证用户可访问"
+
+msgid "Public - Anyone can access without authentication"
+msgstr "公开 - 任何人无需认证即可访问"
+
+msgid "Update Project"
+msgstr "更新项目"
+
+msgid "Manage all projects across the instance"
+msgstr "管理实例中的所有项目"
+
+msgid "Total Projects"
+msgstr "项目总数"
+
+msgid "Search projects"
+msgstr "搜索项目"
+
+msgid "Issues"
+msgstr "议题"
+
+msgid "Merge Requests"
+msgstr "合并请求"
+
+msgid "Project Information"
+msgstr "项目信息"
+
+msgid "Project Name"
+msgstr "项目名称"
+
+msgid "Project ID"
+msgstr "项目 ID"
+
+msgid "Repository Info"
+msgstr "仓库信息"
+
+msgid "Default Branch"
+msgstr "默认分支"
+
+msgid "Repository Size"
+msgstr "仓库大小"
+
+msgid "HTTP Clone URL"
+msgstr "HTTP 克隆 URL"
+
+msgid "SSH Clone URL"
+msgstr "SSH 克隆 URL"
+
+msgid "Project Members"
+msgstr "项目成员"
+
+msgid "No members in this project"
+msgstr "此项目中没有成员"
+
+msgid "Tags"
+msgstr "标签"
+
+msgid "Last Contact"
+msgstr "最后联系"
+
+msgid "Online"
+msgstr "在线"
+
+msgid "Stale"
+msgstr "过时"
+
+msgid "Never contacted"
+msgstr "从未联系"
+
+msgid "Offline"
+msgstr "离线"
+
+msgid "No description"
+msgstr "无描述"
+
+msgid "%{count} jobs"
+msgstr "%{count} 个作业"
+
+msgid "None"
+msgstr "无"
+
+msgid "Never"
+msgstr "从未"
+
+msgid "No runners found"
+msgstr "未找到运行器"
+
+msgid "Runners will appear here when they are registered."
+msgstr "注册运行器后将显示在此处。"
+
+msgid "Update runner configuration and settings"
+msgstr ""
+
+msgid "Basic Configuration"
+msgstr "基本配置"
+
+msgid "Add tags to specify jobs that the runner can run."
+msgstr "添加标签以指定运行器可以运行的作业。"
+
+msgid "Separate multiple tags with a comma. For example,"
+msgstr "多个标签用逗号分隔，例如，"
+
+msgid "Run untagged jobs"
+msgstr "运行无标签作业"
+
+msgid "Use the runner for jobs without tags in addition to tagged jobs."
+msgstr "除带标签的作业外，还可将运行器用于无标签作业。"
+
+msgid "Runner description"
+msgstr "运行器描述"
+
+msgid "Advanced Configuration"
+msgstr "高级配置"
+
+msgid "Maintenance note"
+msgstr "维护备注"
+
+msgid "Only administrators can view this."
+msgstr "仅管理员可查看此内容。"
+
+msgid "Add notes such as the runner owner or what it should be used for."
+msgstr "添加备注，例如运行器负责人或用途。"
+
+msgid "Paused"
+msgstr "已暂停"
+
+msgid "Stop the runner from accepting new jobs."
+msgstr "阻止运行器接受新作业。"
+
+msgid "Protected"
+msgstr "受保护"
+
+msgid "Use the runner on pipelines for protected branches only."
+msgstr "仅在受保护分支的流水线上使用此运行器。"
+
+msgid "Maximum job timeout"
+msgstr "最大作业超时"
+
+msgid "Maximum amount of time the runner can run before it terminates."
+msgstr "运行器在终止前可运行的最长时间。"
+
+msgid "Enter the job timeout in seconds. Must be a minimum of 600 seconds."
+msgstr "以秒为单位输入作业超时时间，最小值为 600 秒。"
+
+msgid "Update Runner"
+msgstr "更新运行器"
+
+msgid "Are you sure you want to delete this runner?"
+msgstr "确定要删除此运行器吗？"
+
+msgid "Delete Runner"
+msgstr "删除运行器"
+
+msgid "Manage instance, group, and project runners"
+msgstr "管理实例、群组和项目运行器"
+
+msgid "New instance runner"
+msgstr "新建实例运行器"
+
+msgid "Active"
+msgstr "活跃"
+
+msgid "New"
+msgstr ""
+
+msgid "New Instance Runner"
+msgstr "新建实例运行器"
+
+msgid ""
+"Create an instance runner to generate a command that registers the runner with"
+" all its configurations."
+msgstr "创建实例运行器以生成包含所有配置的注册命令。"
+
+msgid "Learn more"
+msgstr "了解更多"
+
+msgid "Advanced Configuration (optional)"
+msgstr "高级配置（可选）"
+
+msgid ""
+"If a project has a shorter job timeout period, the job timeout period of the i"
+"nstance runner is used instead."
+msgstr "如果项目的作业超时时间更短，则使用实例运行器的作业超时时间。"
+
+msgid "Create Runner"
+msgstr "创建运行器"
+
+msgid "Register"
+msgstr "注册"
+
+msgid "Register Your Runner"
+msgstr "注册您的运行器"
+
+msgid ""
+"Connect a runner to Gisia and start executing CI/CD pipelines. Complete the se"
+"tup by following these simple steps."
+msgstr "将运行器连接到 Gisia 并开始执行 CI/CD 流水线，按照以下简单步骤完成设置。"
+
+msgid "Step 1: Start the Runner Container"
+msgstr "第 1 步：启动运行器容器"
+
+msgid "Launch a Docker container running GitLab Runner."
+msgstr "启动运行 GitLab Runner 的 Docker 容器。"
+
+msgid "Step 2: Register with Gisia"
+msgstr "第 2 步：向 Gisia 注册"
+
+msgid ""
+"Execute the registration command inside the container to link it to your Gisia"
+" instance."
+msgstr "在容器内执行注册命令，将其链接到您的 Gisia 实例。"
+
+msgid "Important:"
+msgstr "重要："
+
+msgid "Keep the token"
+msgstr "请保管好令牌"
+
+msgid ""
+"secure. This token will only be displayed once. Once the runner is registered,"
+" it cannot be retrieved again from the UI."
+msgstr "安全。此令牌只会显示一次。运行器注册后，将无法再从界面检索。"
+
+msgid "View runners"
+msgstr "查看运行器"
+
+msgid "Pause"
+msgstr "暂停"
+
+msgid "Resume"
+msgstr "恢复"
+
+msgid "Runner Information"
+msgstr "运行器信息"
+
+msgid "Runner Type"
+msgstr "运行器类型"
+
+msgid "Status"
+msgstr "状态"
+
+msgid "Activity"
+msgstr "活动"
+
+msgid "Last contact"
+msgstr "最后联系"
+
+msgid "Jobs run"
+msgstr "已运行作业"
+
+msgid "Maximum timeout"
+msgstr "最大超时"
+
+msgid "%{seconds} seconds"
+msgstr "%{seconds} 秒"
+
+msgid "Not set"
+msgstr "未设置"
+
+msgid "Configuration"
+msgstr "配置"
+
+msgid "Settings"
+msgstr "设置"
+
+msgid "No tags"
+msgstr "无标签"
+
+msgid "Recent Jobs"
+msgstr "最近作业"
+
+msgid "Started"
+msgstr "已开始"
+
+msgid "View all %{count} jobs"
+msgstr "查看全部 %{count} 个作业"
+
+msgid "Name"
+msgstr "姓名"
+
+msgid "It's you"
+msgstr ""
+
+msgid "No users found"
+msgstr "未找到用户"
+
+msgid "Users will appear here when they are created."
+msgstr "创建群组后将显示在此处。"
+
+msgid "Edit %{username}"
+msgstr "编辑"
+
+msgid "Update user information and permissions"
+msgstr ""
+
+msgid "Password"
+msgstr "密码"
+
+msgid "Leave blank to keep current password"
+msgstr ""
+
+msgid "Password confirmation"
+msgstr "密码"
+
+msgid "Confirm new password"
+msgstr "确认密码"
+
+msgid "Leave password fields blank to keep the current password"
+msgstr ""
+
+msgid "Permissions & Status"
+msgstr "权限与状态"
+
+msgid "Administrator"
+msgstr "管理员"
+
+msgid "Grants full access to the admin area"
+msgstr "授予管理区域的完全访问权限"
+
+msgid "Update User"
+msgstr "更新用户"
+
+msgid "Are you sure you want to delete this user?"
+msgstr "确定要删除此用户吗？"
+
+msgid "Delete User"
+msgstr "删除"
+
+msgid "New user"
+msgstr "新用户"
+
+msgid "Total Users"
+msgstr "用户总数"
+
+msgid "Admins"
+msgstr "管理员"
+
+msgid "Pending Approval"
+msgstr "待审批"
+
+msgid "Active Users"
+msgstr "活跃用户"
+
+msgid "Search by name, email, or username"
+msgstr ""
+
+msgid "New User"
+msgstr "新用户"
+
+msgid "Create a new user account"
+msgstr "创建新用户账户"
+
+msgid "Create User"
+msgstr "创建用户"
+
+msgid "Are you sure?"
+msgstr "确定吗？"
+
+msgid "Account Details"
+msgstr "账户详情"
+
+msgid "Username"
+msgstr "用户名"
+
+msgid "Email"
+msgstr "电子邮件"
+
+msgid "Last activity"
+msgstr "最后活动"
+
+msgid "Statistics"
+msgstr "统计数据"
+
+msgid "Yes"
+msgstr "是"
+
+msgid "No"
+msgstr "否"
+
+msgid "Confirmed"
+msgstr "已确认"
+
+msgid "Recent Projects"
+msgstr "最近项目"
+
+msgid "Updated %{time} ago"
+msgstr "%{time}前更新"
+
+msgid "No projects found."
+msgstr "未找到项目。"
+
+msgid "Overview"
+msgstr ""
+
+msgid "User Settings"
+msgstr "用户设置"
+
+msgid "Profile"
+msgstr "个人资料"
+
+msgid "Personal Access Tokens"
+msgstr "个人访问令牌"
+
+msgid "SSH Keys"
+msgstr "SSH 密钥"
+
+msgid "Please correct the following errors:"
+msgstr "请更正以下错误："
+
+msgid "Title"
+msgstr "标题"
+
+msgid "SSH Key"
+msgstr "SSH 密钥"
+
+msgid "Usage Type"
+msgstr "用途类型"
+
+msgid "Select usage type"
+msgstr "选择用途类型"
+
+msgid "Expires At"
+msgstr "过期时间"
+
+msgid "Create SSH Key"
+msgstr "创建 SSH 密钥"
+
+msgid "Save Changes"
+msgstr "保存更改"
+
+msgid "Edit SSH Key"
+msgstr "编辑 SSH 密钥"
+
+msgid "Add SSH Key"
+msgstr "添加 SSH 密钥"
+
+msgid "Add a new SSH key for secure access"
+msgstr "添加新的 SSH 密钥以进行安全访问"
+
+msgid "Update your SSH key details"
+msgstr "更新您的 SSH 密钥详情"
+
+msgid "Manage your SSH keys for secure access"
+msgstr "管理您的 SSH 密钥以进行安全访问"
+
+msgid "Your Keys"
+msgstr "您的密钥"
+
+msgid "Add Key"
+msgstr "添加密钥"
+
+msgid "Last used %{time} ago"
+msgstr "%{time}前使用"
+
+msgid "Expires %{date}"
+msgstr "过期于 %{date}"
+
+msgid "No SSH keys found"
+msgstr "未找到 SSH 密钥"
+
+msgid "Add your first SSH key to get started with secure access"
+msgstr "添加您的第一个 SSH 密钥以开始安全访问"
+
+msgid "Add Your First Key"
+msgstr "添加第一个密钥"
+
+msgid "New SSH Key"
+msgstr "新建 SSH 密钥"
+
+msgid "SSH Key Details"
+msgstr "SSH 密钥详情"
+
+msgid "View your SSH key configuration and details"
+msgstr "查看您的 SSH 密钥配置和详情"
+
+msgid "Key Information"
+msgstr "密钥信息"
+
+msgid "Fingerprint"
+msgstr "指纹"
+
+msgid "SHA256 Fingerprint"
+msgstr "SHA256 指纹"
+
+msgid "Last Used"
+msgstr "最后使用时间"
+
+msgid "Never used"
+msgstr "从未使用"
+
+msgid "No expiration"
+msgstr "永不过期"
+
+msgid "User ID"
+msgstr "用户 ID"
+
+msgid "Back to Keys"
+msgstr "返回密钥列表"
+
+msgid "Are you sure you want to delete this SSH key?"
+msgstr "确定要删除此 SSH 密钥吗？"
+
+msgid "Change Password"
+msgstr "修改密码"
+
+msgid "Update your account password"
+msgstr "更新您的账户密码"
+
+msgid "Current Password"
+msgstr "当前密码"
+
+msgid "New Password"
+msgstr "新密码"
+
+msgid "At least 8 characters required"
+msgstr "至少需要 8 个字符"
+
+msgid "Confirm Password"
+msgstr "确认密码"
+
+msgid "Token name"
+msgstr "令牌名称"
+
+msgid "Expiration date"
+msgstr "过期日期"
+
+msgid "(optional)"
+msgstr "（可选）"
+
+msgid "Scopes"
+msgstr "权限范围"
+
+msgid "Full access to the API, including read and write."
+msgstr "对 API 的完全访问权限，包括读写操作。"
+
+msgid "Read-only access to the API."
+msgstr "对 API 的只读访问权限。"
+
+msgid "Create personal access token"
+msgstr "创建个人访问令牌"
+
+msgid "Created %{date}"
+msgstr "创建于 %{date}"
+
+msgid "Expired"
+msgstr "已过期"
+
+msgid "Revoked"
+msgstr "已撤销"
+
+msgid "Are you sure you want to revoke \"%{name}\"?"
+msgstr "确定要撤销 \"%{name}\" 吗？"
+
+msgid "Revoke"
+msgstr "撤销"
+
+msgid "No tokens found"
+msgstr "未找到令牌"
+
+msgid "Add your first personal access token to get started"
+msgstr "添加您的第一个个人访问令牌以开始使用"
+
+msgid "Add Your First Token"
+msgstr "添加第一个令牌"
+
+msgid "Manage tokens for API and Git HTTP access"
+msgstr "管理用于 API 和 Git HTTP 访问的令牌"
+
+msgid "Your Tokens"
+msgstr "您的令牌"
+
+msgid "Add Token"
+msgstr "添加令牌"
+
+msgid "New Access Token"
+msgstr "新建访问令牌"
+
+msgid "Add Access Token"
+msgstr "添加访问令牌"
+
+msgid "Create a new personal access token"
+msgstr "创建新的个人访问令牌"
+
+msgid "Edit Profile"
+msgstr "编辑资料"
+
+msgid "Update your personal information"
+msgstr "更新您的个人信息"
+
+msgid "Avatar"
+msgstr "头像"
+
+msgid "PNG, JPG, GIF up to 200KB. Ideal size: 192x192 pixels."
+msgstr "支持 PNG、JPG、GIF 格式，最大 200KB。建议尺寸：192x192 像素。"
+
+msgid "Full Name"
+msgstr "全名"
+
+msgid "Mobile"
+msgstr "手机号"
+
+msgid "Timezone"
+msgstr "时区"
+
+msgid "Language"
+msgstr "语言"
+
+msgid "Your Profile"
+msgstr "您的个人资料"
+
+msgid "Sign Out"
+msgstr "退出登录"
+
+msgid "Profile Information"
+msgstr "个人信息"
+
+msgid "Not provided"
+msgstr "未提供"
+
+msgid "Member since %{date}"
+msgstr "注册于 %{date}"
+
 msgid "Incompatible options set!"
 msgstr ""
 
@@ -421,21 +1313,3 @@ msgstr ""
 
 msgid "Potentially unwanted character detected: Unicode BiDi Control"
 msgstr ""
-
-msgid "User Settings"
-msgstr "用户设置"
-
-msgid "Profile"
-msgstr "个人资料"
-
-msgid "Password"
-msgstr "密码"
-
-msgid "Personal Access Tokens"
-msgstr "个人访问令牌"
-
-msgid "SSH Keys"
-msgstr "SSH 密钥"
-
-msgid "Language"
-msgstr "语言"
