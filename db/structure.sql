@@ -2764,7 +2764,8 @@ CREATE TABLE public.users (
     composite_identity_enforced boolean DEFAULT false NOT NULL,
     state integer DEFAULT 0 NOT NULL,
     password_automatically_set boolean DEFAULT false,
-    password_expires_at timestamp(6) without time zone
+    password_expires_at timestamp(6) without time zone,
+    timezone character varying
 );
 
 
@@ -6352,6 +6353,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260313133856'),
 ('20260313082820'),
 ('20260312151247'),
 ('20260303033611'),

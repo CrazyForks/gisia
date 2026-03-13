@@ -42,10 +42,10 @@
             %dd{class: 'text-sm text-gray-900'}= @user.name || 'Not set'
           %div
             %dt{class: 'text-sm font-medium text-gray-500'} Created
-            %dd{class: 'text-sm text-gray-900'}= @user.created_at&.strftime('%B %d, %Y at %I:%M %p')
+            %dd{class: 'text-sm text-gray-900'}= format_datetime(@user.created_at, current_user)
           %div
             %dt{class: 'text-sm font-medium text-gray-500'} Last activity
-            %dd{class: 'text-sm text-gray-900'}= @user.updated_at&.strftime('%B %d, %Y at %I:%M %p') || 'Never'
+            %dd{class: 'text-sm text-gray-900'}= format_datetime(@user.updated_at, current_user) || 'Never'
 
       %div{class: 'bg-gray-50 border border-gray-200 rounded-xl p-6'}
         %h3{class: 'text-lg font-semibold text-gray-900 mb-4'} Statistics

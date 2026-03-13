@@ -67,10 +67,10 @@
               %dd{class: 'mt-1 text-sm text-gray-900'}= @group.id
             %div
               %dt{class: 'text-sm font-medium text-gray-500'} Created
-              %dd{class: 'mt-1 text-sm text-gray-900'}= @group.created_at.strftime('%B %d, %Y at %I:%M %p')
+              %dd{class: 'mt-1 text-sm text-gray-900'}= format_datetime(@group.created_at, current_user)
             %div
               %dt{class: 'text-sm font-medium text-gray-500'} Last Updated
-              %dd{class: 'mt-1 text-sm text-gray-900'}= @group.updated_at.strftime('%B %d, %Y at %I:%M %p')
+              %dd{class: 'mt-1 text-sm text-gray-900'}= format_datetime(@group.updated_at, current_user)
 
         %div{class: 'bg-white border border-gray-200 rounded-lg p-6'}
           %div{class: 'flex items-center justify-between mb-4'}

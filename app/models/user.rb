@@ -52,6 +52,8 @@ class User < ApplicationRecord
     presence: true,
     exclusion: { in: Gitlab::PathRegex::TOP_LEVEL_ROUTES, message: 'is a reserved name' }
   validates :namespace, presence: true
+  validates :timezone, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name) }, allow_nil: true
+
 
   scope :confirmed, -> { where.not(confirmed_at: nil) }
   scope :admins, -> { where(admin: true) }
@@ -113,11 +115,6 @@ class User < ApplicationRecord
 
     # The commit email is the same as the primary email if undefined
     self.commit_email.presence || self.email
-  end
-
-
-  # Todo, add timezone
-  def timezone
   end
 
   # Todo, setup commit_email

@@ -44,7 +44,7 @@
               - else
                 %span{class: 'text-xs text-gray-500'} None
             %div{class: 'text-xs text-gray-400 w-32'}
-              = runner.contacted_at&.strftime('%b %d, %Y %H:%M') || 'Never'
+              = format_datetime(runner.contacted_at, current_user) || 'Never'
             %div{class: 'flex items-center gap-1 w-24'}
               = link_to admin_runner_path(runner), class: 'p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg text-xs', data: { turbo_frame: '_top' } do
                 View

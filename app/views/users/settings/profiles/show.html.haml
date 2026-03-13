@@ -50,6 +50,15 @@
           - else
             %span{class: 'text-gray-400 italic'} Not provided
 
+        %div{class: 'flex items-center justify-between py-2'}
+          %div{class: 'flex items-center gap-3'}
+            = icon 'clock', class: 'w-5 h-5 text-teal-500'
+            %span{class: 'font-medium text-gray-700'} Timezone
+          - if @user.timezone.present?
+            %span{class: 'text-gray-900'}= "#{@user.timezone} (#{local_time(@user.timezone)})"
+          - else
+            %span{class: 'text-gray-400 italic'} Not set
+
     %div{class: 'flex items-center justify-between pt-4 border-t border-gray-100'}
       %div{class: 'text-sm text-gray-500'}
         Member since #{@user.created_at.strftime('%B %Y')}

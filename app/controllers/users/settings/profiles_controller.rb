@@ -24,7 +24,7 @@ module Users
       end
 
       def profile_params
-        params.require(:user).permit(:email, :username, :name, :mobile, :avatar)
+        params.require(:user).permit(:email, :username, :name, :mobile, :avatar, :timezone)
       end
     end
   end

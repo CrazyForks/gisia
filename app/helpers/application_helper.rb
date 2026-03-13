@@ -15,6 +15,13 @@ module ApplicationHelper
     current_user&.admin? || project.team.member?(current_user, Accessible::OWNER)
   end
 
+  def format_datetime(time, user = nil, format: :long)
+    return unless time
+
+    tz = local_timezone_instance(user&.timezone)
+    l(time.in_time_zone(tz), format: format)
+  end
+
   def key_form_url(key)
     key.new_record? ? users_settings_keys_path : users_settings_key_path(key)
   end

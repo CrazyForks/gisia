@@ -55,7 +55,7 @@
           = icon 'calendar', class: 'w-4 h-4 text-red-500'
           Expires At
         - if @key.expires_at.present?
-          %div{class: 'text-sm text-gray-900'}= @key.expires_at.strftime('%B %d, %Y at %I:%M %p')
+          %div{class: 'text-sm text-gray-900'}= format_datetime(@key.expires_at, current_user)
         - else
           %div{class: 'text-sm text-gray-400 italic'} No expiration
       

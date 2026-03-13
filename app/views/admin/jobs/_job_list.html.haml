@@ -54,7 +54,7 @@
               - else
                 %span{class: 'text-gray-500'} -
             %div{class: 'text-xs text-gray-400 w-24'}
-              = job.created_at.strftime('%b %d, %H:%M')
+              = format_datetime(job.created_at, current_user, format: :short)
             %div{class: 'flex items-center gap-1 w-24'}
               = link_to job_path(job), class: 'p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg text-xs', data: { turbo_frame: '_top' } do
                 View
