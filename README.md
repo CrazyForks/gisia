@@ -68,7 +68,7 @@ We are not accepting code contributions for new features at this time. If you ha
 
 
 ### Legal Note
-By contributing, you confirm that your contributions are your original work or that you have the right to submit them. All contributions are included under this **project’s license**.
+All contributions are subject to the [Contributor License Agreement](CLA.md).
 
 Thank you for helping improve the project!
 
@@ -77,6 +77,10 @@ Thank you for helping improve the project!
 This project is licensed under the **GNU Affero General Public License v3.0 (AGPLv3)**.
 
 Please refer to the `NOTICE` and `.licenses` folders for detailed information on third-party licenses.
+
+### Commercial License
+
+If you need to use Gisia without the AGPLv3 obligations (e.g. keeping modifications private), a commercial license is available. See [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md) or contact us to discuss terms.
 
 ### ⚠️ Third-Party References Disclaimer
 
