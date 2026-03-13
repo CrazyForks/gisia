@@ -71,8 +71,7 @@ reviewed:
     - websocket-extensions
     - tsort
   yarn:
-    - dompurify
-    - marked
+    - lodash
 
 apps:
   - source_path: './'

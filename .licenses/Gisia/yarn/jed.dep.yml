@@ -1,0 +1,15 @@
+---
+name: jed
+version: 1.1.1
+type: yarn
+homepage: https://SlexAxton@github.com/SlexAxton/Jed.git
+license: mit
+licenses:
+- sources: README.md
+  text: |-
+    Jed is a member project of the [jQuery Foundation](https://jquery.org/)
+
+    You may use this software under the MIT License.
+
+    You may contribute to this software under the jQuery Foundation CLA - <https://contribute.jquery.org/CLA/>
+notices: []

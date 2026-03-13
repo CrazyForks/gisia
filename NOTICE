@@ -31,16 +31,7 @@ Please refer to the license references for the original terms.
    Included folder:
      - vendor/gems/diff_match_patch
 
-3. lexxy
-   License reference:
-     - .licenses/Gisia/others/lexxy.dep.yml
-     - .licenses/Gisia/yarn/dompurify.dep.yml
-   Included file:
-     - vender/javascript/lexxy.js
-   Notes:
-    - Modifications are covered by the LICENSE file in this repository.
-
-4. Phosphor Icons (via rails_icons gem)
+3. Phosphor Icons (via rails_icons gem)
    License reference: .licenses/Gisia/others/phosphor-icons.dep.yaml
    Generated using the `rails_icons` gem.
    Source: app/assets/svg/icons/phosphor

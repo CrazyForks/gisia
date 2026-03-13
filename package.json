@@ -5,21 +5,21 @@
   "author": "Liuming Tan <mtanpub@gmail.com>",
   "license": "AGPL-3.0",
   "dependencies": {
-    "@lexical/markdown": "^0.35.0",
-    "@37signals/lexxy": "0.8.0-beta"
+    "jed": "^1.1.1",
+    "lodash": "^4.17.23"
   },
   "devDependencies": {
-    "esbuild": "^0.25.10",
     "csso-cli": "^4.0.2",
+    "esbuild": "^0.25.10",
     "nodemon": "^3.0.2"
   },
   "scripts": {
     "build:prd": "yarn build:js && yarn minify:css",
     "build": "yarn build:js && yarn build:tailwindcss &&  yarn minify:css",
-    "build:js": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --external:@hotwired/turbo-rails --external:@hotwired/stimulus --external:@hotwired/stimulus-loading --external:lexxy --minify",
+    "build:js": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --external:@hotwired/turbo-rails --external:@hotwired/stimulus --external:@hotwired/stimulus-loading --minify",
     "build:js:watch": "yarn build:js --watch",
     "build:tailwindcss": "bundle exec rails tailwindcss:build",
-    "minify:css": "csso app/assets/stylesheets/rouge.css --output app/assets/builds/rouge.css && csso app/assets/stylesheets/lexxy-editor-content.css --output app/assets/builds/lexxy-editor-content.css",
+    "minify:css": "csso app/assets/stylesheets/rouge.css --output app/assets/builds/rouge.css",
     "minify:css:watch": "nodemon --watch app/assets/stylesheets --ext css --delay 100 --exec \"yarn minify:css\""
   }
 }
