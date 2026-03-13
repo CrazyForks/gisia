@@ -53,6 +53,9 @@ class User < ApplicationRecord
     exclusion: { in: Gitlab::PathRegex::TOP_LEVEL_ROUTES, message: 'is a reserved name' }
   validates :namespace, presence: true
   validates :timezone, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name) }, allow_nil: true
+  validates :preferred_language, inclusion: { in: Gitlab::I18n.available_locales }, allow_nil: true
+
+  attribute :preferred_language, default: 'en'
 
 
   scope :confirmed, -> { where.not(confirmed_at: nil) }

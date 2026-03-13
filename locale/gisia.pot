@@ -422,3 +422,21 @@ msgstr ""
 
 msgid "Potentially unwanted character detected: Unicode BiDi Control"
 msgstr ""
+
+msgid "User Settings"
+msgstr ""
+
+msgid "Profile"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Personal Access Tokens"
+msgstr ""
+
+msgid "SSH Keys"
+msgstr ""
+
+msgid "Language"
+msgstr ""

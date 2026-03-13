@@ -17,7 +17,6 @@ module Gitlab
       'en' => 'English',
       'zh_CN' => 'Chinese, Simplified - 简体中文',
     }.freeze
-    private_constant :AVAILABLE_LANGUAGES
 
     # Languages with less then MINIMUM_TRANSLATION_LEVEL% of available translations will not
     # be available in the UI.

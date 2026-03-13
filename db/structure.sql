@@ -2765,7 +2765,8 @@ CREATE TABLE public.users (
     state integer DEFAULT 0 NOT NULL,
     password_automatically_set boolean DEFAULT false,
     password_expires_at timestamp(6) without time zone,
-    timezone character varying
+    timezone character varying,
+    preferred_language character varying DEFAULT 'en'::character varying NOT NULL
 );
 
 
@@ -6353,6 +6354,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260313154116'),
 ('20260313133856'),
 ('20260313082820'),
 ('20260312151247'),
