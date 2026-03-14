@@ -50,7 +50,7 @@
 
             %div{ class: 'pt-3 border-t border-gray-200', data: { controller: 'copy' } }
               %p{ class: 'text-xs font-bold text-gray-700 mb-1' }
-                = _('AI Skill')
+                = _('AI Skills')
               %div{ class: 'flex items-center gap-2' }
                 - skill_text = if @project.namespace.public?
                   - "Read #{request.base_url}/#{@project.full_path}/-/skill.md and follow the instructions"

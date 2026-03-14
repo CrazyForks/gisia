@@ -1087,7 +1087,7 @@ msgid ""
 "oject."
 msgstr ""
 
-msgid "AI Skill"
+msgid "AI Skills"
 msgstr ""
 
 msgid "You'll need a personal access token —"

@@ -1088,8 +1088,8 @@ msgid ""
 "oject."
 msgstr "您可以通过克隆仓库或直接向项目添加文件来开始使用。"
 
-msgid "AI Skill"
-msgstr "AI Skill"
+msgid "AI Skills"
+msgstr "AI Skills"
 
 msgid "You'll need a personal access token —"
 msgstr "你需要一个个人访问令牌 —"
