@@ -182,3 +182,14 @@ svg circle:not([fill]), svg circle[fill=""] {
   text-decoration: underline;
 }
 
+.markdown table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.markdown td,
+.markdown th {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+

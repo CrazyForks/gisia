@@ -40,9 +40,9 @@
 
       .issue-content
         .flex.gap-4
-          .issue-main.flex-1
+          .issue-main.flex-1.min-w-0
             - if @issue.description_html.present?
-              .issue-description.prose.max-w-none.markdown
+              .issue-description.prose.max-w-none.markdown.break-words
                 = @issue.description_html.html_safe
             - else
               .no-description.text-gray-500.italic
