@@ -18,235 +18,239 @@ msgstr ""
 "\n"
 
 msgid "Git LFS is not enabled on this GitLab server, contact your admin."
-msgstr ""
+msgstr "此 GitLab 服务器未启用 Git LFS，请联系管理员。"
 
 msgid "Access forbidden. Check your access level."
-msgstr ""
+msgstr "访问被禁止。请检查您的访问权限。"
 
 msgid "Not found."
-msgstr ""
+msgstr "未找到。"
 
 msgid "Invalid file."
-msgstr ""
+msgstr "无效的文件。"
 
 msgid "Error uploading file"
-msgstr ""
+msgstr "上传文件时出错"
 
 msgid "Allow unauthenticated users to use search"
-msgstr ""
+msgstr "允许未认证用户使用搜索"
 
 msgid "Restrict global search to authenticated users only"
-msgstr ""
+msgstr "仅限已认证用户使用全局搜索"
 
 msgid "Show issues in global search results"
-msgstr ""
+msgstr "在全局搜索结果中显示议题"
 
 msgid "Show merge requests in global search results"
-msgstr ""
+msgstr "在全局搜索结果中显示合并请求"
 
 msgid "Show snippets in global search results"
-msgstr ""
+msgstr "在全局搜索结果中显示代码片段"
 
 msgid "Show users in global search results"
-msgstr ""
+msgstr "在全局搜索结果中显示用户"
 
 msgid ""
 "AdminSettings|If selected, only administrators are able to create public group"
 "s, projects, and snippets. Also, profiles are only visible to authenticated us"
 "ers."
-msgstr ""
+msgstr "选中后，仅管理员可创建公开的群组、项目和代码片段。个人资料也仅对已认证用户可见。"
 
 msgid ""
 "AdminSettings|If selected, only administrators are able to create internal gro"
 "ups, projects, and snippets."
-msgstr ""
+msgstr "选中后，仅管理员可创建内部群组、项目和代码片段。"
 
 msgid ""
 "AdminSettings|If selected, only administrators are able to create private grou"
 "ps, projects, and snippets."
-msgstr ""
+msgstr "选中后，仅管理员可创建私有群组、项目和代码片段。"
 
 msgid ""
 "ExternalAuthorization|Access to projects is validated on an external service u"
 "sing their classification label."
-msgstr ""
+msgstr "使用分类标记在外部服务上验证对项目的访问权限。"
 
 msgid "ExternalAuthorization|Does not apply if service URL is specified."
-msgstr ""
+msgstr "如果指定了服务 URL，则不适用。"
 
 msgid ""
 "ExternalAuthorization|Period GitLab waits for a response from the external ser"
 "vice. If there is no response, access is denied. Default: 0.5 seconds."
-msgstr ""
+msgstr "GitLab 等待外部服务响应的时间。如果没有响应，则拒绝访问。默认值：0.5 秒。"
 
 msgid ""
 "ExternalAuthorization|URL to which the projects make authorization requests. I"
 "f the URL is blank, cross-project features are available and can still specify"
 " classification labels for projects."
-msgstr ""
+msgstr "项目发出授权请求的 URL。如果 URL 为空，则跨项目功能可用，仍可为项目指定分类标记。"
 
 msgid ""
 "ExternalAuthorization|Certificate used to authenticate with the external autho"
 "rization service. If blank, the server certificate is validated when accessing"
 " over HTTPS."
-msgstr ""
+msgstr "用于向外部授权服务进行身份验证的证书。如果为空，则通过 HTTPS 访问时验证服务器证书。"
 
 msgid ""
 "ExternalAuthorization|Private key of client authentication certificate. Encryp"
 "ted when stored."
-msgstr ""
+msgstr "客户端认证证书的私钥。存储时加密。"
 
 msgid ""
 "ExternalAuthorization|Passphrase required to decrypt the private key. Encrypte"
 "d when stored."
-msgstr ""
+msgstr "解密私钥所需的密码短语。存储时加密。"
 
 msgid ""
 "ExternalAuthorization|Classification label to use when requesting authorizatio"
 "n if no specific label is defined on the project."
-msgstr ""
+msgstr "如果项目未定义特定标记，请求授权时使用的分类标记。"
 
 msgid ""
 "How the job limiter handles jobs exceeding the thresholds specified below. The"
 " 'track' mode only logs the jobs. The 'compress' mode compresses the jobs and "
 "raises an exception if the compressed size exceeds the limit."
 msgstr ""
+"作业限制器处理超过以下阈值的作业的方式。"track"模式仅记录作业日志。"compress"模式压缩作"
+"业，如果压缩后大小超过限制则抛出异常。"
 
 msgid "VS Code Extension Marketplace"
-msgstr ""
+msgstr "VS Code 扩展市场"
 
 msgid ""
 "Enable VS Code Extension Marketplace and configure the extensions registry for"
 " Web IDE."
-msgstr ""
+msgstr "启用 VS Code 扩展市场，并为 Web IDE 配置扩展注册表。"
 
 msgid "must be a boolean value"
-msgstr ""
+msgstr "必须为布尔值"
 
 msgid "Hashed storage can't be disabled anymore for new projects"
-msgstr ""
+msgstr "新项目无法再禁用哈希存储"
 
 msgid "%{value} is not included in the list"
-msgstr ""
+msgstr "%{value} 不在列表中"
 
 msgid "(%{value}) has already been taken"
-msgstr ""
+msgstr "（%{value}）已被占用"
 
 msgid "The value of the provided variable exceeds the %{count} character limit"
-msgstr ""
+msgstr "所提供变量的值超过了 %{count} 个字符的限制"
 
 msgid "Invalid file format with specified file type"
-msgstr ""
+msgstr "指定文件类型的文件格式无效"
 
 msgid "must be before %{expiry_date}"
-msgstr ""
+msgstr "必须在 %{expiry_date} 之前"
 
 msgid "Invalid repository path"
-msgstr ""
+msgstr "无效的仓库路径"
 
 msgid "Maximum number of %{name} (%{count}) exceeded"
-msgstr ""
+msgstr "%{name} 的最大数量（%{count}）已超限"
 
 msgid ""
 "%{viewer} could not be displayed: %{reason}. Options to address this: %{option"
 "s}."
-msgstr ""
+msgstr "%{viewer} 无法显示：%{reason}。解决方案：%{options}。"
 
 msgid "view the blob"
-msgstr ""
+msgstr "查看 blob"
 
 msgid "it is too large"
-msgstr ""
+msgstr "文件过大"
 
 msgid "image diff"
-msgstr ""
+msgstr "图像差异"
 
 msgid "rendered diff"
-msgstr ""
+msgstr "渲染差异"
 
 msgid "it is stored in LFS"
-msgstr ""
+msgstr "存储于 LFS 中"
 
 msgid "it is stored externally"
-msgstr ""
+msgstr "存储于外部"
 
 msgid "source diff"
-msgstr ""
+msgstr "源码差异"
 
 msgid "Invalid feature"
-msgstr ""
+msgstr "无效的功能"
 
 msgid "must be between 1 day and %{limit}"
-msgstr ""
+msgstr "必须在 1 天到 %{limit} 之间"
 
 msgid "project_path must be the first element of the sub claim"
-msgstr ""
+msgstr "project_path 必须是 sub 声明的第一个元素"
 
 msgid "%{component} is not an allowed sub claim component"
-msgstr ""
+msgstr "%{component} 不是允许的 sub 声明组件"
 
 msgid "Remote object has no absolute path."
-msgstr ""
+msgstr "远程对象没有绝对路径。"
 
 msgid "The number of times an upload record could not find its file"
-msgstr ""
+msgstr "上传记录找不到其文件的次数"
 
 msgid "Pipeline|Merge train pipeline"
-msgstr ""
+msgstr "合并列车流水线"
 
 msgid "Pipeline|Merged results pipeline"
-msgstr ""
+msgstr "合并结果流水线"
 
 msgid "Pipeline|Merge request pipeline"
-msgstr ""
+msgstr "合并请求流水线"
 
 msgid "Pipeline|Pipeline"
-msgstr ""
+msgstr "流水线"
 
 msgid ""
 "Related merge request %{link_to_merge_request} to merge %{link_to_merge_reques"
 "t_source_branch}"
-msgstr ""
+msgstr "相关合并请求 %{link_to_merge_request} 合并 %{link_to_merge_request_source_branch}"
 
 msgid ""
 "Related merge request %{link_to_merge_request} to merge %{link_to_merge_reques"
 "t_source_branch} into %{link_to_merge_request_target_branch}"
 msgstr ""
+"相关合并请求 %{link_to_merge_request} 将 %{link_to_merge_request_source_branch} 合并"
+"到 %{link_to_merge_request_target_branch}"
 
 msgid "%{count} related %{pluralized_subject}: %{links}"
-msgstr ""
+msgstr "%{count} 个相关 %{pluralized_subject}：%{links}"
 
 msgid "merge request"
 msgid_plural "merge requests"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "合并请求"
+msgstr[1] "合并请求"
 
 msgid "For %{link_to_pipeline_ref}"
-msgstr ""
+msgstr "针对 %{link_to_pipeline_ref}"
 
 msgid "For %{ref}"
-msgstr ""
+msgstr "针对 %{ref}"
 
 msgid "not authorized to create member"
-msgstr ""
+msgstr "无权创建成员"
 
 msgid "not authorized to update member"
-msgstr ""
+msgstr "无权更新成员"
 
 msgid "the member access level can't be higher than the current user's one"
-msgstr ""
+msgstr "成员访问级别不能高于当前用户的访问级别"
 
 msgid "is too large. Maximum size allowed is %{size}"
-msgstr ""
+msgstr "过大。允许的最大大小为 %{size}"
 
 msgid "value at %{data_pointer} should use only one of: %{requirements}"
-msgstr ""
+msgstr "%{data_pointer} 处的值只能使用以下之一：%{requirements}"
 
 msgid "should use only one of: %{requirements}"
-msgstr ""
+msgstr "只能使用以下之一：%{requirements}"
 
 msgid "must be a valid json schema"
-msgstr ""
+msgstr "必须是有效的 JSON Schema"
 
 msgid "Admin"
 msgstr "管理员"
@@ -324,7 +328,7 @@ msgid "Edit Group"
 msgstr "编辑群组"
 
 msgid "Update group settings and information"
-msgstr "更新您的个人信息"
+msgstr "更新群组设置和信息"
 
 msgid "Basic Information"
 msgstr "基本信息"
@@ -609,7 +613,7 @@ msgid "Runners will appear here when they are registered."
 msgstr "注册运行器后将显示在此处。"
 
 msgid "Update runner configuration and settings"
-msgstr ""
+msgstr "更新运行器配置和设置"
 
 msgid "Basic Configuration"
 msgstr "基本配置"
@@ -681,7 +685,7 @@ msgid "Active"
 msgstr "活跃"
 
 msgid "New"
-msgstr ""
+msgstr "新建"
 
 msgid "New Instance Runner"
 msgstr "新建实例运行器"
@@ -799,34 +803,34 @@ msgid "Name"
 msgstr "姓名"
 
 msgid "It's you"
-msgstr ""
+msgstr "就是你"
 
 msgid "No users found"
 msgstr "未找到用户"
 
 msgid "Users will appear here when they are created."
-msgstr "创建群组后将显示在此处。"
+msgstr "创建用户后将显示在此处。"
 
 msgid "Edit %{username}"
-msgstr "编辑"
+msgstr "编辑 %{username}"
 
 msgid "Update user information and permissions"
-msgstr ""
+msgstr "更新用户信息和权限"
 
 msgid "Password"
 msgstr "密码"
 
 msgid "Leave blank to keep current password"
-msgstr ""
+msgstr "留空以保留当前密码"
 
 msgid "Password confirmation"
-msgstr "密码"
+msgstr "确认密码"
 
 msgid "Confirm new password"
 msgstr "确认密码"
 
 msgid "Leave password fields blank to keep the current password"
-msgstr ""
+msgstr "留空密码字段以保留当前密码"
 
 msgid "Permissions & Status"
 msgstr "权限与状态"
@@ -844,7 +848,7 @@ msgid "Are you sure you want to delete this user?"
 msgstr "确定要删除此用户吗？"
 
 msgid "Delete User"
-msgstr "删除"
+msgstr "删除用户"
 
 msgid "New user"
 msgstr "新用户"
@@ -862,7 +866,7 @@ msgid "Active Users"
 msgstr "活跃用户"
 
 msgid "Search by name, email, or username"
-msgstr ""
+msgstr "按姓名、邮箱或用户名搜索"
 
 msgid "New User"
 msgstr "新用户"
@@ -909,8 +913,389 @@ msgstr "%{time}前更新"
 msgid "No projects found."
 msgstr "未找到项目。"
 
+msgid "No files found"
+msgstr "未找到文件"
+
+msgid "This directory appears to be empty."
+msgstr "此目录似乎为空。"
+
+msgid "Branch:"
+msgstr "分支："
+
+msgid "History"
+msgstr "历史记录"
+
+msgid "Form saved failed"
+msgstr "表单保存失败"
+
+msgid "Project Path"
+msgstr "项目路径"
+
+msgid "Workflow Labels"
+msgstr "工作流标记"
+
+msgid "Labels will be automatically removed from closed issues"
+msgstr "标记将在问题关闭时自动移除"
+
+msgid "Select a Namespace"
+msgstr "命名空间"
+
+msgid "Choose who can see this project"
+msgstr "选择谁可以查看和访问此项目。"
+
+msgid "Branches for Project:"
+msgstr "项目分支"
+
+msgid "Search branches"
+msgstr "搜索分支"
+
+msgid "e.g., feature, main, develop..."
+msgstr "例如：feature、main、develop..."
+
+msgid "default"
+msgstr "默认"
+
+msgid "protected"
+msgstr "受保护"
+
+msgid "Browse"
+msgstr "浏览"
+
+msgid "Commits"
+msgstr "提交"
+
+msgid "No branches found"
+msgstr "未找到分支"
+
+msgid "No branches match your search for \"%{search}\". Try a different search term."
+msgstr "没有分支匹配您对\"%{search}\"的搜索。请尝试其他搜索词。"
+
+msgid "This repository doesn't have any branches yet."
+msgstr "此仓库尚无任何分支。"
+
+msgid "committed by"
+msgstr "提交者"
+
+msgid "Changed files"
+msgstr "更改的文件"
+
+msgid "committed %{time} ago"
+msgstr "%{time}前提交"
+
+msgid "branch history"
+msgstr "分支历史"
+
+msgid "Back to files"
+msgstr "返回文件列表"
+
+msgid "No commits found"
+msgstr "未找到提交"
+
+msgid "No commits found for this file path."
+msgstr "未找到此文件路径的提交记录。"
+
+msgid "This branch doesn't have any commits yet."
+msgstr "此分支尚无任何提交记录。"
+
+msgid "Update your project details"
+msgstr "更新您的项目详情"
+
+msgid "The repository for this project is empty"
+msgstr "该项目的仓库为空"
+
+msgid ""
+"You can get started by cloning the repository or start adding files to your pr"
+"oject."
+msgstr "您可以通过克隆仓库或直接向项目添加文件来开始使用。"
+
+msgid "AI Skill"
+msgstr "AI 技能"
+
+msgid "You'll need a personal access token —"
+msgstr "你需要一个个人访问令牌 —"
+
+msgid "create one here"
+msgstr "在此创建"
+
+msgid "Send this to your bot to enable project operations"
+msgstr "将此内容发送给你的机器人以启用项目操作"
+
+msgid "Copy"
+msgstr "复制"
+
+msgid "Command line instructions"
+msgstr "命令行说明"
+
+msgid "Git global setup"
+msgstr "Git 全局设置"
+
+msgid "Create a new repository"
+msgstr "创建新仓库"
+
+msgid "Push an existing folder"
+msgstr "推送现有文件夹"
+
+msgid "Push an existing Git repository"
+msgstr "推送现有 Git 仓库"
+
+msgid "Edit issue"
+msgstr "编辑议题"
+
+msgid "Open"
+msgstr "开启"
+
+msgid "Closed"
+msgstr "已关闭"
+
+msgid "New issue"
+msgstr "新建问题"
+
+msgid "Type to search"
+msgstr "输入以搜索"
+
+msgid "Confidential"
+msgstr "保密"
+
+msgid "opened %{time} ago by"
+msgstr "%{time}前更新"
+
+msgid "due %{date}"
+msgstr "截止日期：%{date}"
+
+msgid "Track tasks, bugs, and feature requests with ease"
+msgstr "轻松跟踪任务、缺陷和功能请求"
+
+msgid "Organize your workflow and track progress effectively."
+msgstr "有效组织你的工作流程并跟踪进度。"
+
+msgid "New Issue"
+msgstr "新建问题"
+
+msgid "opened by"
+msgstr "创建者"
+
+msgid "Updated by"
+msgstr "更新者"
+
+msgid "Close"
+msgstr "关闭"
+
+msgid "Reopen"
+msgstr "重新打开"
+
+msgid "No description provided."
+msgstr "无描述"
+
+msgid "Closed by"
+msgstr "关闭者"
+
+msgid "Due date"
+msgstr "截止日期"
+
+msgid "Jobs for Project:"
+msgstr "项目作业"
+
+msgid "Retry"
+msgstr "重试"
+
+msgid "Job output"
+msgstr "作业输出"
+
+msgid "Download"
+msgstr "下载"
+
+msgid "No output available for this job yet"
+msgstr "还没有输出"
+
+msgid "Merged"
+msgstr "已合并"
+
+msgid "opened %{time} ago"
+msgstr "%{time}前打开"
+
+msgid "Are you sure you want to merge this merge request?"
+msgstr "确定要合并这个请求吗？"
+
+msgid "Merge"
+msgstr "合并"
+
+msgid "Are you sure you want to close this merge request?"
+msgstr "确定要关闭此请求吗？"
+
+msgid "Commits (%{count})"
+msgstr "提交 (%{count})"
+
+msgid "Pipelines (%{count})"
+msgstr "流水线 (%{count})"
+
+msgid "Diffs (%{count})"
+msgstr "差异（%{count}）"
+
 msgid "Overview"
-msgstr ""
+msgstr "概览"
+
+msgid "New merge request"
+msgstr "新建合并请求"
+
+msgid "updated %{time} ago"
+msgstr "%{time}前更新"
+
+msgid "No assignees"
+msgstr "无分配人"
+
+msgid "No merge requests yet"
+msgstr "还没有合并请求"
+
+msgid ""
+"Create your first merge request to start collaborating and reviewing code chan"
+"ges."
+msgstr "创建第一个合并请求，开始协作和审查代码变更。"
+
+msgid "New Merge Request"
+msgstr "新合并请求"
+
+msgid ""
+"Create a new merge request by selecting source and target projects and branche"
+"s."
+msgstr "通过选择源项目和目标项目及分支来创建新的合并请求。"
+
+msgid "Unable to create merge request"
+msgstr "无法创建合并请求"
+
+msgid "Source Branch"
+msgstr "源分支"
+
+msgid "Target Branch"
+msgstr "目标分支"
+
+msgid "Title"
+msgstr "标题"
+
+msgid "Enter merge request title"
+msgstr "输入合并请求标题"
+
+msgid "Describe the changes in this merge request"
+msgstr "描述此合并请求中的更改"
+
+msgid "Assignees"
+msgstr "受理人"
+
+msgid "Reviewers"
+msgstr "审阅者"
+
+msgid "Create Merge Request"
+msgstr "创建合并请求"
+
+msgid "Jobs (%{count})"
+msgstr "作业 (%{count})"
+
+msgid "Status %{status}"
+msgstr "状态 %{status}"
+
+msgid "For Merge Request"
+msgstr "合并请求"
+
+msgid "Upstream"
+msgstr "上游"
+
+msgid "in"
+msgstr "在"
+
+msgid "Downstream"
+msgstr "下游"
+
+msgid "Pipelines for Project:"
+msgstr "流水线"
+
+msgid "Search by SHA"
+msgstr "按 SHA 搜索"
+
+msgid "e.g., abc123..."
+msgstr "例如：abc123..."
+
+msgid "Labels"
+msgstr "标记"
+
+msgid "Create and manage project labels"
+msgstr "创建和管理项目标记"
+
+msgid "New Label"
+msgstr "新建标记"
+
+msgid "Manage project members and their roles"
+msgstr "管理项目成员及其角色"
+
+msgid "Add Member"
+msgstr "添加成员"
+
+msgid "Repository Settings"
+msgstr "仓库设置"
+
+msgid "Configure repository defaults and settings"
+msgstr "配置仓库默认值和设置"
+
+msgid "Webhooks"
+msgstr "Webhooks"
+
+msgid "Send notifications to external applications in response to events"
+msgstr "响应事件时向外部应用发送通知"
+
+msgid "New Webhook"
+msgstr "新建 Webhook"
+
+msgid "Project Info"
+msgstr "项目信息"
+
+msgid "Created on:"
+msgstr "创建时间"
+
+msgid "Visibility:"
+msgstr "可见性"
+
+msgid "Tip: send this to your bot to enable project operations"
+msgstr "提示：将此内容发送给你的机器人以启用项目操作"
+
+msgid "Tags for Project:"
+msgstr "项目标签："
+
+msgid "Search tags"
+msgstr "搜索标签"
+
+msgid "e.g., v1.0, release, beta..."
+msgstr "例如：v1.0、release、beta..."
+
+msgid "release"
+msgstr "版本"
+
+msgid "No tags found"
+msgstr "未找到标签"
+
+msgid "No tags match your search for \"%{search}\". Try a different search term."
+msgstr "没有标签匹配您对\"%{search}\"的搜索。请尝试其他搜索词。"
+
+msgid "This repository doesn't have any tags yet."
+msgstr "此仓库尚无任何标签。"
+
+msgid "Plan"
+msgstr "计划"
+
+msgid "Board"
+msgstr "看板"
+
+msgid "Epics"
+msgstr "史诗"
+
+msgid "Repository"
+msgstr "仓库"
+
+msgid "Branches"
+msgstr "分支"
+
+msgid "CI/CD"
+msgstr "CI/CD"
+
+msgid "General"
+msgstr "通用"
 
 msgid "User Settings"
 msgstr "用户设置"
@@ -924,11 +1309,14 @@ msgstr "个人访问令牌"
 msgid "SSH Keys"
 msgstr "SSH 密钥"
 
+msgid "Write a comment..."
+msgstr "写下评论..."
+
+msgid "Comment"
+msgstr "评论"
+
 msgid "Please correct the following errors:"
 msgstr "请更正以下错误："
-
-msgid "Title"
-msgstr "标题"
 
 msgid "SSH Key"
 msgstr "SSH 密钥"
@@ -1141,55 +1529,55 @@ msgid "Member since %{date}"
 msgstr "注册于 %{date}"
 
 msgid "Incompatible options set!"
-msgstr ""
+msgstr "设置了不兼容的选项！"
 
 msgid "Using required encryption strategy when encrypted field is missing!"
-msgstr ""
+msgstr "加密字段缺失时使用了必需的加密策略！"
 
 msgid "encrypted: needs to be a :required, :optional or :migrating!"
-msgstr ""
+msgstr "encrypted 必须是 :required、:optional 或 :migrating！"
 
 msgid ""
 "Pipelines|Invalid input specification: expected a hash-like object, got %{clas"
 "s_name}"
-msgstr ""
+msgstr "输入规范无效：期望类哈希对象，但得到了 %{class_name}"
 
 msgid ""
 "The default branch for this project has been changed. Please update your bookm"
 "arks."
-msgstr ""
+msgstr "此项目的默认分支已更改。请更新您的书签。"
 
 msgid ""
 "MemberRole|The None role is assigned to the invited group users of a shared pr"
 "oject when project sharing is disabled in group setting."
-msgstr ""
+msgstr "当群组设置中禁用项目共享时，"无"角色将分配给共享项目的受邀群组用户。"
 
 msgid ""
 "MemberRole|The Guest role is for users who need visibility into a project or g"
 "roup but should not have the ability to make changes, such as external stakeho"
 "lders."
-msgstr ""
+msgstr "访客角色适用于需要查看项目或群组但不应进行更改的用户，例如外部利益相关者。"
 
 msgid ""
 "The Planner role is suitable for team members who need to manage projects and "
 "track work items but do not need to contribute code."
-msgstr ""
+msgstr "规划者角色适合需要管理项目和跟踪工作项但无需贡献代码的团队成员。"
 
 msgid ""
 "MemberRole|The Reporter role is suitable for team members who need to stay inf"
 "ormed about a project or group but do not actively contribute code."
-msgstr ""
+msgstr "报告者角色适合需要了解项目或群组动态但不积极贡献代码的团队成员。"
 
 msgid ""
 "MemberRole|The Developer role gives users access to contribute code while rest"
 "ricting sensitive administrative actions."
-msgstr ""
+msgstr "开发者角色允许用户贡献代码，同时限制敏感的管理操作。"
 
 msgid ""
 "MemberRole|The Maintainer role is primarily used for managing code reviews, ap"
 "provals, and administrative settings for projects. This role can also manage p"
 "roject memberships."
-msgstr ""
+msgstr "维护者角色主要用于管理代码审查、审批及项目管理设置，也可管理项目成员资格。"
 
 msgid ""
 "MemberRole|The Owner role is typically assigned to the individual or team resp"
@@ -1197,119 +1585,121 @@ msgid ""
 "ole has the highest level of administrative control, and can manage all aspect"
 "s of the group or project, including managing other Owners."
 msgstr ""
+"所有者角色通常分配给负责管理和维护群组或创建项目的个人或团队。此角色具有最高级别的管理权限，"
+"可管理群组或项目的所有方面，包括管理其他所有者。"
 
 msgid "DefaultBranchProtection|Not protected"
-msgstr ""
+msgstr "不受保护"
 
 msgid ""
 "DefaultBranchProtection|Both developers and maintainers can push new commits, "
 "force push, or delete the branch."
-msgstr ""
+msgstr "开发者和维护者均可推送新提交、强制推送或删除分支。"
 
 msgid "DefaultBranchProtection|Protected against pushes"
-msgstr ""
+msgstr "防止推送保护"
 
 msgid ""
 "DefaultBranchProtection|Developers cannot push new commits, but are allowed to"
 " accept merge requests to the branch. Maintainers can push to the branch."
-msgstr ""
+msgstr "开发者无法推送新提交，但允许接受合并请求到该分支。维护者可以推送到该分支。"
 
 msgid "DefaultBranchProtection|Partially protected"
-msgstr ""
+msgstr "部分保护"
 
 msgid ""
 "DefaultBranchProtection|Both developers and maintainers can push new commits, "
 "but cannot force push."
-msgstr ""
+msgstr "开发者和维护者均可推送新提交，但不能强制推送。"
 
 msgid "DefaultBranchProtection|Fully protected"
-msgstr ""
+msgstr "完全保护"
 
 msgid ""
 "DefaultBranchProtection|Developers cannot push new commits, but maintainers ca"
 "n. No one can force push."
-msgstr ""
+msgstr "开发者无法推送新提交，但维护者可以。任何人均不能强制推送。"
 
 msgid "DefaultBranchProtection|Fully protected after initial push"
-msgstr ""
+msgstr "初次推送后完全保护"
 
 msgid ""
 "DefaultBranchProtection|Developers can push the initial commit to a repository"
 ", but none afterward. Maintainers can always push. No one can force push."
-msgstr ""
+msgstr "开发者可以推送初始提交到仓库，但之后不能。维护者始终可以推送。任何人均不能强制推送。"
 
 msgid "DefaultBranchProtection|Protected"
-msgstr ""
+msgstr "受保护"
 
 msgid ""
 "DefaultBranchProtection|Once a repository is created this branch will be prote"
 "cted."
-msgstr ""
+msgstr "仓库创建后，此分支将受到保护。"
 
 msgid "ProjectCreationLevel|No one"
-msgstr ""
+msgstr "禁止创建"
 
 msgid "ProjectCreationLevel|Administrators"
-msgstr ""
+msgstr "管理员"
 
 msgid "ProjectCreationLevel|Owners"
-msgstr ""
+msgstr "所有者"
 
 msgid "ProjectCreationLevel|Maintainers"
-msgstr ""
+msgstr "维护者"
 
 msgid "ProjectCreationLevel|Developers"
-msgstr ""
+msgstr "开发者"
 
 msgid "SubgroupCreationlevel|Owners"
-msgstr ""
+msgstr "所有者"
 
 msgid "SubgroupCreationlevel|Maintainers"
-msgstr ""
+msgstr "维护者"
 
 msgid "Default role"
 msgstr "默认角色"
 
 msgid "INFO: Your SSH key has expired. Please generate a new key."
-msgstr ""
+msgstr "提示：您的 SSH 密钥已过期。请生成新密钥。"
 
 msgid "INFO: Your SSH key is expiring soon. Please generate a new key."
-msgstr ""
+msgstr "提示：您的 SSH 密钥即将过期。请生成新密钥。"
 
 msgid "'%{lock_path}' is locked in Git LFS by @%{lock_user_name}"
-msgstr ""
+msgstr "'%{lock_path}' 已被 @%{lock_user_name} 在 Git LFS 中锁定"
 
 msgid "must be one of: %{values}"
-msgstr ""
+msgstr "必须是以下之一：%{values}"
 
 msgid "must be less than the limit of %{tag_limit} tags"
-msgstr ""
+msgstr "必须少于 %{tag_limit} 个标签的限制"
 
 msgid "Given inputs must be a hash"
-msgstr ""
+msgstr "给定的输入必须是哈希"
 
 msgid ""
 "Given inputs not defined in the `spec` section of the included configuration f"
 "ile"
-msgstr ""
+msgstr "给定的输入未在引用配置文件的 `spec` 部分中定义"
 
 msgid "Upstream Gitaly has been exhausted. Try again later"
-msgstr ""
+msgstr "上游 Gitaly 已耗尽。请稍后再试"
 
 msgid " or "
-msgstr ""
+msgstr " 或 "
 
 msgid ", or "
-msgstr ""
+msgstr "，或 "
 
 msgid "DSA keys are considered deprecated."
-msgstr ""
+msgstr "DSA 密钥被视为已废弃。"
 
 msgid "Key length should be at least 2048 bits."
-msgstr ""
+msgstr "密钥长度至少应为 2048 位。"
 
 msgid "Project Templates"
-msgstr ""
+msgstr "项目模板"
 
 msgid "Potentially unwanted character detected: Unicode BiDi Control"
-msgstr ""
+msgstr "检测到潜在的不需要字符：Unicode 双向控制符"

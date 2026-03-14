@@ -4,21 +4,18 @@
 
 %div{class: 'w-full bg-white p-6'}
   %div{class: 'w-full max-w-6xl mx-auto flex flex-col px-4'}
-    
-    / -- Page Header --
+
     %div{class: 'flex justify-between items-center mb-6'}
       %div
         %h1{class: 'text-2xl font-semibold text-gray-800'}
-          Jobs for Project:
+          = _('Jobs for Project:')
           = @project.name
 
-    / -- Filters --
     = render 'shared/filters/jobs_filters',
       url: namespace_project_jobs_path(@project.namespace.parent.full_path, @project.namespace.path),
       clear_url: namespace_project_jobs_path(@project.namespace.parent.full_path, @project.namespace.path),
       statuses: @statuses
     %div{id: 'jobs-list', class: 'space-y-4'}
       = render 'projects/pipelines/jobs'
-      
-      / -- Pagination --
+
       = render 'shared/pagination', collection: @jobs, url_params: params.except(:page).permit!, turbo_frame: nil if respond_to?(:render)

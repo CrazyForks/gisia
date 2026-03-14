@@ -5,13 +5,13 @@
         %div{ class: 'flex items-center gap-3 mb-1' }
           %h1{ class: 'text-2xl font-semibold text-gray-800' }
             = pipeline_title(@pipeline)
-          - jobs_title = "Jobs (#{@pipeline.builds.count})"
+          - jobs_title = _('Jobs (%{count})') % { count: @pipeline.builds.count }
           %span{ class: 'text-lg text-slate-500' }
             #{jobs_title}
         %div{ class: 'flex items-center gap-3 text-sm text-gray-500' }
           - badge_colors = { 'success' => 'bg-emerald-500/10 text-emerald-700 ring-1 ring-emerald-500/20', 'failed' => 'bg-rose-500/10 text-rose-700 ring-1 ring-rose-500/20', 'running' => 'bg-blue-500/10 text-blue-700 ring-1 ring-blue-500/20', 'pending' => 'bg-amber-500/10 text-amber-700 ring-1 ring-amber-500/20' }
           %span{ class: "inline-flex items-center px-2 py-0.5 text-xs font-medium rounded #{badge_colors.fetch(@pipeline.status, 'bg-slate-500/10 text-slate-700 ring-1 ring-slate-500/20')}" }
-            Status #{@pipeline.status.titleize}
+            = _('Status %{status}') % { status: @pipeline.status.titleize }
           %span
             = @pipeline.user.username
           %span{ class: 'font-mono text-xs bg-gray-100 px-1 rounded' }
@@ -21,25 +21,25 @@
           %span •
           - if @pipeline.merge_request?
             %span
-              For Merge Request
+              = _('For Merge Request')
               = link_to " ##{@pipeline.merge_request.id}", merge_request_path(@pipeline.merge_request), class: 'text-blue-600 hover:text-blue-700 font-medium transition-colors'
           - else
-            %span For #{@pipeline.ref}
+            %span= _('For %{ref}') % { ref: @pipeline.ref }
           - if @pipeline.source_pipeline.present?
             - upstream = @pipeline.source_pipeline.source_pipeline
             %span •
             %span
-              Upstream
+              = _('Upstream')
               = link_to "##{upstream.id}", pipeline_jobs_path(upstream), class: 'text-gray-700 hover:text-gray-900 font-medium transition-colors'
-              in
+              = _('in')
               = link_to upstream.project.full_path, namespace_project_path(upstream.project.namespace.parent.full_path, upstream.project.path), class: 'text-gray-700 hover:text-gray-900 font-medium transition-colors'
           - if @pipeline.sourced_pipelines.any?
             %span •
             %span
-              Downstream
+              = _('Downstream')
               - @pipeline.sourced_pipelines.includes(pipeline: :project).each do |sp|
                 = link_to "##{sp.pipeline.id}", pipeline_jobs_path(sp.pipeline), class: 'text-gray-700 hover:text-gray-900 font-medium transition-colors'
-                in
+                = _('in')
                 = link_to sp.pipeline.project.full_path, namespace_project_path(sp.pipeline.project.namespace.parent.full_path, sp.pipeline.project.path), class: 'text-gray-700 hover:text-gray-900 font-medium transition-colors'
 
     = yield :pipeline_content

@@ -11,9 +11,9 @@
           = icon 'briefcase', class: 'w-8 h-8'
         %div
           %h1{class: 'text-2xl font-bold text-gray-900'}
-            Edit Project
+            = _('Edit Project')
           %p{class: 'text-gray-600'}
-            Update your project details
+            = _('Update your project details')
 
     = turbo_frame_tag 'show_project' do
       = render 'form'

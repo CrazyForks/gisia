@@ -23,18 +23,18 @@
       %div{ class: 'w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-lg flex items-center justify-center' }
         = icon 'archive', class: 'w-8 h-8 text-gray-500'
       %h2{ class: 'text-lg font-semibold text-gray-900 mb-2' }
-        The repository for this project is empty
+        = _('The repository for this project is empty')
       %p{ class: 'text-gray-600 mb-6' }
-        You can get started by cloning the repository or start adding files to your project.
+        = _('You can get started by cloning the repository or start adding files to your project.')
 
     %div{ class: 'bg-white border border-slate-200 rounded-lg p-6 mb-6', data: { controller: 'copy' } }
       %h3{ class: 'text-base font-semibold text-gray-900 mb-1' }
-        AI Skill
+        = _('AI Skill')
       %p{ class: 'text-sm text-gray-500 mb-3' }
-        You'll need a personal access token —
-        = link_to 'create one here', "#{request.base_url}/-/users/settings/personal_access_tokens", target: '_blank', class: 'text-blue-600 hover:underline'
+        = _("You'll need a personal access token —")
+        = link_to _('create one here'), "#{request.base_url}/-/users/settings/personal_access_tokens", target: '_blank', class: 'text-blue-600 hover:underline'
       %p{ class: 'text-sm text-gray-500 mb-1' }
-        Send this to your bot to enable project operations
+        = _('Send this to your bot to enable project operations')
       %div{ class: 'flex items-center gap-2' }
         - skill_text = if @project.namespace.public?
           - "Read #{request.base_url}/#{@project.full_path}/-/skill.md and follow the instructions"
@@ -42,15 +42,15 @@
           - "Read the project skill and follow the instructions by running: `curl -s #{request.base_url}/#{@project.full_path}/-/skill.md -H \"PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN\"`"
         %input{ type: 'text', value: skill_text, readonly: true, class: 'flex-1 px-3 py-2 text-xs bg-gray-50 border border-gray-300 rounded-md font-mono text-gray-700 min-w-0', data: { copy_target: 'input' } }
         %button{ class: 'px-3 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors flex-shrink-0', data: { action: 'click->copy#copy', copy_target: 'button' } }
-          Copy
+          = _('Copy')
 
     %div{ class: 'bg-white border border-slate-200 rounded-lg p-6' }
       %h3{ class: 'text-base font-semibold text-gray-900 mb-4' }
-        Command line instructions
+        = _('Command line instructions')
 
       %div{ class: 'mb-6' }
         %h4{ class: 'text-sm font-medium text-gray-900 mb-2' }
-          Git global setup
+          = _('Git global setup')
         %div{ class: 'bg-gray-50 border border-gray-200 rounded-md p-3' }
           %code{ class: 'text-sm text-gray-800 font-mono' }
             git config --global user.name "Your Name"
@@ -59,7 +59,7 @@
 
       %div{ class: 'mb-6' }
         %h4{ class: 'text-sm font-medium text-gray-900 mb-2' }
-          Create a new repository
+          = _('Create a new repository')
         %div{ class: 'bg-gray-50 border border-gray-200 rounded-md p-3' }
           %code{ class: 'text-sm text-gray-800 font-mono' }
             git clone #{@project.ssh_url_to_repo}
@@ -78,7 +78,7 @@
 
       %div
         %h4{ class: 'text-sm font-medium text-gray-900 mb-2' }
-          Push an existing folder
+          = _('Push an existing folder')
         %div{ class: 'bg-gray-50 border border-gray-200 rounded-md p-3' }
           %code{ class: 'text-sm text-gray-800 font-mono' }
             cd existing_folder
@@ -95,7 +95,7 @@
 
       %div{ class: 'mt-6' }
         %h4{ class: 'text-sm font-medium text-gray-900 mb-2' }
-          Push an existing Git repository
+          = _('Push an existing Git repository')
         %div{ class: 'bg-gray-50 border border-gray-200 rounded-md p-3' }
           %code{ class: 'text-sm text-gray-800 font-mono' }
             cd existing_repo

@@ -6,7 +6,7 @@
   %div{ class: 'flex gap-4 mt-8' }
     %div{ class: 'flex-1' }
       %div{ class: 'mb-6' }
-        %h3{ class: 'text-lg font-semibold text-slate-900 mb-4' } Description
+        %h3{ class: 'text-lg font-semibold text-slate-900 mb-4' }= _('Description')
         %div{ class: 'prose prose-slate max-w-none' }
           - if @merge_request.description_html.present?
             .prose.prose-slate.max-w-none.markdown
@@ -15,7 +15,7 @@
             %div{ class: 'text-slate-500 italic text-center py-8' }
               %div{ class: 'flex flex-col items-center gap-3' }
                 = icon 'file-text', class: 'w-8 h-8 text-slate-300'
-                %span No description provided.
+                %span= _('No description provided.')
 
       = render 'shared/notes/notes_with_form', notes: @notes, noteable: @merge_request
 

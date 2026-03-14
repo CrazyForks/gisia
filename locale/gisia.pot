@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gisia 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 12:08+0800\n"
-"PO-Revision-Date: 2026-03-14 12:08+0800\n"
+"POT-Creation-Date: 2026-03-14 13:43+0800\n"
+"PO-Revision-Date: 2026-03-14 13:43+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -910,7 +910,388 @@ msgstr ""
 msgid "No projects found."
 msgstr ""
 
+msgid "No files found"
+msgstr ""
+
+msgid "This directory appears to be empty."
+msgstr ""
+
+msgid "Branch:"
+msgstr ""
+
+msgid "History"
+msgstr ""
+
+msgid "Form saved failed"
+msgstr ""
+
+msgid "Project Path"
+msgstr ""
+
+msgid "Workflow Labels"
+msgstr ""
+
+msgid "Labels will be automatically removed from closed issues"
+msgstr ""
+
+msgid "Select a Namespace"
+msgstr ""
+
+msgid "Choose who can see this project"
+msgstr ""
+
+msgid "Branches for Project:"
+msgstr ""
+
+msgid "Search branches"
+msgstr ""
+
+msgid "e.g., feature, main, develop..."
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "protected"
+msgstr ""
+
+msgid "Browse"
+msgstr ""
+
+msgid "Commits"
+msgstr ""
+
+msgid "No branches found"
+msgstr ""
+
+msgid "No branches match your search for \"%{search}\". Try a different search term."
+msgstr ""
+
+msgid "This repository doesn't have any branches yet."
+msgstr ""
+
+msgid "committed by"
+msgstr ""
+
+msgid "Changed files"
+msgstr ""
+
+msgid "committed %{time} ago"
+msgstr ""
+
+msgid "branch history"
+msgstr ""
+
+msgid "Back to files"
+msgstr ""
+
+msgid "No commits found"
+msgstr ""
+
+msgid "No commits found for this file path."
+msgstr ""
+
+msgid "This branch doesn't have any commits yet."
+msgstr ""
+
+msgid "Update your project details"
+msgstr ""
+
+msgid "The repository for this project is empty"
+msgstr ""
+
+msgid ""
+"You can get started by cloning the repository or start adding files to your pr"
+"oject."
+msgstr ""
+
+msgid "AI Skill"
+msgstr ""
+
+msgid "You'll need a personal access token —"
+msgstr ""
+
+msgid "create one here"
+msgstr ""
+
+msgid "Send this to your bot to enable project operations"
+msgstr ""
+
+msgid "Copy"
+msgstr ""
+
+msgid "Command line instructions"
+msgstr ""
+
+msgid "Git global setup"
+msgstr ""
+
+msgid "Create a new repository"
+msgstr ""
+
+msgid "Push an existing folder"
+msgstr ""
+
+msgid "Push an existing Git repository"
+msgstr ""
+
+msgid "Edit issue"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+msgid "Closed"
+msgstr ""
+
+msgid "New issue"
+msgstr ""
+
+msgid "Type to search"
+msgstr ""
+
+msgid "Confidential"
+msgstr ""
+
+msgid "opened %{time} ago by"
+msgstr ""
+
+msgid "due %{date}"
+msgstr ""
+
+msgid "Track tasks, bugs, and feature requests with ease"
+msgstr ""
+
+msgid "Organize your workflow and track progress effectively."
+msgstr ""
+
+msgid "New Issue"
+msgstr ""
+
+msgid "opened by"
+msgstr ""
+
+msgid "Updated by"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Reopen"
+msgstr ""
+
+msgid "No description provided."
+msgstr ""
+
+msgid "Closed by"
+msgstr ""
+
+msgid "Due date"
+msgstr ""
+
+msgid "Jobs for Project:"
+msgstr ""
+
+msgid "Retry"
+msgstr ""
+
+msgid "Job output"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "No output available for this job yet"
+msgstr ""
+
+msgid "Merged"
+msgstr ""
+
+msgid "opened %{time} ago"
+msgstr ""
+
+msgid "Are you sure you want to merge this merge request?"
+msgstr ""
+
+msgid "Merge"
+msgstr ""
+
+msgid "Are you sure you want to close this merge request?"
+msgstr ""
+
+msgid "Commits (%{count})"
+msgstr ""
+
+msgid "Pipelines (%{count})"
+msgstr ""
+
+msgid "Diffs (%{count})"
+msgstr ""
+
 msgid "Overview"
+msgstr ""
+
+msgid "New merge request"
+msgstr ""
+
+msgid "updated %{time} ago"
+msgstr ""
+
+msgid "No assignees"
+msgstr ""
+
+msgid "No merge requests yet"
+msgstr ""
+
+msgid ""
+"Create your first merge request to start collaborating and reviewing code chan"
+"ges."
+msgstr ""
+
+msgid "New Merge Request"
+msgstr ""
+
+msgid ""
+"Create a new merge request by selecting source and target projects and branche"
+"s."
+msgstr ""
+
+msgid "Unable to create merge request"
+msgstr ""
+
+msgid "Source Branch"
+msgstr ""
+
+msgid "Target Branch"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Enter merge request title"
+msgstr ""
+
+msgid "Describe the changes in this merge request"
+msgstr ""
+
+msgid "Assignees"
+msgstr ""
+
+msgid "Reviewers"
+msgstr ""
+
+msgid "Create Merge Request"
+msgstr ""
+
+msgid "Jobs (%{count})"
+msgstr ""
+
+msgid "Status %{status}"
+msgstr ""
+
+msgid "For Merge Request"
+msgstr ""
+
+msgid "Upstream"
+msgstr ""
+
+msgid "in"
+msgstr ""
+
+msgid "Downstream"
+msgstr ""
+
+msgid "Pipelines for Project:"
+msgstr ""
+
+msgid "Search by SHA"
+msgstr ""
+
+msgid "e.g., abc123..."
+msgstr ""
+
+msgid "Labels"
+msgstr ""
+
+msgid "Create and manage project labels"
+msgstr ""
+
+msgid "New Label"
+msgstr ""
+
+msgid "Manage project members and their roles"
+msgstr ""
+
+msgid "Add Member"
+msgstr ""
+
+msgid "Repository Settings"
+msgstr ""
+
+msgid "Configure repository defaults and settings"
+msgstr ""
+
+msgid "Webhooks"
+msgstr ""
+
+msgid "Send notifications to external applications in response to events"
+msgstr ""
+
+msgid "New Webhook"
+msgstr ""
+
+msgid "Project Info"
+msgstr ""
+
+msgid "Created on:"
+msgstr ""
+
+msgid "Visibility:"
+msgstr ""
+
+msgid "Tip: send this to your bot to enable project operations"
+msgstr ""
+
+msgid "Tags for Project:"
+msgstr ""
+
+msgid "Search tags"
+msgstr ""
+
+msgid "e.g., v1.0, release, beta..."
+msgstr ""
+
+msgid "release"
+msgstr ""
+
+msgid "No tags found"
+msgstr ""
+
+msgid "No tags match your search for \"%{search}\". Try a different search term."
+msgstr ""
+
+msgid "This repository doesn't have any tags yet."
+msgstr ""
+
+msgid "Plan"
+msgstr ""
+
+msgid "Board"
+msgstr ""
+
+msgid "Epics"
+msgstr ""
+
+msgid "Repository"
+msgstr ""
+
+msgid "Branches"
+msgstr ""
+
+msgid "CI/CD"
+msgstr ""
+
+msgid "General"
 msgstr ""
 
 msgid "User Settings"
@@ -925,10 +1306,13 @@ msgstr ""
 msgid "SSH Keys"
 msgstr ""
 
-msgid "Please correct the following errors:"
+msgid "Write a comment..."
 msgstr ""
 
-msgid "Title"
+msgid "Comment"
+msgstr ""
+
+msgid "Please correct the following errors:"
 msgstr ""
 
 msgid "SSH Key"

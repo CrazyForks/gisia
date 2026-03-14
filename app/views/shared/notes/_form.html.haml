@@ -4,7 +4,7 @@
     = f.hidden_field :noteable_id, value: noteable.id
     = hidden_field_tag :target_id, noteable.id
 
-    = render 'shared/markdown_editor', f: f, field: :note, placeholder: 'Write a comment...', min_height: 'min-h-40', initial_content: '', textarea_id: "editor-#{noteable.class.name.underscore}-#{noteable.id}"
+    = render 'shared/markdown_editor', f: f, field: :note, placeholder: _('Write a comment...'), min_height: 'min-h-40', initial_content: '', textarea_id: "editor-#{noteable.class.name.underscore}-#{noteable.id}"
 
     .flex.justify-end.mt-3
-      = f.submit 'Comment', class: 'px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md'
+      = f.submit _('Comment'), class: 'px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md'

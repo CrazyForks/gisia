@@ -10,27 +10,26 @@
         %nav{ class: 'flex space-x-8' }
           - opened_class = (params[:status].blank? || params[:status] == 'opened') ? 'border-b-2 border-blue-600 pb-4 px-1 text-sm font-medium text-blue-600' : 'border-b-2 border-transparent pb-4 px-1 text-sm font-medium text-slate-500 hover:text-slate-700 hover:border-slate-300 transition-colors'
           = link_to project_issues_path(@project, status: 'opened'), class: opened_class do
-            Open
+            = _('Open')
             %span{ class: 'ml-2 px-2 py-0.5 bg-blue-100 text-blue-600 rounded-full text-xs font-medium' }= @opened_count
 
           - closed_class = params[:status] == 'closed' ? 'border-b-2 border-blue-600 pb-4 px-1 text-sm font-medium text-blue-600' : 'border-b-2 border-transparent pb-4 px-1 text-sm font-medium text-slate-500 hover:text-slate-700 hover:border-slate-300 transition-colors'
           = link_to project_issues_path(@project, status: 'closed'), class: closed_class do
-            Closed
+            = _('Closed')
             %span{ class: 'ml-2 px-2 py-0.5 bg-slate-100 text-slate-500 rounded-full text-xs font-medium' }= @closed_count
 
         - if @issues&.any?
           %div{ class: 'pb-2' }
             = link_to new_project_issue_path(@project), class: 'inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-all duration-200' do
               = icon 'plus', class: 'w-4 h-4'
-              %span New issue
+              %span= _('New issue')
 
-    / -- Search Filter --
     %div{ class: 'bg-gray-50 rounded-lg p-4 mb-6' }
       = form_tag project_issues_path(@project), method: :get, local: true, class: 'flex flex-wrap gap-4 items-end' do
         = hidden_field_tag :status, params[:status] if params[:status].present?
 
         %div{ class: 'flex-1 min-w-64' }
-          = text_field_tag :search, params[:search], placeholder: 'Type to search', class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', onkeypress: 'if(event.key==="Enter"){this.form.submit();}', autocomplete: 'off'
+          = text_field_tag :search, params[:search], placeholder: _('Type to search'), class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', onkeypress: 'if(event.key==="Enter"){this.form.submit();}', autocomplete: 'off'
 
     - if @issues&.any?
       %div{ class: 'space-y-0' }
@@ -41,7 +40,7 @@
                 %h3{ class: 'text-base font-semibold text-slate-900 hover:text-blue-600 transition-colors cursor-pointer' }
                   = link_to issue.title, issue_path(issue), class: 'hover:text-blue-600 transition-colors'
                   - if issue.confidential?
-                    %span{ class: 'ml-2 px-2 py-0.5 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium' } Confidential
+                    %span{ class: 'ml-2 px-2 py-0.5 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium' }= _('Confidential')
 
               - if issue.description.present?
                 %p{ class: 'text-sm text-slate-600 mb-3 line-clamp-2' }= truncate(strip_markdown(issue.description), length: 120)
@@ -54,13 +53,13 @@
                     %div{ class: 'w-4 h-4 rounded-full bg-gradient-to-br from-slate-400 to-slate-500 flex items-center justify-center text-xs font-bold text-white' }
                       = issue.author&.name&.first&.upcase || '?'
                   %span
-                    opened #{time_ago_in_words(issue.created_at)} ago by
+                    = _('opened %{time} ago by') % { time: time_ago_in_words(issue.created_at) }
                     %span{ class: 'font-medium' }= issue.author&.name || 'Unknown'
 
                 - if issue.due_date
                   %div{ class: 'flex items-center gap-1 text-slate-500' }
                     = icon 'calendar', class: 'w-3 h-3'
-                    %span due #{issue.due_date.strftime("%b %d, %Y")}
+                    %span= _('due %{date}') % { date: issue.due_date.strftime("%b %d, %Y") }
 
               - if issue.labels.any?
                 %div{ class: 'flex flex-wrap gap-2' }
@@ -78,9 +77,9 @@
       %div{ class: 'text-center py-16 bg-white border border-slate-200 rounded-lg' }
         %div{ class: 'mx-auto w-16 h-16 flex items-center justify-center rounded-2xl bg-slate-100 mb-6' }
           = icon 'note', class: 'w-8 h-8 text-slate-400'
-        %h3{ class: 'text-lg font-semibold text-slate-900 mb-2' } Track tasks, bugs, and feature requests with ease
+        %h3{ class: 'text-lg font-semibold text-slate-900 mb-2' }= _('Track tasks, bugs, and feature requests with ease')
         %p{ class: 'text-slate-500 max-w-sm mx-auto leading-relaxed mb-6' }
-          Organize your workflow and track progress effectively.
+          = _('Organize your workflow and track progress effectively.')
         = link_to new_project_issue_path(@project), class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200' do
           = icon 'plus', class: 'w-4 h-4'
-          %span New issue
+          %span= _('New issue')

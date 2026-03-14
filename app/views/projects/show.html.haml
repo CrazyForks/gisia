@@ -18,40 +18,39 @@
             - else
               %p{ class: 'text-sm text-gray-500 mt-1' }
                 = @project.name
-      
-    
+
     %div{ class: 'grid grid-cols-1 lg:grid-cols-4 gap-6' }
       %div{ class: 'lg:col-span-3' }
         = render 'files'
-      
+
       %div{ class: 'lg:col-span-1' }
         %div{ class: 'bg-white border border-slate-200 rounded-lg p-4' }
           %h3{ class: 'text-base font-semibold text-gray-900 mb-4' }
-            Project Info
-          
+            = _('Project Info')
+
           %div{ class: 'space-y-4' }
             %div{ data: { controller: 'copy' } }
               %div{ class: 'flex items-center gap-2' }
                 %input{ type: 'text', value: @project.ssh_url_to_repo, readonly: true, class: 'flex-1 px-3 py-2 text-xs bg-gray-50 border border-gray-300 rounded-md font-mono text-gray-700 min-w-0', data: { copy_target: 'input' } }
                 %button{ class: 'px-2 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors flex-shrink-0', data: { action: 'click->copy#copy', copy_target: 'button' } }
-                  Copy
-            
+                  = _('Copy')
+
             %div{ class: 'space-y-3 pt-2 border-t border-gray-200' }
               %div{ class: 'flex justify-between items-center' }
                 %span{ class: 'text-sm text-gray-600' }
-                  Created on:
+                  = _('Created on:')
                 %span{ class: 'text-sm text-gray-900 font-medium' }
                   = @project.created_at.strftime('%b %d, %Y')
-              
+
               %div{ class: 'flex justify-between items-center' }
                 %span{ class: 'text-sm text-gray-600' }
-                  Visibility:
+                  = _('Visibility:')
                 %span{ class: 'text-sm text-gray-900 font-medium' }
                   = @project.namespace.visibility
 
             %div{ class: 'pt-3 border-t border-gray-200', data: { controller: 'copy' } }
               %p{ class: 'text-xs font-bold text-gray-700 mb-1' }
-                AI Skill
+                = _('AI Skill')
               %div{ class: 'flex items-center gap-2' }
                 - skill_text = if @project.namespace.public?
                   - "Read #{request.base_url}/#{@project.full_path}/-/skill.md and follow the instructions"
@@ -59,6 +58,6 @@
                   - "Read the project skill and follow the instructions by running: `curl -s #{request.base_url}/#{@project.full_path}/-/skill.md -H \"PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN\"`"
                 %input{ type: 'text', value: skill_text, readonly: true, class: 'flex-1 px-3 py-2 text-xs bg-gray-50 border border-gray-300 rounded-md font-mono text-gray-700 min-w-0', data: { copy_target: 'input' } }
                 %button{ class: 'px-2 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors flex-shrink-0', data: { action: 'click->copy#copy', copy_target: 'button' } }
-                  Copy
+                  = _('Copy')
               %p{ class: 'text-xs text-gray-500 mt-2' }
-                Tip: send this to your bot to enable project operations
+                = _('Tip: send this to your bot to enable project operations')

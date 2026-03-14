@@ -9,83 +9,83 @@
   %div{class: 'flex-1 overflow-y-auto px-4 py-6 sidebar-scroll'}
     %div{class: 'mb-6'}
       %h2{class: 'text-xs font-semibold text-gray-500 uppercase mb-2 px-2'}
-        Plan
+        = _('Plan')
       %ul{class: 'space-y-0.5'}
         %li
           = link_to project_issues_path(@project), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{sidebar_item_active?('plan', 'issues') ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'note', class: "w-4 h-4 #{sidebar_item_active?('plan', 'issues') ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-            %span Issues
+            %span= _('Issues')
         %li
           = link_to namespace_project_boards_path(@project.namespace.parent.full_path, @project.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{sidebar_item_active?('plan', 'boards') ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'kanban', class: "w-4 h-4 #{sidebar_item_active?('plan', 'boards') ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-            %span Board
+            %span= _('Board')
         %li
           = link_to namespace_project_epics_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{sidebar_item_active?('plan', 'epics') ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'shield-chevron', class: "w-4 h-4 #{sidebar_item_active?('plan', 'epics') ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-            %span Epics
+            %span= _('Epics')
 
     %div{class: 'mb-6'}
       %h2{class: 'text-xs font-semibold text-gray-500 uppercase mb-2 px-2'}
-        Repository
+        = _('Repository')
       %ul{class: 'space-y-0.5'}
         %li
           = link_to namespace_project_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{sidebar_item_active?('repository', 'repository') ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'code', class: "w-4 h-4 #{sidebar_item_active?('repository', 'repository') ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-            %span Repository
+            %span= _('Repository')
         %li
           = link_to namespace_project_merge_requests_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{sidebar_item_active?('repository', 'merge_requests') ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'git-merge', class: "w-4 h-4 #{sidebar_item_active?('repository', 'merge_requests') ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-            %span Merge Requests
+            %span= _('Merge Requests')
         %li
           = link_to namespace_project_branches_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{sidebar_item_active?('repository', 'branches') ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'git-branch', class: "w-4 h-4 #{sidebar_item_active?('repository', 'branches') ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-            %span Branches
+            %span= _('Branches')
         %li
           = link_to namespace_project_tags_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{sidebar_item_active?('repository', 'tags') ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'tag-simple', class: "w-4 h-4 #{sidebar_item_active?('repository', 'tags') ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-            %span Tags
+            %span= _('Tags')
 
     %div{class: 'mb-6'}
       %h2{class: 'text-xs font-semibold text-gray-500 uppercase mb-2 px-2'}
-        CI/CD
+        = _('CI/CD')
       %ul{class: 'space-y-0.5'}
         %li
           = link_to pipelines_path(@project), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{sidebar_item_active?('ci_cd', 'pipelines') ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'tree-structure', class: "w-4 h-4 #{sidebar_item_active?('ci_cd', 'pipelines') ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-            %span Pipelines
+            %span= _('Pipelines')
         %li
           = link_to namespace_project_jobs_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{sidebar_item_active?('ci_cd', 'jobs') ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
             = icon 'briefcase', class: "w-4 h-4 #{sidebar_item_active?('ci_cd', 'jobs') ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-            %span Jobs
+            %span= _('Jobs')
 
     - if can_access_project_settings?(@project, current_user)
       %div{class: 'mb-6'}
         %h2{class: 'text-xs font-semibold text-gray-500 uppercase mb-2 px-2'}
-          Settings
+          = _('Settings')
         %ul{class: 'space-y-0.5'}
           %li
             = link_to edit_namespace_project_path(@project.namespace.parent.full_path, @project.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{current_page?(edit_namespace_project_path(@project.namespace.parent.full_path, @project.path)) ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
               = icon 'gear', class: "w-4 h-4 #{current_page?(edit_namespace_project_path(@project.namespace.parent.full_path, @project.path)) ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-              %span General
+              %span= _('General')
           %li
             = link_to namespace_project_settings_webhooks_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{current_page?(namespace_project_settings_webhooks_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
               = icon 'shuffle', class: "w-4 h-4 #{current_page?(namespace_project_settings_webhooks_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-              %span Webhooks
+              %span= _('Webhooks')
           %li
             = link_to edit_namespace_project_settings_repository_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{current_page?(edit_namespace_project_settings_repository_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
               = icon 'folder', class: "w-4 h-4 #{current_page?(edit_namespace_project_settings_repository_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-              %span Repository
+              %span= _('Repository')
           %li
             = link_to edit_namespace_project_settings_ci_cd_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{current_page?(edit_namespace_project_settings_ci_cd_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
               = icon 'play-circle', class: "w-4 h-4 #{current_page?(edit_namespace_project_settings_ci_cd_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-              %span CI/CD
+              %span= _('CI/CD')
           %li
             = link_to namespace_project_settings_members_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{current_page?(namespace_project_settings_members_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
               = icon 'users', class: "w-4 h-4 #{current_page?(namespace_project_settings_members_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-              %span Members
+              %span= _('Members')
           %li
             = link_to namespace_project_settings_labels_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{current_page?(namespace_project_settings_labels_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
               = icon 'tag', class: "w-4 h-4 #{current_page?(namespace_project_settings_labels_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
-              %span Labels
+              %span= _('Labels')
 
   = render 'shared/sidebar_footer'

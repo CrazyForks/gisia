@@ -13,13 +13,13 @@
               - case mr_status
               - when 'open'
                 = icon 'git-pull-request', class: "w-4 h-4 #{icon_colors['open']}"
-                %span Open
+                %span= _('Open')
               - when 'merged'
                 = icon 'git-merge', class: "w-4 h-4 #{icon_colors['merged']}"
-                %span Merged
+                %span= _('Merged')
               - when 'closed'
                 = icon 'archive', class: "w-4 h-4 #{icon_colors['closed']}"
-                %span Closed
+                %span= _('Closed')
 
             %h1{ class: 'text-2xl font-bold text-slate-900' }= @merge_request.title
 
@@ -32,7 +32,7 @@
                   = @merge_request.author&.name&.first&.upcase || '?'
               %span
                 #{@merge_request.author&.name}
-                opened #{time_ago_in_words(@merge_request.created_at)} ago
+                = _('opened %{time} ago') % { time: time_ago_in_words(@merge_request.created_at) }
 
             %div{ class: 'flex items-center gap-2 ml-6' }
               %span{ class: 'text-xs font-mono text-slate-700 bg-slate-100 px-2 py-1 rounded-md' }= @merge_request.source_branch
@@ -44,23 +44,23 @@
           - if @merge_request.open?
             = link_to edit_namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), class: 'inline-flex items-center gap-2 px-3 py-2 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-md text-sm font-medium transition-colors' do
               = icon 'pencil-simple-line', class: 'w-4 h-4'
-              %span Edit
+              %span= _('Edit')
 
           - if @merge_request.open?
-            = link_to merge_namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), method: :post, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition-colors', data: { confirm: 'Are you sure you want to merge this merge request?', turbo_method: :post } do
+            = link_to merge_namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), method: :post, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition-colors', data: { confirm: _('Are you sure you want to merge this merge request?'), turbo_method: :post } do
               = icon 'git-merge', class: 'w-4 h-4'
-              %span Merge
+              %span= _('Merge')
 
-            = link_to close_namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), method: :post, class: 'inline-flex items-center gap-2 px-3 py-2 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-md text-sm font-medium transition-colors', data: { confirm: 'Are you sure you want to close this merge request?', turbo_method: :post } do
+            = link_to close_namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), method: :post, class: 'inline-flex items-center gap-2 px-3 py-2 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-md text-sm font-medium transition-colors', data: { confirm: _('Are you sure you want to close this merge request?'), turbo_method: :post } do
               = icon 'archive', class: 'w-4 h-4'
-              %span Close
+              %span= _('Close')
 
     %div{ class: 'border-b border-slate-200' }
       %nav{ class: 'flex space-x-8' }
-        - commits_title = "Commits (#{@merge_request.commits_count})"
-        - pipelines_title = "Pipelines (#{@merge_request.pipelines.count})"
-        - diffs_title = "Diffs (#{@merge_request.diffs.count})"
-        - tabs = { 'Overview' => namespace_project_merge_request_path, commits_title => commits_namespace_project_merge_request_path, pipelines_title => pipelines_namespace_project_merge_request_path, diffs_title => diffs_namespace_project_merge_request_path }
+        - commits_title = _('Commits (%{count})') % { count: @merge_request.commits_count }
+        - pipelines_title = _('Pipelines (%{count})') % { count: @merge_request.pipelines.count }
+        - diffs_title = _('Diffs (%{count})') % { count: @merge_request.diffs.count }
+        - tabs = { _('Overview') => namespace_project_merge_request_path, commits_title => commits_namespace_project_merge_request_path, pipelines_title => pipelines_namespace_project_merge_request_path, diffs_title => diffs_namespace_project_merge_request_path }
         - current_path = request.path
 
         - tabs.each do |(label, path)|

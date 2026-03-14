@@ -12,12 +12,12 @@
             = icon 'flow-arrow', class: 'w-8 h-8'
           %div
             %h1{class: 'text-2xl font-bold text-gray-900'}
-              Webhooks
+              = _('Webhooks')
             %p{class: 'text-gray-600'}
-              Send notifications to external applications in response to events
+              = _('Send notifications to external applications in response to events')
         = button_to new_webhook_path(@project), method: :post, class: 'px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium text-sm border-none cursor-pointer' do
           = icon 'plus', class: 'w-4 h-4 inline-block mr-2'
-          New Webhook
+          = _('New Webhook')
 
     = turbo_frame_tag 'webhooks-content' do
       = render 'list'
