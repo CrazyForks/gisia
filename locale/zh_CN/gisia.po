@@ -110,9 +110,7 @@ msgid ""
 "How the job limiter handles jobs exceeding the thresholds specified below. The"
 " 'track' mode only logs the jobs. The 'compress' mode compresses the jobs and "
 "raises an exception if the compressed size exceeds the limit."
-msgstr ""
-"作业限制器处理超过以下阈值的作业的方式。"track"模式仅记录作业日志。"compress"模式压缩作"
-"业，如果压缩后大小超过限制则抛出异常。"
+msgstr "作业限制器处理超过以下阈值的作业的方式。\"track\"模式仅记录作业日志。\"compress\"模式压缩作业，如果压缩后大小超过限制则抛出异常。"
 
 msgid "VS Code Extension Marketplace"
 msgstr "VS Code 扩展市场"
@@ -214,8 +212,8 @@ msgid ""
 "Related merge request %{link_to_merge_request} to merge %{link_to_merge_reques"
 "t_source_branch} into %{link_to_merge_request_target_branch}"
 msgstr ""
-"相关合并请求 %{link_to_merge_request} 将 %{link_to_merge_request_source_branch} 合并"
-"到 %{link_to_merge_request_target_branch}"
+"相关合并请求 %{link_to_merge_request} 将 %{link_to_merge_request_source_branch} 合并到 %"
+"{link_to_merge_request_target_branch}"
 
 msgid "%{count} related %{pluralized_subject}: %{links}"
 msgstr "%{count} 个相关 %{pluralized_subject}：%{links}"
@@ -913,6 +911,88 @@ msgstr "%{time}前更新"
 msgid "No projects found."
 msgstr "未找到项目。"
 
+msgid "Your work"
+msgstr "我的工作"
+
+msgid "Organize projects and collaborate with your team"
+msgstr "组织项目并与团队协作"
+
+msgid "Your Groups"
+msgstr "我的群组"
+
+msgid "New Group"
+msgstr "新建群组"
+
+msgid "Welcome"
+msgstr "欢迎"
+
+msgid "Welcome, %{username}!"
+msgstr "欢迎，%{username}！"
+
+msgid "Ready to get started with your projects and collaboration?"
+msgstr "准备好开始您的项目和协作了吗？"
+
+msgid "Quick Actions"
+msgstr "快捷操作"
+
+msgid "Create a Project"
+msgstr "创建项目"
+
+msgid "Start building something amazing"
+msgstr "开始构建精彩项目"
+
+msgid ""
+"Start by creating a new project to manage your code, track issues, and collabo"
+"rate with your team."
+msgstr "创建一个新项目来管理您的代码、跟踪问题并与团队协作。"
+
+msgid "Create Project"
+msgstr "创建项目"
+
+msgid "Create a Group"
+msgstr "创建群组"
+
+msgid "Organize and collaborate"
+msgstr "组织与协作"
+
+msgid ""
+"Organize your projects by creating a group for your team, department, or organ"
+"ization."
+msgstr "为您的团队、部门或组织创建群组来管理项目。"
+
+msgid "Create Group"
+msgstr "创建群组"
+
+msgid "Need help getting started?"
+msgstr "需要入门帮助？"
+
+msgid "Check out our guides and documentation to make the most of your experience."
+msgstr "查阅我们的指南和文档，充分利用您的使用体验。"
+
+msgid "Documentation"
+msgstr "文档"
+
+msgid "Get Help"
+msgstr "获取帮助"
+
+msgid "Are you sure you want to delete this project?"
+msgstr "确定要删除此项目吗？"
+
+msgid "No projects yet"
+msgstr "暂无项目"
+
+msgid "Get started by creating your first project in this group"
+msgstr "从在此群组中创建第一个项目开始"
+
+msgid "Manage and collaborate on your projects"
+msgstr "管理和协作您的项目"
+
+msgid "Your Projects"
+msgstr "我的项目"
+
+msgid "New Project"
+msgstr "新建项目"
+
 msgid "No files found"
 msgstr "未找到文件"
 
@@ -1009,7 +1089,7 @@ msgid ""
 msgstr "您可以通过克隆仓库或直接向项目添加文件来开始使用。"
 
 msgid "AI Skill"
-msgstr "AI 技能"
+msgstr "AI Skill"
 
 msgid "You'll need a personal access token —"
 msgstr "你需要一个个人访问令牌 —"
@@ -1213,6 +1293,12 @@ msgstr "按 SHA 搜索"
 msgid "e.g., abc123..."
 msgstr "例如：abc123..."
 
+msgid "CI/CD Settings"
+msgstr "CI/CD 设置"
+
+msgid "Configure pipeline settings and CI/CD options"
+msgstr "配置流水线设置和 CI/CD 选项"
+
 msgid "Labels"
 msgstr "标记"
 
@@ -1228,11 +1314,258 @@ msgstr "管理项目成员及其角色"
 msgid "Add Member"
 msgstr "添加成员"
 
+msgid "General pipelines"
+msgstr "通用流水线"
+
+msgid "Configure general pipeline settings and behavior."
+msgstr "配置通用流水线设置和行为。"
+
+msgid "Pipeline Configuration"
+msgstr "流水线配置"
+
+msgid "Auto-cancel pending pipelines"
+msgstr "自动取消待处理流水线"
+
+msgid ""
+"When a new pipeline is created on a branch, older pipelines on the same branch"
+" will be cancelled."
+msgstr "在分支上创建新流水线时，该分支上的旧流水线将被取消。"
+
+msgid "CI/CD configuration file"
+msgstr "CI/CD 配置文件"
+
+msgid ""
+"Path to the CI/CD configuration file. Leave empty to use the default '.gitlab-"
+"ci.yml'."
+msgstr "CI/CD 配置文件的路径。留空以使用默认值 '.gitlab-ci.yml'。"
+
+msgid "Git strategy"
+msgstr "Git 策略"
+
+msgid "Git clone"
+msgstr "Git 克隆"
+
+msgid "Clone the repository from scratch for every job."
+msgstr "每次作业都从头克隆仓库。"
+
+msgid "Git fetch"
+msgstr "Git 拉取"
+
+msgid "Re-use the project workspace and fetch changes."
+msgstr "复用项目工作区并拉取变更。"
+
+msgid "Timeout"
+msgstr "超时时间"
+
+msgid "seconds"
+msgstr "秒"
+
+msgid "Per-job timeout in seconds. Must be at least 60 seconds."
+msgstr "每个作业的超时时间（秒）。最少 60 秒。"
+
+msgid "Save changes"
+msgstr "保存更改"
+
+msgid "Protected Branches"
+msgstr "受保护分支"
+
+msgid "Restrict pushes and merges to important branches."
+msgstr "限制对重要分支的推送和合并。"
+
+msgid "Add Protection Rule"
+msgstr "添加保护规则"
+
+msgid "Protect important branches by restricting who can push to them and how"
+msgstr "通过限制推送者和方式来保护重要分支"
+
+msgid "Branch pattern"
+msgstr "分支模式"
+
+msgid "Select branch..."
+msgstr "选择分支..."
+
+msgid "Custom pattern..."
+msgstr "自定义模式..."
+
+msgid "Required access level"
+msgstr "所需访问级别"
+
+msgid "Developer"
+msgstr "开发者"
+
+msgid "Maintainer"
+msgstr "维护者"
+
+msgid "Owner"
+msgstr "所有者"
+
+msgid "Additional permissions"
+msgstr "附加权限"
+
+msgid "Allow push"
+msgstr "允许推送"
+
+msgid "Users can push commits"
+msgstr "用户可以推送提交"
+
+msgid "Force push"
+msgstr "强制推送"
+
+msgid "Allow rewriting history"
+msgstr "允许重写历史记录"
+
+msgid "Allow merge"
+msgstr "允许合并"
+
+msgid "Can merge pull requests"
+msgstr "可以合并合并请求"
+
+msgid "Protect Branch"
+msgstr "保护分支"
+
+msgid "Protected Branches (%{count})"
+msgstr "受保护分支（%{count}）"
+
+msgid "Push"
+msgstr "推送"
+
+msgid "Force Push"
+msgstr "强制推送"
+
+msgid "Remove protection from %{name}?"
+msgstr "确定要解除对 %{name} 的保护吗？"
+
+msgid "No protected branches configured"
+msgstr "未配置受保护分支"
+
+msgid "Add protection rules above to secure important branches"
+msgstr "在上方添加保护规则以保护重要分支"
+
+msgid "Protected Tags"
+msgstr "受保护标签"
+
+msgid "Restrict who can create tags in this repository."
+msgstr "限制谁可以在此仓库中创建标签。"
+
+msgid "Restrict who can create tags matching these patterns"
+msgstr "限制谁可以创建符合这些模式的标签"
+
+msgid "Tag pattern"
+msgstr "标签模式"
+
+msgid "Select tag..."
+msgstr "选择标签..."
+
+msgid "Allowed to create"
+msgstr "允许创建"
+
+msgid "Protect Tag"
+msgstr "保护标签"
+
+msgid "Protected Tags (%{count})"
+msgstr "受保护标签（%{count}）"
+
+msgid "Create"
+msgstr "创建"
+
+msgid "No protected tags configured"
+msgstr "未配置受保护标签"
+
+msgid "Add protection rules above to control tag creation"
+msgstr "在上方添加保护规则以控制标签创建"
+
+msgid "Branch Defaults"
+msgstr "分支默认值"
+
+msgid "Configure the default branch name for new repositories."
+msgstr "配置新仓库的默认分支名称。"
+
+msgid "Default branch name"
+msgstr "默认分支名称"
+
+msgid ""
+"Select the default branch from existing branches or leave empty for instance d"
+"efault."
+msgstr "从现有分支中选择默认分支，或留空以使用实例默认值。"
+
+msgid "Use instance default"
+msgstr "使用实例默认值"
+
+msgid ""
+"Repository has no branches yet. Enter a branch name or leave empty for instanc"
+"e default."
+msgstr "仓库尚无分支。请输入分支名称，或留空以使用实例默认值。"
+
 msgid "Repository Settings"
 msgstr "仓库设置"
 
 msgid "Configure repository defaults and settings"
 msgstr "配置仓库默认值和设置"
+
+msgid "Add Variable"
+msgstr "添加变量"
+
+msgid "Key"
+msgstr "键"
+
+msgid "Value"
+msgstr "值"
+
+msgid "Variable value"
+msgstr "变量值"
+
+msgid ""
+"When masked, value must be at least 8 characters and only contain letters, dig"
+"its, and @:._+=/-~"
+msgstr "遮蔽时，值至少需要 8 个字符，且只能包含字母、数字和 @:._+=/-~"
+
+msgid "Description (optional)"
+msgstr "描述（可选）"
+
+msgid "The description of the variable's value or usage"
+msgstr "变量值或用途的描述"
+
+msgid "Flags"
+msgstr "选项"
+
+msgid "Protect variable"
+msgstr "保护变量"
+
+msgid "Export variable to pipelines running on protected branches and tags only"
+msgstr "仅将变量导出到在受保护分支和标签上运行的流水线"
+
+msgid "Masked"
+msgstr "已遮蔽"
+
+msgid "Variable will be masked in job logs"
+msgstr "变量将在作业日志中被遮蔽"
+
+msgid "Add variable"
+msgstr "添加变量"
+
+msgid "Variables"
+msgstr "变量"
+
+msgid "Manage environment variables for CI/CD pipelines"
+msgstr "管理 CI/CD 流水线的环境变量"
+
+msgid "Project Variables"
+msgstr "项目变量"
+
+msgid "Delete variable"
+msgstr "删除变量"
+
+msgid "Are you sure you want to delete the variable '%{key}'?"
+msgstr "确定要删除变量 '%{key}' 吗？"
+
+msgid "No variables defined"
+msgstr "未定义变量"
+
+msgid "Variables store values like API keys and tokens for use in CI/CD pipelines"
+msgstr "变量存储 API 密钥和令牌等值，供 CI/CD 流水线使用"
+
+msgid "Add your first variable"
+msgstr "添加第一个变量"
 
 msgid "Webhooks"
 msgstr "Webhooks"
@@ -1550,7 +1883,7 @@ msgstr "此项目的默认分支已更改。请更新您的书签。"
 msgid ""
 "MemberRole|The None role is assigned to the invited group users of a shared pr"
 "oject when project sharing is disabled in group setting."
-msgstr "当群组设置中禁用项目共享时，"无"角色将分配给共享项目的受邀群组用户。"
+msgstr "当群组设置中禁用项目共享时，\"无\"角色将分配给共享项目的受邀群组用户。"
 
 msgid ""
 "MemberRole|The Guest role is for users who need visibility into a project or g"
@@ -1584,9 +1917,7 @@ msgid ""
 "onsible for managing and maintaining the group or creating the project. This r"
 "ole has the highest level of administrative control, and can manage all aspect"
 "s of the group or project, including managing other Owners."
-msgstr ""
-"所有者角色通常分配给负责管理和维护群组或创建项目的个人或团队。此角色具有最高级别的管理权限，"
-"可管理群组或项目的所有方面，包括管理其他所有者。"
+msgstr "所有者角色通常分配给负责管理和维护群组或创建项目的个人或团队。此角色具有最高级别的管理权限，可管理群组或项目的所有方面，包括管理其他所有者。"
 
 msgid "DefaultBranchProtection|Not protected"
 msgstr "不受保护"

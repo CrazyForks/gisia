@@ -1,5 +1,5 @@
 - content_for :breadcrumb do
-  - nodes = [{ label: 'Your work', path: '/' }, { label: 'Projects', path: dashboard_projects_path }]
+  - nodes = [{ label: _('Your work'), path: '/' }, { label: _('Projects'), path: dashboard_projects_path }]
   = render 'shared/breadcrumb', nodes: nodes
 
 %div{class: 'w-full bg-white p-2 rounded-lg'}
@@ -10,15 +10,15 @@
         %div{class: 'w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xl font-bold shadow-sm'}
           = icon 'briefcase', class: 'w-8 h-8'
         %div
-          %h1{class: 'text-2xl font-bold text-gray-900'} Projects
-          %p{class: 'text-gray-600'} Manage and collaborate on your projects
+          %h1{class: 'text-2xl font-bold text-gray-900'}= _('Projects')
+          %p{class: 'text-gray-600'}= _('Manage and collaborate on your projects')
 
     = turbo_frame_tag "show_project" do
       %div{class: 'flex items-center justify-between mb-6'}
-        %h2{class: 'text-lg font-semibold text-gray-900'} Your Projects
+        %h2{class: 'text-lg font-semibold text-gray-900'}= _('Your Projects')
         = link_to new_dashboard_project_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200', data: { turbo_frame: "project_form", turbo_action: "advance" } do
           = icon 'plus', class: 'w-4 h-4'
-          New Project
+          = _('New Project')
 
       = render 'dashboard/projects/project_list', projects: @projects
 

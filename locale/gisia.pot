@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gisia 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 13:43+0800\n"
-"PO-Revision-Date: 2026-03-14 13:43+0800\n"
+"POT-Creation-Date: 2026-03-14 14:32+0800\n"
+"PO-Revision-Date: 2026-03-14 14:32+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -910,6 +910,88 @@ msgstr ""
 msgid "No projects found."
 msgstr ""
 
+msgid "Your work"
+msgstr ""
+
+msgid "Organize projects and collaborate with your team"
+msgstr ""
+
+msgid "Your Groups"
+msgstr ""
+
+msgid "New Group"
+msgstr ""
+
+msgid "Welcome"
+msgstr ""
+
+msgid "Welcome, %{username}!"
+msgstr ""
+
+msgid "Ready to get started with your projects and collaboration?"
+msgstr ""
+
+msgid "Quick Actions"
+msgstr ""
+
+msgid "Create a Project"
+msgstr ""
+
+msgid "Start building something amazing"
+msgstr ""
+
+msgid ""
+"Start by creating a new project to manage your code, track issues, and collabo"
+"rate with your team."
+msgstr ""
+
+msgid "Create Project"
+msgstr ""
+
+msgid "Create a Group"
+msgstr ""
+
+msgid "Organize and collaborate"
+msgstr ""
+
+msgid ""
+"Organize your projects by creating a group for your team, department, or organ"
+"ization."
+msgstr ""
+
+msgid "Create Group"
+msgstr ""
+
+msgid "Need help getting started?"
+msgstr ""
+
+msgid "Check out our guides and documentation to make the most of your experience."
+msgstr ""
+
+msgid "Documentation"
+msgstr ""
+
+msgid "Get Help"
+msgstr ""
+
+msgid "Are you sure you want to delete this project?"
+msgstr ""
+
+msgid "No projects yet"
+msgstr ""
+
+msgid "Get started by creating your first project in this group"
+msgstr ""
+
+msgid "Manage and collaborate on your projects"
+msgstr ""
+
+msgid "Your Projects"
+msgstr ""
+
+msgid "New Project"
+msgstr ""
+
 msgid "No files found"
 msgstr ""
 
@@ -1210,6 +1292,12 @@ msgstr ""
 msgid "e.g., abc123..."
 msgstr ""
 
+msgid "CI/CD Settings"
+msgstr ""
+
+msgid "Configure pipeline settings and CI/CD options"
+msgstr ""
+
 msgid "Labels"
 msgstr ""
 
@@ -1225,10 +1313,257 @@ msgstr ""
 msgid "Add Member"
 msgstr ""
 
+msgid "General pipelines"
+msgstr ""
+
+msgid "Configure general pipeline settings and behavior."
+msgstr ""
+
+msgid "Pipeline Configuration"
+msgstr ""
+
+msgid "Auto-cancel pending pipelines"
+msgstr ""
+
+msgid ""
+"When a new pipeline is created on a branch, older pipelines on the same branch"
+" will be cancelled."
+msgstr ""
+
+msgid "CI/CD configuration file"
+msgstr ""
+
+msgid ""
+"Path to the CI/CD configuration file. Leave empty to use the default '.gitlab-"
+"ci.yml'."
+msgstr ""
+
+msgid "Git strategy"
+msgstr ""
+
+msgid "Git clone"
+msgstr ""
+
+msgid "Clone the repository from scratch for every job."
+msgstr ""
+
+msgid "Git fetch"
+msgstr ""
+
+msgid "Re-use the project workspace and fetch changes."
+msgstr ""
+
+msgid "Timeout"
+msgstr ""
+
+msgid "seconds"
+msgstr ""
+
+msgid "Per-job timeout in seconds. Must be at least 60 seconds."
+msgstr ""
+
+msgid "Save changes"
+msgstr ""
+
+msgid "Protected Branches"
+msgstr ""
+
+msgid "Restrict pushes and merges to important branches."
+msgstr ""
+
+msgid "Add Protection Rule"
+msgstr ""
+
+msgid "Protect important branches by restricting who can push to them and how"
+msgstr ""
+
+msgid "Branch pattern"
+msgstr ""
+
+msgid "Select branch..."
+msgstr ""
+
+msgid "Custom pattern..."
+msgstr ""
+
+msgid "Required access level"
+msgstr ""
+
+msgid "Developer"
+msgstr ""
+
+msgid "Maintainer"
+msgstr ""
+
+msgid "Owner"
+msgstr ""
+
+msgid "Additional permissions"
+msgstr ""
+
+msgid "Allow push"
+msgstr ""
+
+msgid "Users can push commits"
+msgstr ""
+
+msgid "Force push"
+msgstr ""
+
+msgid "Allow rewriting history"
+msgstr ""
+
+msgid "Allow merge"
+msgstr ""
+
+msgid "Can merge pull requests"
+msgstr ""
+
+msgid "Protect Branch"
+msgstr ""
+
+msgid "Protected Branches (%{count})"
+msgstr ""
+
+msgid "Push"
+msgstr ""
+
+msgid "Force Push"
+msgstr ""
+
+msgid "Remove protection from %{name}?"
+msgstr ""
+
+msgid "No protected branches configured"
+msgstr ""
+
+msgid "Add protection rules above to secure important branches"
+msgstr ""
+
+msgid "Protected Tags"
+msgstr ""
+
+msgid "Restrict who can create tags in this repository."
+msgstr ""
+
+msgid "Restrict who can create tags matching these patterns"
+msgstr ""
+
+msgid "Tag pattern"
+msgstr ""
+
+msgid "Select tag..."
+msgstr ""
+
+msgid "Allowed to create"
+msgstr ""
+
+msgid "Protect Tag"
+msgstr ""
+
+msgid "Protected Tags (%{count})"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "No protected tags configured"
+msgstr ""
+
+msgid "Add protection rules above to control tag creation"
+msgstr ""
+
+msgid "Branch Defaults"
+msgstr ""
+
+msgid "Configure the default branch name for new repositories."
+msgstr ""
+
+msgid "Default branch name"
+msgstr ""
+
+msgid ""
+"Select the default branch from existing branches or leave empty for instance d"
+"efault."
+msgstr ""
+
+msgid "Use instance default"
+msgstr ""
+
+msgid ""
+"Repository has no branches yet. Enter a branch name or leave empty for instanc"
+"e default."
+msgstr ""
+
 msgid "Repository Settings"
 msgstr ""
 
 msgid "Configure repository defaults and settings"
+msgstr ""
+
+msgid "Add Variable"
+msgstr ""
+
+msgid "Key"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Variable value"
+msgstr ""
+
+msgid ""
+"When masked, value must be at least 8 characters and only contain letters, dig"
+"its, and @:._+=/-~"
+msgstr ""
+
+msgid "Description (optional)"
+msgstr ""
+
+msgid "The description of the variable's value or usage"
+msgstr ""
+
+msgid "Flags"
+msgstr ""
+
+msgid "Protect variable"
+msgstr ""
+
+msgid "Export variable to pipelines running on protected branches and tags only"
+msgstr ""
+
+msgid "Masked"
+msgstr ""
+
+msgid "Variable will be masked in job logs"
+msgstr ""
+
+msgid "Add variable"
+msgstr ""
+
+msgid "Variables"
+msgstr ""
+
+msgid "Manage environment variables for CI/CD pipelines"
+msgstr ""
+
+msgid "Project Variables"
+msgstr ""
+
+msgid "Delete variable"
+msgstr ""
+
+msgid "Are you sure you want to delete the variable '%{key}'?"
+msgstr ""
+
+msgid "No variables defined"
+msgstr ""
+
+msgid "Variables store values like API keys and tokens for use in CI/CD pipelines"
+msgstr ""
+
+msgid "Add your first variable"
 msgstr ""
 
 msgid "Webhooks"
