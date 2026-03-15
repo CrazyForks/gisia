@@ -70,6 +70,7 @@ class Project < ApplicationRecord
     merge_requests: gitlab_config_features.merge_requests,
     builds: gitlab_config_features.builds
   }.freeze
+  MAX_BUILD_TIMEOUT = 1.month
 
   attribute :namespace_parent_id
   attribute :repository_storage, default: -> { Repository.pick_storage_shard }
