@@ -28,7 +28,7 @@ json.type 'EPIC'
 json.due_date epic.due_date
 json.confidential epic.confidential
 
-json.web_url "#{Gitlab.config.gitlab.url}/#{namespace_path}/-/epics/#{epic.id}"
+json.web_url "#{Gitlab.config.gitlab.url}/#{namespace_path}/-/epics/#{epic.iid}"
 
 json.references do
   json.short "&#{epic.iid}"

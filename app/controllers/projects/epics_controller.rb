@@ -154,7 +154,7 @@ class Projects::EpicsController < Projects::ApplicationController
   end
 
   def set_epic
-    @epic = @project.namespace.work_items.where(type: 'Epic').find(params[:id])
+    @epic = @project.namespace.work_items.where(type: 'Epic').find_by!(iid: params[:iid])
   end
 
   def set_counts

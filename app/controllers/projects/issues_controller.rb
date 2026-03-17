@@ -178,7 +178,7 @@ class Projects::IssuesController < Projects::ApplicationController
   end
 
   def set_issue
-    @issue = @project.namespace.work_items.where(type: 'Issue').find(params[:id])
+    @issue = @project.namespace.work_items.where(type: 'Issue').find_by!(iid: params[:iid])
   end
 
   def set_counts

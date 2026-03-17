@@ -23,6 +23,7 @@ class MergeRequest < ApplicationRecord
   include MergeRequests::ReloadDiffs
   include MergeRequests::Pipelines
   include MergeRequests::Variables
+  include IidRoutes
 
   MERGE_LEASE_TIMEOUT = 15.minutes.to_i
 

@@ -22,7 +22,7 @@
           - if @pipeline.merge_request?
             %span
               = _('For Merge Request')
-              = link_to " ##{@pipeline.merge_request.id}", merge_request_path(@pipeline.merge_request), class: 'text-blue-600 hover:text-blue-700 font-medium transition-colors'
+              = link_to " !#{@pipeline.merge_request.iid}", merge_request_path(@pipeline.merge_request), class: 'text-blue-600 hover:text-blue-700 font-medium transition-colors'
           - else
             %span= _('For %{ref}') % { ref: @pipeline.ref }
           - if @pipeline.source_pipeline.present?

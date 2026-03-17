@@ -19,6 +19,7 @@ class WorkItem < ApplicationRecord
   include WorkItems::HasLabels
   include WorkItems::HasParent
   include HasDescription
+  include IidRoutes
 
   belongs_to :author, class_name: 'User'
   belongs_to :updated_by, class_name: 'User', optional: true

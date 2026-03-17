@@ -9,7 +9,7 @@
 # Licensed under AGPLv3 - see LICENSE file in this repository
 # ======================================================
 
-resources :merge_requests, except: [:destroy], constraints: { id: /\d+/ } do
+resources :merge_requests, except: [:destroy], param: :iid, constraints: { iid: /\d+/ } do
   collection do
     get :search_users
   end

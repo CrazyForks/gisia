@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-resources :issues, constraints: { id: /\d+/ } do
+resources :issues, param: :iid, constraints: { iid: /\d+/ } do
   collection do
     get :search_users
     get :search_epics

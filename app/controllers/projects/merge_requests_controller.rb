@@ -141,7 +141,7 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   end
 
   def set_mr
-    @merge_request = MergeRequest.includes(:assignees, :reviewers).find(params[:id])
+    @merge_request = project.merge_requests.includes(:assignees, :reviewers).find_by!(iid: params[:iid])
   end
 
   def set_counts
