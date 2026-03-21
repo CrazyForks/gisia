@@ -1981,6 +1981,54 @@ ALTER SEQUENCE public.note_diff_files_id_seq OWNED BY public.note_diff_files.id;
 
 
 --
+-- Name: notification_settings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.notification_settings (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    source_type character varying,
+    source_id bigint,
+    level integer DEFAULT 3 NOT NULL,
+    notification_email character varying,
+    new_note boolean,
+    new_issue boolean,
+    reopen_issue boolean,
+    close_issue boolean,
+    reassign_issue boolean,
+    new_merge_request boolean,
+    close_merge_request boolean,
+    reassign_merge_request boolean,
+    merge_merge_request boolean,
+    change_reviewer_merge_request boolean,
+    reopen_merge_request boolean,
+    failed_pipeline boolean,
+    fixed_pipeline boolean,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: notification_settings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.notification_settings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: notification_settings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.notification_settings_id_seq OWNED BY public.notification_settings.id;
+
+
+--
 -- Name: oauth_access_grants; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3226,6 +3274,13 @@ ALTER TABLE ONLY public.notes ALTER COLUMN id SET DEFAULT nextval('public.notes_
 
 
 --
+-- Name: notification_settings id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notification_settings ALTER COLUMN id SET DEFAULT nextval('public.notification_settings_id_seq'::regclass);
+
+
+--
 -- Name: oauth_access_grants id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3818,6 +3873,14 @@ ALTER TABLE ONLY public.namespaces
 
 ALTER TABLE ONLY public.note_diff_files
     ADD CONSTRAINT note_diff_files_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: notification_settings notification_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notification_settings
+    ADD CONSTRAINT notification_settings_pkey PRIMARY KEY (id);
 
 
 --
@@ -5432,6 +5495,27 @@ CREATE UNIQUE INDEX index_note_diff_files_on_diff_note_id ON public.note_diff_fi
 
 
 --
+-- Name: index_notification_settings_on_source_id_and_source_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notification_settings_on_source_id_and_source_type ON public.notification_settings USING btree (source_id, source_type);
+
+
+--
+-- Name: index_notification_settings_on_user_and_source; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_notification_settings_on_user_and_source ON public.notification_settings USING btree (user_id, source_type, source_id);
+
+
+--
+-- Name: index_notification_settings_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notification_settings_on_user_id ON public.notification_settings USING btree (user_id);
+
+
+--
 -- Name: index_oauth_access_grants_on_application_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6354,6 +6438,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260318052307'),
 ('20260313154116'),
 ('20260313133856'),
 ('20260313082820'),
