@@ -1,8 +1,0 @@
-%p
-  = "#{@note.author.name} commented on issue"
-  = link_to "##{@issue.iid}", @target_url
-
-%p= @note.note
-
-%p
-  = link_to 'View Comment', @target_url

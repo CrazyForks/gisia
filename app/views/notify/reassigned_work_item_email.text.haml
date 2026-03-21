@@ -1,0 +1,9 @@
+= "Assignees for #{@work_item_label.downcase} #{@reference_prefix}#{@work_item.iid} #{@work_item.title} were changed."
+
+- if @added_assignees.any?
+  = "Added: #{@added_assignees.join(', ')}"
+
+- if @removed_assignees.any?
+  = "Removed: #{@removed_assignees.join(', ')}"
+
+= "View #{@work_item_label}: #{@target_url}"
