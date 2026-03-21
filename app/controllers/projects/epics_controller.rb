@@ -4,6 +4,7 @@ class Projects::EpicsController < Projects::ApplicationController
   before_action :authorize_read_issues!, only: [:index, :search_users, :search_epics]
   before_action :authorize_create_issue!, only: [:new, :create]
   before_action :set_epic, only: [:show, :edit, :update, :destroy, :close, :reopen, :link_labels, :unlink_label, :search_labels]
+  before_action :set_notification_author, only: [:update, :close, :reopen]
   before_action :authorize_read_issuable!, only: [:show, :search_labels]
   before_action :authorize_update_issuable!, only: [:edit, :update, :close, :reopen, :link_labels, :unlink_label]
   before_action :authorize_destroy_issuable!, only: [:destroy]
@@ -40,6 +41,7 @@ class Projects::EpicsController < Projects::ApplicationController
   def create
     @epic = @project.namespace.epics.build(epic_params)
     @epic.author = current_user
+    @epic.notification_author = current_user
 
     if @epic.save
       redirect_to namespace_project_epic_path(@project.namespace.parent.full_path, @project.path, @epic), notice: 'Epic was successfully created.'
@@ -147,6 +149,10 @@ class Projects::EpicsController < Projects::ApplicationController
 
   def issuable_resource
     @epic
+  end
+
+  def set_notification_author
+    @epic.notification_author = current_user
   end
 
   def authorization_denied!

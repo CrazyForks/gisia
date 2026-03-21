@@ -70,6 +70,10 @@ class WorkItem < ApplicationRecord
     %w[author updated_by closed_by namespace labels assignees]
   end
 
+  def custom_notification_target_name
+    'work_item'
+  end
+
   def clear_closure_reason_references; end
 
   def assignee_ids

@@ -53,7 +53,7 @@ module Issuable
   def notify_on_create
     return unless notification_author
 
-    NotificationService.new.new_issue(self, notification_author)
+    NotificationService.new.new_work_item(self, notification_author)
   end
 
   def capture_previous_assignee_ids
@@ -65,14 +65,14 @@ module Issuable
 
     if saved_change_to_state_id?
       if closed?
-        NotificationService.new.close_issue(self, notification_author)
+        NotificationService.new.close_work_item(self, notification_author)
       else
-        NotificationService.new.reopen_issue(self, notification_author)
+        NotificationService.new.reopen_work_item(self, notification_author)
       end
     end
 
     return unless @previous_assignee_ids && assignees.map(&:id).sort != @previous_assignee_ids
 
-    NotificationService.new.reassigned_issue(self, notification_author, User.where(id: @previous_assignee_ids))
+    NotificationService.new.reassigned_work_item(self, notification_author, User.where(id: @previous_assignee_ids))
   end
 end

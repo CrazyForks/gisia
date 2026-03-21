@@ -20,28 +20,28 @@ class NotificationService
     @async ||= Async.new(self)
   end
 
-  def new_issue(issue, current_user)
-    new_resource_email(issue, current_user, :new_issue_email)
+  def new_work_item(work_item, current_user)
+    new_resource_email(work_item, current_user, :new_work_item_email)
   end
 
-  def close_issue(issue, current_user)
-    close_resource_email(issue, current_user, :closed_issue_email)
+  def close_work_item(work_item, current_user)
+    close_resource_email(work_item, current_user, :closed_work_item_email)
   end
 
-  def reopen_issue(issue, current_user)
-    reopen_resource_email(issue, current_user, :issue_status_changed_email, 'reopened')
+  def reopen_work_item(work_item, current_user)
+    reopen_resource_email(work_item, current_user, :work_item_status_changed_email, 'reopened')
   end
 
-  def reassigned_issue(issue, current_user, previous_assignees = [])
+  def reassigned_work_item(work_item, current_user, previous_assignees = [])
     recipients = NotificationRecipients::BuildService.build_recipients(
-      issue, current_user, action: 'reassign', previous_assignees: previous_assignees
+      work_item, current_user, action: 'reassign', previous_assignees: previous_assignees
     )
 
     previous_assignee_ids = previous_assignees.map(&:id)
 
     recipients.each do |recipient|
-      mailer.reassigned_issue_email(
-        recipient.user.id, issue.id, previous_assignee_ids, current_user.id, recipient.reason
+      mailer.reassigned_work_item_email(
+        recipient.user.id, work_item.id, previous_assignee_ids, current_user.id, recipient.reason
       ).deliver_later
     end
   end
@@ -97,7 +97,7 @@ class NotificationService
     recipients = NotificationRecipients::BuildService.build_new_note_recipients(note)
 
     email_method = case note.noteable_type
-                   when 'WorkItem', 'Issue' then :note_issue_email
+                   when 'WorkItem', 'Issue', 'Epic' then :note_work_item_email
                    when 'MergeRequest' then :note_merge_request_email
                    end
 

@@ -12,7 +12,7 @@
 class Notify < ApplicationMailer
   include ActionDispatch::Routing::PolymorphicRoutes
 
-  include Emails::Issues
+  include Emails::WorkItems
   include Emails::MergeRequests
   include Emails::Notes
   include Emails::Members

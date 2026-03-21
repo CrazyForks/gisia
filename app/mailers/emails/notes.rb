@@ -11,12 +11,13 @@
 
 module Emails
   module Notes
-    def note_issue_email(recipient_id, note_id, reason = nil)
+    def note_work_item_email(recipient_id, note_id, reason = nil)
       setup_note_mail(note_id, recipient_id)
 
-      @issue = @note.noteable
-      @target_url = issue_url_for(@issue, anchor: "note_#{@note.id}")
-      mail_answer_note_thread(@issue, @note, note_thread_options(reason))
+      @work_item = @note.noteable
+      @reference_prefix = @work_item.class.reference_prefix
+      @target_url = work_item_url_for(@work_item, anchor: "note_#{@note.id}")
+      mail_answer_note_thread(@work_item, @note, note_thread_options(reason))
     end
 
     def note_merge_request_email(recipient_id, note_id, reason = nil)
@@ -31,10 +32,11 @@ module Emails
 
     def note_thread_options(reason)
       noteable = @note.noteable
+      prefix = noteable.class.reference_prefix
       {
         from: sender(@note.author_id),
         to: @recipient.notification_email_for,
-        subject: subject("#{noteable.title} (##{noteable.iid})"),
+        subject: subject("#{noteable.title} (#{prefix}#{noteable.iid})"),
         'X-Gisia-NotificationReason' => reason
       }
     end
@@ -45,16 +47,18 @@ module Emails
       @recipient = User.find(recipient_id)
     end
 
-    def issue_url_for(issue, anchor: nil)
-      project = issue.project
+    def work_item_url_for(work_item, anchor: nil)
+      project = work_item.project
       return '' unless project
 
-      namespace_project_issue_url(
-        project.namespace.parent.full_path,
-        project.path,
-        issue,
-        anchor: anchor
-      )
+      ns = project.namespace.parent.full_path
+      path = project.path
+
+      if work_item.is_a?(Epic)
+        namespace_project_epic_url(ns, path, work_item, anchor: anchor)
+      else
+        namespace_project_issue_url(ns, path, work_item, anchor: anchor)
+      end
     end
 
     def merge_request_url_for(mr, anchor: nil)

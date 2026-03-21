@@ -13,6 +13,7 @@ module API
         before_action :authorize_read_issuable!, only: [:show]
         before_action :authorize_update_issuable!, only: [:update]
         before_action :authorize_destroy_issuable!, only: [:destroy]
+        before_action :set_notification_author, only: [:update]
 
         def index
           @epics = paginate(apply_filters(@project.namespace.epics).order(created_at: :desc))
@@ -23,6 +24,7 @@ module API
         def create
           @epic = @project.namespace.epics.build(create_params)
           @epic.author = current_user
+          @epic.notification_author = current_user
 
           if @epic.save
             render :show, status: :created
@@ -47,6 +49,10 @@ module API
         end
 
         private
+
+        def set_notification_author
+          @epic.notification_author = current_user
+        end
 
         def issuable_resource
           @epic

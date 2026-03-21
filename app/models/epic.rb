@@ -21,6 +21,10 @@ class Epic < WorkItem
     '&'
   end
 
+  def to_ability_name
+    'work_item'
+  end
+
   def self.internal_id_scope_usage
     :epics
   end

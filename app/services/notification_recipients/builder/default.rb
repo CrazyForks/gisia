@@ -4,12 +4,15 @@
 # Contains code from GitLab FOSS (MIT Licensed)
 # Copyright (c) GitLab Inc.
 # See .licenses/Gisia/others/gitlab-foss.dep.yml for full license
+#
+# Modifications and additions copyright (c) 2025-present Liuming Tan
+# Licensed under AGPLv3 - see LICENSE file in this repository
 # ======================================================
 
 module NotificationRecipients
   module Builder
     class Default < Base
-      MENTION_TYPE_ACTIONS = [:new_issue, :new_merge_request].freeze
+      MENTION_TYPE_ACTIONS = [:new_work_item, :new_merge_request].freeze
 
       attr_reader :target
       attr_reader :current_user
@@ -37,7 +40,7 @@ module NotificationRecipients
 
         # Re-assign is considered as a mention of the new assignee
         case custom_action
-        when :reassign_merge_request, :reassign_issue
+        when :reassign_work_item, :reassign_merge_request
           add_recipients(previous_assignees, :mention, nil)
           add_recipients(target.assignees, :mention, NotificationReason::ASSIGNED)
         when :change_reviewer_merge_request
