@@ -13,6 +13,7 @@ module API
         before_action :authorize_read_issuable!, only: [:show]
         before_action :authorize_update_issuable!, only: [:update]
         before_action :authorize_destroy_issuable!, only: [:destroy]
+        before_action :set_notification_author, only: [:update]
 
         def index
           @issues = paginate(apply_filters(@project.issues).order(created_at: :desc))
@@ -24,6 +25,7 @@ module API
           @issue = Issue.new(create_params)
           @issue.namespace = @project.namespace
           @issue.author = current_user
+          @issue.notification_author = current_user
 
           if @issue.save
             handle_assignees(@issue, params[:assignee_ids])
@@ -40,8 +42,10 @@ module API
           handle_remove_labels
           return unless set_epic_parent
 
-          if @issue.update(update_params)
-            handle_assignees(@issue, params[:assignee_ids]) if params[:assignee_ids]
+          attrs = update_params
+          attrs[:assignee_ids] = Array(params[:assignee_ids]) if params.key?(:assignee_ids)
+
+          if @issue.update(attrs)
             render :show
           else
             render json: { message: @issue.errors.full_messages }, status: :unprocessable_entity
@@ -54,6 +58,10 @@ module API
         end
 
         private
+
+        def set_notification_author
+          @issue.notification_author = current_user
+        end
 
         def issuable_resource
           @issue

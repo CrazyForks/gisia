@@ -255,10 +255,11 @@ class ProjectTeam
   private
 
   def fetch_members(level = nil)
-    members = project.namespace.members
-    members = members.where(access_level: level) if level
+    scope = User.joins("INNER JOIN members ON members.user_id = users.id")
+                .where(members: { namespace_id: project.namespace_id, type: 'ProjectMember', requested_at: nil })
+    scope = scope.where(members: { access_level: level }) if level
 
-    members
+    scope
   end
 
   def group

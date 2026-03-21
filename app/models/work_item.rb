@@ -29,6 +29,11 @@ class WorkItem < ApplicationRecord
   has_one :project, through: :namespace
   has_many :work_item_assignees, dependent: :destroy
   has_many :assignees, class_name: 'User', through: :work_item_assignees
+
+  def assignee_ids=(ids)
+    @previous_assignee_ids ||= work_item_assignees.pluck(:assignee_id).sort if persisted?
+    super
+  end
   has_many :label_links, as: :labelable, dependent: :destroy
   has_many :labels, through: :label_links
 

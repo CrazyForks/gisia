@@ -9,6 +9,7 @@ class Projects::IssuesController < Projects::ApplicationController
   before_action :authorize_update_issuable!, only: [:edit, :update, :close, :reopen, :move_stage, :link_labels, :unlink_label]
   before_action :authorize_destroy_issuable!, only: [:destroy]
   before_action :set_counts, only: [:index]
+  before_action :set_notification_author, only: [:update, :close, :reopen]
 
   def index
     status_param = params[:status].presence || 'opened'
@@ -41,6 +42,8 @@ class Projects::IssuesController < Projects::ApplicationController
   def create
     @issue = @project.namespace.issues.build(issue_params)
     @issue.author = current_user
+
+    @issue.notification_author = current_user
 
     if @issue.save
       redirect_to namespace_project_issue_path(@project.namespace.parent.full_path, @project.path, @issue), notice: 'Issue was successfully created.'
@@ -168,6 +171,10 @@ class Projects::IssuesController < Projects::ApplicationController
   end
 
   private
+
+  def set_notification_author
+    @issue.notification_author = current_user
+  end
 
   def issuable_resource
     @issue
