@@ -1,17 +1,22 @@
-%p
-  The assignees for issue
-  = link_to "##{@issue.iid} #{@issue.title}", @target_url
-  were changed.
+%p{style: "margin:0 0 20px;font-size:15px;color:#4b5563;line-height:1.6;"} The assignees for this issue were changed.
+
+%p{style: "margin:0 0 24px;"}
+  %a{href: @target_url, style: "font-size:17px;font-weight:600;color:#1e2a4a;text-decoration:none;"}
+    = "##{@issue.iid} #{@issue.title}"
 
 - if @added_assignees.any?
-  %p
-    Added:
-    = @added_assignees.join(', ')
+  %p{style: "margin:0 0 8px;font-size:13px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;"} Added
+  %p{style: "margin:0 0 16px;"}
+    - @added_assignees.each do |name|
+      %span{style: "display:inline-block;margin:0 4px 4px 0;padding:3px 10px;background-color:#dcfce7;color:#166534;font-size:13px;font-weight:500;border-radius:4px;"}= name
 
 - if @removed_assignees.any?
-  %p
-    Removed:
-    = @removed_assignees.join(', ')
+  %p{style: "margin:0 0 8px;font-size:13px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;"} Removed
+  %p{style: "margin:0 0 24px;"}
+    - @removed_assignees.each do |name|
+      %span{style: "display:inline-block;margin:0 4px 4px 0;padding:3px 10px;background-color:#fee2e2;color:#991b1b;font-size:13px;font-weight:500;border-radius:4px;"}= name
 
-%p
-  = link_to 'View Issue', @target_url
+%table{width: "100%", cellpadding: "0", cellspacing: "0", border: "0", style: "margin-top:8px;"}
+  %tr
+    %td{align: "center"}
+      %a{href: @target_url, style: "display:inline-block;padding:11px 28px;background-color:#4a5e82;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;border-radius:6px;"} View Issue

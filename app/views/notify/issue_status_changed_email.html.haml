@@ -1,12 +1,17 @@
-%p
-  = "Issue"
-  = link_to "##{@issue.iid} #{@issue.title}", @target_url
-  = "was #{@issue_status}"
+%p{style: "margin:0 0 20px;font-size:15px;color:#4b5563;line-height:1.6;"}
+  This issue was
+  = @issue_status
+
+%p{style: "margin:0 0 16px;"}
+  %a{href: @target_url, style: "font-size:17px;font-weight:600;color:#1e2a4a;text-decoration:none;"}
+    = "##{@issue.iid} #{@issue.title}"
 
 - if @updated_by
-  %p
+  %p{style: "margin:0 0 24px;font-size:14px;color:#4b5563;"}
     By
-    = @updated_by.name
+    %strong= @updated_by.name
 
-%p
-  = link_to 'View Issue', @target_url
+%table{width: "100%", cellpadding: "0", cellspacing: "0", border: "0", style: "margin-top:8px;"}
+  %tr
+    %td{align: "center"}
+      %a{href: @target_url, style: "display:inline-block;padding:11px 28px;background-color:#4a5e82;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;border-radius:6px;"} View Issue
