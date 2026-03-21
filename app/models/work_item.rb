@@ -13,6 +13,7 @@ class WorkItem < ApplicationRecord
   include AtomicInternalId
   include Noteable
   include Issuable
+  include Participable
   include Referable
   include WorkItems::HasState
   include WorkItems::HasWorkflows

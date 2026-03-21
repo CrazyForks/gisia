@@ -1,0 +1,13 @@
+%p
+  = "#{@merge_request.author.name} created merge request"
+  = link_to "!#{@merge_request.iid}", @target_url
+  in
+  = @project.full_name
+
+%p= @merge_request.title
+
+- if @merge_request.description.present?
+  %p= @merge_request.description
+
+%p
+  = link_to 'View Merge Request', @target_url

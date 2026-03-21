@@ -22,6 +22,11 @@ class User < ApplicationRecord
 
   FEED_TOKEN_PREFIX = 'glft-'
 
+  def self.reference_prefix
+    '@'
+  end
+
+  has_many :notification_settings, dependent: :destroy
   has_many :keys
   has_many :personal_access_tokens, dependent: :destroy
   has_many :project_members, -> { where(requested_at: nil) }
@@ -107,6 +112,45 @@ class User < ApplicationRecord
 
   def can_admin_all_resources?
     can?(:admin_all_resources)
+  end
+
+  def notification_email_or_default
+    email
+  end
+
+  def notification_email_for(_group = nil)
+    notification_email_or_default
+  end
+
+  def notification_settings_for(source)
+    return unless source
+
+    notification_settings.find_by(source: source)
+  end
+
+  DEFAULT_NOTIFICATION_LEVEL = :participating
+
+  def global_notification_setting
+    setting = notification_settings.find_or_initialize_by(source_type: nil, source_id: nil)
+    setting.update(level: DEFAULT_NOTIFICATION_LEVEL) unless setting.persisted?
+    setting
+  end
+
+  def closest_non_global_group_notification_setting(_group)
+    nil
+  end
+
+  def notified_of_own_activity?
+    false
+  end
+
+  # Todo, same as the foss
+  def can_trigger_notifications?
+    true
+  end
+
+  def to_reference(_from = nil, target_container: nil, full: nil)
+    "#{self.class.reference_prefix}#{username}"
   end
 
   def public_email

@@ -234,7 +234,9 @@ module Members
         # See https://gitlab.com/gitlab-com/gl-infra/production/-/issues/6351
         # and https://gitlab.com/gitlab-org/gitlab/-/merge_requests/80920#note_911569038
         # for details.
+        was_new = new_record?
         member.save
+        NotificationService.new.new_member(member) if was_new && member.persisted?
       end
     end
 

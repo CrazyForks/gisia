@@ -111,6 +111,10 @@ class Note < ApplicationRecord
     namespace&.project
   end
 
+  def for_project_noteable?
+    project.present?
+  end
+
   def for_design?
     false
   end

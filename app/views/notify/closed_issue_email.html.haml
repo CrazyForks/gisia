@@ -1,0 +1,12 @@
+%p
+  = "Issue"
+  = link_to "##{@issue.iid} #{@issue.title}", @target_url
+  was closed
+
+- if @updated_by
+  %p
+    Closed by
+    = @updated_by.name
+
+%p
+  = link_to 'View Issue', @target_url

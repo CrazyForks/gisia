@@ -1,0 +1,8 @@
+%p
+  = "#{@note.author.name} commented on merge request"
+  = link_to "!#{@merge_request.iid}", @target_url
+
+%p= @note.note
+
+%p
+  = link_to 'View Comment', @target_url

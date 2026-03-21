@@ -17,6 +17,7 @@ module Notes
       return note unless note.valid?
 
       note.save!
+      NotificationService.new.new_note(note)
       note
     end
 

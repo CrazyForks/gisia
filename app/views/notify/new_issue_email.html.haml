@@ -1,0 +1,13 @@
+%p
+  = "#{@issue.author.name} created issue"
+  = link_to "##{@issue.iid}", @target_url
+  in
+  = @project&.full_name || @namespace.full_name
+
+%p= @issue.title
+
+- if @issue.description.present?
+  %p= @issue.description
+
+%p
+  = link_to 'View Issue', @target_url

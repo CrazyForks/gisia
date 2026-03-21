@@ -1,0 +1,8 @@
+Reviewers for merge request !#{@merge_request.iid} #{@merge_request.title} were changed.
+
+- if @previous_reviewers.any?
+  Previous reviewers: #{@previous_reviewers.map(&:name).join(', ')}
+
+Current reviewers: #{@merge_request.reviewers.map(&:name).join(', ')}
+
+View Merge Request: #{@target_url}

@@ -1,0 +1,12 @@
+%p
+  = "Merge request"
+  = link_to "!#{@merge_request.iid} #{@merge_request.title}", @target_url
+  was closed.
+
+- if @updated_by
+  %p
+    Closed by
+    = @updated_by.name
+
+%p
+  = link_to 'View Merge Request', @target_url

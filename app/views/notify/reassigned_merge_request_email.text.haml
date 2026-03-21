@@ -1,0 +1,9 @@
+Assignees for merge request !#{@merge_request.iid} #{@merge_request.title} were changed.
+
+- if @added_assignees.any?
+  Added: #{@added_assignees.join(', ')}
+
+- if @removed_assignees.any?
+  Removed: #{@removed_assignees.join(', ')}
+
+View Merge Request: #{@target_url}

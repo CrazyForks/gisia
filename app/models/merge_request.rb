@@ -15,6 +15,7 @@ class MergeRequest < ApplicationRecord
   include MergeRequests::MergeStatus
   include Issuable
   include Noteable
+  include Participable
 
   include Diffable
   include HasDescription

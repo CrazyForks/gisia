@@ -1,0 +1,8 @@
+= "#{@merge_request.author.name} created merge request !#{@merge_request.iid}"
+
+= @merge_request.title
+
+- if @merge_request.description.present?
+  = @merge_request.description
+
+View Merge Request: #{@target_url}

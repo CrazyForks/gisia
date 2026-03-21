@@ -1,0 +1,16 @@
+%p
+  The reviewers for merge request
+  = link_to "!#{@merge_request.iid} #{@merge_request.title}", @target_url
+  were changed.
+
+- if @previous_reviewers.any?
+  %p
+    Previous reviewers:
+    = @previous_reviewers.map(&:name).join(', ')
+
+%p Current reviewers:
+%p
+  = @merge_request.reviewers.map(&:name).join(', ')
+
+%p
+  = link_to 'View Merge Request', @target_url

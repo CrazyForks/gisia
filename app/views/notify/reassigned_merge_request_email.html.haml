@@ -1,0 +1,17 @@
+%p
+  The assignees for merge request
+  = link_to "!#{@merge_request.iid} #{@merge_request.title}", @target_url
+  were changed.
+
+- if @added_assignees.any?
+  %p
+    Added:
+    = @added_assignees.join(', ')
+
+- if @removed_assignees.any?
+  %p
+    Removed:
+    = @removed_assignees.join(', ')
+
+%p
+  = link_to 'View Merge Request', @target_url

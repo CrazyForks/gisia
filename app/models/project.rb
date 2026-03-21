@@ -51,6 +51,7 @@ class Project < ApplicationRecord
   has_many :labels, through: :namespace
   has_many :hooks, class_name: 'ProjectHook', through: :namespace, source: :web_hooks
   has_one :board, through: :namespace
+  has_many :notification_settings, as: :source, dependent: :delete_all
 
 
   accepts_nested_attributes_for :namespace
@@ -124,6 +125,10 @@ class Project < ApplicationRecord
         parent.group
       end
     end
+  end
+
+  def emails_disabled?
+    false
   end
 
   def actual_plan_name
