@@ -27,6 +27,7 @@ module API
           @epic.notification_author = current_user
 
           if @epic.save
+            handle_assignees(@epic, params[:assignee_ids])
             render :show, status: :created
           else
             render json: { message: @epic.errors.full_messages }, status: :unprocessable_entity
@@ -36,7 +37,10 @@ module API
         def update
           handle_state_event
 
-          if @epic.update(update_params)
+          attrs = update_params
+          attrs[:assignee_ids] = Array(params[:assignee_ids]) if params.key?(:assignee_ids)
+
+          if @epic.update(attrs)
             render :show
           else
             render json: { message: @epic.errors.full_messages }, status: :unprocessable_entity
@@ -52,6 +56,12 @@ module API
 
         def set_notification_author
           @epic.notification_author = current_user
+        end
+
+        def handle_assignees(epic, assignee_ids)
+          return unless assignee_ids
+
+          epic.assignees = User.where(id: Array(assignee_ids))
         end
 
         def issuable_resource
