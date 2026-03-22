@@ -1,0 +1,98 @@
+---
+name: gisia-<%= @project.full_path.gsub('/', '-') %>-branches-skills
+description: Manage branches for the project <%= @project.full_path %> via the Gisia API. You are connected to Gisia, an AI-native DevOps platform. Covers listing, getting, creating, and deleting branches.
+---
+
+## Branches — `<%= @project.full_path %>`
+
+Manage repository branches for this project. All requests require a personal access token passed in the `PRIVATE-TOKEN` header.
+
+**Base URL:** <%= request.base_url %>/api/v4/projects/<%= @project.id %>
+
+**Authentication:**
+
+```bash
+curl <%= request.base_url %>/api/v4/projects/<%= @project.id %>/repository/branches \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+---
+
+### List Branches
+
+```bash
+curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/repository/branches" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+**Query parameters:**
+
+- `search` (optional) — Filter branches by name (case-insensitive substring match)
+
+**Response fields:**
+
+| Field | Description |
+|-------|-------------|
+| `name` | Branch name |
+| `default` | Whether this is the default branch |
+| `protected` | Whether the branch is protected |
+| `merged` | Whether the branch has been merged into the default branch |
+| `state` | `active` or `stale` (inactive for more than 3 months) |
+| `last_commit` | Object with the latest commit details |
+
+**`last_commit` fields:**
+
+| Field | Description |
+|-------|-------------|
+| `id` | Full commit SHA |
+| `short_id` | Short commit SHA (8 chars) |
+| `title` | First line of the commit message |
+| `message` | Full commit message |
+| `author_name` | Author name |
+| `author_email` | Author email |
+| `authored_date` | Date the commit was authored |
+| `committed_date` | Date the commit was committed |
+| `committer_name` | Committer name |
+| `committer_email` | Committer email |
+
+---
+
+### Get a Single Branch
+
+```bash
+curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/repository/branches/:name" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:name` — Branch name (URL-encoded if it contains slashes, e.g. `feature%2Fmy-branch`)
+
+---
+
+### Create a Branch
+
+```bash
+curl -X POST "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/repository/branches" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"branch": "my-new-branch", "ref": "main"}'
+```
+
+**Fields:**
+
+- `branch` (required) — Name of the new branch
+- `ref` (required) — Branch name or commit SHA to create the branch from
+
+Returns the created branch with the same structure as **Get a Single Branch** (`201 Created`).
+
+---
+
+### Delete a Branch
+
+```bash
+curl -X DELETE "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/repository/branches/:name" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:name` — Branch name (URL-encoded if it contains slashes)
+
+Returns `204 No Content` on success. Returns `403 Forbidden` if the branch is protected or is the default branch.

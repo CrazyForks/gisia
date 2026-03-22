@@ -8,4 +8,8 @@ resources :projects, only: [:show] do
   end
   resources :merge_requests, only: [:index, :show, :create, :update, :destroy],
     param: :merge_request_iid, controller: 'projects/merge_requests'
+  get 'repository/branches', to: 'projects/branches#index', as: :repository_branches
+  post 'repository/branches', to: 'projects/branches#create'
+  get 'repository/branches/:name', to: 'projects/branches#show', as: :repository_branch, constraints: { name: /.+/ }
+  delete 'repository/branches/:name', to: 'projects/branches#destroy', constraints: { name: /.+/ }
 end
