@@ -4,8 +4,8 @@ module API
   module V4
     class NamespacesController < ::API::V4::UserBaseController
       before_action :find_namespace!, only: [:show, :update, :destroy]
-      before_action :authorize_manage_namespace!, only: [:update]
-      before_action :authorize_destroy_namespace!, only: [:destroy]
+      before_action -> { authorize_namespace!(:admin_namespace) }, only: [:update]
+      before_action -> { authorize_namespace!(:remove_namespace) }, only: [:destroy]
 
       def index
         namespaces = user_namespaces
@@ -53,23 +53,8 @@ module API
         current_user.accessible_namespaces
       end
 
-      def authorize_manage_namespace!
-        return if current_user.admin?
-        return if @namespace == current_user.namespace
-        return if @namespace.group_namespace? &&
-          @namespace.group.members.with_user(current_user)
-            .with_at_least_access_level(Accessible::MAINTAINER).exists?
-
-        forbidden!
-      end
-
-      def authorize_destroy_namespace!
-        return forbidden! unless @namespace.group_namespace?
-        return if current_user.admin?
-        return if @namespace.group.members.with_user(current_user)
-          .with_at_least_access_level(Accessible::OWNER).exists?
-
-        forbidden!
+      def authorize_namespace!(ability)
+        forbidden! unless Ability.allowed?(current_user, ability, @namespace)
       end
 
       def create_params
