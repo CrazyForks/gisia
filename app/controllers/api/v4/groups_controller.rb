@@ -47,7 +47,7 @@ module API
 
       def find_group!
         ns = Namespace.without_project_namespaces.find_by_id_or_path(params[:id])
-        not_found! unless ns && user_groups.exists?(id: ns.id)
+        not_found! unless ns&.group_namespace? && user_groups.exists?(id: ns.id)
         @namespace = ns
       end
 
