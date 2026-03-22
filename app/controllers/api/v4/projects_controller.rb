@@ -4,6 +4,7 @@ module API
   module V4
     class ProjectsController < ::API::V4::UserBaseController
       include API::V4::ProjectFindable
+      include ::Projects::Parameterizable
 
       before_action :find_project!, only: [:show, :update, :destroy]
       before_action -> { authorize_project!(:admin_project) }, only: [:update]
@@ -18,7 +19,7 @@ module API
       def show; end
 
       def create
-        @project = Project.new(create_params(current_user.id).merge(creator_id: current_user.id))
+        @project = Project.new(create_params.merge(creator_id: current_user.id))
         if @project.save
           render :show, status: :created
         else
@@ -43,14 +44,6 @@ module API
 
       def authorize_project!(ability)
         forbidden! unless Ability.allowed?(current_user, ability, @project)
-      end
-
-      def create_params(creator_id = nil)
-        p = params.permit(:name, :path, :description, :namespace_id, :visibility_level).compact
-        p[:namespace_parent_id] = p.delete(:namespace_id) if p[:namespace_id]
-        vl = p.delete(:visibility_level)
-        p[:namespace_attributes] = { visibility_level: vl, creator_id: creator_id } if vl
-        p
       end
 
       def update_params

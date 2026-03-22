@@ -12,6 +12,7 @@
 class ProjectsController < Projects::ApplicationController
   include ExtractsPath
   include TreeViewable
+  include Projects::Parameterizable
 
   before_action :check_empty_repository, only: [:show]
   before_action :assign_ref_vars, only: [:show]
@@ -74,19 +75,11 @@ class ProjectsController < Projects::ApplicationController
     @available_namespaces = available_namespaces_for_user
   end
 
-  def available_namespaces_for_user
-    user_namespace = [current_user.namespace]
-    group_namespaces = current_user.groups.map(&:namespace)
-    user_namespace + group_namespaces
-  end
-
   def verify_namespace_ownership
     return unless params[:project]&.dig(:namespace_parent_id).present?
 
     namespace_parent_id = params[:project][:namespace_parent_id].to_i
-    available_namespace_ids = available_namespaces_for_user.map(&:id)
-
-    unless available_namespace_ids.include?(namespace_parent_id)
+    unless available_namespaces_for_user.exists?(id: namespace_parent_id)
       redirect_to namespace_project_path(@project.namespace.parent.full_path, @project.path), alert: 'You are not authorized to use this namespace.'
     end
   end
