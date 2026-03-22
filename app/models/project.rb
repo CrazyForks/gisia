@@ -116,6 +116,8 @@ class Project < ApplicationRecord
     %w[name]
   end
 
+  scope :search, ->(query) { where("projects.name ILIKE ?", "%#{query}%") }
+
   def group
     @group ||= begin
       parent = namespace.parent
