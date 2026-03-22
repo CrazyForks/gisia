@@ -227,6 +227,32 @@ class MergeRequest < ApplicationRecord
 
   private
 
+  def capture_previous_assignee_ids
+    @previous_assignee_ids ||= MergeRequestAssignee.where(merge_request_id: id).pluck(:user_id).sort
+  end
+
+  def notify_on_create
+    return unless notification_author
+
+    NotificationService.new.new_merge_request(self, notification_author)
+  end
+
+  def notify_on_update
+    return unless notification_author
+
+    if saved_change_to_status?
+      if closed?
+        NotificationService.new.close_mr(self, notification_author)
+      else
+        NotificationService.new.reopen_mr(self, notification_author)
+      end
+    end
+
+    return unless @previous_assignee_ids && assignees.map(&:id).sort != @previous_assignee_ids
+
+    NotificationService.new.reassigned_merge_request(self, notification_author, User.where(id: @previous_assignee_ids))
+  end
+
   def use_live_comparison?
     opened? || merge_request_diff.empty?
   end

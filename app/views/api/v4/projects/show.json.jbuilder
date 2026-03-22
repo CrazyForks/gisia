@@ -1,0 +1,10 @@
+json.id @project.id
+json.name @project.name
+json.path @project.path
+json.full_path @project.full_path
+json.description @project.description
+json.visibility @project.visibility
+json.default_branch @project.default_branch
+json.created_at @project.created_at
+json.updated_at @project.updated_at
+json.web_url "#{Gitlab.config.gitlab.url}/#{@project.full_path}"

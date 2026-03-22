@@ -15,6 +15,7 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   before_action :set_counts, only: [:index]
   before_action :check_mr_author_authorization, only: [:update]
   before_action :check_mr_open, only: [:edit, :update]
+  before_action :set_notification_author, only: [:update, :close]
 
   def index
     status_param = params[:status].presence || 'opened'
@@ -46,6 +47,7 @@ class Projects::MergeRequestsController < Projects::ApplicationController
 
   def create
     @merge_request = MergeRequest.new(merge_request_create_params)
+    @merge_request.notification_author = current_user
 
     if @merge_request.save
       redirect_to namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request),
@@ -148,6 +150,10 @@ class Projects::MergeRequestsController < Projects::ApplicationController
     @opened_count = project.merge_requests.opened.count
     @merged_count = project.merge_requests.merged.count
     @closed_count = project.merge_requests.closed.count
+  end
+
+  def set_notification_author
+    @merge_request.notification_author = current_user
   end
 
   def check_mr_author_authorization

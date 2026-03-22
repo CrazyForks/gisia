@@ -1,13 +1,17 @@
-%p
-  = "#{@merge_request.author.name} created merge request"
-  = link_to "!#{@merge_request.iid}", @target_url
-  in
-  = @project.full_name
+%p{style: "margin:0 0 6px;font-size:15px;color:#4b5563;line-height:1.6;"}
+  = @merge_request.author.name
+  created a new merge request in
+  %strong= @project.full_name
 
-%p= @merge_request.title
+%p{style: "margin:0 0 16px;"}
+  %a{href: @target_url, style: "font-size:17px;font-weight:600;color:#1e2a4a;text-decoration:none;"}
+    = "!#{@merge_request.iid} #{@merge_request.title}"
 
 - if @merge_request.description.present?
-  %p= @merge_request.description
+  %p{style: "margin:0 0 24px;font-size:14px;color:#4b5563;line-height:1.7;border-left:3px solid #e5e7eb;padding-left:12px;"}= @merge_request.description
 
-%p
-  = link_to 'View Merge Request', @target_url
+%table{width: "100%", cellpadding: "0", cellspacing: "0", border: "0", style: "margin-top:8px;"}
+  %tr
+    %td{align: "center"}
+      %a{href: @target_url, style: "display:inline-block;padding:11px 28px;background-color:#4a5e82;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;border-radius:6px;"}
+        View Merge Request

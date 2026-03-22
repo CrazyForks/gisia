@@ -13,6 +13,7 @@ module API
         before_action :authorize_update_merge_request!, only: [:update]
         before_action :authorize_destroy_merge_request!, only: [:destroy]
         before_action :authorize_author!, only: [:update, :destroy]
+        before_action :set_notification_author, only: [:update]
 
         def index
           state = params[:state].presence
@@ -43,6 +44,7 @@ module API
           @merge_request.source_project = @project
           @merge_request.target_project = @project
 
+          @merge_request.notification_author = current_user
           if @merge_request.save
             handle_assignees(params[:assignee_ids])
             handle_reviewers(params[:reviewer_ids])
@@ -57,12 +59,13 @@ module API
 
           ApplicationRecord.transaction do
             handle_state_event
-            success = @merge_request.update(update_params)
+            attrs = update_params
+            attrs[:assignee_ids] = Array(params[:assignee_ids]) if params.key?(:assignee_ids)
+            success = @merge_request.update(attrs)
             raise ActiveRecord::Rollback unless success
           end
 
           if success
-            handle_assignees(params[:assignee_ids]) if params[:assignee_ids]
             handle_reviewers(params[:reviewer_ids]) if params[:reviewer_ids]
             render :show
           else
@@ -86,6 +89,10 @@ module API
 
         def authorize_author!
           forbidden! unless @merge_request.author == current_user
+        end
+
+        def set_notification_author
+          @merge_request.notification_author = current_user
         end
 
         def handle_state_event

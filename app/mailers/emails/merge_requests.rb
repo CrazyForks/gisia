@@ -41,6 +41,14 @@ module Emails
       mail_answer_thread(@merge_request, merge_request_thread_options(updated_by_user_id, reason))
     end
 
+    def reopened_merge_request_email(recipient_id, merge_request_id, status, updated_by_user_id, reason = nil)
+      setup_merge_request_mail(merge_request_id, recipient_id)
+
+      @updated_by = User.find_by(id: updated_by_user_id)
+      @status = status
+      mail_answer_thread(@merge_request, merge_request_thread_options(updated_by_user_id, reason))
+    end
+
     def changed_reviewer_of_merge_request_email(recipient_id, merge_request_id, previous_reviewer_ids, updated_by_user_id, reason = nil)
       setup_merge_request_mail(merge_request_id, recipient_id)
 

@@ -59,7 +59,7 @@ class NotificationService
   end
 
   def reopen_mr(merge_request, current_user)
-    reopen_resource_email(merge_request, current_user, :merge_request_status_email, 'reopened')
+    reopen_resource_email(merge_request, current_user, :reopened_merge_request_email, 'reopened')
   end
 
   def reassigned_merge_request(merge_request, current_user, previous_assignees = [])
