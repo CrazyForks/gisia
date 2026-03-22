@@ -2,15 +2,17 @@
 
 module API
   module V4
-    class NamespacesController < ::API::V4::UserBaseController
-      before_action :find_namespace!, only: [:show, :update, :destroy]
-      before_action -> { authorize_namespace!(:admin_namespace) }, only: [:update]
-      before_action -> { authorize_namespace!(:remove_namespace) }, only: [:destroy]
+    class GroupsController < ::API::V4::UserBaseController
+      include ::Groups::Authorizable
+
+      before_action :find_group!, only: [:show, :update, :destroy]
+      before_action -> { forbidden! unless authorize_group!(:admin_namespace, @namespace) }, only: [:update]
+      before_action -> { forbidden! unless authorize_group!(:remove_namespace, @namespace) }, only: [:destroy]
 
       def index
-        namespaces = user_namespaces
-        namespaces = namespaces.search(params[:search]) if params[:search].present?
-        @namespaces = paginate(namespaces.with_route.order(:id))
+        groups = user_groups
+        groups = groups.search(params[:search]) if params[:search].present?
+        @groups = paginate(groups.with_route.order(:id))
       end
 
       def show; end
@@ -43,18 +45,10 @@ module API
 
       private
 
-      def find_namespace!
+      def find_group!
         ns = Namespace.without_project_namespaces.find_by_id_or_path(params[:id])
-        not_found! unless ns && user_namespaces.exists?(id: ns.id)
+        not_found! unless ns && user_groups.exists?(id: ns.id)
         @namespace = ns
-      end
-
-      def user_namespaces
-        current_user.accessible_namespaces
-      end
-
-      def authorize_namespace!(ability)
-        forbidden! unless Ability.allowed?(current_user, ability, @namespace)
       end
 
       def create_params

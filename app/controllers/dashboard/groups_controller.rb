@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 class Dashboard::GroupsController < Dashboard::ApplicationController
+  include Groups::Authorizable
+
   before_action :set_group, only: %i[edit update destroy]
   before_action :set_available_namespaces, only: %i[new create edit update]
-  before_action :authorize_manage_group!, only: %i[edit update]
-  before_action :authorize_destroy_group!, only: %i[destroy]
+  before_action -> { authorize_group!(:admin_namespace, @group.namespace) || redirect_unauthorized }, only: %i[edit update]
+  before_action -> { authorize_group!(:remove_namespace, @group.namespace) || redirect_unauthorized }, only: %i[destroy]
 
   def index
     @groups = current_user.groups.order(id: :desc)
@@ -54,24 +56,10 @@ class Dashboard::GroupsController < Dashboard::ApplicationController
   end
 
   def set_available_namespaces
-    @available_namespaces = available_namespaces_for_user
+    @available_namespaces = user_groups
   end
 
-  def available_namespaces_for_user
-    current_user.accessible_namespaces
-  end
-
-  def authorize_manage_group!
-    return if current_user.admin?
-    return if @group.members.with_user(current_user).with_at_least_access_level(Accessible::MAINTAINER).exists?
-
-    redirect_to dashboard_groups_path, alert: 'You are not authorized to perform this action.'
-  end
-
-  def authorize_destroy_group!
-    return if current_user.admin?
-    return if @group.members.with_user(current_user).with_at_least_access_level(Accessible::OWNER).exists?
-
+  def redirect_unauthorized
     redirect_to dashboard_groups_path, alert: 'You are not authorized to perform this action.'
   end
 end

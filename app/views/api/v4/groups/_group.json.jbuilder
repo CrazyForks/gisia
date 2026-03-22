@@ -4,7 +4,7 @@ json.path namespace.path
 json.kind namespace.kind
 json.full_path namespace.full_path
 json.parent_id namespace.parent_id
-json.visibility_level namespace.visibility_level
+json.visibility namespace.visibility
 json.web_url "#{Gitlab.config.gitlab.url}/#{namespace.full_path}"
 json.created_at namespace.created_at
 json.updated_at namespace.updated_at
