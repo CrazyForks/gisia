@@ -61,18 +61,14 @@ class Dashboard::ProjectsController < Dashboard::ApplicationController
   end
 
   def available_namespaces_for_user
-    user_namespace = [current_user.namespace]
-    group_namespaces = current_user.groups.map(&:namespace)
-    user_namespace + group_namespaces
+    current_user.accessible_namespaces
   end
 
   def verify_namespace_ownership
     return unless params[:project]&.dig(:namespace_parent_id).present?
 
     namespace_parent_id = params[:project][:namespace_parent_id].to_i
-    available_namespace_ids = available_namespaces_for_user.map(&:id)
-
-    unless available_namespace_ids.include?(namespace_parent_id)
+    unless available_namespaces_for_user.exists?(id: namespace_parent_id)
       redirect_to dashboard_projects_path, alert: 'You are not authorized to use this namespace.'
     end
   end

@@ -58,7 +58,7 @@ class Dashboard::GroupsController < Dashboard::ApplicationController
   end
 
   def available_namespaces_for_user
-    current_user.groups.map(&:namespace)
+    current_user.accessible_namespaces
   end
 
   def authorize_manage_group!

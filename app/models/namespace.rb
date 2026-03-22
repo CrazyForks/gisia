@@ -68,10 +68,20 @@ class Namespace < ApplicationRecord
     includes(:route).allow_cross_joins_across_databases(url: 'https://gitlab.com/gitlab-org/gitlab/-/issues/421843')
   }
   scope :user_and_group_only, -> { where(type: %w[User Group]) }
+  scope :without_project_namespaces, -> { where.not(type: Namespaces::ProjectNamespace.sti_name) }
+  scope :search, ->(query) { where('LOWER(name) LIKE :q OR LOWER(path) LIKE :q', q: "%#{query.downcase}%") }
   scope :by_parent, ->(parent) { where(parent_id: parent) }
   scope :top_level, -> { by_parent(nil) }
 
   class << self
+    def find_by_id_or_path(id)
+      if id.to_s.match?(/\A\d+\z/)
+        find_by(id: id)
+      else
+        joins(:route).find_by(routes: { path: id.to_s.downcase })
+      end
+    end
+
     def sti_class_for(type_name)
       case type_name
       when Namespaces::GroupNamespace.sti_name
@@ -163,5 +173,12 @@ class Namespace < ApplicationRecord
 
   def full_path
     route&.path || path
+  end
+
+  def kind
+    return 'group' if group_namespace?
+    return 'project' if project_namespace?
+
+    'user'
   end
 end

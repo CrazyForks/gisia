@@ -168,6 +168,10 @@ class User < ApplicationRecord
   def commit_email
   end
 
+  def accessible_namespaces
+    Namespace.where(id: namespace.id).or(Namespace.where(id: groups.select(:namespace_id)))
+  end
+
   private
 
   def set_default_name
