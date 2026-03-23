@@ -16,6 +16,7 @@ module API
           confirmed_at: current_user.confirmed_at,
           last_sign_in_at: current_user.last_sign_in_at,
           current_sign_in_at: current_user.current_sign_in_at,
+          namespace_id: current_user.namespace&.id,
           web_url: "#{Gitlab.config.gitlab.url}/#{current_user.username}"
         }
       end
