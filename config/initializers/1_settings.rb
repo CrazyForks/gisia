@@ -52,6 +52,18 @@ Settings.gitlab['email_reply_to'] ||= ENV['GITLAB_EMAIL_REPLY_TO'] || "noreply@#
 Settings.gitlab['email_subject_prefix'] ||= ENV['GITLAB_EMAIL_SUBJECT_PREFIX'] || ""
 Settings.gitlab['email_subject_suffix'] ||= ENV['GITLAB_EMAIL_SUBJECT_SUFFIX'] || ""
 
+Settings.gitlab['smtp'] ||= {}
+Settings.gitlab['smtp']['enabled']             ||= false
+Settings.gitlab['smtp']['address']             ||= 'localhost'
+Settings.gitlab['smtp']['port']                ||= 25
+Settings.gitlab['smtp']['user_name']           ||= nil
+Settings.gitlab['smtp']['password']            ||= nil
+Settings.gitlab['smtp']['domain']              ||= nil
+Settings.gitlab['smtp']['authentication']      ||= nil
+Settings.gitlab['smtp']['tls']                 ||= false
+Settings.gitlab['smtp']['enable_starttls_auto']  = true
+Settings.gitlab['smtp']['openssl_verify_mode'] ||= 'peer'
+
 Settings.gitlab['default_projects_features'] ||= {}
 Settings.gitlab.default_projects_features['issues']             = true
 Settings.gitlab.default_projects_features['merge_requests']     = true

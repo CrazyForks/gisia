@@ -31,13 +31,6 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-  if ENV['DEV_SMTP'] == '1'
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = { address: 'localhost', port: 1025 }
-  else
-    config.action_mailer.delivery_method = :letter_opener_web
-  end
-
   config.action_mailer.raise_delivery_errors = false
 
   # Make template changes take effect immediately.
