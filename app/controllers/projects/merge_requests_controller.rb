@@ -10,12 +10,12 @@
 # ======================================================
 
 class Projects::MergeRequestsController < Projects::ApplicationController
+  include Projects::MergeRequestNotifiable
   before_action :define_new_vars, only: %i[new edit]
-  before_action :set_mr, only: %i[show commits diffs pipelines edit update merge close]
+  before_action :set_mr, only: %i[show commits diffs pipelines edit update merge]
   before_action :set_counts, only: [:index]
   before_action :check_mr_author_authorization, only: [:update]
-  before_action :check_mr_open, only: [:edit, :update]
-  before_action :set_notification_author, only: [:update, :close]
+  before_action :check_mr_open, only: [:edit]
 
   def index
     status_param = params[:status].presence || 'opened'
@@ -61,7 +61,19 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   def edit; end
 
   def update
-    if @merge_request.update(merge_request_params)
+    success = false
+    mr_params = merge_request_params
+    state_event = mr_params.delete(:state_event)
+    previous_assignee_ids = @merge_request.assignees.map(&:id).sort if mr_params.key?(:assignee_ids)
+
+    ApplicationRecord.transaction do
+      handle_state_event(state_event)
+      success = mr_params.empty? || @merge_request.update(mr_params)
+      raise ActiveRecord::Rollback unless success
+    end
+
+    if success
+      notify_mr_update(state_event, previous_assignee_ids)
       respond_to do |format|
         format.html do
           redirect_to namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request),
@@ -88,12 +100,6 @@ class Projects::MergeRequestsController < Projects::ApplicationController
     else
       redirect_to mr_path, alert: result[:message]
     end
-  end
-
-  def close
-    @merge_request.close!
-    redirect_to namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request),
-      notice: 'Merge request was closed.'
   end
 
   def diffs
@@ -125,7 +131,7 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   private
 
   def merge_request_params
-    params.require(:merge_request).permit(:source_project_id, :source_branch, :target_project_id, :target_branch, :title, :description,
+    params.require(:merge_request).permit(:source_project_id, :source_branch, :target_project_id, :target_branch, :title, :description, :state_event,
       assignee_ids: [], reviewer_ids: [])
   end
 
@@ -150,10 +156,6 @@ class Projects::MergeRequestsController < Projects::ApplicationController
     @opened_count = project.merge_requests.opened.count
     @merged_count = project.merge_requests.merged.count
     @closed_count = project.merge_requests.closed.count
-  end
-
-  def set_notification_author
-    @merge_request.notification_author = current_user
   end
 
   def check_mr_author_authorization

@@ -5,6 +5,7 @@ module API
     module Projects
       class MergeRequestsController < ::API::V4::ProjectBaseController
         include ::Projects::MergeRequestAuthorizable
+        include ::Projects::MergeRequestNotifiable
 
         before_action :find_merge_request!, only: [:show, :update, :destroy]
         before_action :authorize_read_merge_requests!, only: [:index]
@@ -13,7 +14,6 @@ module API
         before_action :authorize_update_merge_request!, only: [:update]
         before_action :authorize_destroy_merge_request!, only: [:destroy]
         before_action :authorize_author!, only: [:update, :destroy]
-        before_action :set_notification_author, only: [:update]
 
         def index
           state = params[:state].presence
@@ -56,16 +56,19 @@ module API
 
         def update
           success = false
+          state_event = params[:state_event]
+          previous_assignee_ids = @merge_request.assignees.map(&:id).sort if params.key?(:assignee_ids)
 
           ApplicationRecord.transaction do
-            handle_state_event
+            handle_state_event(state_event)
             attrs = update_params
             attrs[:assignee_ids] = Array(params[:assignee_ids]) if params.key?(:assignee_ids)
-            success = @merge_request.update(attrs)
+            success = attrs.empty? || @merge_request.update(attrs)
             raise ActiveRecord::Rollback unless success
           end
 
           if success
+            notify_mr_update(state_event, previous_assignee_ids)
             handle_reviewers(params[:reviewer_ids]) if params[:reviewer_ids]
             render :show
           else
@@ -89,19 +92,6 @@ module API
 
         def authorize_author!
           forbidden! unless @merge_request.author == current_user
-        end
-
-        def set_notification_author
-          @merge_request.notification_author = current_user
-        end
-
-        def handle_state_event
-          case params[:state_event]
-          when 'close'
-            @merge_request.close! unless @merge_request.closed?
-          when 'reopen'
-            @merge_request.reopen! unless @merge_request.opened?
-          end
         end
 
         def handle_assignees(assignee_ids)

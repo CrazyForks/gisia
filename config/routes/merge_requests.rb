@@ -19,7 +19,6 @@ resources :merge_requests, except: [:destroy], param: :iid, constraints: { iid: 
     get :diffs
     get :pipelines
     post :merge
-    post :close
   end
 
   resources :diff_notes, only: [:create]
