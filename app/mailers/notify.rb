@@ -29,11 +29,9 @@ class Notify < ApplicationMailer
   private
 
   def sender(sender_id)
-    return unless (sender = User.find_by(id: sender_id))
+    return unless User.exists?(sender_id)
 
-    address = default_sender_address
-    address.display_name = "#{sender.name} (#{sender.to_reference})"
-    address.format
+    default_sender_address.format
   end
 
   def mail_thread(model, headers = {})
