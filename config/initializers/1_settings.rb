@@ -45,7 +45,7 @@ Settings.gitlab['max_attachment_size'] ||= 100
 Settings.gitlab['impersonation_enabled'] ||= false if Settings.gitlab['impersonation_enabled'].nil?
 Settings.gitlab['signin_enabled'] ||= true if Settings.gitlab['signin_enabled'].nil?
 
-Settings.gitlab['email_enabled'] ||= true if Settings.gitlab['email_enabled'].nil?
+Settings.gitlab['email_enabled'] ||= false if Settings.gitlab['email_enabled'].nil?
 Settings.gitlab['email_from'] ||= ENV['GITLAB_EMAIL_FROM'] || "gisia@#{Settings.gitlab.host}"
 Settings.gitlab['email_display_name'] ||= ENV['GITLAB_EMAIL_DISPLAY_NAME'] || 'Gisia'
 Settings.gitlab['email_reply_to'] ||= ENV['GITLAB_EMAIL_REPLY_TO'] || "noreply@#{Settings.gitlab.host}"
