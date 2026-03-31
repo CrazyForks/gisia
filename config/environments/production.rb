@@ -49,6 +49,10 @@ Rails.application.configure do
   # Replace the default in-process memory cache store with a durable alternative.
   config.cache_store = :solid_cache_store
 
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+
   config.after_initialize do
     ActionMailer::Base.default_url_options = {
       host: Gitlab.config.gitlab.host,
