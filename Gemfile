@@ -177,7 +177,6 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'foreman', '~> 0.88.1'
   gem 'html2haml', '~> 2.3'
-  gem 'letter_opener_web', '~> 3.0'
   gem 'rubocop', '~> 1.72', '>= 1.72.2'
   gem 'web-console'
   gem 'jsbundling-rails', '~> 1.3', '>= 1.3.1'
