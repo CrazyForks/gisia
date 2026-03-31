@@ -11,7 +11,6 @@
 
 Rails.application.routes.draw do
   use_doorkeeper
-  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
   mount MissionControl::Jobs::Engine, at: '/jobs'
 
   devise_for :users, skip: [:registrations]
