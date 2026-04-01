@@ -44,7 +44,7 @@ AI bot 技能演示
 
 [如何安装](../../how-to/1-quick-start.md)
 
-[如何使用](../../how-to/)
+[官方文档](https://gisia.dev/)
 
 ## ⏫ 升级
 

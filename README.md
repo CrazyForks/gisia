@@ -45,7 +45,7 @@ AI bot skills demo
 
 [How To Install](docs/how-to/1-quick-start.md)
 
-[How To Use](docs/how-to/)
+[Official Docs](https://gisia.dev/docs)
 
 ## ⏫ Upgrade
 
