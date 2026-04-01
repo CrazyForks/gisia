@@ -20,6 +20,7 @@ class Group < ApplicationRecord
   has_one :route, through: :namespace
   has_many :members, -> { non_request.non_minimal_access }, through: :namespace
   has_many :users, through: :members
+  has_many :notification_settings, as: :source, dependent: :delete_all
 
   attribute :namespace_parent_id
 
@@ -40,6 +41,10 @@ class Group < ApplicationRecord
     if: :name_changed?
 
   after_update :sync_namespace if :name_changed? || :path_changed?
+
+  def self_and_ancestors_asc
+    namespace.self_and_ancestors(hierarchy_order: :asc).map(&:group).compact
+  end
 
   def to_param
     namespace.full_path
