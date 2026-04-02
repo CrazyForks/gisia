@@ -6,6 +6,7 @@ module API
       class IssuesController < ::API::V4::ProjectBaseController
         include API::V4::IssueFilterable
         include ::Projects::IssueAuthorizable
+        include ::Projects::SetsUpdatedBy
 
         before_action :find_issue!, only: [:show, :update, :destroy]
         before_action :authorize_read_issues!, only: [:index]
@@ -14,6 +15,7 @@ module API
         before_action :authorize_update_issuable!, only: [:update]
         before_action :authorize_destroy_issuable!, only: [:destroy]
         before_action :set_notification_author, only: [:update]
+        before_action :set_updated_by, only: [:update]
 
         def index
           @issues = paginate(apply_filters(@project.issues).order(created_at: :desc))

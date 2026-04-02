@@ -1,6 +1,7 @@
 class Projects::IssuesController < Projects::ApplicationController
   include StageIssuesFilterable
   include Projects::IssueAuthorizable
+  include Projects::SetsUpdatedBy
 
   before_action :authorize_read_issues!, only: [:index, :search_users, :search_epics]
   before_action :authorize_create_issue!, only: [:new, :create]
@@ -10,6 +11,7 @@ class Projects::IssuesController < Projects::ApplicationController
   before_action :authorize_destroy_issuable!, only: [:destroy]
   before_action :set_counts, only: [:index]
   before_action :set_notification_author, only: [:update, :close, :reopen]
+  before_action :set_updated_by, only: [:update, :move_stage, :link_labels, :unlink_label]
 
   def index
     status_param = params[:status].presence || 'opened'
@@ -56,8 +58,6 @@ class Projects::IssuesController < Projects::ApplicationController
   end
 
   def update
-    @issue.updated_by = current_user
-
     if @issue.update(issue_params)
       respond_to do |format|
         format.html do

@@ -1,5 +1,6 @@
 class Projects::EpicsController < Projects::ApplicationController
   include Projects::IssueAuthorizable
+  include Projects::SetsUpdatedBy
 
   before_action :authorize_read_issues!, only: [:index, :search_users, :search_epics]
   before_action :authorize_create_issue!, only: [:new, :create]
@@ -9,6 +10,7 @@ class Projects::EpicsController < Projects::ApplicationController
   before_action :authorize_update_issuable!, only: [:edit, :update, :close, :reopen, :link_labels, :unlink_label]
   before_action :authorize_destroy_issuable!, only: [:destroy]
   before_action :set_counts, only: [:index]
+  before_action :set_updated_by, only: [:update, :link_labels, :unlink_label]
 
   def index
     status_param = params[:status].presence || 'opened'
@@ -54,8 +56,6 @@ class Projects::EpicsController < Projects::ApplicationController
   end
 
   def update
-    @epic.updated_by = current_user
-
     if @epic.update(epic_params)
       respond_to do |format|
         format.html { redirect_to namespace_project_epic_path(@project.namespace.parent.full_path, @project.path, @epic), notice: 'Epic was successfully updated.' }
