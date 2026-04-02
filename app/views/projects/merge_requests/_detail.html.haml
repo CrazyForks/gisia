@@ -56,7 +56,7 @@
               %span= _('Close')
 
           - if @merge_request.closed?
-            = button_to namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), method: :put, params: { merge_request: { state_event: 'reopen' } }, class: 'inline-flex items-center gap-2 px-3 py-2 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-md text-sm font-medium transition-colors', data: { turbo: false, turbo_confirm: _('Are you sure you want to reopen this merge request?') } do
+            = button_to namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), method: :put, params: { merge_request: { state_event: 'reopen' } }, class: 'inline-flex items-center gap-2 px-3 py-2 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-md text-sm font-medium transition-colors', data: {} do
               = icon 'arrow-counter-clockwise', class: 'w-4 h-4'
               %span= _('Reopen')
 

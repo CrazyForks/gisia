@@ -68,7 +68,7 @@ class Projects::MergeRequestsController < Projects::ApplicationController
 
     ApplicationRecord.transaction do
       handle_state_event(state_event)
-      success = mr_params.empty? || @merge_request.update(mr_params)
+      success = @merge_request.errors.none? && (mr_params.empty? || @merge_request.update(mr_params))
       raise ActiveRecord::Rollback unless success
     end
 
@@ -80,13 +80,18 @@ class Projects::MergeRequestsController < Projects::ApplicationController
             notice: 'Merge request was successfully updated.'
         end
         format.json { render json: { status: 'success', message: 'Merge request was successfully updated.' } }
-        format.turbo_stream
+        format.turbo_stream do
+          state_event.present? ? redirect_to(namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), notice: 'Merge request was successfully updated.') : render(:update)
+        end
       end
     else
       respond_to do |format|
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: { status: 'error', errors: @merge_request.errors }, status: :unprocessable_entity }
-        format.turbo_stream { head :unprocessable_entity }
+        format.turbo_stream do
+          flash.now[:alert] = @merge_request.errors.full_messages.to_sentence
+          render turbo_stream: turbo_stream.replace('flash', partial: 'shared/flash')
+        end
       end
     end
   end

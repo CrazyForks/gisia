@@ -9,7 +9,7 @@ module Projects
     def handle_state_event(state_event)
       case state_event
       when 'close'  then @merge_request.close! unless @merge_request.closed?
-      when 'reopen' then @merge_request.reopen! unless @merge_request.opened?
+      when 'reopen' then @merge_request.reopen unless @merge_request.opened?
       end
     end
 
