@@ -225,6 +225,18 @@ class MergeRequest < ApplicationRecord
     Gitlab::ExclusiveLease.new(lease_key, timeout: MERGE_LEASE_TIMEOUT)
   end
 
+  def existing_mrs_targeting_same_branch
+    similar_mrs = target_project
+      .merge_requests
+      .where(source_branch: source_branch, target_branch: target_branch)
+      .where(source_project: source_project)
+      .opened
+
+    similar_mrs = similar_mrs.id_not_in(id) if persisted?
+
+    similar_mrs
+  end
+
   private
 
   def capture_previous_assignee_ids
@@ -271,21 +283,9 @@ class MergeRequest < ApplicationRecord
 
       errors.add(
         :validate_branches,
-        "Another open merge request already exists for this source branch: #{conflicting_mr.to_reference}"
+        "Another open merge request already exists for this source branch"
       )
     end
-  end
-
-  def existing_mrs_targeting_same_branch
-    similar_mrs = target_project
-      .merge_requests
-      .where(source_branch: source_branch, target_branch: target_branch)
-      .where(source_project: source_project)
-      .opened
-
-    similar_mrs = similar_mrs.id_not_in(id) if persisted?
-
-    similar_mrs
   end
 
   def ensure_metrics!
