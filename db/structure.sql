@@ -66,7 +66,7 @@ CREATE TABLE public.application_settings (
     plantuml_url character varying,
     ci_max_includes integer DEFAULT 150 NOT NULL,
     ci_max_total_yaml_size_bytes integer DEFAULT 314572800 NOT NULL,
-    personal_access_token_prefix text DEFAULT 'glpat-'::text,
+    personal_access_token_prefix text DEFAULT 'gspat-'::text,
     repository_storages_weighted jsonb DEFAULT '{}'::jsonb NOT NULL,
     gitlab_shell_operation_limit integer DEFAULT 600,
     pipeline_limit_per_project_user_sha integer DEFAULT 0 NOT NULL,
@@ -6437,6 +6437,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260408062525'),
 ('20260318052307'),
 ('20260313154116'),
 ('20260313133856'),
