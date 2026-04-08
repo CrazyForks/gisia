@@ -4,11 +4,14 @@
 # Contains code from GitLab FOSS (MIT Licensed)
 # Copyright (c) GitLab Inc.
 # See .licenses/Gisia/others/gitlab-foss.dep.yml for full license
+#
+# Modifications and additions copyright (c) 2025-present Liuming Tan
+# Licensed under AGPLv3 - see LICENSE file in this repository
 # ======================================================
 
 require_relative '../lib/gitlab_settings'
 
-file = ENV.fetch('GITLAB_CONFIG') { Rails.root.join('config/gitlab.yml') }
+file = ENV.fetch('GITLAB_CONFIG') { Rails.root.join('config/gisia.yml') }
 
 GITLAB_INSTANCE_UUID_NOT_SET = 'uuid-not-set'
 MultipleDbKeyBaseError = Class.new(StandardError)

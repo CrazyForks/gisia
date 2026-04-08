@@ -41,7 +41,7 @@
 !/app/assets/builds/.keep
 .byebug_history
 
-/config/gitlab.yml
+/config/gisia.yml
 /config/secrets.yml
 /.gitlab_shell_secret
 /.gitlab_workhorse_secret

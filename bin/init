@@ -9,9 +9,22 @@ if ENV['DATABASE_PASSWORD'].to_s.empty?
   exit 1
 end
 
+def migrate_config
+  config_mappings = [
+    ['/gisia/config/web/gitlab.yml', '/gisia/config/web/gisia.yml'],
+  ]
+
+  config_mappings.each do |source, target|
+    if File.exist?(source) && !File.exist?(target)
+      FileUtils.cp(source, target)
+      puts "Migrated #{source} to #{target}"
+    end
+  end
+end
+
 def setup_config_symlinks
   config_mappings = [
-    ['/gisia/config/web/gitlab.yml', '/rails/config/gitlab.yml'],
+    ['/gisia/config/web/gisia.yml', '/rails/config/gisia.yml'],
     ['/gisia/config/web/secrets.yml', '/rails/config/secrets.yml'],
     ['/gisia/config/web/.gitlab_shell_secret', '/rails/.gitlab_shell_secret'],
     ['/gisia/config/web/.gitlab_workhorse_secret', '/rails/.gitlab_workhorse_secret'],
@@ -58,11 +71,11 @@ def expand_praefect_config
   puts "Successfully expanded and saved #{config_path}"
 end
 
-def expand_gitlab_config
-  config_path = '/gisia/config/web/gitlab.yml'
+def expand_gisia_config
+  config_path = '/gisia/config/web/gisia.yml'
 
   unless File.exist?(config_path)
-    puts "Warning: gitlab.yml does not exist at #{config_path}"
+    puts "Warning: gisia.yml does not exist at #{config_path}"
     return
   end
 
@@ -214,7 +227,8 @@ def generate_ssh_host_keys
 end
 
 begin
-  expand_gitlab_config
+  expand_gisia_config
+  migrate_config
   setup_config_symlinks
   expand_praefect_config
   create_service_directories
