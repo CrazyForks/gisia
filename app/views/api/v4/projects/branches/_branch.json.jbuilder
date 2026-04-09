@@ -1,9 +1,15 @@
 commit = branch.dereferenced_target
 
+merged = if local_assigns[:merged_branch_names]
+  merged_branch_names.include?(branch.name)
+else
+  project.repository.merged_to_root_ref?(branch)
+end
+
 json.name branch.name
 json.default project.default_branch == branch.name
 json.protected ProtectedBranch.protected?(project, branch.name)
-json.merged project.repository.merged_to_root_ref?(branch)
+json.merged merged
 json.state branch.state
 
 json.last_commit do

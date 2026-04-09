@@ -6,6 +6,7 @@ module API
       class BranchesController < ::API::V4::ProjectBaseController
         before_action :authorize_read_branches!, only: [:index, :show, :check]
         before_action :authorize_push_branches!, only: [:create, :destroy]
+        before_action -> { require_params!(:branch, :ref) }, only: [:create]
 
         def index
           branches = BranchesFinder.new(@project.repository, declared_params).execute
@@ -59,6 +60,11 @@ module API
         end
 
         private
+
+        def require_params!(*keys)
+          missing = keys.select { |k| !params[k].is_a?(String) || params[k].blank? }
+          render json: { message: "#{missing.join(', ')} is missing" }, status: :bad_request if missing.any?
+        end
 
         def authorize_read_branches!
           forbidden! unless current_user.can?(:download_code, @project)

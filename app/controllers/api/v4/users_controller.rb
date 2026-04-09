@@ -3,6 +3,17 @@
 module API
   module V4
     class UsersController < ::API::V4::UserBaseController
+      def index
+        return forbidden! unless current_user.admin?
+
+        users = User.all
+        users = users.where(username: params[:username]) if params[:username].present?
+
+        render json: users.select(:id, :username, :name, :email).map { |u|
+          { id: u.id, username: u.username, name: u.name, email: u.email }
+        }
+      end
+
       def show
         render json: {
           id: current_user.id,

@@ -25,6 +25,7 @@ curl <%= Gitlab.config.gitlab.url %>/api/v4/... \
 | Issues | `<%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/issues/skill.md` |
 | Epics | `<%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/epics/skill.md` |
 | Labels | `<%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/labels/skill.md` |
+| Branches | `<%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/branches/skill.md` |
 
 **Save all skill files locally:**
 
@@ -37,6 +38,7 @@ curl -s <%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/skill.md -H 
 curl -s <%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/issues/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/issues.md
 curl -s <%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/epics/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/epics.md
 curl -s <%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/labels/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/labels.md
+curl -s <%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/branches/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/branches.md
 ```
 
 ---
@@ -53,6 +55,7 @@ Each skill file served by Gisia can be overridden per-project by committing a re
 | Issues | `.gisiabot/skills/issues.md` |
 | Epics | `.gisiabot/skills/epics.md` |
 | Labels | `.gisiabot/skills/labels.md` |
+| Branches | `.gisiabot/skills/branches.md` |
 
 **Example — override the issues skill:**
 
