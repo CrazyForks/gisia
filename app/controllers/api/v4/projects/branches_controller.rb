@@ -29,6 +29,9 @@ module API
         end
 
         def create
+          return render json: { message: 'branch is missing' }, status: :bad_request if params[:branch].blank?
+          return render json: { message: 'ref is missing' }, status: :bad_request if params[:ref].blank?
+
           result = Branches::CreateService.new(@project, current_user)
             .execute(params[:branch], params[:ref])
 
