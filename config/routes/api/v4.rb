@@ -8,5 +8,6 @@ namespace :api do
     draw 'api/v4/projects'
     draw 'api/v4/users'
     draw 'api/v4/groups'
+    draw 'api/v4/personal_access_tokens'
   end
 end
