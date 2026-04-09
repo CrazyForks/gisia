@@ -22,7 +22,7 @@ module Ci
     include Ci::Builds::Traceable
     include Ci::Builds::TraceArchivable
 
-    TOKEN_PREFIX = 'glcbt-'
+    TOKEN_PREFIX = 'gscbt-'
     RUNNERS_STATUS_CACHE_EXPIRATION = 1.minute
 
     has_one :runner_manager_build,
