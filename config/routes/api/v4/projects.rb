@@ -11,5 +11,6 @@ resources :projects, only: [:index, :show, :create, :update, :destroy] do
   get 'repository/branches', to: 'projects/branches#index', as: :repository_branches
   post 'repository/branches', to: 'projects/branches#create'
   get 'repository/branches/:name', to: 'projects/branches#show', as: :repository_branch, constraints: { name: /.+/ }
+  head 'repository/branches/:name', to: 'projects/branches#check', constraints: { name: /.+/ }
   delete 'repository/branches/:name', to: 'projects/branches#destroy', constraints: { name: /.+/ }
 end

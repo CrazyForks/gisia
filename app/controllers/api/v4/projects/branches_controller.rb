@@ -4,18 +4,23 @@ module API
   module V4
     module Projects
       class BranchesController < ::API::V4::ProjectBaseController
-        before_action :authorize_read_branches!, only: [:index, :show]
+        before_action :authorize_read_branches!, only: [:index, :show, :check]
         before_action :authorize_push_branches!, only: [:create, :destroy]
 
         def index
-          branches = @project.repository.local_branches.sort_by(&:name)
+          branches = BranchesFinder.new(@project.repository, declared_params).execute
+          @branches = paginate(Kaminari.paginate_array(branches))
+          @merged_branch_names = @project.repository.merged_branch_names(@branches.map(&:name))
+        rescue RegexpError
+          render json: { message: 'Regex is invalid' }, status: :bad_request
+        end
 
-          if params[:search].present?
-            search_term = params[:search].downcase
-            branches = branches.select { |b| b.name.downcase.include?(search_term) }
+        def check
+          if @project.repository.branch_exists?(params[:name])
+            head :no_content
+          else
+            head :not_found
           end
-
-          @branches = branches
         end
 
         def show
@@ -24,9 +29,8 @@ module API
         end
 
         def create
-          branch_params = params.permit(:branch, :ref)
           result = Branches::CreateService.new(@project, current_user)
-            .execute(branch_params[:branch], branch_params[:ref])
+            .execute(params[:branch], params[:ref])
 
           if result[:status] == :success
             @branch = result[:branch]
@@ -62,6 +66,10 @@ module API
 
         def authorize_push_branches!
           forbidden! unless current_user.can?(:push_code, @project)
+        end
+
+        def declared_params
+          params.permit(:search, :regex, :sort).to_h.symbolize_keys
         end
       end
     end
