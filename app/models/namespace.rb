@@ -61,6 +61,7 @@ class Namespace < ApplicationRecord
   validates :path,
     format: { with: Gitlab::Regex.oci_repository_path_regex, message: Gitlab::Regex.oci_repository_path_regex_message },
     if: :path_changed?
+  validate :path_not_reserved, if: -> { parent_id.nil? && path_changed? }
 
   delegate :name, to: :creator, allow_nil: false, prefix: true
 
@@ -180,5 +181,11 @@ class Namespace < ApplicationRecord
     return 'project' if project_namespace?
 
     'user'
+  end
+
+  private
+
+  def path_not_reserved
+    errors.add(:path, 'is a reserved name') if Gitlab::PathRegex::TOP_LEVEL_ROUTES.include?(path.to_s.downcase)
   end
 end
