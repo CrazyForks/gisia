@@ -7,6 +7,10 @@ class Users::SkillsController < ApplicationController
     render formats: [:text], content_type: 'text/markdown', layout: false
   end
 
+  def personal_access_tokens
+    render formats: [:text], content_type: 'text/markdown', layout: false
+  end
+
   private
 
   def current_user

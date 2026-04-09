@@ -7,12 +7,12 @@ description: Manage issues for the project <%= @project.full_path %> via the Gis
 
 Manage issues for this project via the Gisia API. All requests require a personal access token passed in the `PRIVATE-TOKEN` header.
 
-**Base URL:** <%= request.base_url %>/api/v4/projects/<%= @project.id %>
+**Base URL:** <%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>
 
 **Authentication:**
 
 ```bash
-curl <%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues \
+curl <%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/issues \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -21,7 +21,7 @@ curl <%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues \
 ### List Issues
 
 ```bash
-curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues" \
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/issues" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -53,7 +53,7 @@ curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues" \
 ### Get a Single Issue
 
 ```bash
-curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues/:issue_iid" \
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/issues/:issue_iid" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -64,7 +64,7 @@ curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues/:issue_i
 ### Create an Issue
 
 ```bash
-curl -X POST "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues" \
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/issues" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"title": "Your issue title"}'
@@ -84,7 +84,7 @@ curl -X POST "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues"
 ### Update an Issue
 
 ```bash
-curl -X PUT "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues/:issue_iid" \
+curl -X PUT "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/issues/:issue_iid" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"state_event": "close"}'
@@ -107,7 +107,7 @@ curl -X PUT "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues/:
 ### Delete an Issue
 
 ```bash
-curl -X DELETE "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/issues/:issue_iid" \
+curl -X DELETE "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/issues/:issue_iid" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 

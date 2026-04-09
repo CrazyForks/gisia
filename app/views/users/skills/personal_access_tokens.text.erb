@@ -1,0 +1,146 @@
+---
+name: gisia-users-personal-access-tokens-skills
+description: Manage personal access tokens for the authenticated user on Gisia. Covers listing, creating, showing, rotating, and revoking tokens. Admins can also manage tokens belonging to other users.
+---
+
+## Personal Access Tokens
+
+Manage personal access tokens via the Gisia API. All requests require a personal access token passed in the `PRIVATE-TOKEN` header.
+
+**Base URL:** <%= Gitlab.config.gitlab.url %>/api/v4
+
+**Available scopes:** `api`, `read_api`
+
+---
+
+### List Tokens
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/personal_access_tokens" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+**Query parameters:**
+
+- `state` (optional) — Filter by state: `active`, `inactive`, or `revoked`
+- `search` (optional) — Search by token name
+- `user_id` (optional, admin only) — Return tokens for a specific user ID
+- `created_after` / `created_before` (optional) — Filter by creation date (`YYYY-MM-DD`)
+- `expires_after` / `expires_before` (optional) — Filter by expiry date (`YYYY-MM-DD`)
+- `last_used_after` / `last_used_before` (optional) — Filter by last used date (`YYYY-MM-DD`)
+- `page` (optional) — Page number (default: `1`)
+- `per_page` (optional) — Items per page, max `100` (default: `20`)
+
+**Pagination headers returned:**
+
+| Header | Description |
+|--------|-------------|
+| `X-Total` | Total number of tokens |
+| `X-Total-Pages` | Total number of pages |
+| `X-Page` | Current page |
+| `X-Per-Page` | Items per page |
+| `X-Next-Page` | Next page number (empty if on last page) |
+| `X-Prev-Page` | Previous page number (empty if on first page) |
+
+**Example response:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "my-token",
+    "description": null,
+    "revoked": false,
+    "expires_at": "2027-01-01",
+    "scopes": ["api"],
+    "user_id": 5,
+    "last_used_at": "2026-04-09T04:55:39.575Z",
+    "active": true,
+    "created_at": "2026-04-01T08:00:00.000Z"
+  }
+]
+```
+
+---
+
+### Get a Single Token
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/personal_access_tokens/:id" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+Use `:id` as `self` to return the token used for the current request:
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/personal_access_tokens/self" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+The response does not include the plaintext token value.
+
+---
+
+### Create a Token
+
+```bash
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/personal_access_tokens" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "my-token", "scopes": ["api"], "expires_at": "2027-01-01"}'
+```
+
+**Fields:**
+
+- `name` (required) — Token name
+- `scopes` (required) — Array of scopes: `api`, `read_api`
+- `expires_at` (required) — Expiry date in `YYYY-MM-DD` format
+- `description` (optional) — Token description
+
+**Response** includes the plaintext `token` value — this is the only time it is returned:
+
+```json
+{
+  "id": 2,
+  "name": "my-token",
+  "description": null,
+  "revoked": false,
+  "expires_at": "2027-01-01",
+  "scopes": ["api"],
+  "user_id": 5,
+  "last_used_at": null,
+  "active": true,
+  "created_at": "2026-04-09T08:00:00.000Z",
+  "token": "gspat-xxxxxxxxxxxxxxxxxxxx"
+}
+```
+
+---
+
+### Rotate a Token
+
+Revokes the existing token and issues a new one with the same name and scopes.
+
+```bash
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/personal_access_tokens/:id/rotate" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"expires_at": "2027-06-01"}'
+```
+
+**Fields:**
+
+- `expires_at` (optional) — Expiry date for the new token. Defaults to 30 days from now
+
+**Response** includes the plaintext `token` value for the new token.
+
+---
+
+### Revoke a Token
+
+```bash
+curl -X DELETE "<%= Gitlab.config.gitlab.url %>/api/v4/personal_access_tokens/:id/revoke" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+Returns `204 No Content` on success.

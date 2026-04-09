@@ -7,12 +7,12 @@ description: Manage labels for the project <%= @project.full_path %> via the Gis
 
 Manage labels for this project. All requests require a personal access token passed in the `PRIVATE-TOKEN` header.
 
-**Base URL:** <%= request.base_url %>/api/v4/projects/<%= @project.id %>
+**Base URL:** <%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>
 
 **Authentication:**
 
 ```bash
-curl <%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels \
+curl <%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/labels \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -21,7 +21,7 @@ curl <%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels \
 ### List Labels
 
 ```bash
-curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels" \
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/labels" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -47,7 +47,7 @@ curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels" \
 ### Get a Single Label
 
 ```bash
-curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels/:id" \
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/labels/:id" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -58,7 +58,7 @@ curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels/:id" \
 ### Create a Label
 
 ```bash
-curl -X POST "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels" \
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/labels" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"title": "bug", "color": "#e11d48"}'
@@ -75,7 +75,7 @@ curl -X POST "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels"
 ### Update a Label
 
 ```bash
-curl -X PUT "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels/:id" \
+curl -X PUT "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/labels/:id" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"title": "bug", "color": "#dc2626"}'
@@ -92,7 +92,7 @@ curl -X PUT "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels/:
 ### Delete a Label
 
 ```bash
-curl -X DELETE "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/labels/:id" \
+curl -X DELETE "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/labels/:id" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 

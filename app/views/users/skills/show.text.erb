@@ -3,14 +3,20 @@ name: gisia-users-skills
 description: Retrieve the currently authenticated user on Gisia, an AI-native DevOps platform. Use this to confirm your identity and obtain your user ID for use in other API calls.
 ---
 
+### Available Skill Endpoints
+
+| Skill | URL |
+|-------|-----|
+| Personal Access Tokens | <%= Gitlab.config.gitlab.url %>/-/users/personal_access_tokens/skill.md |
+
 ## Current Authenticated User
 
-**Base URL:** <%= request.base_url %>/api/v4
+**Base URL:** <%= Gitlab.config.gitlab.url %>/api/v4
 
 **Authentication:**
 
 ```bash
-curl <%= request.base_url %>/api/v4/user \
+curl <%= Gitlab.config.gitlab.url %>/api/v4/user \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -19,7 +25,7 @@ curl <%= request.base_url %>/api/v4/user \
 ### Get Current User
 
 ```bash
-curl "<%= request.base_url %>/api/v4/user" \
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/user" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -55,6 +61,6 @@ curl "<%= request.base_url %>/api/v4/user" \
   "confirmed_at": "2024-01-15T09:05:22Z",
   "last_sign_in_at": "2024-06-01T11:41:01Z",
   "current_sign_in_at": "2024-06-02T06:36:55Z",
-  "web_url": "<%= request.base_url %>/john_smith"
+  "web_url": "<%= Gitlab.config.gitlab.url %>/john_smith"
 }
 ```

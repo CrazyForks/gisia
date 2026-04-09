@@ -5,12 +5,12 @@ description: Gisia project API skill guide for <%= @project.full_path %>. You ar
 
 ## Project Skills for `<%= @project.full_path %>`
 
-**Base URL:** <%= request.base_url %>/api/v4
+**Base URL:** <%= Gitlab.config.gitlab.url %>/api/v4
 
 **Authentication:**
 
 ```bash
-curl <%= request.base_url %>/api/v4/... \
+curl <%= Gitlab.config.gitlab.url %>/api/v4/... \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -20,11 +20,11 @@ curl <%= request.base_url %>/api/v4/... \
 
 | Skill | Endpoint |
 |-------|----------|
-| Current User | `<%= request.base_url %>/-/users/skill.md` |
-| Project (this file) | `<%= request.base_url %>/<%= @project.full_path %>/-/skill.md` |
-| Issues | `<%= request.base_url %>/<%= @project.full_path %>/-/issues/skill.md` |
-| Epics | `<%= request.base_url %>/<%= @project.full_path %>/-/epics/skill.md` |
-| Labels | `<%= request.base_url %>/<%= @project.full_path %>/-/labels/skill.md` |
+| Current User | `<%= Gitlab.config.gitlab.url %>/-/users/skill.md` |
+| Project (this file) | `<%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/skill.md` |
+| Issues | `<%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/issues/skill.md` |
+| Epics | `<%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/epics/skill.md` |
+| Labels | `<%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/labels/skill.md` |
 
 **Save all skill files locally:**
 
@@ -32,11 +32,11 @@ The `PRIVATE-TOKEN` header is required for private projects. For public projects
 
 ```bash
 mkdir -p ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>
-curl -s <%= request.base_url %>/-/users/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/users.md
-curl -s <%= request.base_url %>/<%= @project.full_path %>/-/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/skill.md
-curl -s <%= request.base_url %>/<%= @project.full_path %>/-/issues/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/issues.md
-curl -s <%= request.base_url %>/<%= @project.full_path %>/-/epics/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/epics.md
-curl -s <%= request.base_url %>/<%= @project.full_path %>/-/labels/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/labels.md
+curl -s <%= Gitlab.config.gitlab.url %>/-/users/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/users.md
+curl -s <%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/skill.md
+curl -s <%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/issues/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/issues.md
+curl -s <%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/epics/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/epics.md
+curl -s <%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/labels/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/labels.md
 ```
 
 ---
@@ -65,7 +65,7 @@ git commit -m "Add custom issues skill"
 git push
 ```
 
-Once pushed, `<%= request.base_url %>/<%= @project.full_path %>/-/issues/skill.md` will return your custom file instead of the default.
+Once pushed, `<%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/issues/skill.md` will return your custom file instead of the default.
 
 To revert to the default, delete the file and push:
 

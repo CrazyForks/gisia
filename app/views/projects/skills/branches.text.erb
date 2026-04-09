@@ -7,12 +7,12 @@ description: Manage branches for the project <%= @project.full_path %> via the G
 
 Manage repository branches for this project. All requests require a personal access token passed in the `PRIVATE-TOKEN` header.
 
-**Base URL:** <%= request.base_url %>/api/v4/projects/<%= @project.id %>
+**Base URL:** <%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>
 
 **Authentication:**
 
 ```bash
-curl <%= request.base_url %>/api/v4/projects/<%= @project.id %>/repository/branches \
+curl <%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/repository/branches \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -21,7 +21,7 @@ curl <%= request.base_url %>/api/v4/projects/<%= @project.id %>/repository/branc
 ### List Branches
 
 ```bash
-curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/repository/branches" \
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/repository/branches" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -60,7 +60,7 @@ curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/repository/bran
 ### Get a Single Branch
 
 ```bash
-curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/repository/branches/:name" \
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/repository/branches/:name" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -71,7 +71,7 @@ curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/repository/bran
 ### Create a Branch
 
 ```bash
-curl -X POST "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/repository/branches" \
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/repository/branches" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"branch": "my-new-branch", "ref": "main"}'
@@ -89,7 +89,7 @@ Returns the created branch with the same structure as **Get a Single Branch** (`
 ### Delete a Branch
 
 ```bash
-curl -X DELETE "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/repository/branches/:name" \
+curl -X DELETE "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/repository/branches/:name" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 

@@ -7,12 +7,12 @@ description: Manage epics for the project <%= @project.full_path %> via the Gisi
 
 Manage epics for this project. All requests require a personal access token passed in the `PRIVATE-TOKEN` header.
 
-**Base URL:** <%= request.base_url %>/api/v4/projects/<%= @project.id %>
+**Base URL:** <%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>
 
 **Authentication:**
 
 ```bash
-curl <%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics \
+curl <%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/epics \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -21,7 +21,7 @@ curl <%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics \
 ### List Epics
 
 ```bash
-curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics" \
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/epics" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -52,7 +52,7 @@ curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics" \
 ### Get a Single Epic
 
 ```bash
-curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics/:epic_iid" \
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/epics/:epic_iid" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -63,7 +63,7 @@ curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics/:epic_iid
 ### Get Issues for an Epic
 
 ```bash
-curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics/:epic_iid/issues" \
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/epics/:epic_iid/issues" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
@@ -72,7 +72,7 @@ curl "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics/:epic_iid
 ### Create an Epic
 
 ```bash
-curl -X POST "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics" \
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/epics" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"title": "Your epic title"}'
@@ -90,7 +90,7 @@ curl -X POST "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics" 
 ### Update an Epic
 
 ```bash
-curl -X PUT "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics/:epic_iid" \
+curl -X PUT "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/epics/:epic_iid" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"state_event": "close"}'
@@ -109,7 +109,7 @@ curl -X PUT "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics/:e
 ### Delete an Epic
 
 ```bash
-curl -X DELETE "<%= request.base_url %>/api/v4/projects/<%= @project.id %>/epics/:epic_iid" \
+curl -X DELETE "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/epics/:epic_iid" \
   -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
 ```
 
