@@ -10,7 +10,15 @@ resources :projects, only: [:index, :show, :create, :update, :destroy] do
     param: :merge_request_iid, controller: 'projects/merge_requests'
   get 'repository/branches', to: 'projects/branches#index', as: :repository_branches
   post 'repository/branches', to: 'projects/branches#create'
-  get 'repository/branches/:name', to: 'projects/branches#show', as: :repository_branch, constraints: { name: /.+/ }
-  match 'repository/branches/:name', to: 'projects/branches#check', via: :head, constraints: { name: /.+/ }
-  delete 'repository/branches/:name', to: 'projects/branches#destroy', constraints: { name: /.+/ }
+  constraints(name: %r{[^/]+}) do
+    get 'repository/branches/:name', to: 'projects/branches#show', as: :repository_branch
+    match 'repository/branches/:name', to: 'projects/branches#check', via: :head
+    delete 'repository/branches/:name', to: 'projects/branches#destroy'
+  end
+  get 'repository/tags', to: 'projects/tags#index', as: :repository_tags
+  post 'repository/tags', to: 'projects/tags#create'
+  constraints(name: %r{[^/]+}) do
+    get 'repository/tags/:name', to: 'projects/tags#show', as: :repository_tag
+    delete 'repository/tags/:name', to: 'projects/tags#destroy'
+  end
 end
