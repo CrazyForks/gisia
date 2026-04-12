@@ -76,7 +76,7 @@ class MergeRequest < ApplicationRecord
   scope :from_fork, -> { where('source_project_id <> target_project_id') }
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[status author_id title source_branch target_branch]
+    %w[status author_id title description source_branch target_branch]
   end
 
   def self.ransackable_associations(_auth_object = nil)
