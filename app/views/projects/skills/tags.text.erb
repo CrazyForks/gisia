@@ -1,0 +1,114 @@
+---
+name: gisia-<%= @project.full_path.gsub('/', '-') %>-tags-skills
+description: Manage repository tags for the project <%= @project.full_path %> via the Gisia API. You are connected to Gisia, an AI-native DevOps platform. Covers listing, showing, creating, and deleting tags, including annotated tags.
+---
+
+## Tags — `<%= @project.full_path %>`
+
+Manage tags for this project repository. All requests require a personal access token passed in the `PRIVATE-TOKEN` header.
+
+**Base URL:** <%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>
+
+**Authentication:**
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/repository/tags" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+---
+
+### List Tags
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/repository/tags" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+**Query parameters:**
+
+- `search` (optional) — Filter tags by name substring
+- `sort` (optional) — Sort order (e.g. `name_asc`, `name_desc`, `updated_asc`, `updated_desc`)
+- `page` (optional) — Page number (default: `1`)
+- `per_page` (optional) — Items per page, max `100` (default: `20`)
+
+**Response fields per tag:**
+
+| Field | Description |
+|-------|-------------|
+| `name` | Tag name |
+| `message` | Annotation message (null for lightweight tags) |
+| `target` | SHA the tag points at |
+| `created_at` | Tag creation date (null for lightweight tags) |
+| `protected` | Whether this tag is protected |
+| `last_commit` | Commit object the tag points at (`id`, `short_id`, `title`, `author_name`, `authored_date`) |
+
+**Pagination headers returned:**
+
+| Header | Description |
+|--------|-------------|
+| `X-Total` | Total number of tags |
+| `X-Total-Pages` | Total number of pages |
+| `X-Page` | Current page |
+| `X-Per-Page` | Items per page |
+| `X-Next-Page` | Next page number (empty if on last page) |
+| `X-Prev-Page` | Previous page number (empty if on first page) |
+
+---
+
+### Get a Single Tag
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/repository/tags/:name" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:name` — Tag name (URL-encoded if it contains special characters)
+- Returns `404 Not Found` if the tag does not exist
+
+---
+
+### Create a Tag
+
+**Lightweight tag:**
+
+```bash
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/repository/tags" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"tag": "v1.0.0", "ref": "main"}'
+```
+
+**Annotated tag:**
+
+```bash
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/repository/tags" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"tag": "v1.0.0", "ref": "main", "message": "Release v1.0.0"}'
+```
+
+**Fields:**
+
+- `tag` (required) — Name of the new tag
+- `ref` (required) — Branch name, tag, or commit SHA to create the tag from
+- `message` (optional) — Annotation message; omit for a lightweight tag
+
+Returns `201 Created` with the tag object on success.
+Returns `400 Bad Request` if `tag` or `ref` is missing, the ref does not exist, or the tag already exists.
+Returns `403 Forbidden` if the tag name matches a protected pattern and the user lacks sufficient access.
+
+---
+
+### Delete a Tag
+
+```bash
+curl -X DELETE "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/repository/tags/:name" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:name` — Tag name (URL-encoded if it contains special characters)
+
+Returns `204 No Content` on success.
+Returns `403 Forbidden` if the tag is protected and the user lacks sufficient access.
+Returns `404 Not Found` if the tag does not exist.
