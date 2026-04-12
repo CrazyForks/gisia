@@ -2527,7 +2527,8 @@ CREATE TABLE public.projects (
     runners_token_encrypted character varying,
     build_timeout integer DEFAULT 3600 NOT NULL,
     jobs_cache_index integer,
-    workflows character varying DEFAULT 'workflow::'::character varying
+    workflows character varying DEFAULT 'workflow::'::character varying,
+    public_jobs boolean DEFAULT true NOT NULL
 );
 
 
@@ -6437,6 +6438,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260412081139'),
 ('20260408062525'),
 ('20260318052307'),
 ('20260313154116'),
