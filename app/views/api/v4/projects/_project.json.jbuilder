@@ -7,5 +7,6 @@ json.visibility project.visibility
 json.namespace_id project.namespace.parent_id
 json.default_branch project.default_branch
 json.web_url "#{Gitlab.config.gitlab.url}/#{project.full_path}"
+json.public_jobs project.public_jobs
 json.created_at project.created_at
 json.updated_at project.updated_at

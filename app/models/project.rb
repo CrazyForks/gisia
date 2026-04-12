@@ -78,6 +78,8 @@ class Project < ApplicationRecord
   attr_accessor :creator_id
   alias parent namespace
   alias_attribute :title, :name
+  # Todo, remove this if the project policy updated
+  alias_attribute :public_builds, :public_jobs
 
   with_options to: :namespace do
     delegate :root_ancestor
@@ -650,4 +652,5 @@ class Project < ApplicationRecord
 
     errors.add(:namespace, 'must have a parent namespace')
   end
+
 end

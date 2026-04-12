@@ -8,6 +8,23 @@ resources :projects, only: [:index, :show, :create, :update, :destroy] do
   end
   resources :merge_requests, only: [:index, :show, :create, :update, :destroy],
     param: :merge_request_iid, controller: 'projects/merge_requests'
+  resources :pipelines, only: [:index, :show, :destroy], controller: 'projects/pipelines' do
+    collection do
+      post :pipeline, action: :create
+    end
+    member do
+      post :retry
+      post :cancel
+      get :jobs, controller: 'projects/jobs', action: :pipeline_jobs
+    end
+  end
+  resources :jobs, only: [:index, :show], controller: 'projects/jobs' do
+    member do
+      get :trace
+      post :retry
+      post :cancel
+    end
+  end
   get 'repository/branches', to: 'projects/branches#index', as: :repository_branches
   post 'repository/branches', to: 'projects/branches#create'
   constraints(name: %r{[^/]+}) do

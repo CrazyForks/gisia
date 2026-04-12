@@ -1,0 +1,125 @@
+---
+name: gisia-<%= @project.full_path.gsub('/', '-') %>-jobs-skills
+description: Manage CI/CD jobs for the project <%= @project.full_path %> via the Gisia API. You are connected to Gisia, an AI-native DevOps platform. Covers listing, showing, tracing, retrying, and canceling jobs.
+---
+
+## Jobs — `<%= @project.full_path %>`
+
+Manage CI/CD jobs for this project. All requests require a personal access token passed in the `PRIVATE-TOKEN` header.
+
+**Base URL:** <%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>
+
+**Authentication:**
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/jobs" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+---
+
+### List Project Jobs
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/jobs" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+**Query parameters:**
+
+- `scope` (optional) — Filter by job status: `created`, `pending`, `running`, `success`, `failed`, `canceled`, `skipped`, `manual`, `scheduled`
+- `page` (optional) — Page number (default: `1`)
+- `per_page` (optional) — Items per page, max `100` (default: `20`)
+
+**Response fields per job:**
+
+| Field | Description |
+|-------|-------------|
+| `id` | Job ID |
+| `name` | Job name from the CI configuration |
+| `status` | Job status |
+| `stage` | Stage name |
+| `ref` | Branch or tag name |
+| `sha` | Commit SHA |
+| `allow_failure` | Whether the job is allowed to fail |
+| `created_at` | Creation timestamp |
+| `started_at` | Start timestamp |
+| `finished_at` | Finish timestamp |
+| `duration` | Duration in seconds |
+| `queued_duration` | Time spent in queue before running |
+| `web_url` | URL to view the job in the browser |
+| `pipeline` | Nested object with `id`, `iid`, `ref`, `sha`, `status` |
+| `user` | Nested object with `id`, `name`, `username` |
+
+**Pagination headers returned:**
+
+| Header | Description |
+|--------|-------------|
+| `X-Total` | Total number of jobs |
+| `X-Total-Pages` | Total number of pages |
+| `X-Page` | Current page |
+| `X-Per-Page` | Items per page |
+| `X-Next-Page` | Next page number (empty if on last page) |
+| `X-Prev-Page` | Previous page number (empty if on first page) |
+
+---
+
+### List Jobs for a Pipeline
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/pipelines/:pipeline_id/jobs" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:pipeline_id` — Pipeline ID
+- Supports the same `scope` and pagination parameters as the project jobs list
+
+---
+
+### Get a Single Job
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/jobs/:id" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:id` — Job ID
+- Returns `404 Not Found` if the job does not exist
+
+---
+
+### Get a Job Log (Trace)
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/jobs/:id/trace" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:id` — Job ID
+- Returns `text/plain` content with the raw job log
+
+---
+
+### Retry a Job
+
+```bash
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/jobs/:id/retry" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:id` — Job ID
+- Returns `200 OK` with the new job object on success
+- Returns `400 Bad Request` if the job is not retryable
+
+---
+
+### Cancel a Job
+
+```bash
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/jobs/:id/cancel" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:id` — Job ID
+- Returns `200 OK` with the job object on success
+- Returns `400 Bad Request` if the job is not cancelable

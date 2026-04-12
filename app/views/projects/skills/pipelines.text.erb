@@ -1,0 +1,135 @@
+---
+name: gisia-<%= @project.full_path.gsub('/', '-') %>-pipelines-skills
+description: Manage CI/CD pipelines for the project <%= @project.full_path %> via the Gisia API. You are connected to Gisia, an AI-native DevOps platform. Covers listing, showing, creating, retrying, canceling, and deleting pipelines.
+---
+
+## Pipelines — `<%= @project.full_path %>`
+
+Manage CI/CD pipelines for this project. All requests require a personal access token passed in the `PRIVATE-TOKEN` header.
+
+**Base URL:** <%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>
+
+**Authentication:**
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/pipelines" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+---
+
+### List Pipelines
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/pipelines" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+**Query parameters:**
+
+- `status` (optional) — Filter by pipeline status: `created`, `pending`, `running`, `success`, `failed`, `canceled`, `skipped`, `manual`, `scheduled`
+- `ref` (optional) — Filter by branch or tag name
+- `sha` (optional) — Filter by commit SHA
+- `page` (optional) — Page number (default: `1`)
+- `per_page` (optional) — Items per page, max `100` (default: `20`)
+
+**Response fields per pipeline:**
+
+| Field | Description |
+|-------|-------------|
+| `id` | Pipeline ID |
+| `iid` | Pipeline internal ID scoped to the project |
+| `project_id` | Project ID |
+| `sha` | Commit SHA |
+| `ref` | Branch or tag name |
+| `status` | Pipeline status |
+| `source` | How the pipeline was triggered (e.g. `push`, `api`, `schedule`) |
+| `created_at` | Creation timestamp |
+| `updated_at` | Last update timestamp |
+| `started_at` | Start timestamp |
+| `finished_at` | Finish timestamp |
+| `duration` | Duration in seconds |
+| `web_url` | URL to view the pipeline in the browser |
+
+**Pagination headers returned:**
+
+| Header | Description |
+|--------|-------------|
+| `X-Total` | Total number of pipelines |
+| `X-Total-Pages` | Total number of pages |
+| `X-Page` | Current page |
+| `X-Per-Page` | Items per page |
+| `X-Next-Page` | Next page number (empty if on last page) |
+| `X-Prev-Page` | Previous page number (empty if on first page) |
+
+---
+
+### Get a Single Pipeline
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/pipelines/:id" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:id` — Pipeline ID
+- Returns `404 Not Found` if the pipeline does not exist
+
+---
+
+### Create a Pipeline
+
+```bash
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/pipelines/pipeline" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"ref": "main"}'
+```
+
+**Fields:**
+
+- `ref` (required) — Branch or tag name to run the pipeline on
+- `variables` (optional) — Array of `{key, value}` objects to pass as pipeline variables
+
+Returns `201 Created` with the pipeline object on success.
+Returns `400 Bad Request` if `ref` is missing or invalid.
+
+---
+
+### Retry a Pipeline
+
+Retries all failed or canceled jobs in the pipeline.
+
+```bash
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/pipelines/:id/retry" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:id` — Pipeline ID
+- Returns `200 OK` with the pipeline object on success
+- Returns `400 Bad Request` if there are no retryable jobs
+
+---
+
+### Cancel a Pipeline
+
+```bash
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/pipelines/:id/cancel" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:id` — Pipeline ID
+- Returns `200 OK` with the pipeline object on success
+- Returns `400 Bad Request` if the pipeline is not cancelable
+
+---
+
+### Delete a Pipeline
+
+```bash
+curl -X DELETE "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/pipelines/:id" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:id` — Pipeline ID
+- Returns `204 No Content` on success
+- Returns `403 Forbidden` if you do not have permission

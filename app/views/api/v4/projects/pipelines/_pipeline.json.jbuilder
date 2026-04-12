@@ -1,0 +1,13 @@
+json.id pipeline.id
+json.iid pipeline.iid
+json.project_id pipeline.project_id
+json.sha pipeline.sha
+json.ref pipeline.ref
+json.status pipeline.status
+json.source pipeline.source
+json.created_at pipeline.created_at
+json.updated_at pipeline.updated_at
+json.started_at pipeline.started_at
+json.finished_at pipeline.finished_at
+json.duration pipeline.duration
+json.web_url "#{Gitlab.config.gitlab.url}/#{pipeline.project.full_path}/-/pipelines/#{pipeline.id}"

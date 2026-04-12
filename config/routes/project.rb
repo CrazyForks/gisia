@@ -29,6 +29,8 @@ constraints(::Constraints::ProjectUrlConstrainer.new) do
         get 'branches/skill.md', to: 'skills#branches', format: false, as: :branches_skill_md
         get 'tags/skill.md', to: 'skills#tags', format: false, as: :tags_skill_md
         get 'merge_requests/skill.md', to: 'skills#merge_requests', format: false, as: :merge_requests_skill_md
+        get 'pipelines/skill.md', to: 'skills#pipelines', format: false, as: :pipelines_skill_md
+        get 'jobs/skill.md', to: 'skills#jobs', format: false, as: :jobs_skill_md
 
         draw :repository
         draw :merge_requests

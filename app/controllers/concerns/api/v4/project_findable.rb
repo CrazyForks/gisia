@@ -37,7 +37,8 @@ module API
       def find_project!
         id = params[:project_id] || params[:id]
         @project = find_project(id)
-        not_found! unless @project
+        return not_found! unless @project
+        return not_found! unless current_user&.can?(:read_project, @project)
       end
     end
   end

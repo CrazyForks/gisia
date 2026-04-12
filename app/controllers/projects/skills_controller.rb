@@ -52,6 +52,20 @@ class Projects::SkillsController < Projects::ApplicationController
     render formats: [:text], content_type: 'text/markdown', layout: false
   end
 
+  def pipelines
+    content = repo_skill_content('pipelines')
+    return render plain: content, content_type: 'text/markdown', layout: false if content
+
+    render formats: [:text], content_type: 'text/markdown', layout: false
+  end
+
+  def jobs
+    content = repo_skill_content('jobs')
+    return render plain: content, content_type: 'text/markdown', layout: false if content
+
+    render formats: [:text], content_type: 'text/markdown', layout: false
+  end
+
   private
 
   def repo_skill_content(name)
