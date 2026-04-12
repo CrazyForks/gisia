@@ -1,0 +1,146 @@
+---
+name: gisia-<%= @project.full_path.gsub('/', '-') %>-merge-requests-skills
+description: Manage merge requests for the project <%= @project.full_path %> via the Gisia API. You are connected to Gisia, an AI-native DevOps platform. Covers listing, showing, creating, updating, and deleting merge requests.
+---
+
+## Merge Requests — `<%= @project.full_path %>`
+
+Manage merge requests for this project. All requests require a personal access token passed in the `PRIVATE-TOKEN` header.
+
+**Base URL:** <%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>
+
+**Authentication:**
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/merge_requests" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+---
+
+### List Merge Requests
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/merge_requests" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+**Query parameters:**
+
+- `state` (optional) — Filter by state: `opened`, `closed`, `merged`, `all` (default: all)
+- `search` (optional) — Filter by title or description substring
+- `source_branch` (optional) — Filter by source branch name
+- `target_branch` (optional) — Filter by target branch name
+- `author_id` (optional) — Filter by author user ID
+- `assignee_id` (optional) — Filter by assignee user ID
+- `reviewer_id` (optional) — Filter by reviewer user ID
+- `page` (optional) — Page number (default: `1`)
+- `per_page` (optional) — Items per page, max `100` (default: `20`)
+
+**Response fields per merge request:**
+
+| Field | Description |
+|-------|-------------|
+| `id` | Internal MR ID |
+| `iid` | Project-scoped MR number (use this in URLs) |
+| `project_id` | Target project ID |
+| `title` | MR title |
+| `description` | MR description |
+| `state` | State: `opened`, `closed`, `merged` |
+| `source_branch` | Branch being merged |
+| `target_branch` | Branch to merge into |
+| `author` | Author user object (`id`, `username`, `name`) |
+| `assignees` | List of assignee user objects |
+| `reviewers` | List of reviewer user objects |
+| `web_url` | Full URL to the MR in the UI |
+| `references` | Short (`!1`), relative, and full reference strings |
+| `created_at` | Creation timestamp |
+| `updated_at` | Last update timestamp |
+| `merged_at` | Merge timestamp (null if not merged) |
+| `merge_commit_sha` | Merge commit SHA (null if not merged) |
+
+**Pagination headers returned:**
+
+| Header | Description |
+|--------|-------------|
+| `X-Total` | Total number of merge requests |
+| `X-Total-Pages` | Total number of pages |
+| `X-Page` | Current page |
+| `X-Per-Page` | Items per page |
+| `X-Next-Page` | Next page number (empty if on last page) |
+| `X-Prev-Page` | Previous page number (empty if on first page) |
+
+---
+
+### Get a Single Merge Request
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/merge_requests/:iid" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:iid` — Project-scoped MR number (shown as `!N` in the UI)
+- Returns `404 Not Found` if the MR does not exist
+
+---
+
+### Create a Merge Request
+
+```bash
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/merge_requests" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"source_branch": "feature-branch", "target_branch": "main", "title": "My feature"}'
+```
+
+**Fields:**
+
+- `source_branch` (required) — Branch to merge from
+- `target_branch` (required) — Branch to merge into
+- `title` (optional) — MR title; defaults to `Merge <source> into <target>` if omitted
+- `description` (optional) — MR description
+- `assignee_ids` (optional) — Array of user IDs to assign
+- `reviewer_ids` (optional) — Array of user IDs to set as reviewers
+
+Returns `201 Created` with the MR object on success.
+Returns `422 Unprocessable Entity` if `source_branch` or `target_branch` is missing or invalid.
+
+---
+
+### Update a Merge Request
+
+```bash
+curl -X PUT "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/merge_requests/:iid" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Updated title"}'
+```
+
+**Fields:**
+
+- `title` (optional) — New title
+- `description` (optional) — New description
+- `state_event` (optional) — `close` to close the MR, `reopen` to reopen a closed MR
+- `assignee_ids` (optional) — Replace assignees with this array of user IDs
+- `reviewer_ids` (optional) — Replace reviewers with this array of user IDs
+
+Only the MR author can update or delete an MR.
+Returns `200 OK` with the updated MR object on success.
+Returns `403 Forbidden` if the current user is not the author.
+Returns `404 Not Found` if the MR does not exist.
+
+---
+
+### Delete a Merge Request
+
+```bash
+curl -X DELETE "<%= Gitlab.config.gitlab.url %>/api/v4/projects/<%= @project.id %>/merge_requests/:iid" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+- `:iid` — Project-scoped MR number
+
+Only the MR author can delete an MR.
+Returns `204 No Content` on success.
+Returns `403 Forbidden` if the current user is not the author.
+Returns `404 Not Found` if the MR does not exist.

@@ -45,6 +45,13 @@ class Projects::SkillsController < Projects::ApplicationController
     render formats: [:text], content_type: 'text/markdown', layout: false
   end
 
+  def merge_requests
+    content = repo_skill_content('merge_requests')
+    return render plain: content, content_type: 'text/markdown', layout: false if content
+
+    render formats: [:text], content_type: 'text/markdown', layout: false
+  end
+
   private
 
   def repo_skill_content(name)
