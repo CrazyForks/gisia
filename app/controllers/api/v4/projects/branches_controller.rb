@@ -7,6 +7,7 @@ module API
         before_action :authorize_read_branches!, only: [:index, :show, :check]
         before_action :authorize_push_branches!, only: [:create, :destroy]
         before_action -> { require_params!(:branch, :ref) }, only: [:create]
+        before_action :authorize_create_protected_branch!, only: [:create]
 
         def index
           branches = BranchesFinder.new(@project.repository, declared_params).execute
@@ -72,6 +73,12 @@ module API
 
         def authorize_push_branches!
           forbidden! unless current_user.can?(:push_code, @project)
+        end
+
+        def authorize_create_protected_branch!
+          return unless ProtectedBranch.protected?(@project, params[:branch])
+
+          forbidden! unless @project.protected_branches.push.allowed?(current_user.max_access(@project), params[:branch])
         end
 
         def declared_params
