@@ -111,6 +111,10 @@ class Note < ApplicationRecord
     namespace&.project
   end
 
+  def resource_parent
+    noteable.try(:resource_parent) || project
+  end
+
   def for_project_noteable?
     project.present?
   end
