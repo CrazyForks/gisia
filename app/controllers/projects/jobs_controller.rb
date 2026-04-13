@@ -13,15 +13,13 @@ class Projects::JobsController < Projects::ApplicationController
   include SendFileUpload
   include WorkhorseHelper
 
+  before_action :authorize_read_build!
+  before_action :authorize_update_build!, only: [:retry]
   before_action :job, only: [:show, :raw, :retry]
 
   def index
     @jobs = project.builds
-
-    if params[:status].present?
-      @jobs = @jobs.where(status: params[:status])
-    end
-
+    @jobs = @jobs.where(status: job_params[:status]) if job_params[:status].present?
     @jobs = @jobs.order(id: :desc).page(params[:page]).per(20)
     @statuses = Ci::HasStatus::AVAILABLE_STATUSES
   end
@@ -61,6 +59,18 @@ class Projects::JobsController < Projects::ApplicationController
 
   def job
     @job = project.builds.find(params[:id])
+  end
+
+  def job_params
+    @job_params ||= params.permit(:status)
+  end
+
+  def authorize_read_build!
+    forbidden! unless current_user.can?(:read_build, @project)
+  end
+
+  def authorize_update_build!
+    forbidden! unless current_user.can?(:update_build, @project)
   end
 
   def raw_send_params
