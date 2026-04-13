@@ -30,6 +30,7 @@ curl <%= Gitlab.config.gitlab.url %>/api/v4/... \
 | Merge Requests | `<%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/merge_requests/skill.md` |
 | Pipelines | `<%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/pipelines/skill.md` |
 | Jobs | `<%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/jobs/skill.md` |
+| Members | `<%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/members/skill.md` |
 
 **Save all skill files locally:**
 
@@ -47,6 +48,7 @@ curl -s <%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/tags/skill.m
 curl -s <%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/merge_requests/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/merge_requests.md
 curl -s <%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/pipelines/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/pipelines.md
 curl -s <%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/jobs/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/jobs.md
+curl -s <%= Gitlab.config.gitlab.url %>/<%= @project.full_path %>/-/members/skill.md -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" > ~/.gisiabot/skills/<%= @project.full_path.gsub('/', '-') %>/members.md
 ```
 
 ---
@@ -68,6 +70,7 @@ Each skill file served by Gisia can be overridden per-project by committing a re
 | Merge Requests | `.gisiabot/skills/merge_requests.md` |
 | Pipelines | `.gisiabot/skills/pipelines.md` |
 | Jobs | `.gisiabot/skills/jobs.md` |
+| Members | `.gisiabot/skills/members.md` |
 
 **Example — override the issues skill:**
 

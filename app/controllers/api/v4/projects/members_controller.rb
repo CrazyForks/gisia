@@ -21,6 +21,7 @@ module API
             user: user,
             namespace: @project.namespace,
             access_level: params[:access_level],
+            expires_at: params[:expires_at],
             created_by: current_user
           )
 
@@ -34,7 +35,9 @@ module API
         end
 
         def update
-          if @member.update(access_level: params[:access_level])
+          update_params = { access_level: params[:access_level] }
+          update_params[:expires_at] = params[:expires_at] if params.key?(:expires_at)
+          if @member.update(update_params)
             render :show
           else
             render json: { message: @member.errors.full_messages }, status: :unprocessable_entity
