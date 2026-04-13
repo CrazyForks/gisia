@@ -13,8 +13,8 @@ class Projects::NotesController < Projects::ApplicationController
   before_action :find_noteable, only: %i[index create]
   before_action :find_note, only: %i[show edit update destroy resolve unresolve replies]
   before_action :authorize_read_note!
-  # before_action :authorize_create_note!, only: [:create]
-  # before_action :authorize_admin_note!, only: [:update, :destroy]
+  before_action :authorize_create_note!, only: [:create]
+  before_action :authorize_admin_note!, only: [:update, :destroy]
 
   def index
     @notes = notes_finder.execute
@@ -46,7 +46,7 @@ class Projects::NotesController < Projects::ApplicationController
     partition_model = Note.partition_model_for(@noteable.class.name)
 
     # Handle discussion_id: nil for root notes, parent note ID for replies
-    discussion_id = params[:note][:discussion_id].present? ? params[:note][:discussion_id].to_i : nil
+    discussion_id = note_params[:discussion_id].present? ? note_params[:discussion_id].to_i : nil
 
     @note = partition_model.new(note_params.merge(
       noteable: @noteable,
@@ -140,11 +140,12 @@ class Projects::NotesController < Projects::ApplicationController
   private
 
   def find_noteable
-    @noteable ||= case params[:note][:noteable_type]
+    target_id = params[:target_id]
+    @noteable ||= case note_params[:noteable_type]
                   when 'MergeRequest'
-                    @project.merge_requests.find_by(id: params[:target_id])
+                    @project.merge_requests.find_by(id: target_id)
                   else
-                    @project.work_items.find_by(id: params[:target_id])
+                    @project.work_items.find_by(id: target_id)
                   end
   end
 
@@ -157,7 +158,7 @@ class Projects::NotesController < Projects::ApplicationController
       current_user,
       namespace: @project.namespace,
       noteable: @noteable,
-      notes_filter: params[:notes_filter] || NotesFinder::NOTES_FILTERS[:all_notes]
+      notes_filter: params.permit(:notes_filter)[:notes_filter] || NotesFinder::NOTES_FILTERS[:all_notes]
     )
   end
 

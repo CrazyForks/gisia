@@ -8,7 +8,7 @@ class Projects::StagesController < Projects::ApplicationController
   before_action :set_stage, except: [:create]
 
   def create
-    @stage = @board.stages.build(title: params[:title] || 'List')
+    @stage = @board.stages.build(title: stage_params[:title] || 'List')
     @stage.rank = closed_stage.rank if closed_stage
 
     if @stage.save
@@ -34,10 +34,7 @@ class Projects::StagesController < Projects::ApplicationController
   end
 
   def update_stage
-    update_params = {}
-    update_params[:title] = params[:title] if params[:title].present?
-    update_params[:rank] = params[:rank] if params[:rank].present?
-    @stage.update(update_params)
+    @stage.update(stage_params.compact_blank)
     @issues = issues_for_stage
     @can_edit_board = can_edit_board?
 
@@ -47,10 +44,8 @@ class Projects::StagesController < Projects::ApplicationController
   end
 
   def update_labels
-    stage_params = params[:stage] || {}
-    label_ids = stage_params[:label_ids]&.split(',')&.reject(&:blank?) || []
-    update_params = { label_ids: label_ids }.compact
-    @stage.update(update_params)
+    label_ids = stage_label_params[:label_ids]&.split(',')&.reject(&:blank?) || []
+    @stage.update(label_ids: label_ids)
     @issues = issues_for_stage
     @can_edit_board = can_edit_board?
 
@@ -60,7 +55,7 @@ class Projects::StagesController < Projects::ApplicationController
   end
 
   def search_stage_labels
-    @labels = @project.namespace.labels.search_by_title(params[:q]).limit(10)
+    @labels = @project.namespace.labels.search_by_title(search_params[:q]).limit(10)
     @selected_ids = @stage.label_ids.map(&:to_s)
 
     respond_to do |format|
@@ -81,6 +76,18 @@ class Projects::StagesController < Projects::ApplicationController
   end
 
   private
+
+  def stage_params
+    @stage_params ||= params.permit(:title, :rank)
+  end
+
+  def stage_label_params
+    @stage_label_params ||= params.require(:stage).permit(:label_ids)
+  end
+
+  def search_params
+    @search_params ||= params.permit(:q)
+  end
 
   def authorize_maintainer
     access_level = @project.team.max_member_access(current_user.id)

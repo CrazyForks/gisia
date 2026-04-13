@@ -11,10 +11,10 @@
 
 class Projects::DiffNotesController < Projects::ApplicationController
   before_action :merge_request
+  before_action :authorize_create_note!
 
   def create
-    # Handle discussion_id: nil for root notes, parent note ID for replies
-    discussion_id = params[:diff_note][:discussion_id].present? ? params[:diff_note][:discussion_id].to_i : nil
+    discussion_id = diff_note_params[:discussion_id].present? ? diff_note_params[:discussion_id].to_i : nil
 
     @diff_note = DiffNote.new(diff_note_params.merge(
       noteable: merge_request,
@@ -27,7 +27,7 @@ class Projects::DiffNotesController < Projects::ApplicationController
       @parent_note = Note.find(discussion_id) if discussion_id.present?
     else
       render turbo_stream: turbo_stream.replace(
-        "comment-form-#{params[:diff_note][:line_code]}",
+        "comment-form-#{diff_note_params[:line_code]}",
         partial: 'shared/error',
         locals: { errors: @diff_note.errors.full_messages }
       )
@@ -38,6 +38,10 @@ class Projects::DiffNotesController < Projects::ApplicationController
 
   def merge_request
     @merge_request ||= project.merge_requests.find(params[:merge_request_id])
+  end
+
+  def authorize_create_note!
+    head :forbidden unless current_user&.can?(:create_note, @merge_request)
   end
 
   def diff_note_params

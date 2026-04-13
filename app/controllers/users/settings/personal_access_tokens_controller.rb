@@ -15,7 +15,7 @@ module Users
 
       def create
         @token = current_user.personal_access_tokens.build(token_params)
-        @token.scopes = params[:personal_access_token][:scopes]&.reject(&:blank?) || []
+        @token.scopes = token_params[:scopes]&.reject(&:blank?) || []
 
         if @token.save
           @new_token = @token.token
@@ -38,7 +38,7 @@ module Users
       private
 
       def token_params
-        params.require(:personal_access_token).permit(:name, :expires_at, :description)
+        @token_params ||= params.require(:personal_access_token).permit(:name, :expires_at, :description, scopes: [])
       end
     end
   end

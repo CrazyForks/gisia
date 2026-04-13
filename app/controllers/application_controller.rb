@@ -12,4 +12,8 @@ class ApplicationController < ActionController::Base
       Gitlab::I18n.with_default_locale(&block)
     end
   end
+
+  def permitted_param(key)
+    params.permit(key)[key]
+  end
 end
