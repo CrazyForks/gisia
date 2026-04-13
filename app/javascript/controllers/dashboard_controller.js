@@ -13,7 +13,13 @@ export default class extends Controller {
 
   toggleMenu(event) {
     event.preventDefault();
-    this.menuTarget.classList.toggle("hidden");
+    const isHidden = this.menuTarget.classList.contains("hidden");
+    document.querySelectorAll("[data-dashboard-target='menu']").forEach(menu => {
+      menu.classList.add("hidden");
+    });
+    if (isHidden) {
+      this.menuTarget.classList.remove("hidden");
+    }
   }
 
   handleEscapeKey(event) {
