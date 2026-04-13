@@ -1,6 +1,6 @@
 ---
 name: gisia-users-skills
-description: Retrieve the currently authenticated user on Gisia, an AI-native DevOps platform. Use this to confirm your identity and obtain your user ID for use in other API calls.
+description: Manage users on Gisia, an AI-native DevOps platform. Use this to confirm your identity, obtain your user ID, or perform full CRUD operations on users as an admin.
 ---
 
 ### Available Skill Endpoints
@@ -9,7 +9,7 @@ description: Retrieve the currently authenticated user on Gisia, an AI-native De
 |-------|-----|
 | Personal Access Tokens | <%= Gitlab.config.gitlab.url %>/-/users/personal_access_tokens/skill.md |
 
-## Current Authenticated User
+## Users API
 
 **Base URL:** <%= Gitlab.config.gitlab.url %>/api/v4
 
@@ -64,3 +64,136 @@ curl "<%= Gitlab.config.gitlab.url %>/api/v4/user" \
   "web_url": "<%= Gitlab.config.gitlab.url %>/john_smith"
 }
 ```
+
+---
+
+### List Users (admin only)
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/users" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+Filter by username:
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/users?username=john_smith" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+**Query parameters** (all optional):
+
+| Parameter | Description |
+|-----------|-------------|
+| `username` | Filter by exact username |
+
+**Example response:**
+
+```json
+[
+  { "id": 1, "username": "john_smith", "name": "John Smith", "email": "john@example.com" },
+  { "id": 2, "username": "jane_doe", "name": "Jane Doe", "email": "jane@example.com" }
+]
+```
+
+---
+
+### Create a User (admin only)
+
+```bash
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/users" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "newuser@example.com",
+    "name": "New User",
+    "username": "newuser",
+    "password": "SecurePassword123!",
+    "admin": false
+  }'
+```
+
+**Request parameters:**
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `email` | yes | Email address of the new user |
+| `name` | yes | Display name |
+| `username` | yes | Username (must be unique) |
+| `password` | yes | Account password |
+| `admin` | no | Set to `true` to grant admin privileges (default: `false`) |
+
+**Response fields:**
+
+| Field | Description |
+|-------|-------------|
+| `id` | User ID |
+| `username` | Username |
+| `name` | Display name |
+| `email` | Email address |
+| `state` | Account state |
+| `admin` | Whether the user has admin privileges |
+| `created_at` | Account creation timestamp |
+| `confirmed_at` | Email confirmation timestamp (auto-confirmed for admin-created accounts) |
+| `web_url` | Profile URL |
+
+**Example response:**
+
+```json
+{
+  "id": 42,
+  "username": "newuser",
+  "name": "New User",
+  "email": "newuser@example.com",
+  "state": "active",
+  "admin": false,
+  "created_at": "2024-06-01T08:00:00Z",
+  "confirmed_at": "2024-06-01T08:00:00Z",
+  "web_url": "<%= Gitlab.config.gitlab.url %>/newuser"
+}
+```
+
+---
+
+### Get a User by ID (admin only)
+
+```bash
+curl "<%= Gitlab.config.gitlab.url %>/api/v4/users/:id" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+Returns the same fields as the create response.
+
+---
+
+### Update a User (admin only)
+
+```bash
+curl -X PUT "<%= Gitlab.config.gitlab.url %>/api/v4/users/:id" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Updated Name", "admin": true}'
+```
+
+**Request parameters** (all optional):
+
+| Parameter | Description |
+|-----------|-------------|
+| `email` | New email address |
+| `name` | New display name |
+| `username` | New username |
+| `password` | New password |
+| `admin` | Grant or revoke admin privileges |
+
+Returns the updated user fields on success.
+
+---
+
+### Delete a User (admin only)
+
+```bash
+curl -X DELETE "<%= Gitlab.config.gitlab.url %>/api/v4/users/:id" \
+  -H "PRIVATE-TOKEN: YOUR_PERSONAL_ACCESS_TOKEN"
+```
+
+Returns `204 No Content` on success.

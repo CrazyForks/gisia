@@ -1,0 +1,9 @@
+json.id user.id
+json.username user.username
+json.name user.name
+json.email user.email
+json.state user.state
+json.admin user.admin?
+json.created_at user.created_at
+json.confirmed_at user.confirmed_at
+json.web_url "#{Gitlab.config.gitlab.url}/#{user.username}"

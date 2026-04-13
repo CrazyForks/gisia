@@ -1,0 +1,13 @@
+json.id current_user.id
+json.username current_user.username
+json.name current_user.name
+json.email current_user.email
+json.state current_user.state
+json.locked current_user.locked_at.present?
+json.admin current_user.admin?
+json.created_at current_user.created_at
+json.confirmed_at current_user.confirmed_at
+json.last_sign_in_at current_user.last_sign_in_at
+json.current_sign_in_at current_user.current_sign_in_at
+json.namespace_id current_user.namespace&.id
+json.web_url "#{Gitlab.config.gitlab.url}/#{current_user.username}"
