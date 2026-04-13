@@ -31,6 +31,39 @@ module API
           web_url: "#{Gitlab.config.gitlab.url}/#{current_user.username}"
         }
       end
+
+      def create
+        return forbidden! unless current_user.admin?
+
+        user = User.new(create_user_params)
+        user.skip_confirmation!
+
+        if user.save
+          render json: user_json(user), status: :created
+        else
+          render json: { message: user.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
+      private
+
+      def create_user_params
+        @create_user_params ||= params.permit(:email, :name, :username, :password, :admin)
+      end
+
+      def user_json(user)
+        {
+          id: user.id,
+          username: user.username,
+          name: user.name,
+          email: user.email,
+          state: user.state,
+          admin: user.admin?,
+          created_at: user.created_at,
+          confirmed_at: user.confirmed_at,
+          web_url: "#{Gitlab.config.gitlab.url}/#{user.username}"
+        }
+      end
     end
   end
 end
