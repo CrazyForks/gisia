@@ -45,6 +45,7 @@ class MergeRequest < ApplicationRecord
   has_one :metrics, class_name: 'MergeRequest::Metrics', inverse_of: :merge_request, autosave: true
 
   has_many :notes, as: :noteable, inverse_of: :noteable, dependent: :destroy
+  has_many :activities, class_name: 'MergeRequestActivity', foreign_key: :trackable_id, dependent: :destroy
   has_many :diff_notes, -> { where(type: 'DiffNote') }, as: :noteable, class_name: 'DiffNote', dependent: :destroy
 
   after_update :clear_memoized_shas

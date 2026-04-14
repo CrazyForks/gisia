@@ -21,6 +21,8 @@ class Note < ApplicationRecord
 
   belongs_to :namespace
   belongs_to :noteable, polymorphic: true
+
+  has_one :activity, foreign_key: :note_id, dependent: :destroy
   belongs_to :author, class_name: 'User'
   belongs_to :updated_by, class_name: 'User', optional: true
   belongs_to :resolved_by, class_name: 'User', optional: true

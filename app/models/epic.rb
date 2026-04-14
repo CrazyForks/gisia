@@ -11,6 +11,7 @@
 
 class Epic < WorkItem
   has_many :notes, -> { where(noteable_type: 'Epic') }, class_name: 'EpicNote', foreign_key: :noteable_id, dependent: :destroy
+  has_many :activities, -> { where(trackable_type: 'Epic') }, class_name: 'EpicActivity', foreign_key: :trackable_id, dependent: :destroy
 
   validates :namespace, presence: true
 
