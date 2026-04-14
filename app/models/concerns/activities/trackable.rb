@@ -34,7 +34,11 @@ module Activities
         build_activity(:title_changed, details: { 'from' => from, 'to' => to })
       end
 
-      build_activity(:description_changed) if saved_change_to_description?
+      if saved_change_to_description?
+        from, to = saved_change_to_description
+        diff = Diffy::Diff.new(from.to_s, to.to_s).to_s(:text)
+        build_activity(:description_changed, details: { 'diff' => diff })
+      end
 
       create_assignee_activities
     end
