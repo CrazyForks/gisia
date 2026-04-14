@@ -40,10 +40,10 @@ class Activity < ApplicationRecord
     when 'closed'              then "closed this #{resource}"
     when 'reopened'            then "reopened this #{resource}"
     when 'note_added'          then nil
-    when 'label_added'         then "added labels #{Array(details['label_titles']).join(', ')}"
-    when 'label_removed'       then "removed labels #{Array(details['label_titles']).join(', ')}"
-    when 'assignee_added'      then "assigned to @#{details['username']}"
-    when 'assignee_removed'    then "unassigned @#{details['username']}"
+    when 'label_added'         then "added labels #{Label.where(id: details['label_ids']).pluck(:title).join(', ')}"
+    when 'label_removed'       then "removed labels #{Label.where(id: details['label_ids']).pluck(:title).join(', ')}"
+    when 'assignee_added'      then "assigned to #{User.where(id: details['user_ids']).pluck(:username).map { |u| "@#{u}" }.join(', ')}"
+    when 'assignee_removed'    then "unassigned #{User.where(id: details['user_ids']).pluck(:username).map { |u| "@#{u}" }.join(', ')}"
     when 'title_changed'       then "changed title from \"#{details['from']}\" to \"#{details['to']}\""
     when 'description_changed' then "changed the description"
     end

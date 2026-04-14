@@ -21,6 +21,7 @@ class WorkItem < ApplicationRecord
   include WorkItems::HasParent
   include HasDescription
   include IidRoutes
+  include Activities::Trackable
 
   belongs_to :author, class_name: 'User'
   belongs_to :updated_by, class_name: 'User', optional: true
@@ -36,6 +37,11 @@ class WorkItem < ApplicationRecord
   end
   has_many :label_links, as: :labelable, dependent: :destroy
   has_many :labels, through: :label_links
+
+  def label_ids=(ids)
+    @prev_activity_label_ids ||= LabelLink.where(labelable: self).pluck(:label_id).sort if persisted?
+    super
+  end
 
   validates :title, presence: true
   validates :confidential, inclusion: { in: [true, false] }
@@ -68,6 +74,10 @@ class WorkItem < ApplicationRecord
 
   def self.ransackable_associations(_auth_object = nil)
     %w[author updated_by closed_by namespace labels assignees]
+  end
+
+  def current_assignee_ids_for_activity
+    WorkItemAssignee.where(work_item_id: id).pluck(:assignee_id).sort
   end
 
   def custom_notification_target_name

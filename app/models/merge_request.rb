@@ -25,6 +25,7 @@ class MergeRequest < ApplicationRecord
   include MergeRequests::Pipelines
   include MergeRequests::Variables
   include IidRoutes
+  include Activities::Trackable
 
   MERGE_LEASE_TIMEOUT = 15.minutes.to_i
 
@@ -239,6 +240,10 @@ class MergeRequest < ApplicationRecord
   end
 
   private
+
+  def current_assignee_ids_for_activity
+    MergeRequestAssignee.where(merge_request_id: id).pluck(:user_id).sort
+  end
 
   def capture_previous_assignee_ids
     @previous_assignee_ids ||= MergeRequestAssignee.where(merge_request_id: id).pluck(:user_id).sort
