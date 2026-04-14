@@ -19,6 +19,8 @@ class Activity < ApplicationRecord
   belongs_to :author, class_name: 'User', optional: true
   belongs_to :note, optional: true
 
+  before_validation :cache_details_html, on: :create
+
   scope :chronological, -> { order(:created_at) }
 
   def self.partition_model_for(trackable_type)
@@ -33,6 +35,17 @@ class Activity < ApplicationRecord
       self
     end
   end
+
+  private
+
+  def cache_details_html
+    return if details_html.present?
+
+    text = render_text
+    self.details_html = ERB::Util.html_escape(text) if text
+  end
+
+  public
 
   def render_text
     resource = trackable_type.underscore.humanize.downcase

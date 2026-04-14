@@ -36,8 +36,12 @@ module Activities
 
       if saved_change_to_description?
         from, to = saved_change_to_description
-        diff = Diffy::Diff.new(from.to_s, to.to_s).to_s(:text)
-        build_activity(:description_changed, details: { 'diff' => diff })
+        diffy = Diffy::Diff.new(from.to_s, to.to_s)
+        build_activity(
+          :description_changed,
+          details: { 'diff' => diffy.to_s(:text) },
+          details_html: diffy.to_s(:html)
+        )
       end
 
       create_assignee_activities
@@ -58,7 +62,7 @@ module Activities
       []
     end
 
-    def build_activity(action_type, details: nil)
+    def build_activity(action_type, details: nil, details_html: nil)
       trackable_type = self.class.name
       Activity.partition_model_for(trackable_type).create!(
         trackable_type: trackable_type,
@@ -66,6 +70,7 @@ module Activities
         author_id: notification_author&.id,
         action_type: action_type,
         details: details,
+        details_html: details_html,
         created_at: Time.current
       )
     end
