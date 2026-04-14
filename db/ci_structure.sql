@@ -37,7 +37,8 @@ CREATE TABLE public.activities (
     action_type smallint NOT NULL,
     note_id bigint,
     details jsonb,
-    created_at timestamp(6) without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    details_html text
 )
 PARTITION BY LIST (trackable_type);
 
@@ -1257,7 +1258,8 @@ CREATE TABLE public.epic_activities (
     action_type smallint NOT NULL,
     note_id bigint,
     details jsonb,
-    created_at timestamp(6) without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    details_html text
 );
 
 
@@ -1422,7 +1424,8 @@ CREATE TABLE public.issue_activities (
     action_type smallint NOT NULL,
     note_id bigint,
     details jsonb,
-    created_at timestamp(6) without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    details_html text
 );
 
 
@@ -1611,7 +1614,8 @@ CREATE TABLE public.merge_request_activities (
     action_type smallint NOT NULL,
     note_id bigint,
     details jsonb,
-    created_at timestamp(6) without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    details_html text
 );
 
 
@@ -6800,6 +6804,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260414144523'),
 ('20260414084840'),
 ('20260412081139'),
 ('20260408062525'),
