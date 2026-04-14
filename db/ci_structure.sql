@@ -25,6 +25,42 @@ COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching
 
 SET default_tablespace = '';
 
+--
+-- Name: activities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.activities (
+    id bigint NOT NULL,
+    trackable_type character varying NOT NULL,
+    trackable_id bigint NOT NULL,
+    author_id bigint,
+    action_type smallint NOT NULL,
+    note_id bigint,
+    details jsonb,
+    created_at timestamp(6) without time zone NOT NULL
+)
+PARTITION BY LIST (trackable_type);
+
+
+--
+-- Name: activities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.activities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: activities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.activities_id_seq OWNED BY public.activities.id;
+
+
 SET default_table_access_method = heap;
 
 --
@@ -1210,6 +1246,22 @@ ALTER SEQUENCE public.ci_variables_id_seq OWNED BY public.ci_variables.id;
 
 
 --
+-- Name: epic_activities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.epic_activities (
+    id bigint DEFAULT nextval('public.activities_id_seq'::regclass) NOT NULL,
+    trackable_type character varying NOT NULL,
+    trackable_id bigint NOT NULL,
+    author_id bigint,
+    action_type smallint NOT NULL,
+    note_id bigint,
+    details jsonb,
+    created_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
 -- Name: notes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1356,6 +1408,22 @@ CREATE SEQUENCE public.internal_ids_id_seq
 --
 
 ALTER SEQUENCE public.internal_ids_id_seq OWNED BY public.internal_ids.id;
+
+
+--
+-- Name: issue_activities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.issue_activities (
+    id bigint DEFAULT nextval('public.activities_id_seq'::regclass) NOT NULL,
+    trackable_type character varying NOT NULL,
+    trackable_id bigint NOT NULL,
+    author_id bigint,
+    action_type smallint NOT NULL,
+    note_id bigint,
+    details jsonb,
+    created_at timestamp(6) without time zone NOT NULL
+);
 
 
 --
@@ -1529,6 +1597,22 @@ CREATE SEQUENCE public.members_id_seq
 --
 
 ALTER SEQUENCE public.members_id_seq OWNED BY public.members.id;
+
+
+--
+-- Name: merge_request_activities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.merge_request_activities (
+    id bigint DEFAULT nextval('public.activities_id_seq'::regclass) NOT NULL,
+    trackable_type character varying NOT NULL,
+    trackable_id bigint NOT NULL,
+    author_id bigint,
+    action_type smallint NOT NULL,
+    note_id bigint,
+    details jsonb,
+    created_at timestamp(6) without time zone NOT NULL
+);
 
 
 --
@@ -2953,10 +3037,24 @@ ALTER SEQUENCE public.work_items_id_seq OWNED BY public.work_items.id;
 
 
 --
+-- Name: epic_activities; Type: TABLE ATTACH; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activities ATTACH PARTITION public.epic_activities FOR VALUES IN ('Epic');
+
+
+--
 -- Name: epic_notes; Type: TABLE ATTACH; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.notes ATTACH PARTITION public.epic_notes FOR VALUES IN ('Epic');
+
+
+--
+-- Name: issue_activities; Type: TABLE ATTACH; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activities ATTACH PARTITION public.issue_activities FOR VALUES IN ('Issue');
 
 
 --
@@ -2967,10 +3065,24 @@ ALTER TABLE ONLY public.notes ATTACH PARTITION public.issue_notes FOR VALUES IN 
 
 
 --
+-- Name: merge_request_activities; Type: TABLE ATTACH; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activities ATTACH PARTITION public.merge_request_activities FOR VALUES IN ('MergeRequest');
+
+
+--
 -- Name: merge_request_notes; Type: TABLE ATTACH; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.notes ATTACH PARTITION public.merge_request_notes FOR VALUES IN ('MergeRequest');
+
+
+--
+-- Name: activities id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activities ALTER COLUMN id SET DEFAULT nextval('public.activities_id_seq'::regclass);
 
 
 --
@@ -3429,6 +3541,14 @@ ALTER TABLE ONLY public.work_items ALTER COLUMN id SET DEFAULT nextval('public.w
 
 
 --
+-- Name: activities activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activities
+    ADD CONSTRAINT activities_pkey PRIMARY KEY (id, trackable_type);
+
+
+--
 -- Name: application_settings application_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3701,6 +3821,14 @@ ALTER TABLE ONLY public.ci_variables
 
 
 --
+-- Name: epic_activities epic_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.epic_activities
+    ADD CONSTRAINT epic_activities_pkey PRIMARY KEY (id, trackable_type);
+
+
+--
 -- Name: notes notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3730,6 +3858,14 @@ ALTER TABLE ONLY public.groups
 
 ALTER TABLE ONLY public.internal_ids
     ADD CONSTRAINT internal_ids_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: issue_activities issue_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.issue_activities
+    ADD CONSTRAINT issue_activities_pkey PRIMARY KEY (id, trackable_type);
 
 
 --
@@ -3770,6 +3906,14 @@ ALTER TABLE ONLY public.labels
 
 ALTER TABLE ONLY public.members
     ADD CONSTRAINT members_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: merge_request_activities merge_request_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.merge_request_activities
+    ADD CONSTRAINT merge_request_activities_pkey PRIMARY KEY (id, trackable_type);
 
 
 --
@@ -4058,6 +4202,62 @@ ALTER TABLE ONLY public.work_item_assignees
 
 ALTER TABLE ONLY public.work_items
     ADD CONSTRAINT work_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_activities_on_author_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_activities_on_author_id ON ONLY public.activities USING btree (author_id);
+
+
+--
+-- Name: epic_activities_author_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX epic_activities_author_id_idx ON public.epic_activities USING btree (author_id);
+
+
+--
+-- Name: index_activities_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_activities_on_created_at ON ONLY public.activities USING btree (created_at);
+
+
+--
+-- Name: epic_activities_created_at_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX epic_activities_created_at_idx ON public.epic_activities USING btree (created_at);
+
+
+--
+-- Name: index_activities_on_note_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_activities_on_note_id ON ONLY public.activities USING btree (note_id);
+
+
+--
+-- Name: epic_activities_note_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX epic_activities_note_id_idx ON public.epic_activities USING btree (note_id);
+
+
+--
+-- Name: index_activities_on_trackable_type_and_trackable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_activities_on_trackable_type_and_trackable_id ON ONLY public.activities USING btree (trackable_type, trackable_id);
+
+
+--
+-- Name: epic_activities_trackable_type_trackable_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX epic_activities_trackable_type_trackable_id_idx ON public.epic_activities USING btree (trackable_type, trackable_id);
 
 
 --
@@ -5979,6 +6179,34 @@ CREATE INDEX index_work_items_on_updated_by_id ON public.work_items USING btree 
 
 
 --
+-- Name: issue_activities_author_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX issue_activities_author_id_idx ON public.issue_activities USING btree (author_id);
+
+
+--
+-- Name: issue_activities_created_at_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX issue_activities_created_at_idx ON public.issue_activities USING btree (created_at);
+
+
+--
+-- Name: issue_activities_note_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX issue_activities_note_id_idx ON public.issue_activities USING btree (note_id);
+
+
+--
+-- Name: issue_activities_trackable_type_trackable_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX issue_activities_trackable_type_trackable_id_idx ON public.issue_activities USING btree (trackable_type, trackable_id);
+
+
+--
 -- Name: issue_notes_author_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6056,6 +6284,34 @@ CREATE INDEX issue_notes_updated_by_id_idx ON public.issue_notes USING btree (up
 
 
 --
+-- Name: merge_request_activities_author_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX merge_request_activities_author_id_idx ON public.merge_request_activities USING btree (author_id);
+
+
+--
+-- Name: merge_request_activities_created_at_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX merge_request_activities_created_at_idx ON public.merge_request_activities USING btree (created_at);
+
+
+--
+-- Name: merge_request_activities_note_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX merge_request_activities_note_id_idx ON public.merge_request_activities USING btree (note_id);
+
+
+--
+-- Name: merge_request_activities_trackable_type_trackable_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX merge_request_activities_trackable_type_trackable_id_idx ON public.merge_request_activities USING btree (trackable_type, trackable_id);
+
+
+--
 -- Name: merge_request_notes_author_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6130,6 +6386,41 @@ CREATE INDEX merge_request_notes_type_idx ON public.merge_request_notes USING bt
 --
 
 CREATE INDEX merge_request_notes_updated_by_id_idx ON public.merge_request_notes USING btree (updated_by_id);
+
+
+--
+-- Name: epic_activities_author_id_idx; Type: INDEX ATTACH; Schema: public; Owner: -
+--
+
+ALTER INDEX public.index_activities_on_author_id ATTACH PARTITION public.epic_activities_author_id_idx;
+
+
+--
+-- Name: epic_activities_created_at_idx; Type: INDEX ATTACH; Schema: public; Owner: -
+--
+
+ALTER INDEX public.index_activities_on_created_at ATTACH PARTITION public.epic_activities_created_at_idx;
+
+
+--
+-- Name: epic_activities_note_id_idx; Type: INDEX ATTACH; Schema: public; Owner: -
+--
+
+ALTER INDEX public.index_activities_on_note_id ATTACH PARTITION public.epic_activities_note_id_idx;
+
+
+--
+-- Name: epic_activities_pkey; Type: INDEX ATTACH; Schema: public; Owner: -
+--
+
+ALTER INDEX public.activities_pkey ATTACH PARTITION public.epic_activities_pkey;
+
+
+--
+-- Name: epic_activities_trackable_type_trackable_id_idx; Type: INDEX ATTACH; Schema: public; Owner: -
+--
+
+ALTER INDEX public.index_activities_on_trackable_type_and_trackable_id ATTACH PARTITION public.epic_activities_trackable_type_trackable_id_idx;
 
 
 --
@@ -6217,6 +6508,41 @@ ALTER INDEX public.index_notes_on_updated_by_id ATTACH PARTITION public.epic_not
 
 
 --
+-- Name: issue_activities_author_id_idx; Type: INDEX ATTACH; Schema: public; Owner: -
+--
+
+ALTER INDEX public.index_activities_on_author_id ATTACH PARTITION public.issue_activities_author_id_idx;
+
+
+--
+-- Name: issue_activities_created_at_idx; Type: INDEX ATTACH; Schema: public; Owner: -
+--
+
+ALTER INDEX public.index_activities_on_created_at ATTACH PARTITION public.issue_activities_created_at_idx;
+
+
+--
+-- Name: issue_activities_note_id_idx; Type: INDEX ATTACH; Schema: public; Owner: -
+--
+
+ALTER INDEX public.index_activities_on_note_id ATTACH PARTITION public.issue_activities_note_id_idx;
+
+
+--
+-- Name: issue_activities_pkey; Type: INDEX ATTACH; Schema: public; Owner: -
+--
+
+ALTER INDEX public.activities_pkey ATTACH PARTITION public.issue_activities_pkey;
+
+
+--
+-- Name: issue_activities_trackable_type_trackable_id_idx; Type: INDEX ATTACH; Schema: public; Owner: -
+--
+
+ALTER INDEX public.index_activities_on_trackable_type_and_trackable_id ATTACH PARTITION public.issue_activities_trackable_type_trackable_id_idx;
+
+
+--
 -- Name: issue_notes_author_id_idx; Type: INDEX ATTACH; Schema: public; Owner: -
 --
 
@@ -6298,6 +6624,41 @@ ALTER INDEX public.index_notes_on_type ATTACH PARTITION public.issue_notes_type_
 --
 
 ALTER INDEX public.index_notes_on_updated_by_id ATTACH PARTITION public.issue_notes_updated_by_id_idx;
+
+
+--
+-- Name: merge_request_activities_author_id_idx; Type: INDEX ATTACH; Schema: public; Owner: -
+--
+
+ALTER INDEX public.index_activities_on_author_id ATTACH PARTITION public.merge_request_activities_author_id_idx;
+
+
+--
+-- Name: merge_request_activities_created_at_idx; Type: INDEX ATTACH; Schema: public; Owner: -
+--
+
+ALTER INDEX public.index_activities_on_created_at ATTACH PARTITION public.merge_request_activities_created_at_idx;
+
+
+--
+-- Name: merge_request_activities_note_id_idx; Type: INDEX ATTACH; Schema: public; Owner: -
+--
+
+ALTER INDEX public.index_activities_on_note_id ATTACH PARTITION public.merge_request_activities_note_id_idx;
+
+
+--
+-- Name: merge_request_activities_pkey; Type: INDEX ATTACH; Schema: public; Owner: -
+--
+
+ALTER INDEX public.activities_pkey ATTACH PARTITION public.merge_request_activities_pkey;
+
+
+--
+-- Name: merge_request_activities_trackable_type_trackable_id_idx; Type: INDEX ATTACH; Schema: public; Owner: -
+--
+
+ALTER INDEX public.index_activities_on_trackable_type_and_trackable_id ATTACH PARTITION public.merge_request_activities_trackable_type_trackable_id_idx;
 
 
 --
@@ -6439,6 +6800,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260414084840'),
 ('20260412081139'),
 ('20260408062525'),
 ('20260318052307'),
