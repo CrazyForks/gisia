@@ -81,7 +81,7 @@ The response does not include the plaintext token value.
 
 ---
 
-### Create a Token
+### Create a Token (current user)
 
 ```bash
 curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/personal_access_tokens" \
@@ -92,6 +92,23 @@ curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/personal_access_tokens" \
 
 **Fields:**
 
+- `name` (required) — Token name
+- `scopes` (required) — Array of scopes: `api`, `read_api`
+- `expires_at` (required) — Expiry date in `YYYY-MM-DD` format
+- `description` (optional) — Token description
+
+---
+
+### Create a Token for Another User (admin only)
+
+```bash
+curl -X POST "<%= Gitlab.config.gitlab.url %>/api/v4/users/:user_id/personal_access_tokens" \
+  -H "PRIVATE-TOKEN: YOUR_ADMIN_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "my-token", "scopes": ["api"], "expires_at": "2027-01-01"}'
+```
+
+- `:user_id` — The numeric ID of the target user
 - `name` (required) — Token name
 - `scopes` (required) — Array of scopes: `api`, `read_api`
 - `expires_at` (required) — Expiry date in `YYYY-MM-DD` format

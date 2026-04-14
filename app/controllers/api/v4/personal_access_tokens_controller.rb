@@ -19,13 +19,7 @@ module API
       end
 
       def create
-        target_user = if current_user.admin? && params[:user_id].present?
-          User.find(params[:user_id])
-        else
-          current_user
-        end
-
-        token = target_user.personal_access_tokens.new(create_params)
+        token = current_user.personal_access_tokens.new(create_params)
         token.scopes = Array(params[:scopes])
 
         if token.save
@@ -34,8 +28,6 @@ module API
         else
           render json: { message: token.errors.full_messages }, status: :unprocessable_entity
         end
-      rescue ActiveRecord::RecordNotFound
-        not_found!
       end
 
       def rotate

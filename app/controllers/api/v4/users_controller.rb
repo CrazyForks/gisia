@@ -3,7 +3,7 @@
 module API
   module V4
     class UsersController < ::API::V4::UserBaseController
-      before_action :require_admin!, only: %i[index create find_user update destroy]
+      before_action :require_admin!, only: %i[index create find_user update destroy create_personal_access_token]
       before_action :set_user!, only: %i[find_user update destroy]
 
       def index
@@ -43,6 +43,21 @@ module API
         head :no_content
       end
 
+      def create_personal_access_token
+        user = User.find_by(id: params[:user_id])
+        return not_found! unless user
+
+        token = user.personal_access_tokens.new(pat_params)
+        token.scopes = Array(params[:scopes])
+
+        if token.save
+          @token = token
+          render 'api/v4/personal_access_tokens/create', status: :created
+        else
+          render json: { message: token.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def set_user!
@@ -56,6 +71,10 @@ module API
 
       def user_params
         @user_params ||= params.permit(:email, :name, :username, :password, :admin)
+      end
+
+      def pat_params
+        params.permit(:name, :description, :expires_at)
       end
     end
   end
