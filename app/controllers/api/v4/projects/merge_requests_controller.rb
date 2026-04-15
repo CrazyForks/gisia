@@ -45,6 +45,7 @@ module API
           @merge_request.target_project = @project
 
           @merge_request.notification_author = current_user
+          @merge_request.activity_author = current_user
           if @merge_request.save
             handle_assignees(params[:assignee_ids])
             handle_reviewers(params[:reviewer_ids])

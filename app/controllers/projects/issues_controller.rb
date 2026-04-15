@@ -47,6 +47,7 @@ class Projects::IssuesController < Projects::ApplicationController
     @issue.author = current_user
 
     @issue.notification_author = current_user
+    @issue.activity_author = current_user
 
     if @issue.save
       redirect_to namespace_project_issue_path(@project.namespace.parent.full_path, @project.path, @issue), notice: 'Issue was successfully created.'
@@ -175,6 +176,7 @@ class Projects::IssuesController < Projects::ApplicationController
 
   def set_notification_author
     @issue.notification_author = current_user
+    @issue.activity_author = current_user
   end
 
   def issuable_resource

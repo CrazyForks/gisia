@@ -49,6 +49,8 @@ class MergeRequest < ApplicationRecord
   has_many :activities, class_name: 'MergeRequestActivity', foreign_key: :trackable_id, dependent: :destroy
   has_many :diff_notes, -> { where(type: 'DiffNote') }, as: :noteable, class_name: 'DiffNote', dependent: :destroy
 
+  before_update :capture_previous_reviewer_ids
+
   after_update :clear_memoized_shas
   after_save :keep_around_commit, unless: :importing?
   after_commit :ensure_metrics!, on: [:create, :update], unless: :importing?
@@ -239,14 +241,32 @@ class MergeRequest < ApplicationRecord
     similar_mrs
   end
 
+  def assignee_ids=(ids)
+    @previous_assignee_ids ||= MergeRequestAssignee.where(merge_request_id: id).pluck(:user_id).sort if persisted?
+    super
+  end
+
+  def reviewer_ids=(ids)
+    @previous_reviewer_ids ||= MergeRequestReviewer.where(merge_request_id: id).pluck(:user_id).sort if persisted?
+    super
+  end
+
   private
 
   def current_assignee_ids_for_activity
     MergeRequestAssignee.where(merge_request_id: id).pluck(:user_id).sort
   end
 
+  def current_reviewer_ids_for_activity
+    MergeRequestReviewer.where(merge_request_id: id).pluck(:user_id).sort
+  end
+
   def capture_previous_assignee_ids
     @previous_assignee_ids ||= MergeRequestAssignee.where(merge_request_id: id).pluck(:user_id).sort
+  end
+
+  def capture_previous_reviewer_ids
+    @previous_reviewer_ids ||= MergeRequestReviewer.where(merge_request_id: id).pluck(:user_id).sort
   end
 
   def notify_on_create

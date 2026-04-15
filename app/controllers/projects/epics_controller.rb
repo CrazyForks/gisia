@@ -45,6 +45,7 @@ class Projects::EpicsController < Projects::ApplicationController
     @epic = @project.namespace.epics.build(epic_params)
     @epic.author = current_user
     @epic.notification_author = current_user
+    @epic.activity_author = current_user
 
     if @epic.save
       redirect_to namespace_project_epic_path(@project.namespace.parent.full_path, @project.path, @epic), notice: 'Epic was successfully created.'
@@ -154,6 +155,7 @@ class Projects::EpicsController < Projects::ApplicationController
 
   def set_notification_author
     @epic.notification_author = current_user
+    @epic.activity_author = current_user
   end
 
   def authorization_denied!

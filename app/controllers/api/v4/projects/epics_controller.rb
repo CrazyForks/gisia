@@ -27,6 +27,7 @@ module API
           @epic = @project.namespace.epics.build(create_params)
           @epic.author = current_user
           @epic.notification_author = current_user
+          @epic.activity_author = current_user
 
           if @epic.save
             handle_assignees(@epic, params[:assignee_ids])
@@ -58,6 +59,7 @@ module API
 
         def set_notification_author
           @epic.notification_author = current_user
+          @epic.activity_author = current_user
         end
 
         def handle_assignees(epic, assignee_ids)

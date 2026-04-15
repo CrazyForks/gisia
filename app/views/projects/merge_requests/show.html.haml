@@ -17,7 +17,7 @@
                 = icon 'file-text', class: 'w-8 h-8 text-slate-300'
                 %span= _('No description provided.')
 
-      = render 'shared/notes/notes_with_form', notes: @notes, noteable: @merge_request
+      = render 'shared/activities/timeline', activities: @activities, noteable: @merge_request
 
     %div{ class: 'w-64 space-y-6' }
       = render 'shared/assignees/user_selection_card', resource: @merge_request, resource_type: 'merge_request', users: @merge_request.assignees, field_type: 'assignees', title: 'Assignees', selected_user_ids: @merge_request.assignee_ids.join(','), avatar_color: 'from-blue-400 to-blue-500', empty_icon: 'user-plus', empty_message: 'No assignees', search_url: search_users_namespace_project_merge_requests_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path), update_url: namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request)

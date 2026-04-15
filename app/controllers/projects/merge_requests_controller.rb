@@ -14,6 +14,7 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   before_action :define_new_vars, only: %i[new edit]
   before_action :set_mr, only: %i[show commits diffs pipelines edit update merge]
   before_action :set_counts, only: [:index]
+  before_action :set_notification_author, only: [:update]
   before_action :check_mr_author_authorization, only: [:update]
   before_action :check_mr_open, only: [:edit]
 
@@ -38,7 +39,8 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   def new; end
 
   def show
-    @notes = @merge_request.notes.where(type: 'MergeRequestNote').inc_relations_for_view.fresh
+    @activities = @merge_request.activities.chronological
+                                .includes(:author, note: [:author, :updated_by, :resolved_by, replies: [:author, :updated_by]])
   end
 
   def commits
@@ -48,6 +50,7 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   def create
     @merge_request = MergeRequest.new(merge_request_create_params)
     @merge_request.notification_author = current_user
+    @merge_request.activity_author = current_user
 
     if @merge_request.save
       redirect_to namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request),
@@ -161,6 +164,11 @@ class Projects::MergeRequestsController < Projects::ApplicationController
     @opened_count = project.merge_requests.opened.count
     @merged_count = project.merge_requests.merged.count
     @closed_count = project.merge_requests.closed.count
+  end
+
+  def set_notification_author
+    @merge_request.notification_author = current_user
+    @merge_request.activity_author = current_user
   end
 
   def check_mr_author_authorization

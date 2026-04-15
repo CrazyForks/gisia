@@ -28,6 +28,7 @@ module API
           @issue.namespace = @project.namespace
           @issue.author = current_user
           @issue.notification_author = current_user
+          @issue.activity_author = current_user
 
           if @issue.save
             handle_assignees(@issue, params[:assignee_ids])
@@ -63,6 +64,7 @@ module API
 
         def set_notification_author
           @issue.notification_author = current_user
+          @issue.activity_author = current_user
         end
 
         def issuable_resource

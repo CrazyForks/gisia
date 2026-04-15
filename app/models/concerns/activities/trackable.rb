@@ -5,6 +5,8 @@ module Activities
     extend ActiveSupport::Concern
 
     included do
+      attr_accessor :activity_author
+
       after_save :create_label_activities
       after_update_commit :create_change_activities
     end
@@ -45,6 +47,7 @@ module Activities
       end
 
       create_assignee_activities
+      create_reviewer_activities
     end
 
     def create_assignee_activities
@@ -54,11 +57,30 @@ module Activities
       added_ids   = current_ids - @previous_assignee_ids
       removed_ids = @previous_assignee_ids - current_ids
 
+      @previous_assignee_ids = nil
+
       build_activity(:assignee_added, details: { 'user_ids' => added_ids }) if added_ids.any?
       build_activity(:assignee_removed, details: { 'user_ids' => removed_ids }) if removed_ids.any?
     end
 
+    def create_reviewer_activities
+      return unless @previous_reviewer_ids
+
+      current_ids = current_reviewer_ids_for_activity
+      added_ids   = current_ids - @previous_reviewer_ids
+      removed_ids = @previous_reviewer_ids - current_ids
+
+      @previous_reviewer_ids = nil
+
+      build_activity(:reviewer_added, details: { 'user_ids' => added_ids }) if added_ids.any?
+      build_activity(:reviewer_removed, details: { 'user_ids' => removed_ids }) if removed_ids.any?
+    end
+
     def current_assignee_ids_for_activity
+      []
+    end
+
+    def current_reviewer_ids_for_activity
       []
     end
 
@@ -67,7 +89,7 @@ module Activities
       Activity.partition_model_for(trackable_type).create!(
         trackable_type: trackable_type,
         trackable_id: id,
-        author_id: notification_author&.id,
+        author_id: activity_author&.id,
         action_type: action_type,
         details: details,
         details_html: details_html,
