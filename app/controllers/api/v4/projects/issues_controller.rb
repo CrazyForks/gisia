@@ -104,13 +104,15 @@ module API
         def handle_add_labels
           return if params[:add_label_ids].blank?
 
-          @issue.labels |= label_scope.where(id: Array(params[:add_label_ids]))
+          new_ids = label_scope.where(id: Array(params[:add_label_ids])).pluck(:id)
+          @issue.label_ids = @issue.label_ids | new_ids
         end
 
         def handle_remove_labels
           return if params[:remove_label_ids].blank?
 
-          @issue.labels = @issue.labels.reject { |l| Array(params[:remove_label_ids]).map(&:to_i).include?(l.id) }
+          remove_ids = Array(params[:remove_label_ids]).map(&:to_i)
+          @issue.label_ids = @issue.label_ids - remove_ids
         end
 
         def set_epic_parent
