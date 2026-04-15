@@ -39,6 +39,8 @@ module API
 
         def update
           handle_state_event
+          handle_add_labels
+          handle_remove_labels
 
           attrs = update_params
           attrs[:assignee_ids] = Array(params[:assignee_ids]) if params.key?(:assignee_ids)
@@ -75,6 +77,20 @@ module API
         def find_epic!
           @epic = @project.namespace.epics.find_by(iid: params[:epic_iid])
           not_found! unless @epic
+        end
+
+        def handle_add_labels
+          return if params[:add_label_ids].blank?
+
+          new_ids = label_scope.where(id: Array(params[:add_label_ids])).pluck(:id)
+          @epic.label_ids = @epic.label_ids | new_ids
+        end
+
+        def handle_remove_labels
+          return if params[:remove_label_ids].blank?
+
+          remove_ids = Array(params[:remove_label_ids]).map(&:to_i)
+          @epic.label_ids = @epic.label_ids - remove_ids
         end
 
         def label_scope
