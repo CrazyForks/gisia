@@ -23,6 +23,7 @@ import StageLabelSearchController from "./stage_label_search_controller"
 import FlashMessageController from "./flash_message_controller"
 import BoardDragController from "./projects/board_drag_controller"
 import DashboardController from "./dashboard_controller"
+import ToggleController from "./toggle_controller"
 
 // Register controllers manually to ensure they're loaded
 application.register("search", SearchController)
@@ -47,5 +48,6 @@ application.register("stage-label-search", StageLabelSearchController)
 application.register("flash-message", FlashMessageController)
 application.register("board-drag", BoardDragController)
 application.register("dashboard", DashboardController)
+application.register("toggle", ToggleController)
 
 eagerLoadControllersFrom("controllers", application)

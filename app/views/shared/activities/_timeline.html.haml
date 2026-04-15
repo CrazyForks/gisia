@@ -1,0 +1,32 @@
+%div{ id: "notes-section", class: "mt-8" }
+  %p{ class: 'text-lg font-bold mb-4' } Activity
+  %div{ id: "notes-list", class: "space-y-4 mb-6" }
+    - activities.each do |activity|
+      - if activity.note_added? && activity.note
+        = render 'shared/notes/note', note: activity.note
+      - else
+        %div{ class: 'flex items-start gap-2 py-1 text-base text-slate-600' }
+          - if activity.author
+            = render 'shared/user_avatar', user: activity.author, size: 20, css_class: 'w-5 h-5 rounded-full flex-shrink-0 mt-1'
+          - else
+            %div{ class: 'w-5 h-5 rounded-full bg-slate-100 border border-slate-200 flex-shrink-0 mt-1' }
+          %div{ class: 'min-w-0' }
+            - if activity.description_changed?
+              %div{ data: { controller: 'toggle' } }
+                %span
+                  - if activity.author
+                    %span{ class: 'font-medium text-slate-800' }= "#{activity.author.name} "
+                  changed the description
+                  %span{ class: 'text-slate-400 text-sm ml-1' }= "· #{time_ago_in_words(activity.created_at)} ago"
+                  %button{ class: 'ml-2 text-blue-600 hover:underline text-sm', data: { action: 'toggle#toggle' } }
+                    %span{ data: { 'toggle-target': 'label' } } Compare
+                %div{ class: 'hidden mt-2 text-sm border border-slate-200 rounded overflow-auto', data: { 'toggle-target': 'content' } }
+                  = activity.details_html.html_safe
+            - else
+              - if activity.author
+                %span{ class: 'font-medium text-slate-800' }= "#{activity.author.name} "
+              = activity.details_html.html_safe
+              %span{ class: 'text-slate-400 text-sm ml-1' }= "· #{time_ago_in_words(activity.created_at)} ago"
+
+  - if current_user&.can?(:create_note, noteable)
+    = render 'shared/notes/form', noteable: noteable

@@ -48,7 +48,7 @@
               .no-description.text-gray-500.italic
                 = _('No description provided.')
 
-            = render 'shared/notes/notes_with_form', notes: @notes, noteable: @issue
+            = render 'shared/activities/timeline', activities: @activities, noteable: @issue
 
           .issue-sidebar.w-64.space-y-6
             .bg-slate-50.p-3.rounded-lg.border.border-slate-200
