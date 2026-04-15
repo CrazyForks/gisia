@@ -21,6 +21,11 @@
   flex-shrink: 0;
 }
 
+/* Description diff compare block */
+.description_diff ins {
+  text-decoration: none;
+}
+
 /* Simple thin light scrollbar for sidebar and dropdowns */
 .sidebar-scroll,
 .overflow-y-auto {

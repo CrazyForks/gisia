@@ -36,7 +36,7 @@ module Activities
 
       if saved_change_to_description?
         from, to = saved_change_to_description
-        diffy = Diffy::Diff.new(from.to_s, to.to_s)
+        diffy = Diffy::Diff.new(from.to_s, to.to_s, context: 0)
         build_activity(
           :description_changed,
           details: { 'diff' => diffy.to_s(:text) },
