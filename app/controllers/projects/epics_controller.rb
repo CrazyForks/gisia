@@ -5,7 +5,7 @@ class Projects::EpicsController < Projects::ApplicationController
   before_action :authorize_read_issues!, only: [:index, :search_users, :search_epics]
   before_action :authorize_create_issue!, only: [:new, :create]
   before_action :set_epic, only: [:show, :edit, :update, :destroy, :close, :reopen, :link_labels, :unlink_label, :search_labels]
-  before_action :set_notification_author, only: [:update, :close, :reopen]
+  before_action :set_notification_author, only: [:update, :close, :reopen, :link_labels, :unlink_label]
   before_action :authorize_read_issuable!, only: [:show, :search_labels]
   before_action :authorize_update_issuable!, only: [:edit, :update, :close, :reopen, :link_labels, :unlink_label]
   before_action :authorize_destroy_issuable!, only: [:destroy]
@@ -33,7 +33,8 @@ class Projects::EpicsController < Projects::ApplicationController
   end
 
   def show
-    @notes = @epic.notes.root_notes.inc_relations_for_view.fresh
+    @activities = @epic.activities.chronological
+                       .includes(:author, note: [:author, :updated_by, :resolved_by, replies: [:author, :updated_by]])
   end
 
   def new
