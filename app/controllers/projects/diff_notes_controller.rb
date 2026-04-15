@@ -37,7 +37,7 @@ class Projects::DiffNotesController < Projects::ApplicationController
   private
 
   def merge_request
-    @merge_request ||= project.merge_requests.find(params[:merge_request_id])
+    @merge_request ||= project.merge_requests.find_by!(iid: params[:merge_request_iid])
   end
 
   def authorize_create_note!
