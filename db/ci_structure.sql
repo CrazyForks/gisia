@@ -6804,6 +6804,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260415143742'),
 ('20260414144523'),
 ('20260414084840'),
 ('20260412081139'),
