@@ -40,7 +40,7 @@ class Projects::MergeRequestsController < Projects::ApplicationController
 
   def show
     @activities = @merge_request.activities.chronological
-                                .includes(:author, note: [:author, :updated_by, :resolved_by, replies: [:author, :updated_by]])
+                                .includes(:author, note: [:author, :updated_by, :resolved_by, replies: [:author, :updated_by, :resolved_by]])
   end
 
   def commits

@@ -19,6 +19,22 @@ module Projects::NotesHelper
     )
   end
 
+  def expand_note_path(note)
+    expand_namespace_project_note_path(
+      note.noteable.project.namespace.parent.full_path,
+      note.noteable.project.path,
+      note.id
+    )
+  end
+
+  def collapse_note_path(note)
+    collapse_namespace_project_note_path(
+      note.noteable.project.namespace.parent.full_path,
+      note.noteable.project.path,
+      note.id
+    )
+  end
+
   def note_show_path(note)
     show_form_namespace_project_note_path(
       note.noteable.project.namespace.parent.full_path,

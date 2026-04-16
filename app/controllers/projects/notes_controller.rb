@@ -11,7 +11,7 @@
 
 class Projects::NotesController < Projects::ApplicationController
   before_action :find_noteable, only: %i[index create]
-  before_action :find_note, only: %i[show edit update destroy resolve unresolve replies]
+  before_action :find_note, only: %i[show edit update destroy resolve unresolve replies expand collapse]
   before_action :authorize_read_note!
   before_action :authorize_create_note!, only: [:create]
   before_action :authorize_admin_note!, only: [:update, :destroy]
@@ -109,6 +109,14 @@ class Projects::NotesController < Projects::ApplicationController
         end
       end
     end
+  end
+
+  def expand
+    respond_to { |f| f.turbo_stream }
+  end
+
+  def collapse
+    respond_to { |f| f.turbo_stream }
   end
 
   def resolve

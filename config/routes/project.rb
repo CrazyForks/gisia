@@ -47,6 +47,8 @@ constraints(::Constraints::ProjectUrlConstrainer.new) do
             post :replies
             post :resolve
             delete :resolve, action: :unresolve
+            post :expand
+            post :collapse
             post :edit_form, action: :edit
             post :show_form, action: :show
           end
