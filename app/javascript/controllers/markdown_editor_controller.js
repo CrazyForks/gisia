@@ -1,14 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
-import { wrapSelection, insertBlock } from "../markdown_toolbar"
+import { Editor } from "tiny-markdown-editor"
 
 export default class extends Controller {
-  static targets = ["textarea", "preview", "hiddenField", "editTab", "previewTab"]
+  static targets = ["hiddenField", "textarea", "preview", "editTab", "previewTab", "editorArea"]
   static values = { initialContent: String, previewUrl: String }
 
   connect() {
-    this.textareaTarget.value = this.initialContentValue
-    this.sync()
-    this.autoResize()
+    this.editor = new Editor({ textarea: this.textareaTarget, content: this.initialContentValue })
+    this.editor.addEventListener("change", (e) => {
+      if (this.hasHiddenFieldTarget) this.hiddenFieldTarget.value = e.content
+    })
+    if (this.hasHiddenFieldTarget) this.hiddenFieldTarget.value = this.initialContentValue
     const form = this.element.closest("form")
     if (form) {
       form.addEventListener("turbo:submit-end", (event) => {
@@ -17,8 +19,16 @@ export default class extends Controller {
     }
   }
 
+  disconnect() {
+    this.editor = null
+  }
+
+  preventFocusLoss(event) {
+    event.preventDefault()
+  }
+
   showEdit() {
-    this.textareaTarget.classList.remove("hidden")
+    this.editorAreaTarget.classList.remove("hidden")
     this.previewTarget.classList.add("hidden")
     this.editTabTarget.classList.add("border-blue-500", "text-slate-700")
     this.editTabTarget.classList.remove("border-transparent", "text-slate-500")
@@ -26,87 +36,82 @@ export default class extends Controller {
     this.previewTabTarget.classList.remove("border-blue-500", "text-slate-700")
   }
 
-  showPreview() {
-    this.textareaTarget.classList.add("hidden")
+  async showPreview() {
+    const content = this.hasHiddenFieldTarget ? this.hiddenFieldTarget.value : this.initialContentValue
+    this.previewTarget.innerHTML = '<span class="text-slate-400 text-sm">Loading...</span>'
+    this.editorAreaTarget.classList.add("hidden")
     this.previewTarget.classList.remove("hidden")
     this.editTabTarget.classList.add("border-transparent", "text-slate-500")
     this.editTabTarget.classList.remove("border-blue-500", "text-slate-700")
     this.previewTabTarget.classList.add("border-blue-500", "text-slate-700")
     this.previewTabTarget.classList.remove("border-transparent", "text-slate-500")
-
-    fetch(this.previewUrlValue, {
+    const token = document.querySelector('meta[name="csrf-token"]')?.content
+    const response = await fetch(this.previewUrlValue, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
-      },
-      body: new URLSearchParams({ text: this.textareaTarget.value })
+      headers: { "Content-Type": "application/x-www-form-urlencoded", "X-CSRF-Token": token },
+      body: new URLSearchParams({ text: content })
     })
-      .then(r => r.text())
-      .then(html => { this.previewTarget.innerHTML = html })
+    this.previewTarget.innerHTML = await response.text()
   }
 
-  sync() {
-    if (this.hasHiddenFieldTarget) {
-      this.hiddenFieldTarget.value = this.textareaTarget.value
-    }
+  bold() {
+    const state = this.editor.getCommandState()
+    this.editor.setCommandState("bold", state.bold !== true)
   }
 
-  autoResize() {
-    const ta = this.textareaTarget
-    ta.style.height = "auto"
-    ta.style.height = ta.scrollHeight + "px"
+  italic() {
+    const state = this.editor.getCommandState()
+    this.editor.setCommandState("italic", state.italic !== true)
+  }
+
+  strikethrough() {
+    const state = this.editor.getCommandState()
+    this.editor.setCommandState("strikethrough", state.strikethrough !== true)
+  }
+
+  insertLink() {
+    if (this.editor.isInlineFormattingAllowed()) this.editor.wrapSelection("[", "]()")
+  }
+
+  insertQuote() {
+    const state = this.editor.getCommandState()
+    this.editor.setCommandState("blockquote", state.blockquote !== true)
+    this.#collapseSelection()
+  }
+
+  insertCode() {
+    const state = this.editor.getCommandState()
+    this.editor.setCommandState("code", state.code !== true)
+  }
+
+  insertUnorderedList() {
+    const state = this.editor.getCommandState()
+    this.editor.setCommandState("ul", state.ul !== true)
+    this.#collapseSelection()
+  }
+
+  insertOrderedList() {
+    const state = this.editor.getCommandState()
+    this.editor.setCommandState("ol", state.ol !== true)
+    this.#collapseSelection()
+  }
+
+  #collapseSelection() {
+    const pos = this.editor.getSelection(true)
+    if (pos) this.editor.setSelection(pos)
+  }
+
+  insertTable() {
+    this.editor.paste("\n\n|  |  |  |\n| --- | --- | --- |\n|  |  |  |\n\n")
+  }
+
+  insertHr() {
+    this.editor.paste("\n\n---\n\n")
   }
 
   clearEditor() {
-    this.textareaTarget.value = ""
-    this.sync()
-    this.autoResize()
+    this.editor.setContent("")
+    if (this.hasHiddenFieldTarget) this.hiddenFieldTarget.value = ""
     this.showEdit()
   }
-
-  bold() { wrapSelection(this.textareaTarget, "**", "**") }
-  italic() { wrapSelection(this.textareaTarget, "*", "*") }
-  strikethrough() { wrapSelection(this.textareaTarget, "~~", "~~") }
-  insertCode() {
-    const ta = this.textareaTarget
-    const start = ta.selectionStart
-    const end = ta.selectionEnd
-    const selected = ta.value.substring(start, end)
-    const atLineStart = start === 0 || ta.value[start - 1] === '\n'
-    const leading = atLineStart ? '' : '\n'
-    if (selected) {
-      ta.setRangeText(`${leading}\`\`\`\n${selected}\n\`\`\``, start, end, 'end')
-    } else {
-      ta.setRangeText(`${leading}\`\`\`\n\n\`\`\``, start, end, 'end')
-      const cursor = start + leading.length + 4
-      ta.setSelectionRange(cursor, cursor)
-    }
-    ta.dispatchEvent(new Event('input'))
-    ta.focus()
-  }
-  insertQuote() { insertBlock(this.textareaTarget, "> ", { cursorAfterText: true }) }
-
-  insertLink() {
-    const ta = this.textareaTarget
-    const start = ta.selectionStart
-    const end = ta.selectionEnd
-    const selected = ta.value.substring(start, end)
-    if (selected) {
-      ta.setRangeText(`[${selected}](url)`, start, end, 'end')
-      ta.setSelectionRange(start + selected.length + 3, start + selected.length + 6)
-    } else {
-      ta.setRangeText("[](url)", start, end, 'end')
-      ta.setSelectionRange(start + 1, start + 1)
-    }
-    ta.dispatchEvent(new Event('input'))
-    ta.focus()
-  }
-
-  insertUnorderedList() { insertBlock(this.textareaTarget, "- ", { cursorAfterText: true }) }
-  insertOrderedList() { insertBlock(this.textareaTarget, "1. ", { cursorAfterText: true }) }
-  insertTable() {
-    insertBlock(this.textareaTarget, "|  |  |  |\n| --- | --- | --- |\n|  |  |  |", { beforeEmpty: true, trailingNewlines: 2 })
-  }
-  insertHr() { insertBlock(this.textareaTarget, "---") }
 }

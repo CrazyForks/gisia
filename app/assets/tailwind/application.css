@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./components/diffs.css";
 @import "./components/markdown.css";
+@import "./components/tiny-mde.css";
 
 @theme {
   --font-inter: "Inter", sans-serif;

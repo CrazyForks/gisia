@@ -41,11 +41,11 @@ Rails.application.routes.draw do
     draw 'users/settings'
     get 'users/skill.md', to: 'users/skills#show', format: false, as: :users_skill_md
     get 'users/personal_access_tokens/skill.md', to: 'users/skills#personal_access_tokens', format: false, as: :users_personal_access_tokens_skill_md
+    draw :markdown
   end
 
   draw :admin
   draw :project
   draw :namespace
   draw :git_http
-  draw :markdown
 end

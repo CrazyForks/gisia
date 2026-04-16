@@ -3,7 +3,7 @@
       'data-markdown-editor-initial-content-value': initial_content,
       'data-markdown-editor-preview-url-value': markdown_preview_path }
   .border.border-slate-300.rounded-md.overflow-hidden
-    .flex.items-center.gap-0.5.border-b.border-slate-200.bg-slate-50.px-2.py-1
+    .flex.items-center.gap-0.5.border-b.border-slate-200.bg-slate-50.px-2.py-1{ 'data-action': 'mousedown->markdown-editor#preventFocusLoss' }
       %button{ type: 'button', 'data-action': 'click->markdown-editor#bold', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Bold' }
         = icon 'text-b', class: 'w-4 h-4', variant: 'bold'
       %button{ type: 'button', 'data-action': 'click->markdown-editor#italic', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Italic' }
@@ -36,10 +36,11 @@
                'data-markdown-editor-target': 'previewTab',
                'data-action': 'click->markdown-editor#showPreview',
                class: 'px-3 py-1.5 text-xs font-medium text-slate-500 border-b-2 border-transparent' } Preview
-    %textarea{ 'data-markdown-editor-target': 'textarea',
-               'data-action': 'input->markdown-editor#sync input->markdown-editor#autoResize',
-               id: textarea_id,
-               placeholder: placeholder,
-               class: "w-full px-3 py-2 text-sm font-mono resize-none focus:outline-none overflow-hidden block bg-white #{min_height}" }
-    .hidden.px-3.py-2.md-preview.bg-white{ 'data-markdown-editor-target': 'preview' }
+    %div{ class: "bg-white #{min_height}", 'data-markdown-editor-target': 'editorArea' }
+      %textarea{ 'data-markdown-editor-target': 'textarea',
+                 id: textarea_id,
+                 placeholder: placeholder,
+                 class: 'hidden' }= initial_content
+    %div{ class: "hidden px-3 py-2 bg-white markdown #{min_height}",
+          'data-markdown-editor-target': 'preview' }
   = f.hidden_field field, 'data-markdown-editor-target': 'hiddenField'

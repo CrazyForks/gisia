@@ -197,6 +197,11 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
+core-js@^3.42.0:
+  version "3.49.0"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.49.0.tgz#8b4d520ac034311fa21aa616f017ada0e0dbbddd"
+  integrity sha512-es1U2+YTtzpwkxVLwAFdSpaIMyQaq0PBgm3YD1W3Qpsn1NAmO3KSgZfu+oGSWVu6NvLHoHCV/aYcsE5wiB7ALg==
+
 css-tree@~2.2.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/css-tree/-/css-tree-2.2.1.tgz#36115d382d60afd271e377f9c5f67d02bd48c032"
@@ -402,6 +407,13 @@ supports-color@^5.5.0:
   integrity sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==
   dependencies:
     has-flag "^3.0.0"
+
+tiny-markdown-editor@^0.2.25:
+  version "0.2.25"
+  resolved "https://registry.yarnpkg.com/tiny-markdown-editor/-/tiny-markdown-editor-0.2.25.tgz#07166e12ad99a849e72cc63ff45e04e1d378af6f"
+  integrity sha512-DPX0Twio0X0vo9lF+WdMtH0ZmjO85YJuVEdUyxXJTiUwU1XhGEb8o6CiJdb0vrczaFtDaOPZzYbydppGKsbvnw==
+  dependencies:
+    core-js "^3.42.0"
 
 to-regex-range@^5.0.1:
   version "5.0.1"

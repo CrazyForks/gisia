@@ -1,0 +1,153 @@
+/*
+ * Derived from tiny-markdown-editor (https://github.com/jefago/tiny-markdown-editor)
+ * MIT License - Copyright (c) 2020 Jens-Fabian Goetzmann
+ * Styles customized to match the Gisia design system.
+ */
+
+.TinyMDE {
+  background-color: #fff;
+  color: #000;
+  font-size: 14px;
+  line-height: 22px;
+  outline: none;
+  padding: 8px 12px;
+  min-height: 160px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.TinyMDE.TinyMDE_empty {
+  position: relative;
+}
+
+.TinyMDE.TinyMDE_empty::before {
+  content: attr(data-placeholder);
+  color: #94a3b8;
+  pointer-events: none;
+  position: absolute;
+}
+
+.TMBlankLine {
+  height: 22px;
+}
+
+.TMH1, .TMSetextH1 {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.TMSetextH1 {
+  margin-bottom: 0;
+}
+
+.TMSetextH1Marker {
+  margin-bottom: 6px;
+}
+
+.TMH2, .TMSetextH2 {
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.TMMark_TMCode {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: .9em;
+}
+
+.TMFencedCodeBacktick, .TMFencedCodeTilde, .TMIndentedCode, .TMCode {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: .9em;
+  background-color: #f1f5f9;
+}
+
+.TMCodeFenceBacktickOpen, .TMCodeFenceTildeOpen,
+.TMCodeFenceBacktickClose, .TMCodeFenceTildeClose {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: .9em;
+}
+
+.TMInfoString {
+  color: #3b82f6;
+}
+
+.TMCode {
+  border: 1px solid #cbd5e1;
+  border-radius: 2px;
+}
+
+.TMBlockquote {
+  font-style: italic;
+  border-left: 2px solid #cbd5e1;
+  padding-left: 10px;
+  margin-left: 10px;
+}
+
+.TMMark {
+  color: #94a3b8;
+}
+
+.TMStrong {
+  font-weight: 700;
+}
+
+.TMEm {
+  font-style: italic;
+}
+
+.TMStrikethrough {
+  text-decoration: line-through;
+}
+
+.TMMark_TMH1, .TMMark_TMH2 {
+  color: #94a3b8;
+}
+
+.TMMark_TMUL, .TMMark_TMOL {
+  color: #94a3b8;
+}
+
+.TMImage {
+  text-decoration: underline;
+  text-decoration-color: #22c55e;
+}
+
+.TMLink {
+  text-decoration: underline;
+  text-decoration-color: #3b82f6;
+}
+
+.TMLinkLabel {
+  text-decoration: underline;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.TMLinkLabel_Definition, .TMLinkLabel_Valid {
+  color: #22c55e;
+}
+
+.TMLinkLabel_Invalid {
+  color: #ef4444;
+}
+
+.TMLinkTitle {
+  font-style: italic;
+}
+
+.TMLinkDestination, .TMAutolink {
+  text-decoration: underline;
+  color: #3b82f6;
+}
+
+
+.TMHTML, .TMHTMLBlock {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: .9em;
+  color: #8b5cf6;
+}
+
+.TMHTMLBlock {
+  color: #7c3aed;
+}
