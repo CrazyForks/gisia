@@ -14,7 +14,7 @@ export default class extends Controller {
     const fileIndex = parseInt(event.currentTarget.dataset.fileIndex)
     this.showFile(fileIndex)
     this.updateActiveButton(event.currentTarget)
-    history.pushState({}, '', event.currentTarget.dataset.url)
+    if (event.currentTarget.dataset.url) history.pushState({}, '', event.currentTarget.dataset.url)
   }
 
   showFile(index) {
