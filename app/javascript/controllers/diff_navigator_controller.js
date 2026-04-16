@@ -2,15 +2,19 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["fileButton", "diffContainer"]
+  static values = { selectedFileIndex: { type: Number, default: 0 } }
 
   connect() {
-    this.showFile(0)
+    this.showFile(this.selectedFileIndexValue)
+    const activeButton = this.fileButtonTargets[this.selectedFileIndexValue]
+    if (activeButton) this.updateActiveButton(activeButton)
   }
 
   selectFile(event) {
     const fileIndex = parseInt(event.currentTarget.dataset.fileIndex)
     this.showFile(fileIndex)
     this.updateActiveButton(event.currentTarget)
+    history.pushState({}, '', event.currentTarget.dataset.url)
   }
 
   showFile(index) {

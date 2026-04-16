@@ -10,7 +10,7 @@
               %span{ class: "font-medium" }= note.author.name
               %span{ class: "text-sm text-slate-500" }
                 commented on
-                = link_to 'diff', diffs_namespace_project_merge_request_path(note.noteable.project.namespace.parent.full_path, note.noteable.project.path, note.noteable, anchor: note.line_code), class: 'text-slate-800'
+                = link_to 'diff', diffs_namespace_project_merge_request_path(note.noteable.project.namespace.parent.full_path, note.noteable.project.path, note.noteable, anchor: note.line_code, diff_anchor: note.line_code), class: 'text-slate-800'
                 = "#{time_ago_in_words(note.created_at)} ago"
               - if note.last_edited_at.present?
                 %span{ class: "text-xs text-slate-400 ml-1" } (edited)

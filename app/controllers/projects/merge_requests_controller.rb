@@ -112,6 +112,12 @@ class Projects::MergeRequestsController < Projects::ApplicationController
 
   def diffs
     @diffs = @merge_request.diffs
+    file_sha = params[:diff_anchor]&.split('_')&.first
+    @selected_file_index = if file_sha.present?
+      @diffs.diff_files.find_index { |f| Digest::SHA1.hexdigest(f.file_path) == file_sha } || 0
+    else
+      0
+    end
   end
 
   def pipelines
