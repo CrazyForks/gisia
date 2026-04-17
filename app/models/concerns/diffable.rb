@@ -196,6 +196,14 @@ module Diffable
     end
   end
 
+  def version_params_for(diff_refs)
+    if (diff = merge_request_diff_for(diff_refs))
+      { diff_id: diff.id }
+    elsif (diff = merge_request_diff_for(diff_refs.head_sha))
+      { diff_id: diff.id, start_sha: diff_refs.start_sha }
+    end
+  end
+
   # rubocop: disable CodeReuse/ServiceClass
   def update_diff_discussion_positions(old_diff_refs:, new_diff_refs:, current_user: nil)
     return unless has_complete_diff_refs?
@@ -218,9 +226,11 @@ module Diffable
       paths: paths
     )
 
-    active_diff_discussions.each do |discussion|
-      service.execute(discussion)
-      discussion.clear_memoized_values
+    Gitlab::GitalyClient.allow_n_plus_1_calls do
+      active_diff_discussions.each do |discussion|
+        service.execute(discussion)
+        discussion.clear_memoized_values
+      end
     end
   end
 end

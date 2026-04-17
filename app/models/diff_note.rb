@@ -31,6 +31,23 @@ class DiffNote < Note
     %w[MergeRequest]
   end
 
+  def created_at_diff?(diff_refs)
+    return false unless supported?
+
+    original_position.diff_refs == diff_refs
+  end
+
+  def line_code_in_diffs(diff_refs)
+    if active?(diff_refs)
+      line_code
+    elsif diff_refs && created_at_diff?(diff_refs)
+      line_code
+    elsif diff_refs && change_position.present? &&
+          change_position.diff_refs == diff_refs
+      change_position.line_code(noteable.project.repository)
+    end
+  end
+
   private
 
   def set_line_code

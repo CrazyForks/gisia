@@ -51,6 +51,20 @@ class Note < ApplicationRecord
   end
   scope :fresh, -> { order(:created_at, :id) }
 
+  def self.grouped_diff_discussions(diff_refs = nil)
+    groups = {}
+
+    new_diff_notes.root_notes.order(:id).each do |note|
+      key = note.line_code_in_diffs(diff_refs)
+      next unless key
+
+      groups[key] ||= []
+      groups[key] << note
+    end
+
+    groups
+  end
+
   def self.partition_model_for(noteable_type)
     case noteable_type
     when 'Issue', 'WorkItem'

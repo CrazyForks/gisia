@@ -111,7 +111,19 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   end
 
   def diffs
-    @diffs = @merge_request.diffs
+    @diff_version = @merge_request.merge_request_diffs.viewable.find_by(id: params[:diff_id]) if params[:diff_id].present?
+
+    @diffs = if @diff_version && params[:start_sha].present?
+      comparison = MergeRequests::MergeRequestDiffComparison.new(@diff_version).compare_with(params[:start_sha])
+      comparison ? comparison.diffs : @diff_version.diffs
+    elsif @diff_version
+      @diff_version.diffs
+    else
+      @merge_request.diffs
+    end
+
+    @grouped_diff_discussions = @merge_request.notes.grouped_diff_discussions(@diffs.diff_refs)
+
     file_sha = params[:diff_anchor]&.split('_')&.first
     @selected_file_index = if file_sha.present?
       @diffs.diff_files.find_index { |f| Digest::SHA1.hexdigest(f.file_path) == file_sha } || 0

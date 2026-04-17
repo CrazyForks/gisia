@@ -1,8 +1,8 @@
 - diff_lines = parse_diff_file(diff_file)
 
 %div{ class: 'diff-content' }
-  - viewer_data = @merge_request ? { controller: "diff-comment", base_sha: @merge_request.diff_base_sha, start_sha: @merge_request.diff_start_sha, head_sha: @merge_request.diff_head_sha, old_path: diff_file.old_path, new_path: diff_file.new_path, api_endpoint: namespace_project_merge_request_diff_notes_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request) } : {}
-  %div{ class: 'font-mono text-sm leading-relaxed', id: "diff-viewer-#{diff_file_id(diff_file)}", data: viewer_data }
+  - _diff_refs = @diffs&.diff_refs
+  %div{ class: 'font-mono text-sm leading-relaxed', id: "diff-viewer-#{diff_file_id(diff_file)}", data: diff_comment_viewer_data(diff_file, @merge_request, _diff_refs) }
     - diff_lines.each do |line|
       - if line[:type] == 'hunk_header'
         %div{ class: 'bg-gray-50 border-t border-b border-gray-300 min-h-5 flex items-center px-2 py-1' }
@@ -28,9 +28,9 @@
           %div{ class: "flex-1 px-2 leading-5 #{content_bg}" }
             %span{ class: 'block whitespace-pre-wrap break-words font-mono text-sm leading-5' }= line[:rich_text].html_safe
 
-        - if @merge_request
-          - line_notes = notes_for_line(line[:line_code], @merge_request)
-          - if line_notes.any?
+        - if @merge_request && @grouped_diff_discussions
+          - line_notes = @grouped_diff_discussions[line[:line_code]]
+          - if line_notes.present?
             %ul.notes-list{ class: "space-y-4 mt-4" }
-              - line_notes.root_notes.each do |note|
+              - line_notes.each do |note|
                 = render partial: 'shared/notes/note', locals: { note: note }

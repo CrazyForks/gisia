@@ -33,10 +33,60 @@ module DiffsHelper
     line[:discussable] == true
   end
 
-  # Todo, in batch
-  def notes_for_line(line_code, merge_request)
-    return [] unless line_code.present?
+  def note_diff_change_position_link(note)
+    return unless note.diff_note? && note.change_position.present?
 
-    merge_request.diff_notes.where(line_code: line_code).includes(:author).order(:created_at)
+    merge_request = note.noteable
+    change_diff_refs = note.change_position.diff_refs
+    return unless change_diff_refs
+
+    version_params = merge_request.version_params_for(change_diff_refs)
+    return unless version_params
+
+    diff = merge_request.merge_request_diffs.viewable.find_by(id: version_params[:diff_id])
+    return unless diff
+
+    version_index = merge_request.merge_request_diffs.viewable.where('id <= ?', diff.id).count
+    anchor = note.change_position.line_code(merge_request.project.repository)
+    url = diffs_namespace_project_merge_request_path(
+      merge_request.project.namespace.parent.full_path,
+      merge_request.project.path,
+      merge_request,
+      version_params.merge(anchor: anchor, diff_anchor: anchor)
+    )
+
+    { version: version_index, url: url }
+  end
+
+  def diff_comment_viewer_data(diff_file, merge_request, diff_refs)
+    return {} unless merge_request
+
+    {
+      controller: "diff-comment",
+      base_sha: diff_refs&.base_sha || merge_request.diff_base_sha,
+      start_sha: diff_refs&.start_sha || merge_request.diff_start_sha,
+      head_sha: diff_refs&.head_sha || merge_request.diff_head_sha,
+      old_path: diff_file.old_path,
+      new_path: diff_file.new_path,
+      api_endpoint: namespace_project_merge_request_diff_notes_path(
+        merge_request.target_project.namespace.parent.full_path,
+        merge_request.target_project.path,
+        merge_request
+      )
+    }
+  end
+
+  def note_original_diff_url(note)
+    return unless note.diff_note?
+
+    merge_request = note.noteable
+
+    diffs_namespace_project_merge_request_path(
+      merge_request.project.namespace.parent.full_path,
+      merge_request.project.path,
+      merge_request,
+      { anchor: note.line_code, diff_anchor: note.line_code }
+    )
   end
 end
+
