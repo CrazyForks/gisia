@@ -102,7 +102,7 @@ module ProjectsHelper
   end
 
   def resolve_note_path(note)
-    namespace = note.namespace
+    namespace = note.noteable.project.namespace
     resolve_namespace_project_note_path(namespace.parent.full_path, namespace.path, note)
   end
 
