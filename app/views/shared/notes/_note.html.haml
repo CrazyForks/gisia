@@ -9,32 +9,19 @@
       %div{ class: "flex items-center justify-between mb-1" }
         %div{ class: "flex items-center gap-2" }
           - diff_change = note_diff_change_position_link(note)
-          %span{ class: "font-medium text-sm" }= note.author.name
           - show_diff_link = local_assigns.fetch(:show_diff_link, false)
-          - if diff_change && show_diff_link
-            %span{ class: "text-xs text-slate-500" }
+          %span{ class: "font-medium text-sm" }= note.author.name
+          %span{ class: "text-xs text-slate-500" }
+            - if diff_change && show_diff_link
               changed this line in
               = link_to "version #{diff_change[:version]} of the diff", diff_change[:url], class: 'text-slate-600 hover:underline'
-              &middot;
-              = "#{time_ago_in_words(note.created_at)} ago"
-              - if note.last_edited_at.present?
-                %span{ class: "text-xs text-slate-400 ml-1" } (edited)
-          - elsif note.diff_note? && show_diff_link
-            - original_url = note_original_diff_url(note)
-            %span{ class: "text-xs text-slate-500" }
-              - if original_url
-                = link_to "commented on this diff", original_url, class: 'text-slate-600 hover:underline'
-              - else
-                commented on this diff
-              &middot;
-              = "#{time_ago_in_words(note.created_at)} ago"
-              - if note.last_edited_at.present?
-                %span{ class: "text-xs text-slate-400 ml-1" } (edited)
-          - else
-            %span{ class: "text-xs text-slate-500" }
-              = "#{time_ago_in_words(note.created_at)} ago"
-              - if note.last_edited_at.present?
-                %span{ class: "text-xs text-slate-400 ml-1" } (edited)
+              ·
+            - elsif note.diff_note? && show_diff_link
+              = link_to "commented on this diff", note_original_diff_url(note), class: 'text-slate-600 hover:underline'
+              ·
+            = "#{time_ago_in_words(note.created_at)} ago"
+            - if note.last_edited_at.present?
+              %span{ class: "text-xs text-slate-400 ml-1" } (edited)
 
         - unless collapsed
           %div{ class: "flex items-center gap-1 text-xs text-slate-500" }

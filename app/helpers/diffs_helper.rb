@@ -34,20 +34,28 @@ module DiffsHelper
   end
 
   def note_diff_change_position_link(note)
-    return unless note.diff_note? && note.change_position.present?
+    return unless note.diff_note?
 
     merge_request = note.noteable
-    change_diff_refs = note.change_position.diff_refs
-    return unless change_diff_refs
 
-    version_params = merge_request.version_params_for(change_diff_refs)
+    if note.change_position.present?
+      diff_refs = note.change_position.diff_refs
+      anchor = note.change_position.line_code(merge_request.project.repository)
+      version_params = merge_request.version_params_for(diff_refs)
+    else
+      version_params = merge_request.version_params_for(note.original_position.diff_refs)
+      return unless version_params&.key?(:start_sha)
+
+      diff_refs = note.original_position.diff_refs
+      anchor = note.line_code
+    end
+
     return unless version_params
 
     diff = merge_request.merge_request_diffs.viewable.find_by(id: version_params[:diff_id])
     return unless diff
 
     version_index = merge_request.merge_request_diffs.viewable.where('id <= ?', diff.id).count
-    anchor = note.change_position.line_code(merge_request.project.repository)
     url = diffs_namespace_project_merge_request_path(
       merge_request.project.namespace.parent.full_path,
       merge_request.project.path,
