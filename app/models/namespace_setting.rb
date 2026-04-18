@@ -16,6 +16,7 @@ class NamespaceSetting < ApplicationRecord
 
   NAMESPACE_SETTINGS_PARAMS = %i[
     default_branch_name
+    squash_enabled
   ].freeze
 
   def self.allowed_namespace_settings_params

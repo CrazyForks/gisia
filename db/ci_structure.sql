@@ -1971,7 +1971,8 @@ CREATE TABLE public.namespace_settings (
     namespace_id bigint NOT NULL,
     default_branch_name text,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    squash_enabled boolean DEFAULT false NOT NULL
 );
 
 
@@ -6804,6 +6805,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260418134212'),
 ('20260415143742'),
 ('20260414144523'),
 ('20260414084840'),

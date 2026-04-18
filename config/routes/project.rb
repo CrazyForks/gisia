@@ -57,6 +57,7 @@ constraints(::Constraints::ProjectUrlConstrainer.new) do
 
         namespace :settings do
           resource :repository, only: [:edit, :update], controller: 'repository'
+          resource :merge_requests, only: [:edit, :update], controller: 'merge_requests'
           resource :ci_cd, only: [:edit], controller: 'ci_cd'
           resource :pipelines, only: [:update], controller: 'pipelines'
           resources :variables, only: [:create, :update, :destroy], controller: 'variables'

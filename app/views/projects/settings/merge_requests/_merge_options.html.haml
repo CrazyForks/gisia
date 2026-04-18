@@ -1,0 +1,13 @@
+%div{class: 'bg-white border border-gray-200 rounded-lg', 'data-controller': 'collapsible', 'data-collapsible-open-value': 'true'}
+  %div{class: 'p-4 cursor-pointer', 'data-action': 'click->collapsible#toggle', 'data-collapsible-target': 'header'}
+    %div{class: 'flex items-center justify-between'}
+      %div
+        %h2{class: 'text-lg font-semibold text-gray-900'}
+          = _('Merge Options')
+        %p{class: 'text-sm text-gray-600 mt-1'}
+          = _('Control merge behavior for merge requests in this project.')
+      %div{class: 'ml-4'}
+        = icon 'caret-right', class: 'w-4 h-4 text-gray-500 transition-transform duration-200', 'data-collapsible-target': 'icon'
+
+  = turbo_frame_tag 'merge_options_content' do
+    = render 'projects/settings/merge_requests/merge_options_content'

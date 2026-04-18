@@ -76,6 +76,10 @@
               = icon 'folder', class: "w-4 h-4 #{current_page?(edit_namespace_project_settings_repository_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
               %span= _('Repository')
           %li
+            = link_to edit_namespace_project_settings_merge_requests_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{current_page?(edit_namespace_project_settings_merge_requests_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
+              = icon 'git-merge', class: "w-4 h-4 #{current_page?(edit_namespace_project_settings_merge_requests_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
+              %span= _('Merge Requests')
+          %li
             = link_to edit_namespace_project_settings_ci_cd_path(@project.namespace.parent.full_path, @project.namespace.path), class: "flex items-center gap-3 px-3 py-2 text-sm font-medium #{current_page?(edit_namespace_project_settings_ci_cd_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-700 bg-blue-50' : 'text-gray-800'} rounded hover:bg-gray-50 hover:text-blue-700 group" do
               = icon 'play-circle', class: "w-4 h-4 #{current_page?(edit_namespace_project_settings_ci_cd_path(@project.namespace.parent.full_path, @project.namespace.path)) ? 'text-blue-600' : 'text-gray-600'} group-hover:text-blue-600"
               %span= _('CI/CD')
