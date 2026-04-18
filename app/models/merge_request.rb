@@ -206,7 +206,12 @@ class MergeRequest < ApplicationRecord
   end
 
   def default_merge_commit_message(user: nil)
-    "Merge branch '#{source_branch}' into '#{target_branch}'"
+    url = Gitlab::Routing.url_helpers.namespace_project_merge_request_url(
+      target_project.namespace.parent.full_path,
+      target_project.namespace.path,
+      self
+    )
+    "Merge branch '#{source_branch}' into '#{target_branch}'\n\nMerge Request: #{url}"
   end
 
   def update_and_mark_in_progress_merge_commit_sha(commit_id)
