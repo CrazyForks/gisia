@@ -11,9 +11,12 @@
       = link_to @commit.author_name, '#', class: 'font-medium text-blue-600 hover:underline'
       %time= time_ago_in_words(@commit.committed_date) + ' ago'
 
-    %div.space-y-2
-      %h1.text-xl.font-semibold.text-gray-800
+    %div{ class: 'space-y-3' }
+      %h1{ class: 'text-xl font-semibold text-slate-900' }
         = @commit.title
+      - if @commit.message.present?
+        %div{ class: 'bg-slate-50 border border-slate-200 rounded-md px-4 py-3' }
+          %p{ class: 'text-sm text-slate-600 whitespace-pre-wrap font-mono leading-relaxed' }= @commit.message
 
     %h2.text-sm.text-gray-800.mb-2= _('Changed files')
     = render 'projects/files/diff'

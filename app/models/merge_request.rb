@@ -211,7 +211,7 @@ class MergeRequest < ApplicationRecord
       target_project.namespace.path,
       self
     )
-    "Merge branch '#{source_branch}' into '#{target_branch}'\n\nMerge Request: #{url}"
+    "#{title}\n\nMerge Request: #{url}"
   end
 
   def update_and_mark_in_progress_merge_commit_sha(commit_id)

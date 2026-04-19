@@ -58,13 +58,16 @@ module MergeRequests
     def perform_merge
       source_sha = merge_request.diff_head_sha
       message = merge_request.default_merge_commit_message(user: current_user)
+      raw_repo = merge_request.target_project.repository.raw_repository
 
-      merge_request.target_project.repository.merge(
-        current_user,
-        source_sha,
-        merge_request,
-        message
-      )
+      if merge_request.target_project.namespace.namespace_settings&.squash_enabled?
+        target_sha = merge_request.target_project.repository.commit(merge_request.target_branch)&.sha
+        squash_sha = raw_repo.squash(current_user, start_sha: target_sha, end_sha: source_sha, author: current_user, message: message)
+        raw_repo.ff_merge(current_user, source_sha: squash_sha, target_branch: merge_request.target_branch)
+        squash_sha
+      else
+        merge_request.target_project.repository.merge(current_user, source_sha, merge_request, message)
+      end
     end
 
     def success
