@@ -8,7 +8,7 @@
     %p.text-gray-600.border-b
       = @commit.short_id
       = " #{_('committed by')} "
-      = link_to @commit.author_name, '#', class: 'font-medium text-blue-600 hover:underline'
+      = link_to @commit.author_name, '#', class: 'font-medium text-slate-600 hover:underline'
       %time= time_ago_in_words(@commit.committed_date) + ' ago'
 
     %div{ class: 'space-y-3' }

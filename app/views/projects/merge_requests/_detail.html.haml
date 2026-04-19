@@ -31,7 +31,7 @@
                 %div{ class: 'w-5 h-5 rounded-full bg-gradient-to-br from-slate-400 to-slate-500 flex items-center justify-center text-xs font-bold text-white' }
                   = @merge_request.author&.name&.first&.upcase || '?'
               %span
-                #{@merge_request.author&.name}
+                = link_to @merge_request.author&.name, namespace_show_path(@merge_request.author&.username), class: 'font-medium text-slate-700 hover:underline'
                 = _('opened %{time} ago') % { time: time_ago_in_words(@merge_request.created_at) }
 
             %div{ class: 'flex items-center gap-2 ml-6' }
