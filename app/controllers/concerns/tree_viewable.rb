@@ -20,9 +20,13 @@ module TreeViewable
 
     @logs = raw_logs.index_by { |row| row['file_name'] }
     @files = tree.entries
-    @branches = repository.branch_names
     @current_ref = @ref
-    @branch_base_url = "/#{@project.namespace.full_path}/-/tree"
+
+    if ref_type == ExtractsRef::RefExtractor::TAG_REF_TYPE
+      @tags = repository.tag_names
+    else
+      @branches = repository.branch_names
+    end
   end
 
   def tree

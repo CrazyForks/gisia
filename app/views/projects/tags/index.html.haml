@@ -30,7 +30,7 @@
                 %div{class: 'flex-1 min-w-0'}
                   %div{class: 'flex items-center gap-3 mb-1'}
                     %h3{class: 'text-base font-semibold text-slate-900 truncate'}
-                      = link_to tag.name, namespace_project_tree_path(@project.namespace.parent.full_path, @project.namespace.path, tag.name), class: 'hover:text-blue-600 transition-colors duration-200', data: { turbo: false }
+                      = link_to tag.name, namespace_project_tree_path(@project.namespace.parent.full_path, @project.namespace.path, tag.name, ref_type: 'tags'), class: 'hover:text-blue-600 transition-colors duration-200', data: { turbo: false }
                     - if @releases.find { |r| r.tag == tag.name }
                       %span{class: 'text-xs text-purple-700 bg-purple-100 px-2 py-0.5 rounded font-medium'}
                         = _('release')
@@ -52,10 +52,10 @@
 
                 %div{class: 'flex-shrink-0 w-48'}
                   %div{class: 'flex items-center gap-1 justify-end'}
-                    = link_to namespace_project_tree_path(@project.namespace.parent.full_path, @project.namespace.path, tag.name), class: 'inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-all duration-200', data: { turbo: false } do
+                    = link_to namespace_project_tree_path(@project.namespace.parent.full_path, @project.namespace.path, tag.name, ref_type: 'tags'), class: 'inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-all duration-200', data: { turbo: false } do
                       = icon 'eye', class: 'w-3.5 h-3.5'
                       %span= _('Browse')
-                    = link_to namespace_project_commits_path(@project.namespace.parent.full_path, @project.namespace.path, tag.name), class: 'inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-all duration-200 ml-1', data: { turbo: false } do
+                    = link_to namespace_project_commits_path(@project.namespace.parent.full_path, @project.namespace.path, tag.name, ref_type: 'tags'), class: 'inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-all duration-200 ml-1', data: { turbo: false } do
                       = icon 'git-commit', class: 'w-3.5 h-3.5'
                       %span= _('Commits')
                     %button{class: 'inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-all duration-200 ml-1', title: 'Download archive'}

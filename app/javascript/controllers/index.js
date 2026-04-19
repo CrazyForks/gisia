@@ -26,6 +26,7 @@ import DashboardController from "./dashboard_controller"
 import ToggleController from "./toggle_controller"
 import ReplyFormController from "./reply_form_controller"
 import MrBranchSelectController from "./mr_branch_select_controller"
+import RefSelectorController from "./ref_selector_controller"
 
 // Register controllers manually to ensure they're loaded
 application.register("search", SearchController)
@@ -53,5 +54,6 @@ application.register("dashboard", DashboardController)
 application.register("toggle", ToggleController)
 application.register("reply-form", ReplyFormController)
 application.register("mr-branch-select", MrBranchSelectController)
+application.register("ref-selector", RefSelectorController)
 
 eagerLoadControllersFrom("controllers", application)

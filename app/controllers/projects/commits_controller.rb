@@ -30,7 +30,7 @@ class Projects::CommitsController < Projects::ApplicationController
       offset: 0
     }
 
-    @commits = @repository.commits(@ref, **options)
+    @commits = @repository.commits(@fully_qualified_ref || @ref, **options)
   end
 
   def ref_params
