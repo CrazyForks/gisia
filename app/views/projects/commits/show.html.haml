@@ -1,5 +1,5 @@
 - content_for :breadcrumb do
-  - nodes = [*project_breadcrumb_nodes(@project), { label: 'Repository', path: '#' }, { label: 'Commits', path: '#' }]
+  - nodes = [*project_breadcrumb_nodes(@project), { label: _('Repository'), path: project_path(@project) }, { label: _('Commits'), path: namespace_project_commits_path(@project.namespace.parent.full_path, @project.path, @ref) }]
   = render 'shared/breadcrumb', nodes: nodes
 
 %div{ class: 'w-full bg-white p-6' }
