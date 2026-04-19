@@ -51,15 +51,6 @@
           %label{ class: 'block text-sm font-medium text-slate-700 mb-2' }= _('Description')
           = f.text_area :description, rows: 6, class: 'w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', placeholder: _('Describe the changes in this merge request')
 
-        %div{ class: 'grid grid-cols-1 md:grid-cols-2 gap-6' }
-          %div
-            %label{ class: 'block text-sm font-medium text-slate-700 mb-2' }= _('Assignees')
-            = f.select :assignee_ids, options_from_collection_for_select(@users, :id, :name), {}, multiple: true, class: 'w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-
-          %div
-            %label{ class: 'block text-sm font-medium text-slate-700 mb-2' }= _('Reviewers')
-            = f.select :reviewer_ids, options_from_collection_for_select(@users, :id, :name), {}, multiple: true, class: 'w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-
       %div{ class: 'flex items-center gap-4 pt-6 border-t border-slate-200 mt-6' }
         = f.submit _('Create Merge Request'), class: 'px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200'
         = link_to _('Cancel'), namespace_project_merge_requests_path(@project.namespace.parent.full_path, @project.path), class: 'px-6 py-2 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-lg font-medium transition-colors duration-200'
