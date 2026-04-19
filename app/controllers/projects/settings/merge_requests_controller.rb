@@ -18,7 +18,10 @@ module Projects
           flash.now[:alert] = "There was an error updating the merge request settings."
         end
 
-        render turbo_stream: turbo_stream.replace('merge_options_content', partial: 'projects/settings/merge_requests/merge_options_content')
+        render turbo_stream: [
+          turbo_stream.replace('flash', partial: 'shared/flash'),
+          turbo_stream.replace('merge_options_content', partial: 'projects/settings/merge_requests/merge_options_content')
+        ]
       end
 
       private
