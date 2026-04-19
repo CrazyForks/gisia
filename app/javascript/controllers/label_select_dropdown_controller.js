@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["dropdown", "options", "form", "searchForm", "queryInput", "unlinkForm", "unlinkLabelId", "labelIdInput"]
+  static targets = ["dropdown", "options", "form", "searchForm", "queryInput", "unlinkForm", "unlinkLabelId", "labelIdInput", "searchInput"]
   static values = { url: String, unlinkUrl: String, resourceId: String, resourceType: String }
 
   connect() {
@@ -79,12 +79,14 @@ export default class extends Controller {
 
   showDropdown() {
     this.dropdownTarget.classList.remove('hidden')
+    if (this.hasSearchInputTarget) {
+      setTimeout(() => this.searchInputTarget.focus(), 0)
+    }
   }
 
   clearSearchInput() {
-    const searchInput = this.element.querySelector('input[type="text"]')
-    if (searchInput) {
-      searchInput.value = ''
+    if (this.hasSearchInputTarget) {
+      this.searchInputTarget.value = ''
     }
   }
 
