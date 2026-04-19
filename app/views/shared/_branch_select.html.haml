@@ -1,0 +1,10 @@
+- field_name = local_assigns[:field_name]
+- selected = local_assigns[:selected].to_s
+- branches_json = @branches.to_json
+
+%div{ data: { controller: 'mr-branch-select', 'mr-branch-select-branches-value': branches_json, 'mr-branch-select-selected-value': selected } }
+  = hidden_field_tag field_name, selected, data: { 'mr-branch-select-target': 'hiddenInput' }
+  %div{ class: 'relative' }
+    %input{ type: 'text', placeholder: 'Search branches...', autocomplete: 'off', class: 'w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', data: { 'mr-branch-select-target': 'input', action: 'input->mr-branch-select#search focus->mr-branch-select#focus' } }
+    %div{ class: 'absolute top-full left-0 right-0 bg-white border border-slate-300 rounded-lg z-10 hidden max-h-48 overflow-y-auto mt-1', data: { 'mr-branch-select-target': 'dropdown', action: 'mousedown->mr-branch-select#preventBlur' } }
+      %div{ data: { 'mr-branch-select-target': 'options' } }

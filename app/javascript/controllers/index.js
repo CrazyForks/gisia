@@ -25,6 +25,7 @@ import BoardDragController from "./projects/board_drag_controller"
 import DashboardController from "./dashboard_controller"
 import ToggleController from "./toggle_controller"
 import ReplyFormController from "./reply_form_controller"
+import MrBranchSelectController from "./mr_branch_select_controller"
 
 // Register controllers manually to ensure they're loaded
 application.register("search", SearchController)
@@ -51,5 +52,6 @@ application.register("board-drag", BoardDragController)
 application.register("dashboard", DashboardController)
 application.register("toggle", ToggleController)
 application.register("reply-form", ReplyFormController)
+application.register("mr-branch-select", MrBranchSelectController)
 
 eagerLoadControllersFrom("controllers", application)
