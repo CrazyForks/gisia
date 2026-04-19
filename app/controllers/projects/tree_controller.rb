@@ -13,6 +13,10 @@ class Projects::TreeController < Projects::ApplicationController
   include ExtractsPath
   include TreeViewable
 
+  rescue_from ExtractsRef::RefExtractor::InvalidPathError do
+    render file: Rails.public_path.join("404.html"), status: :not_found, layout: false
+  end
+
   before_action :assign_ref_vars, only: [:show]
   before_action :set_tree, only: [:show]
 
