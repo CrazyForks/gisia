@@ -57,10 +57,10 @@ class Activity < ApplicationRecord
     when 'note_added'          then nil
     when 'label_added'         then "added labels #{Label.where(id: details['label_ids']).pluck(:title).join(', ')}"
     when 'label_removed'       then "removed labels #{Label.where(id: details['label_ids']).pluck(:title).join(', ')}"
-    when 'assignee_added'      then "assigned to #{User.where(id: details['user_ids']).pluck(:username).map { |u| "@#{u}" }.join(', ')}"
-    when 'assignee_removed'    then "unassigned #{User.where(id: details['user_ids']).pluck(:username).map { |u| "@#{u}" }.join(', ')}"
-    when 'reviewer_added'      then "requested review from #{User.where(id: details['user_ids']).pluck(:username).map { |u| "@#{u}" }.join(', ')}"
-    when 'reviewer_removed'    then "removed reviewer #{User.where(id: details['user_ids']).pluck(:username).map { |u| "@#{u}" }.join(', ')}"
+    when 'assignee_added'      then "assigned to #{User.where(id: details['user_ids']).map { |u| u.name.presence || u.username }.join(', ')}"
+    when 'assignee_removed'    then "unassigned #{User.where(id: details['user_ids']).map { |u| u.name.presence || u.username }.join(', ')}"
+    when 'reviewer_added'      then "requested review from #{User.where(id: details['user_ids']).map { |u| u.name.presence || u.username }.join(', ')}"
+    when 'reviewer_removed'    then "removed reviewer #{User.where(id: details['user_ids']).map { |u| u.name.presence || u.username }.join(', ')}"
     when 'title_changed'       then "changed title from \"#{details['from']}\" to \"#{details['to']}\""
     when 'description_changed' then "changed the description"
     end
