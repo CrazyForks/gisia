@@ -14,6 +14,10 @@ class ProtectedBranch < ProtectedRef
   scope :push, -> { where(allow_push: true) }
   scope :merge_to, -> { where(allow_merge_to: true) }
 
+  def self.allow_force_push?(project, ref_name)
+    project.protected_branches.force_push.any? { |pb| pb.matches?(ref_name) }
+  end
+
   def self.protected?(project, name)
     return false if name.blank?
     return true if project.empty_repo?

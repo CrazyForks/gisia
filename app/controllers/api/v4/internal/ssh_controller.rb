@@ -13,6 +13,10 @@ module API
   module V4
     module Internal
       class SshController < BaseController
+        rescue_from Gitlab::GitAccess::ForbiddenError, with: :render_forbidden
+        rescue_from Gitlab::GitAccess::NotFoundError, with: :render_not_found
+        rescue_from Gitlab::GitAccess::TimeoutError, with: :render_timeout
+
         before_action :access_check!, only: [:allowed]
 
         def check
@@ -70,6 +74,18 @@ module API
 
         def access_check!
           accessor.check!
+        end
+
+        def render_forbidden(exception)
+          render json: { status: false, message: exception.message }, status: :unauthorized
+        end
+
+        def render_not_found(exception)
+          render json: { status: false, message: exception.message }, status: :not_found
+        end
+
+        def render_timeout(exception)
+          render json: { status: false, message: exception.message }, status: :service_unavailable
         end
 
         def accessor
