@@ -1535,7 +1535,7 @@ msgid "Export variable to pipelines running on protected branches and tags only"
 msgstr "仅将变量导出到在受保护分支和标签上运行的流水线"
 
 msgid "Masked"
-msgstr "已遮蔽"
+msgstr "遮蔽"
 
 msgid "Variable will be masked in job logs"
 msgstr "变量将在作业日志中被遮蔽"

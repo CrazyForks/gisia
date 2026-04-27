@@ -1,5 +1,5 @@
 %div{ id: "notes-section", class: "mt-8" }
-  %p{ class: 'text-lg font-bold mb-4' } Activity
+  %p{ class: 'text-lg font-bold mb-4' } Activities
   %div{ id: "notes-list", class: "space-y-4 mb-6" }
     - activities.each do |activity|
       - if activity.note_added? && activity.note
