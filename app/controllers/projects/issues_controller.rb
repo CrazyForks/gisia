@@ -27,8 +27,9 @@ class Projects::IssuesController < Projects::ApplicationController
 
     @issues = filter_by_labels(@issues, params[:labels]) if params[:labels].present?
 
+    order_column = status_param == 'closed' ? { closed_at: :desc } : { created_at: :desc }
     @issues = @issues.includes(:author, :updated_by, :closed_by, :labels)
-                     .order(created_at: :desc)
+                     .order(order_column)
                      .page(params[:page])
                      .per(20)
   end

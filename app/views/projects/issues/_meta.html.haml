@@ -1,0 +1,25 @@
+- if issuable.closed?
+  - if issuable.closed_at
+    %div{ class: 'flex items-center gap-2 text-slate-500' }
+      - if issuable.closed_by&.avatar&.present?
+        = link_to user_homepage_path(issuable.closed_by) do
+          = image_tag issuable.closed_by.avatar_url, class: 'w-4 h-4 rounded-full'
+      - elsif issuable.closed_by
+        = link_to user_homepage_path(issuable.closed_by) do
+          %div{ class: 'w-4 h-4 rounded-full bg-gradient-to-br from-slate-400 to-slate-500 flex items-center justify-center text-xs font-bold text-white' }
+            = issuable.closed_by.name&.first&.upcase
+      %span
+        = _('closed %{time} ago by') % { time: time_ago_in_words(issuable.closed_at) }
+        = link_to issuable.closed_by&.name, user_homepage_path(issuable.closed_by), class: 'font-medium hover:underline' if issuable.closed_by
+- else
+  %div{ class: 'flex items-center gap-2 text-slate-500' }
+    - if issuable.author&.avatar&.present?
+      = link_to user_homepage_path(issuable.author) do
+        = image_tag issuable.author.avatar_url, class: 'w-4 h-4 rounded-full'
+    - else
+      = link_to user_homepage_path(issuable.author) do
+        %div{ class: 'w-4 h-4 rounded-full bg-gradient-to-br from-slate-400 to-slate-500 flex items-center justify-center text-xs font-bold text-white' }
+          = issuable.author&.name&.first&.upcase || '?'
+    %span
+      = _('opened %{time} ago by') % { time: time_ago_in_words(issuable.created_at) }
+      = link_to issuable.author&.name, user_homepage_path(issuable.author), class: 'font-medium hover:underline' if issuable.author

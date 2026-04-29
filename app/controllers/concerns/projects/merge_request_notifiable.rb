@@ -8,7 +8,11 @@ module Projects
 
     def handle_state_event(state_event)
       case state_event
-      when 'close'  then @merge_request.close! unless @merge_request.closed?
+      when 'close'
+        unless @merge_request.closed?
+          @merge_request.closing_user = current_user
+          @merge_request.close!
+        end
       when 'reopen' then @merge_request.reopen unless @merge_request.opened?
       end
     end

@@ -160,5 +160,9 @@ module ApplicationHelper
     namespace_project_jobs_path(@project.namespace.parent.full_path, @project.namespace.path)
   end
 
+  def user_homepage_path(user)
+    namespace_show_path(user.username)
+  end
+
 end
 

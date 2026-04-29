@@ -47,15 +47,7 @@
                 %p{ class: 'text-sm text-slate-600 mb-3 line-clamp-2' }= truncate(strip_markdown(epic.description), length: 120)
 
               %div{ class: 'flex items-center gap-4 text-sm mb-3' }
-                %div{ class: 'flex items-center gap-2 text-slate-500' }
-                  - if epic.author&.avatar&.present?
-                    = image_tag epic.author.avatar_url, class: 'w-4 h-4 rounded-full'
-                  - else
-                    %div{ class: 'w-4 h-4 rounded-full bg-gradient-to-br from-slate-400 to-slate-500 flex items-center justify-center text-xs font-bold text-white' }
-                      = epic.author&.name&.first&.upcase || '?'
-                  %span
-                    opened #{time_ago_in_words(epic.created_at)} ago by
-                    %span{ class: 'font-medium' }= epic.author&.name || 'Unknown'
+                = render 'projects/issues/meta', issuable: epic
 
                 - if epic.due_date
                   %div{ class: 'flex items-center gap-1 text-slate-500' }

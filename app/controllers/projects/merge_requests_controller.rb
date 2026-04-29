@@ -28,12 +28,20 @@ class Projects::MergeRequestsController < Projects::ApplicationController
       title_or_description_i_cont: params[:search]
     }.compact
 
-    @merge_requests = project.merge_requests.ransack(search_params)
-                             .result(distinct: true)
-                             .includes(:author, :assignees, :reviewers)
-                             .order(id: :desc)
-                             .page(params[:page])
-                             .per(20)
+    order_clause = case status_param
+                   when 'closed' then 'merge_request_metrics.latest_closed_at DESC NULLS LAST'
+                   when 'merged' then 'merge_request_metrics.merged_at DESC NULLS LAST'
+                   end
+
+    base = project.merge_requests.ransack(search_params).result(distinct: true)
+    @merge_requests = if order_clause
+                        MergeRequest.where(id: base.select(:id)).joins(:metrics).order(Arel.sql(order_clause))
+                      else
+                        base.order(id: :desc)
+                      end
+    @merge_requests = @merge_requests.includes(:author, :assignees, :reviewers, metrics: :latest_closed_by)
+                                     .page(params[:page])
+                                     .per(20)
   end
 
   def new; end

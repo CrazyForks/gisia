@@ -1,0 +1,26 @@
+- if merge_request.closed?
+  - if merge_request.metrics&.latest_closed_at
+    - closed_by = merge_request.metrics.latest_closed_by
+    %div{ class: 'flex items-center gap-2 text-slate-500' }
+      - if closed_by&.avatar&.present?
+        = link_to user_homepage_path(closed_by) do
+          = image_tag closed_by.avatar_url, class: 'w-4 h-4 rounded-full'
+      - elsif closed_by
+        = link_to user_homepage_path(closed_by) do
+          %div{ class: 'w-4 h-4 rounded-full bg-gradient-to-br from-slate-400 to-slate-500 flex items-center justify-center text-xs font-bold text-white' }
+            = closed_by.name&.first&.upcase
+      %span
+        = _('closed %{time} ago by') % { time: time_ago_in_words(merge_request.metrics.latest_closed_at) }
+        = link_to closed_by.name, user_homepage_path(closed_by), class: 'font-medium hover:underline' if closed_by
+- else
+  %div{ class: 'flex items-center gap-2 text-slate-500' }
+    - if merge_request.author&.avatar&.present?
+      = link_to user_homepage_path(merge_request.author) do
+        = image_tag merge_request.author.avatar_url, class: 'w-4 h-4 rounded-full'
+    - else
+      = link_to user_homepage_path(merge_request.author) do
+        %div{ class: 'w-4 h-4 rounded-full bg-gradient-to-br from-slate-400 to-slate-500 flex items-center justify-center text-xs font-bold text-white' }
+          = merge_request.author&.name&.first&.upcase || '?'
+    %span
+      = _('opened %{time} ago by') % { time: time_ago_in_words(merge_request.created_at) }
+      = link_to merge_request.author.name, user_homepage_path(merge_request.author), class: 'font-medium hover:underline' if merge_request.author

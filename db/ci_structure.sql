@@ -5477,6 +5477,13 @@ CREATE UNIQUE INDEX index_merge_request_diffs_on_unique_merge_request_id ON publ
 
 
 --
+-- Name: index_merge_request_metrics_on_latest_closed_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_merge_request_metrics_on_latest_closed_at ON public.merge_request_metrics USING btree (latest_closed_at);
+
+
+--
 -- Name: index_merge_request_metrics_on_merge_request_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6132,6 +6139,13 @@ CREATE UNIQUE INDEX index_work_item_assignees_on_work_item_id_and_assignee_id ON
 --
 
 CREATE INDEX index_work_items_on_author_id ON public.work_items USING btree (author_id);
+
+
+--
+-- Name: index_work_items_on_closed_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_work_items_on_closed_at ON public.work_items USING btree (closed_at);
 
 
 --
@@ -6805,6 +6819,8 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260429131634'),
+('20260429131429'),
 ('20260418134212'),
 ('20260415143742'),
 ('20260414144523'),

@@ -61,6 +61,20 @@ module MergeRequests
           merge_request.merge_error = nil
         end
 
+        after_transition any => :closed do |merge_request|
+          merge_request.metrics&.update_columns(
+            latest_closed_at: Time.current,
+            latest_closed_by_id: merge_request.closing_user&.id
+          )
+        end
+
+        after_transition :closed => :opened do |merge_request|
+          merge_request.metrics&.update_columns(
+            latest_closed_at: nil,
+            latest_closed_by_id: nil
+          )
+        end
+
         after_transition any => :opened do |merge_request|
           merge_request.run_after_commit do
             # UpdateHeadPipelineForMergeRequestWorker.perform_async(merge_request.id)

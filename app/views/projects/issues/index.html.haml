@@ -46,15 +46,7 @@
                 %p{ class: 'text-sm text-slate-600 mb-3 line-clamp-2' }= truncate(strip_markdown(issue.description), length: 120)
 
               %div{ class: 'flex items-center gap-4 text-sm mb-3' }
-                %div{ class: 'flex items-center gap-2 text-slate-500' }
-                  - if issue.author&.avatar&.present?
-                    = image_tag issue.author.avatar_url, class: 'w-4 h-4 rounded-full'
-                  - else
-                    %div{ class: 'w-4 h-4 rounded-full bg-gradient-to-br from-slate-400 to-slate-500 flex items-center justify-center text-xs font-bold text-white' }
-                      = issue.author&.name&.first&.upcase || '?'
-                  %span
-                    = _('opened %{time} ago by') % { time: time_ago_in_words(issue.created_at) }
-                    %span{ class: 'font-medium' }= issue.author&.name || 'Unknown'
+                = render 'meta', issuable: issue
 
                 - if issue.due_date
                   %div{ class: 'flex items-center gap-1 text-slate-500' }

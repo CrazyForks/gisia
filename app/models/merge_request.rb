@@ -27,6 +27,8 @@ class MergeRequest < ApplicationRecord
   include IidRoutes
   include Activities::Trackable
 
+  attr_accessor :closing_user
+
   MERGE_LEASE_TIMEOUT = 15.minutes.to_i
 
   belongs_to :target_project, class_name: 'Project'
