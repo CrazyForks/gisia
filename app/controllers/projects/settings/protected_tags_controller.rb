@@ -15,9 +15,13 @@ module Projects
   end
 
   def render_turbo_stream_response
-    render turbo_stream: turbo_stream.replace('protected_tags_content',
-      partial: 'projects/settings/protected_refs/protected_tags_content',
-      locals: { project: @project })
+    status = @protected_ref&.errors&.any? ? :unprocessable_entity : :ok
+    render turbo_stream: [
+      turbo_stream.replace('flash', partial: 'shared/flash'),
+      turbo_stream.replace('protected_tags_content',
+        partial: 'projects/settings/protected_refs/protected_tags_content',
+        locals: { project: @project })
+    ], status: status
   end
 
   def protected_ref_params

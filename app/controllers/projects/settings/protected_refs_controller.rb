@@ -11,9 +11,9 @@ module Projects
   def create
     @protected_ref = protected_ref_class.new(protected_ref_params.merge(namespace: project.namespace))
     if @protected_ref.save
-      flash[:notice] = "Successfully protected #{ref_type_singular} '#{@protected_ref.name}'"
+      flash.now[:notice] = "Successfully protected #{ref_type_singular} '#{@protected_ref.name}'"
     else
-      flash[:alert] = @protected_ref.errors.full_messages.join(', ')
+      flash.now[:alert] = @protected_ref.errors.full_messages.join(', ')
     end
 
     render_turbo_stream_response
@@ -39,7 +39,7 @@ module Projects
 
   def destroy
     @protected_ref.destroy
-    flash[:notice] = "Successfully removed protection from #{ref_type_singular} '#{@protected_ref.name}'"
+    flash.now[:notice] = "Successfully removed protection from #{ref_type_singular} '#{@protected_ref.name}'"
 
     render_turbo_stream_response
   end
