@@ -2,7 +2,7 @@
 
 module Ci
   module StuckBuilds
-    class DropScheduledJob
+    class DropScheduledJob < ApplicationJob
       include ExclusiveLeaseGuard
 
       def perform
