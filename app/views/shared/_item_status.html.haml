@@ -1,0 +1,13 @@
+- if item.is_a?(MergeRequest)
+  - if item.merged?
+    %span{ class: 'text-xs font-medium px-1.5 py-0.5 rounded-full bg-violet-100 text-violet-700 flex-shrink-0' } Merged
+  - elsif item.closed?
+    %span{ class: 'text-xs font-medium px-1.5 py-0.5 rounded-full bg-rose-100 text-rose-700 flex-shrink-0' } Closed
+  - elsif item.locked?
+    %span{ class: 'text-xs font-medium px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 flex-shrink-0' } Locked
+  - elsif item.opened?
+    %span{ class: 'text-xs font-medium px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 flex-shrink-0' } Open
+- elsif item.closed?
+  %span{ class: 'text-xs font-medium px-1.5 py-0.5 rounded-full bg-rose-100 text-rose-700 flex-shrink-0' } Closed
+- elsif item.opened?
+  %span{ class: 'text-xs font-medium px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 flex-shrink-0' } Open

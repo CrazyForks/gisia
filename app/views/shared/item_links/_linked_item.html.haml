@@ -6,9 +6,6 @@
   = icon(is_mr ? 'git-merge' : 'note', class: 'w-4 h-4 text-slate-400 flex-shrink-0')
   %span{ class: 'text-xs text-slate-400 flex-shrink-0' }= target.to_reference
   = link_to target.title, item_link_target_url(target), class: 'text-sm text-slate-700 hover:text-blue-600 hover:underline truncate flex-1', target: '_blank'
-  - if target.closed?
-    %span{ class: 'text-xs text-slate-500 flex-shrink-0' } Closed
-  - else
-    %span{ class: 'text-xs text-slate-500 flex-shrink-0' } Open
+  = render 'shared/item_status', item: target
   = button_to delete_url, method: :delete, class: 'inline-flex items-center p-0.5 text-slate-400 hover:text-red-500 rounded flex-shrink-0' do
     = icon 'x', class: 'w-3.5 h-3.5'

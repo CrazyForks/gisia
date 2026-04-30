@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["form", "createForm", "input", "searchForm", "searchQuery", "searchResults"]
+  static targets = ["form", "createForm", "input", "searchForm", "searchQuery", "searchResults", "referenceInput"]
 
   connect() {
     this.searchTimeout = null
@@ -16,6 +16,7 @@ export default class extends Controller {
 
   onSubmitEnd(event) {
     this.inputTarget.value = ''
+    this.referenceInputTarget.value = ''
     this.hideResults()
     if (event.detail.success) {
       this.formTarget.classList.add('hidden')
@@ -34,6 +35,7 @@ export default class extends Controller {
   hideForm() {
     this.formTarget.classList.add('hidden')
     this.inputTarget.value = ''
+    this.referenceInputTarget.value = ''
     this.hideResults()
   }
 
@@ -58,13 +60,14 @@ export default class extends Controller {
   }
 
   selectItem(event) {
-    this.inputTarget.value = event.currentTarget.dataset.ref
+    this.referenceInputTarget.value = event.currentTarget.dataset.ref
     this.hideResults()
     this.createFormTarget.requestSubmit()
   }
 
   submitForm(event) {
     event.preventDefault()
+    this.referenceInputTarget.value = this.inputTarget.value.trim()
     this.createFormTarget.requestSubmit()
   }
 }

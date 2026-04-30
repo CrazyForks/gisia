@@ -1,10 +1,5 @@
-- new_count = @issue.item_link_records.count
-
 = turbo_stream.replace 'flash' do
   %div#flash{ class: 'fixed top-0 left-64 right-0 z-21' }
 
 = turbo_stream.append 'linked-items-list' do
   = render 'shared/item_links/linked_item', item_link: @item_link
-
-= turbo_stream.replace 'linked-items-count' do
-  %span{ id: 'linked-items-count', class: 'text-slate-400 font-normal' }= "(#{new_count})"
