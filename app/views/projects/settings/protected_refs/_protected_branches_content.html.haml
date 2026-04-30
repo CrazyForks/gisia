@@ -55,7 +55,7 @@
       %h3{class: 'text-base font-medium text-gray-900 mb-4'}
         = _('Protected Branches (%{count})') % { count: protected_branches.count }
 
-      %div{class: 'space-y-3'}
+      %div{id: 'protected_branches_list', class: 'space-y-3'}
         - protected_branches.each do |protected_branch|
           = render 'projects/settings/protected_refs/protected_branch_row', project: @project, protected_ref: protected_branch
   - else
