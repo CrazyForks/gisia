@@ -2,10 +2,11 @@ class Projects::IssuesController < Projects::ApplicationController
   include StageIssuesFilterable
   include Projects::IssueAuthorizable
   include Projects::SetsUpdatedBy
+  include Projects::ItemLinkFindable
 
-  before_action :authorize_read_issues!, only: [:index, :search_users, :search_epics]
+  before_action :authorize_read_issues!, only: [:index, :search_users, :search_epics, :search_links]
   before_action :authorize_create_issue!, only: [:new, :create]
-  before_action :set_issue, only: [:show, :edit, :update, :destroy, :close, :reopen, :move_stage, :link_labels, :unlink_label, :search_labels]
+  before_action :set_issue, only: [:show, :edit, :update, :destroy, :close, :reopen, :move_stage, :link_labels, :unlink_label, :search_labels, :search_links]
   before_action :authorize_read_issuable!, only: [:show, :search_labels]
   before_action :authorize_update_issuable!, only: [:edit, :update, :close, :reopen, :move_stage, :link_labels, :unlink_label]
   before_action :authorize_destroy_issuable!, only: [:destroy]
@@ -171,6 +172,11 @@ class Projects::IssuesController < Projects::ApplicationController
     respond_to do |format|
       format.turbo_stream
     end
+  end
+
+  def search_links
+    @results = search_link_item_results(params[:q].to_s.strip)
+    respond_to { |format| format.turbo_stream }
   end
 
   private

@@ -1,0 +1,8 @@
+= turbo_stream.replace 'link-item-search-results' do
+  %div{ id: 'link-item-search-results', class: "absolute top-full left-0 right-0 mt-1 z-10 bg-white border border-slate-200 rounded-lg max-h-48 overflow-y-auto #{'hidden' if @results.empty?}" }
+    - @results.each do |result|
+      %div{ class: 'flex items-center gap-2 px-3 py-2 hover:bg-slate-50 cursor-pointer text-sm', data: { action: 'click->link-item-form#selectItem', ref: result.to_reference } }
+        = icon(result.is_a?(MergeRequest) ? 'git-merge' : 'note', class: 'w-3.5 h-3.5 text-slate-400 flex-shrink-0')
+        %span{ class: 'text-slate-400 text-xs flex-shrink-0' }= result.to_reference
+        %span{ class: 'text-slate-700 truncate' }= result.title
+        %span{ class: 'text-xs text-slate-400 flex-shrink-0' }= result.opened? ? 'Open' : 'Closed'

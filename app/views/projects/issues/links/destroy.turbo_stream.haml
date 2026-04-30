@@ -1,0 +1,6 @@
+- new_count = @issue.item_link_records.count
+
+= turbo_stream.remove "linked-item-#{@item_link_id}"
+
+= turbo_stream.replace 'linked-items-count' do
+  %span{ id: 'linked-items-count', class: 'text-slate-400 font-normal' }= "(#{new_count})"

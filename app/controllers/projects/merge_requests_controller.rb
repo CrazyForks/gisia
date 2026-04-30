@@ -11,8 +11,9 @@
 
 class Projects::MergeRequestsController < Projects::ApplicationController
   include Projects::MergeRequestNotifiable
+  include Projects::ItemLinkFindable
   before_action :define_new_vars, only: %i[new edit]
-  before_action :set_mr, only: %i[show commits diffs pipelines edit update merge]
+  before_action :set_mr, only: %i[show commits diffs pipelines edit update merge search_links]
   before_action :set_counts, only: [:index]
   before_action :set_notification_author, only: [:update]
   before_action :check_mr_author_authorization, only: [:update]
@@ -49,6 +50,11 @@ class Projects::MergeRequestsController < Projects::ApplicationController
   def show
     @activities = @merge_request.activities.chronological
                                 .includes(:author, note: [:author, :updated_by, :resolved_by, replies: [:author, :updated_by, :resolved_by]])
+  end
+
+  def search_links
+    @results = search_link_item_results(params[:q].to_s.strip)
+    respond_to { |format| format.turbo_stream }
   end
 
   def commits

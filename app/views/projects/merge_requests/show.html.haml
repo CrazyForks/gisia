@@ -17,6 +17,8 @@
                 = icon 'file-text', class: 'w-8 h-8 text-slate-300'
                 %span= _('No description provided.')
 
+      = render 'shared/item_links/linked_items', resource: @merge_request, create_url: namespace_project_merge_request_links_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request), search_url: search_links_namespace_project_merge_request_path(@merge_request.target_project.namespace.parent.full_path, @merge_request.target_project.path, @merge_request)
+
       = render 'shared/activities/timeline', activities: @activities, noteable: @merge_request
 
     %div{ class: 'w-64 space-y-6' }
