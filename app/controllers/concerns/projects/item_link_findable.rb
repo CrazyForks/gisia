@@ -62,7 +62,7 @@ module Projects
     def search_link_item_results(q)
       return [] if q.blank?
 
-      issues = @project.namespace.issues
+      issues = Ability.allowed?(current_user, :read_confidential_issues, @project) ? @project.namespace.issues : @project.namespace.issues.public_only
       mrs = @project.merge_requests
 
       if issue_reference?(q)

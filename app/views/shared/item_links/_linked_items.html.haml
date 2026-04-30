@@ -1,4 +1,5 @@
-- link_records = resource.item_link_records.includes(:target)
+- can_read_confidential = Ability.allowed?(current_user, :read_confidential_issues, @project)
+- link_records = resource.item_link_records.includes(:target).select { |l| !l.target.is_a?(Issue) || !l.target.confidential? || can_read_confidential }
 
 %div{ id: 'linked-items-section', class: 'mt-6 mb-6', data: { controller: 'link-item-form', action: 'click@document->link-item-form#handleClickOutside' } }
   %div{ class: 'flex items-center gap-2 mb-3' }
