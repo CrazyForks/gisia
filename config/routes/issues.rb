@@ -12,5 +12,7 @@ resources :issues, param: :iid, constraints: { iid: /\d+/ } do
     patch :link_labels
     delete :unlink_label
     get :search_labels
+    post :search_links
   end
+  resources :links, only: [:create, :destroy], controller: 'issues/links'
 end
