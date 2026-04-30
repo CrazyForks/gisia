@@ -14,6 +14,14 @@ module Projects
     :protected_branches
   end
 
+  def protected_ref_row_partial
+    'projects/settings/protected_refs/protected_branch_row'
+  end
+
+  def protected_ref_edit_row_partial
+    'projects/settings/protected_refs/protected_branch_edit_row'
+  end
+
   def render_turbo_stream_response
     status = @protected_ref&.errors&.any? ? :unprocessable_entity : :ok
     render turbo_stream: [

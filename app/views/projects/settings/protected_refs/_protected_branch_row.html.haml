@@ -1,0 +1,17 @@
+%turbo-frame{id: "protected_branch_row_#{protected_ref.id}"}
+  %div{class: 'flex items-center justify-between p-4 bg-gray-50 rounded-lg'}
+    %div{class: 'flex items-center gap-3'}
+      = icon 'git-branch', class: 'w-4 h-4 text-gray-500'
+      %div
+        %div{class: 'font-medium text-gray-900'}= protected_ref.name
+        %div{class: 'text-sm text-gray-500'}
+          = protected_ref.access_level.humanize
+          - permissions = []
+          - permissions << _('Push') if protected_ref.allow_push?
+          - permissions << _('Force Push') if protected_ref.allow_force_push?
+          - permissions << _('Merge') if protected_ref.allow_merge_to?
+          - if permissions.any?
+            · #{permissions.join(', ')}
+    %div{class: 'flex gap-2'}
+      = link_to _('Edit'), edit_namespace_project_settings_protected_branch_path(project.namespace.parent.full_path, project.namespace.path, protected_ref), class: 'px-3 py-1 text-xs font-medium text-blue-600 bg-blue-50 rounded-md hover:bg-blue-100 transition-colors'
+      = link_to _('Delete'), namespace_project_settings_protected_branch_path(project.namespace.parent.full_path, project.namespace.path, protected_ref), data: { turbo_method: :delete, turbo_confirm: _('Remove protection from %{name}?') % { name: protected_ref.name } }, class: 'px-3 py-1 text-xs font-medium text-red-600 bg-red-50 rounded-md hover:bg-red-100 transition-colors'
