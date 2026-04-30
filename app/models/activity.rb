@@ -14,7 +14,9 @@ class Activity < ApplicationRecord
     title_changed: 7,
     description_changed: 8,
     reviewer_added: 9,
-    reviewer_removed: 10
+    reviewer_removed: 10,
+    item_linked: 11,
+    item_unlinked: 12
   }
 
   belongs_to :trackable, polymorphic: true
@@ -63,6 +65,10 @@ class Activity < ApplicationRecord
     when 'reviewer_removed'    then "removed reviewer #{User.where(id: details['user_ids']).map { |u| u.name.presence || u.username }.join(', ')}"
     when 'title_changed'       then "changed title from \"#{details['from']}\" to \"#{details['to']}\""
     when 'description_changed' then "changed the description"
+    when 'item_linked', 'item_unlinked'
+      target = details['target_type'].constantize.find_by(id: details['target_id'])
+      verb = item_linked? ? 'linked' : 'unlinked'
+      target ? "#{verb} #{target.to_reference}" : verb
     end
   end
 end

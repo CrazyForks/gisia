@@ -10,8 +10,8 @@ class Projects::Issues::LinksController < Projects::ApplicationController
   before_action :set_link_target, only: [:create]
 
   def create
-    @item_link = ItemLink.new(source: @issue, target: @target, namespace: @project.namespace)
-    reverse_link = ItemLink.new(source: @target, target: @issue, namespace: @project.namespace)
+    @item_link = ItemLink.new(source: @issue, target: @target, namespace: @project.namespace, activity_author: current_user)
+    reverse_link = ItemLink.new(source: @target, target: @issue, namespace: @project.namespace, activity_author: current_user)
 
     success = ActiveRecord::Base.transaction do
       @item_link.save && reverse_link.save
@@ -27,6 +27,8 @@ class Projects::Issues::LinksController < Projects::ApplicationController
   def destroy
     @item_link_id = @item_link.id
     reverse = ItemLink.find_by(source: @item_link.target, target: @issue)
+    @item_link.activity_author = current_user
+    reverse.activity_author = current_user if reverse
 
     ActiveRecord::Base.transaction do
       @item_link.destroy
