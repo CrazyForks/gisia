@@ -1460,6 +1460,42 @@ CREATE TABLE public.issue_notes (
 
 
 --
+-- Name: item_links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.item_links (
+    id bigint NOT NULL,
+    source_id bigint NOT NULL,
+    source_type character varying NOT NULL,
+    target_id bigint NOT NULL,
+    target_type character varying NOT NULL,
+    namespace_id bigint NOT NULL,
+    auto_close boolean DEFAULT false NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: item_links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.item_links_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: item_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.item_links_id_seq OWNED BY public.item_links.id;
+
+
+--
 -- Name: keys; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3294,6 +3330,13 @@ ALTER TABLE ONLY public.internal_ids ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
+-- Name: item_links id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.item_links ALTER COLUMN id SET DEFAULT nextval('public.item_links_id_seq'::regclass);
+
+
+--
 -- Name: keys id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3879,6 +3922,14 @@ ALTER TABLE ONLY public.issue_activities
 
 ALTER TABLE ONLY public.issue_notes
     ADD CONSTRAINT issue_notes_pkey PRIMARY KEY (id, noteable_type);
+
+
+--
+-- Name: item_links item_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.item_links
+    ADD CONSTRAINT item_links_pkey PRIMARY KEY (id);
 
 
 --
@@ -5285,6 +5336,34 @@ CREATE UNIQUE INDEX index_internal_ids_on_usage_and_namespace_id ON public.inter
 --
 
 CREATE UNIQUE INDEX index_internal_ids_on_usage_and_project_id ON public.internal_ids USING btree (usage, project_id) WHERE (project_id IS NOT NULL);
+
+
+--
+-- Name: index_item_links_on_namespace_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_item_links_on_namespace_id ON public.item_links USING btree (namespace_id);
+
+
+--
+-- Name: index_item_links_on_source_and_target; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_item_links_on_source_and_target ON public.item_links USING btree (source_id, source_type, target_id, target_type);
+
+
+--
+-- Name: index_item_links_on_source_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_item_links_on_source_type ON public.item_links USING btree (source_type);
+
+
+--
+-- Name: index_item_links_on_target_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_item_links_on_target_type ON public.item_links USING btree (target_type);
 
 
 --
@@ -6819,6 +6898,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260430060808'),
 ('20260429131634'),
 ('20260429131429'),
 ('20260418134212'),
