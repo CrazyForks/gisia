@@ -22,6 +22,7 @@ class WorkItem < ApplicationRecord
   include HasDescription
   include IidRoutes
   include Activities::Trackable
+  include Linkable
 
   belongs_to :author, class_name: 'User'
   belongs_to :updated_by, class_name: 'User', optional: true

@@ -26,6 +26,7 @@ class MergeRequest < ApplicationRecord
   include MergeRequests::Variables
   include IidRoutes
   include Activities::Trackable
+  include Linkable
 
   attr_accessor :closing_user
 
