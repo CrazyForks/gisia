@@ -18,7 +18,8 @@ module API
         before_action :set_updated_by, only: [:update]
 
         def index
-          @epics = paginate(apply_filters(@project.namespace.epics).order(created_at: :desc))
+          order_column = params[:state] == 'closed' ? { closed_at: :desc } : { created_at: :desc }
+          @epics = paginate(apply_filters(@project.namespace.epics).order(order_column))
         end
 
         def show; end

@@ -28,11 +28,18 @@ module API
             target_branch_eq: params[:target_branch]
           }.compact
 
-          mrs = @project.merge_requests
-            .ransack(search_params)
-            .result(distinct: true)
-            .includes(:author, :assignees, :reviewers, :metrics, target_project: { namespace: :parent })
-            .order(id: :desc)
+          order_clause = case state
+                         when 'closed' then 'merge_request_metrics.latest_closed_at DESC NULLS LAST'
+                         when 'merged' then 'merge_request_metrics.merged_at DESC NULLS LAST'
+                         end
+
+          base = @project.merge_requests.ransack(search_params).result(distinct: true)
+          mrs = if order_clause
+                  MergeRequest.where(id: base.select(:id)).joins(:metrics).order(Arel.sql(order_clause))
+                else
+                  base.order(id: :desc)
+                end
+          mrs = mrs.includes(:author, :assignees, :reviewers, :metrics, target_project: { namespace: :parent })
 
           @merge_requests = paginate(mrs)
         end

@@ -18,7 +18,8 @@ module API
         before_action :set_updated_by, only: [:update]
 
         def index
-          @issues = paginate(apply_filters(@project.issues).order(created_at: :desc))
+          order_column = params[:state] == 'closed' ? { closed_at: :desc } : { created_at: :desc }
+          @issues = paginate(apply_filters(@project.issues).order(order_column))
         end
 
         def show; end
