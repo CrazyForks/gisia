@@ -8,7 +8,7 @@
     %button{ type: 'button', class: 'inline-flex items-center px-1.5 py-1 text-slate-500 border border-slate-300 rounded hover:bg-slate-50', data: { action: 'click->link-item-form#toggleForm' } }
       = icon 'plus', class: 'w-3 h-3'
 
-  %div{ class: 'border border-slate-200 rounded-lg divide-y divide-slate-200' }
+  %div{ id: 'linked-items-container', class: "#{link_records.empty? ? 'hidden ' : ''}border border-slate-200 rounded-lg divide-y divide-slate-200", data: { 'link-item-form-target': 'container' } }
     %div{ class: 'hidden px-3 py-2.5', data: { 'link-item-form-target': 'form' } }
       = form_with url: search_url, method: :post, class: 'hidden', data: { 'link-item-form-target': 'searchForm' } do |f|
         = f.hidden_field :q, value: '', data: { 'link-item-form-target': 'searchQuery' }
@@ -22,6 +22,6 @@
         %button{ type: 'button', class: 'inline-flex items-center px-2 py-1.5 text-xs font-medium text-slate-600 border border-slate-300 rounded hover:bg-slate-100 flex-shrink-0', data: { action: 'click->link-item-form#hideForm' } }
           Cancel
 
-    %div{ id: 'linked-items-list' }
+    %div{ id: 'linked-items-list', data: { 'link-item-form-target': 'list' } }
       - link_records.each do |link|
         = render 'shared/item_links/linked_item', item_link: link

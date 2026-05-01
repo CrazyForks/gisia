@@ -1,12 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["form", "createForm", "input", "searchForm", "searchQuery", "searchResults", "referenceInput"]
+  static targets = ["form", "createForm", "input", "searchForm", "searchQuery", "searchResults", "referenceInput", "container", "list", "listItem"]
 
   connect() {
     this.searchTimeout = null
     this.boundOnSubmitEnd = this.onSubmitEnd.bind(this)
     this.createFormTarget.addEventListener('turbo:submit-end', this.boundOnSubmitEnd)
+  }
+
+  listItemTargetDisconnected() {
+    if (!this.hasListItemTarget) this.containerTarget.classList.add('hidden')
   }
 
   disconnect() {
@@ -25,6 +29,7 @@ export default class extends Controller {
 
   toggleForm() {
     if (this.formTarget.classList.contains('hidden')) {
+      this.containerTarget.classList.remove('hidden')
       this.formTarget.classList.remove('hidden')
       setTimeout(() => this.inputTarget.focus(), 0)
     } else {
@@ -37,6 +42,9 @@ export default class extends Controller {
     this.inputTarget.value = ''
     this.referenceInputTarget.value = ''
     this.hideResults()
+    if (this.listTarget.children.length === 0) {
+      this.containerTarget.classList.add('hidden')
+    }
   }
 
   hideResults() {

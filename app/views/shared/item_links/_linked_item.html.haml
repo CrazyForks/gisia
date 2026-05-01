@@ -2,7 +2,7 @@
 - is_mr = target.is_a?(MergeRequest)
 - delete_url = item_link_delete_url(item_link)
 
-%div{ id: "linked-item-#{item_link.id}", class: 'flex items-center gap-3 px-3 py-2' }
+%div{ id: "linked-item-#{item_link.id}", class: 'flex items-center gap-3 px-3 py-2', data: { 'link-item-form-target': 'listItem' } }
   = icon(is_mr ? 'git-merge' : 'note', class: 'w-4 h-4 text-slate-400 flex-shrink-0')
   %span{ class: 'text-xs text-slate-400 flex-shrink-0' }= target.to_reference
   = link_to target.title, item_link_target_url(target), class: 'text-sm text-slate-700 hover:text-blue-600 hover:underline truncate flex-1', target: '_blank'
