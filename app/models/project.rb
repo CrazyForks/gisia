@@ -579,6 +579,11 @@ class Project < ApplicationRecord
 
   def external_authorization_classification_label; end
 
+  # Todo, mv to settings
+  def enforce_auth_checks_on_uploads?
+    true
+  end
+
   def self_or_ancestors_archived?
     # We can remove `archived?` once we move the project archival to the `namespaces.archived` column
     archived? || namespace.self_or_ancestors_archived?

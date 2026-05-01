@@ -44,6 +44,13 @@ Rails.application.routes.draw do
     draw :markdown
   end
 
+  scope path: '-' do
+    get '/:model/:model_id/uploads/:secret/:filename',
+      to: 'banzai/uploads#show',
+      constraints: { model: /project/, filename: %r{[^/]+} },
+      as: :banzai_upload
+  end
+
   draw :admin
   draw :project
   draw :namespace

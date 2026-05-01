@@ -43,7 +43,7 @@
 
     %div
       %label{ class: 'block text-sm font-medium text-slate-700 mb-2' }= _('Description')
-      = f.text_area :description, rows: 6, class: 'w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', placeholder: _('Describe the changes in this merge request')
+      = render 'shared/markdown_editor', f: f, field: :description, placeholder: _('Describe the changes in this merge request'), min_height: 'min-h-48', initial_content: @merge_request.description || '', textarea_id: 'merge-request-description-editor', upload_url: namespace_project_uploads_path(@project.namespace.parent.full_path, @project.path), upload_prefix: "/-/project/#{@project.id}"
 
   %div{ class: 'flex items-center gap-4 pt-6 border-t border-slate-200 mt-6' }
     = f.submit (@merge_request.new_record? ? _('Create Merge Request') : _('Update Merge Request')), class: 'px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200'

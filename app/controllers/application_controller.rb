@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include WorkhorseHelper
+
   allow_browser versions: :modern
   before_action :authenticate_user!
   around_action :set_locale

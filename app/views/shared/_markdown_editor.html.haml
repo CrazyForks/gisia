@@ -1,7 +1,11 @@
--# locals: f, field, placeholder, min_height, initial_content, textarea_id: nil
+-# locals: f, field, placeholder, min_height, initial_content, textarea_id: nil, upload_url: nil, upload_prefix: nil
+- upload_url = local_assigns.fetch(:upload_url, nil)
+- upload_prefix = local_assigns.fetch(:upload_prefix, nil)
 %div{ 'data-controller': 'markdown-editor',
       'data-markdown-editor-initial-content-value': initial_content,
-      'data-markdown-editor-preview-url-value': markdown_preview_path }
+      'data-markdown-editor-preview-url-value': markdown_preview_path,
+      'data-markdown-editor-upload-url-value': upload_url.to_s,
+      'data-markdown-editor-upload-prefix-value': upload_prefix.to_s }
   .border.border-slate-300.rounded-md.overflow-hidden
     .flex.items-center.gap-0.5.border-b.border-slate-200.bg-slate-50.px-2.py-1{ 'data-action': 'mousedown->markdown-editor#preventFocusLoss' }
       %button{ type: 'button', 'data-action': 'click->markdown-editor#bold', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Bold' }
@@ -27,6 +31,11 @@
         = icon 'table', class: 'w-4 h-4', variant: 'bold'
       %button{ type: 'button', 'data-action': 'click->markdown-editor#insertHr', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Horizontal rule' }
         = icon 'minus', class: 'w-4 h-4', variant: 'bold'
+      - if upload_url.present?
+        .w-px.h-4.bg-slate-300.mx-1
+        %button{ type: 'button', 'data-action': 'click->markdown-editor#attachFile', 'data-markdown-editor-target': 'uploadButton', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Attach file' }
+          = icon 'paperclip', class: 'w-4 h-4', variant: 'bold'
+        %input{ type: 'file', 'data-markdown-editor-target': 'fileInput', 'data-action': 'change->markdown-editor#handleFileSelect', class: 'hidden' }
     .flex.border-b.border-slate-200.bg-slate-50.px-1
       %button{ type: 'button',
                'data-markdown-editor-target': 'editTab',

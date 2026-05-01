@@ -94,6 +94,10 @@ class ApplicationRecord < ActiveRecord::Base
     where('NOT EXISTS (?)', query.select(1))
   end
 
+  def to_ability_name
+    model_name.element
+  end
+
   def create_or_load_association(association_name)
     association(association_name).create unless association(association_name).loaded?
   rescue ActiveRecord::RecordNotUnique, PG::UniqueViolation

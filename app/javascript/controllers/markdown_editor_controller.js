@@ -2,8 +2,8 @@ import { Controller } from "@hotwired/stimulus"
 import { Editor } from "tiny-markdown-editor"
 
 export default class extends Controller {
-  static targets = ["hiddenField", "textarea", "preview", "editTab", "previewTab", "editorArea"]
-  static values = { initialContent: String, previewUrl: String }
+  static targets = ["hiddenField", "textarea", "preview", "editTab", "previewTab", "editorArea", "fileInput", "uploadButton"]
+  static values = { initialContent: String, previewUrl: String, uploadUrl: String, uploadPrefix: String }
 
   connect() {
     this.editor = new Editor({ textarea: this.textareaTarget, content: this.initialContentValue })
@@ -107,6 +107,40 @@ export default class extends Controller {
 
   insertHr() {
     this.editor.paste("\n\n---\n\n")
+  }
+
+  attachFile() {
+    this.fileInputTarget.click()
+  }
+
+  handleFileSelect(event) {
+    const file = event.target.files[0]
+    if (file) this.uploadFile(file)
+    event.target.value = ""
+  }
+
+  async uploadFile(file) {
+    if (!this.uploadUrlValue) return
+    const button = this.hasUploadButtonTarget ? this.uploadButtonTarget : null
+    if (button) button.disabled = true
+    const token = document.querySelector('meta[name="csrf-token"]')?.content
+    const body = new FormData()
+    body.append("file", file)
+    try {
+      const response = await fetch(this.uploadUrlValue, {
+        method: "POST",
+        headers: { "X-CSRF-Token": token, "Accept": "application/json" },
+        body
+      })
+      const data = await response.json()
+      if (data?.link?.url) {
+        const prefix = this.uploadPrefixValue
+        const url = prefix ? `${prefix}${data.link.url}` : data.link.url
+        this.editor.paste(`![${data.link.alt}](${url})`)
+      }
+    } finally {
+      if (button) button.disabled = false
+    }
   }
 
   clearEditor() {

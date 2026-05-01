@@ -19,7 +19,7 @@
 
         %div
           %label{ for: 'issue_description', class: 'block text-base font-medium text-slate-900 mb-1' } Description
-          = render 'shared/markdown_editor', f: f, field: :description, placeholder: 'Write your description here...', min_height: 'min-h-64', initial_content: @issue.description || '', textarea_id: 'issue-description-editor'
+          = render 'shared/markdown_editor', f: f, field: :description, placeholder: 'Write your description here...', min_height: 'min-h-64', initial_content: @issue.description || '', textarea_id: 'issue-description-editor', upload_url: namespace_project_uploads_path(@project.namespace.parent.full_path, @project.path), upload_prefix: "/-/project/#{@project.id}"
 
         %div
           %div{ class: 'flex items-start gap-2' }

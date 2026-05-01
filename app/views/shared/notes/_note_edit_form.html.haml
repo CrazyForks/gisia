@@ -8,7 +8,7 @@
         %span.text-xs.text-slate-500= "#{time_ago_in_words(note.created_at)} ago"
 
       = form_with url: note_path(note), method: :patch, local: false, id: "note-form-#{note.id}" do |f|
-        = render 'shared/markdown_editor', f: f, field: 'note[note]', placeholder: '', min_height: 'min-h-40', initial_content: note.note, textarea_id: "editor-note-#{note.id}"
+        = render 'shared/markdown_editor', f: f, field: 'note[note]', placeholder: '', min_height: 'min-h-40', initial_content: note.note, textarea_id: "editor-note-#{note.id}", upload_url: namespace_project_uploads_path(note.project.namespace.parent.full_path, note.project.path), upload_prefix: "/-/project/#{note.project.id}"
 
       .flex.justify-end.gap-2.mt-3
         %button{ type: 'submit', form: "note-form-#{note.id}", class: 'px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white text-xs font-normal rounded border-0' } Save

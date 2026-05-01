@@ -14,7 +14,7 @@
       = f.hidden_field :discussion_id, value: @note.id
       = hidden_field_tag :target_id, @note.noteable.id
 
-      = render 'shared/markdown_editor', f: f, field: :note, placeholder: 'Write a reply...', min_height: 'min-h-40', initial_content: '', textarea_id: "editor-reply-note-#{@note.id}"
+      = render 'shared/markdown_editor', f: f, field: :note, placeholder: 'Write a reply...', min_height: 'min-h-40', initial_content: '', textarea_id: "editor-reply-note-#{@note.id}", upload_url: namespace_project_uploads_path(@note.noteable.project.namespace.parent.full_path, @note.noteable.project.path), upload_prefix: "/-/project/#{@note.noteable.project.id}"
 
       .flex.justify-end.gap-2
         = f.submit 'Reply', class: 'px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700'
