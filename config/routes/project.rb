@@ -41,6 +41,13 @@ constraints(::Constraints::ProjectUrlConstrainer.new) do
         draw :epics
         draw :boards
 
+        resources :uploads, only: [:create] do
+          collection do
+            get ":secret/:filename", action: :show, as: :show, constraints: { filename: %r{[^/]+} }, format: false, defaults: { format: nil }
+            post :authorize
+          end
+        end
+
         # Notes routes
         resources :notes, only: [:show, :create, :edit, :update, :destroy] do
           member do

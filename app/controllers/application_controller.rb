@@ -13,6 +13,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def can?(user, action, subject = :global)
+    Ability.allowed?(user, action, subject)
+  end
+
+  def render_404
+    respond_to do |format|
+      format.html { render file: Rails.root.join("public/404.html"), status: :not_found, layout: false }
+      format.js { render json: '', status: :not_found, content_type: 'application/json' }
+      format.any { head :not_found }
+    end
+  end
+
   def permitted_param(key)
     params.permit(key)[key]
   end

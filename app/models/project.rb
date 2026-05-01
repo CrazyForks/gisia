@@ -24,6 +24,7 @@ class Project < ApplicationRecord
   include Projects::MergeRequests
   include Projects::HasProtectedRefs
   include Projects::HasBoard
+  include WithUploads
 
   belongs_to :namespace, autosave: true, class_name: 'Namespaces::ProjectNamespace',
     foreign_key: 'namespace_id', inverse_of: :project, dependent: :destroy
@@ -174,6 +175,10 @@ class Project < ApplicationRecord
     raise ArgumentError, _('Invalid feature') unless HASHED_STORAGE_FEATURES.include?(feature)
 
     storage_version && storage_version >= HASHED_STORAGE_FEATURES[feature]
+  end
+
+  def uploads_sharding_key
+    { project_id: id }
   end
 
   def storage
