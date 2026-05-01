@@ -2861,49 +2861,6 @@ ALTER SEQUENCE public.uploads_id_seq OWNED BY public.uploads.id;
 
 
 --
--- Name: user_uploads; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.user_uploads (
-    id bigint NOT NULL,
-    size bigint NOT NULL,
-    model_type character varying NOT NULL,
-    model_id bigint NOT NULL,
-    uploaded_by_user_id bigint,
-    namespace_id bigint,
-    project_id bigint,
-    organization_id bigint,
-    created_at timestamp(6) without time zone,
-    store integer DEFAULT 1 NOT NULL,
-    version integer DEFAULT 1,
-    path text NOT NULL,
-    checksum text,
-    uploader text NOT NULL,
-    mount_point text,
-    secret text
-);
-
-
---
--- Name: user_uploads_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.user_uploads_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: user_uploads_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.user_uploads_id_seq OWNED BY public.user_uploads.id;
-
-
---
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3550,13 +3507,6 @@ ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id
 --
 
 ALTER TABLE ONLY public.uploads ALTER COLUMN id SET DEFAULT nextval('public.uploads_id_seq'::regclass);
-
-
---
--- Name: user_uploads id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.user_uploads ALTER COLUMN id SET DEFAULT nextval('public.user_uploads_id_seq'::regclass);
 
 
 --
@@ -4220,14 +4170,6 @@ ALTER TABLE ONLY public.uploads
 
 
 --
--- Name: user_uploads user_uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.user_uploads
-    ADD CONSTRAINT user_uploads_pkey PRIMARY KEY (id);
-
-
---
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4488,13 +4430,6 @@ CREATE INDEX idx_on_merge_request_commits_metadata_id_86032d633b ON public.merge
 --
 
 CREATE INDEX idx_on_model_id_model_type_uploader_created_at_085f046dbe ON public.uploads USING btree (model_id, model_type, uploader, created_at);
-
-
---
--- Name: idx_on_model_id_model_type_uploader_created_at_62bd7fd792; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX idx_on_model_id_model_type_uploader_created_at_62bd7fd792 ON public.user_uploads USING btree (model_id, model_type, uploader, created_at);
 
 
 --
@@ -6059,55 +5994,6 @@ CREATE INDEX index_uploads_on_uploader_and_path ON public.uploads USING btree (u
 
 
 --
--- Name: index_user_uploads_on_checksum; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_user_uploads_on_checksum ON public.user_uploads USING btree (checksum);
-
-
---
--- Name: index_user_uploads_on_namespace_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_user_uploads_on_namespace_id ON public.user_uploads USING btree (namespace_id);
-
-
---
--- Name: index_user_uploads_on_organization_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_user_uploads_on_organization_id ON public.user_uploads USING btree (organization_id);
-
-
---
--- Name: index_user_uploads_on_project_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_user_uploads_on_project_id ON public.user_uploads USING btree (project_id);
-
-
---
--- Name: index_user_uploads_on_store; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_user_uploads_on_store ON public.user_uploads USING btree (store);
-
-
---
--- Name: index_user_uploads_on_uploaded_by_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_user_uploads_on_uploaded_by_user_id ON public.user_uploads USING btree (uploaded_by_user_id);
-
-
---
--- Name: index_user_uploads_on_uploader_and_path; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_user_uploads_on_uploader_and_path ON public.user_uploads USING btree (uploader, path);
-
-
---
 -- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6897,6 +6783,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260501134333'),
 ('20260430060808'),
 ('20260429131634'),
 ('20260429131429'),
