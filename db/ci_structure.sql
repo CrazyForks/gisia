@@ -2829,7 +2829,6 @@ CREATE TABLE public.uploads (
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
     namespace_id bigint,
-    project_id bigint,
     store integer DEFAULT 1 NOT NULL,
     version integer DEFAULT 1,
     path text NOT NULL,
@@ -5967,13 +5966,6 @@ CREATE INDEX index_uploads_on_namespace_id ON public.uploads USING btree (namesp
 
 
 --
--- Name: index_uploads_on_project_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_uploads_on_project_id ON public.uploads USING btree (project_id);
-
-
---
 -- Name: index_uploads_on_store; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6784,6 +6776,7 @@ ALTER TABLE ONLY public.label_links
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260501134632'),
 ('20260501134333'),
 ('20260430060808'),
 ('20260429131634'),
