@@ -10,6 +10,10 @@
         %h1{ class: 'text-2xl font-semibold text-gray-800' }
           = _('Pipelines for Project:')
           = @project.name
+      - if current_user&.can?(:create_pipeline, @project)
+        = link_to new_pipeline_path(@project), class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors' do
+          = icon 'play', class: 'w-4 h-4'
+          = _('Run pipeline')
 
     = render 'shared/filters/pipelines_filters',
       url: pipelines_path(@project),

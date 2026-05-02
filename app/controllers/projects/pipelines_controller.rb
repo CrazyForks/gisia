@@ -2,6 +2,7 @@
 
 class Projects::PipelinesController < Projects::ApplicationController
   before_action :authorize_read_pipeline!
+  before_action :authorize_create_pipeline!, only: [:new, :create]
   before_action :pipeline, only: [:show, :jobs]
 
   def index
@@ -13,6 +14,28 @@ class Projects::PipelinesController < Projects::ApplicationController
 
     @refs = project.ci_refs.pluck(:ref_path).map { |ref_path| ref_path.sub(/\Arefs\/(heads|tags)\//, '') }.compact.sort
     @statuses = Ci::HasStatus::AVAILABLE_STATUSES
+  end
+
+  def new
+    @ref = "#{Gitlab::Git::BRANCH_REF_PREFIX}#{project.default_branch}"
+    @branches, @tags = load_refs
+  end
+
+  def create
+    new_pipeline = Ci::Pipeline.build_from(
+      project, current_user,
+      { ref: pipeline_create_params[:ref] },
+      :web, { save_on_errors: false }
+    )
+
+    if new_pipeline.persisted?
+      redirect_to helpers.pipelines_path(project), notice: _('Pipeline created successfully.')
+    else
+      @ref = pipeline_create_params[:ref]
+      @branches, @tags = load_refs
+      flash.now[:alert] = new_pipeline.errors.full_messages.join(', ')
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def show; end
@@ -31,7 +54,21 @@ class Projects::PipelinesController < Projects::ApplicationController
     @pipeline_params ||= params.permit(:status, :ref, :search)
   end
 
+  def pipeline_create_params
+    @pipeline_create_params ||= params.permit(:ref)
+  end
+
+  def load_refs
+    branches = project.repository.branch_names.sort.map { |b| { label: b, ref: "#{Gitlab::Git::BRANCH_REF_PREFIX}#{b}" } }
+    tags = project.repository.tag_names.sort.map { |t| { label: t, ref: "#{Gitlab::Git::TAG_REF_PREFIX}#{t}" } }
+    [branches, tags]
+  end
+
   def authorize_read_pipeline!
     forbidden! unless current_user.can?(:read_pipeline, @project)
+  end
+
+  def authorize_create_pipeline!
+    forbidden! unless current_user.can?(:create_pipeline, @project)
   end
 end

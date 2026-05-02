@@ -1,0 +1,29 @@
+- content_for :breadcrumb do
+  - nodes = [*project_breadcrumb_nodes(@project), { label: 'Pipelines', path: pipelines_path(@project) }, { label: 'Run pipeline', path: new_pipeline_path(@project) }]
+  = render 'shared/breadcrumb', nodes: nodes
+
+%div{ class: 'w-full bg-white p-6' }
+  %div{ class: 'w-full max-w-6xl mx-auto flex flex-col px-4' }
+
+    %div{ class: 'flex justify-between items-center mb-6' }
+      %h1{ class: 'text-2xl font-semibold text-gray-800' }= _('Run pipeline')
+
+    - if flash[:alert]
+      %div{ class: 'mb-4 px-4 py-3 rounded-lg bg-rose-50 text-rose-700 text-sm border border-rose-200' }
+        = flash[:alert]
+
+    = form_tag(pipelines_path(@project), method: :post, class: 'space-y-5' ) do
+      %div
+        %label{ for: 'ref', class: 'block text-sm font-medium text-gray-700 mb-1' }= _('Branch or tag')
+        %div{ data: { controller: 'pipeline-ref-select', 'pipeline-ref-select-branches-value': @branches.to_json, 'pipeline-ref-select-tags-value': @tags.to_json, 'pipeline-ref-select-selected-value': @ref.to_s }, class: 'trigger-pipeline relative' }
+          %div{ class: 'flex items-center border border-gray-300 rounded-lg bg-white' }
+            = icon 'git-branch', class: 'w-4 h-4 text-gray-400 ml-3 flex-shrink-0'
+            %input{ type: 'text', autocomplete: 'off', placeholder: _('Search branches and tags…'), class: 'flex-1 px-3 py-2 text-sm bg-transparent outline-none', data: { 'pipeline-ref-select-target': 'input', action: 'focus->pipeline-ref-select#open input->pipeline-ref-select#search keydown->pipeline-ref-select#keydown' } }
+            = icon 'caret-down', class: 'w-4 h-4 text-gray-400 mr-3 flex-shrink-0'
+          = hidden_field_tag :ref, @ref, data: { 'pipeline-ref-select-target': 'hiddenInput' }
+          %div{ data: { 'pipeline-ref-select-target': 'dropdown' }, class: 'hidden absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg overflow-hidden' }
+            %div{ data: { 'pipeline-ref-select-target': 'options' }, class: 'max-h-64 overflow-y-auto' }
+
+      %div{ class: 'flex items-center gap-3 pt-2' }
+        = submit_tag _('Run pipeline'), class: 'px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors cursor-pointer'
+        = link_to _('Cancel'), pipelines_path(@project), class: 'px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors'

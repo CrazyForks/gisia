@@ -579,6 +579,11 @@ class Project < ApplicationRecord
 
   def external_authorization_classification_label; end
 
+  # Todo,
+  def releases
+    @null_releases ||= Object.new.tap { |o| o.define_singleton_method(:find_by_tag) { |_| nil } }
+  end
+
   # Todo, mv to settings
   def enforce_auth_checks_on_uploads?
     true

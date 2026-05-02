@@ -37,6 +37,12 @@ module ProjectsHelper
     namespace_project_pipelines_path(namespace.full_path, project.path)
   end
 
+  def new_pipeline_path(project)
+    namespace = project.namespace.parent
+
+    new_namespace_project_pipeline_path(namespace.full_path, project.path)
+  end
+
   def pipeline_path(pipeline)
     project = pipeline.project
     namespace = project.namespace.parent
