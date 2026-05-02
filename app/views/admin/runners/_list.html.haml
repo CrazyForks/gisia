@@ -30,6 +30,8 @@
                   %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700 flex-shrink-0'}= _('Never contacted')
                 - else
                   %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700 flex-shrink-0'}= _('Offline')
+                - unless runner.active?
+                  %span{class: 'inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-700 flex-shrink-0'}= _('Paused')
               %p{class: 'text-gray-500 text-xs truncate mt-0.5'}= runner.description.presence || _('No description')
           %div{class: 'flex items-center gap-3 flex-shrink-0'}
             %div{class: 'text-xs text-gray-900 w-20'}

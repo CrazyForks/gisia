@@ -26,11 +26,11 @@
 
         %div{class: 'flex items-center gap-3'}
           - if @runner.active?
-            = link_to pause_admin_runner_path(@runner), method: :post, class: 'inline-flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-all duration-200' do
+            = button_to pause_admin_runner_path(@runner), method: :post, class: 'inline-flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-all duration-200' do
               = icon 'pause', class: 'w-4 h-4'
               = _('Pause')
           - else
-            = link_to resume_admin_runner_path(@runner), method: :post, class: 'inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-all duration-200' do
+            = button_to resume_admin_runner_path(@runner), method: :post, class: 'inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-all duration-200' do
               = icon 'play', class: 'w-4 h-4'
               = _('Resume')
           = link_to edit_admin_runner_path(@runner), class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200' do
