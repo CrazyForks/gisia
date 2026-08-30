@@ -30,6 +30,12 @@ module ApplicationHelper
     asset_path("locale/#{Gitlab::I18n.locale}/app.js")
   end
 
+  def page_title
+    title = content_for(:title)
+
+    title.present? ? "#{title} - Gisia" : "Gisia"
+  end
+
   def format_datetime(time, user = nil, format: :long)
     return unless time
 

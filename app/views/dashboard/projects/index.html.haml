@@ -1,3 +1,4 @@
+- content_for :title, _('Projects')
 - content_for :breadcrumb do
   - nodes = [{ label: _('Your work'), path: '/' }, { label: _('Projects'), path: dashboard_projects_path }]
   = render 'shared/breadcrumb', nodes: nodes
