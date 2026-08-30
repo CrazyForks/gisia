@@ -1,4 +1,4 @@
-- content_for :title, _('Project Runners')
+- content_for :title, _('Runners Settings')
 - content_for :breadcrumb do
   - nodes = [*project_breadcrumb_nodes(@project), { label: _('Settings'), path: edit_namespace_project_settings_ci_cd_path(@project.namespace.parent.full_path, @project.namespace.path) }, { label: _('Runners'), path: project_runners_path(@project) }]
   = render 'shared/breadcrumb', nodes: nodes

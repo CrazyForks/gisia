@@ -1,3 +1,4 @@
+- content_for :title, _('Edit Epic %{title}') % { title: @epic.title }
 - content_for :breadcrumb do
   - nodes = [*project_breadcrumb_nodes(@project), { label: 'Epics', path: namespace_project_epics_path(@project.namespace.parent.full_path, @project.namespace.path) }, { label: @epic.title, path: namespace_project_epic_path(@project.namespace.parent.full_path, @project.namespace.path, @epic) }, { label: 'Edit', path: nil }]
   = render 'shared/breadcrumb', nodes: nodes

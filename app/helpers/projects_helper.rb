@@ -15,6 +15,10 @@ module ProjectsHelper
     project.route.name.sub('/', '>')
   end
 
+  def project_page_title(project, page = nil)
+    [page, project.full_name].compact.join(' - ')
+  end
+
   def project_breadcrumb_nodes(project)
     names = project.route.name.split(' / ')
     paths = project.route.path.split('/')

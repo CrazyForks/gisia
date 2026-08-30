@@ -1,3 +1,4 @@
+- content_for :title, _('Branches')
 - content_for :breadcrumb do
   - nodes = [*project_breadcrumb_nodes(@project), { label: 'Branches', path: namespace_project_branches_path(@project.namespace.parent.full_path, @project.namespace.path) }]
   = render 'shared/breadcrumb', nodes: nodes

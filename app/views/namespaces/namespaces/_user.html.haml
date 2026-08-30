@@ -1,4 +1,5 @@
 - user = @namespace.creator
+- content_for :title, @namespace.full_name
 
 - content_for :breadcrumb do
   - nodes = [{ label: user.username, path: namespace_show_path(@namespace.full_path) }]

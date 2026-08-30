@@ -1,3 +1,4 @@
+- content_for :title, "#{_('Changes')} - #{@merge_request.to_reference}"
 - content_for :breadcrumb do
   - nodes = [*project_breadcrumb_nodes(@project), { label: 'Merge Request', path: merge_requests_path(@project) }, { label: "##{@merge_request.id}", path: merge_request_path(@merge_request)}]
   = render 'shared/breadcrumb', nodes: nodes

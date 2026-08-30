@@ -1,3 +1,4 @@
+- content_for :title, project_page_title(@project, content_for(:title).presence), flush: true
 - content_for :sidebar do
   = render 'shared/project_sidebar'
 = render template: 'layouts/base'

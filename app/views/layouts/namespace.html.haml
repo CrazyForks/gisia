@@ -1,3 +1,4 @@
+- content_for :title, namespace_page_title(@namespace, content_for(:title).presence), flush: true
 - content_for :sidebar do
   = render 'shared/namespace_sidebar'
 = render template: 'layouts/base'

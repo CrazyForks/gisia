@@ -1,3 +1,4 @@
+- content_for :title, @path
 - content_for :breadcrumb do
   - nodes = [*project_breadcrumb_nodes(@project), { label: 'Files', path: project_path(@project) }, { label: @path, path: '#' }]
   = render 'shared/breadcrumb', nodes: nodes

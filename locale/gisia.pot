@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gisia 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-30 11:27+0800\n"
-"PO-Revision-Date: 2026-08-30 11:27+0800\n"
+"POT-Creation-Date: 2026-08-30 11:46+0800\n"
+"PO-Revision-Date: 2026-08-30 11:46+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -1161,6 +1161,9 @@ msgstr ""
 msgid "New Group"
 msgstr ""
 
+msgid "Home"
+msgstr ""
+
 msgid "Welcome"
 msgstr ""
 
@@ -1394,6 +1397,12 @@ msgstr ""
 msgid "Tag:"
 msgstr ""
 
+msgid "Board"
+msgstr ""
+
+msgid "Branches"
+msgstr ""
+
 msgid "Branches for Project:"
 msgstr ""
 
@@ -1507,10 +1516,22 @@ msgstr ""
 msgid "Push an existing Git repository"
 msgstr ""
 
+msgid "Edit Epic %{title}"
+msgstr ""
+
+msgid "Epics"
+msgstr ""
+
+msgid "New Epic"
+msgstr ""
+
 msgid "closed %{time} ago by"
 msgstr ""
 
 msgid "opened %{time} ago by"
+msgstr ""
+
+msgid "Edit Issue %{reference}"
 msgstr ""
 
 msgid "Edit issue"
@@ -1653,6 +1674,12 @@ msgstr ""
 msgid "Submit review"
 msgstr ""
 
+msgid "Changes"
+msgstr ""
+
+msgid "Edit Merge Request %{reference}"
+msgstr ""
+
 msgid "Edit Merge Request"
 msgstr ""
 
@@ -1718,6 +1745,12 @@ msgid "Search by SHA"
 msgstr ""
 
 msgid "e.g., abc123..."
+msgstr ""
+
+msgid "Pipeline"
+msgstr ""
+
+msgid "Run Pipeline"
 msgstr ""
 
 msgid "Branch or tag"
@@ -1960,9 +1993,6 @@ msgstr ""
 msgid "Edit Project Runner"
 msgstr ""
 
-msgid "Project Runners"
-msgstr ""
-
 msgid "Runners available to this project — instance, group, and its own"
 msgstr ""
 
@@ -2105,16 +2135,10 @@ msgstr ""
 msgid "This repository doesn't have any tags yet."
 msgstr ""
 
+msgid "Files"
+msgstr ""
+
 msgid "Plan"
-msgstr ""
-
-msgid "Board"
-msgstr ""
-
-msgid "Epics"
-msgstr ""
-
-msgid "Branches"
 msgstr ""
 
 msgid "CI/CD"

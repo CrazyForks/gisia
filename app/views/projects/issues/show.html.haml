@@ -1,4 +1,4 @@
-
+- content_for :title, "#{@issue.title} (#{@issue.to_reference})"
 - content_for :breadcrumb do
   - nodes = [*project_breadcrumb_nodes(@project), { label: 'Issues', path: project_issues_path(@project) }, { label: @issue.to_reference, path: issue_path(@issue) }]
   = render 'shared/breadcrumb', nodes: nodes

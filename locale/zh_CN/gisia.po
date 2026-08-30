@@ -1156,6 +1156,9 @@ msgstr "我的群组"
 msgid "New Group"
 msgstr "新建群组"
 
+msgid "Home"
+msgstr "首页"
+
 msgid "Welcome"
 msgstr "欢迎"
 
@@ -1391,6 +1394,12 @@ msgstr "选择谁可以查看和访问此项目。"
 msgid "Tag:"
 msgstr "标签："
 
+msgid "Board"
+msgstr "看板"
+
+msgid "Branches"
+msgstr "分支"
+
 msgid "Branches for Project:"
 msgstr "项目分支"
 
@@ -1504,11 +1513,23 @@ msgstr "推送现有文件夹"
 msgid "Push an existing Git repository"
 msgstr "推送现有 Git 仓库"
 
+msgid "Edit Epic %{title}"
+msgstr "编辑史诗 %{title}"
+
+msgid "Epics"
+msgstr "史诗"
+
+msgid "New Epic"
+msgstr "新建史诗"
+
 msgid "closed %{time} ago by"
 msgstr "%{time}前关闭，关闭者"
 
 msgid "opened %{time} ago by"
 msgstr "%{time}前更新"
+
+msgid "Edit Issue %{reference}"
+msgstr "编辑议题 %{reference}"
 
 msgid "Edit issue"
 msgstr "编辑议题"
@@ -1649,6 +1670,12 @@ msgstr "确定要丢弃所有待处理评论吗？"
 msgid "Submit review"
 msgstr "提交评审"
 
+msgid "Changes"
+msgstr "变更"
+
+msgid "Edit Merge Request %{reference}"
+msgstr "编辑合并请求 %{reference}"
+
 msgid "Edit Merge Request"
 msgstr "编辑合并请求"
 
@@ -1715,6 +1742,13 @@ msgstr "按 SHA 搜索"
 
 msgid "e.g., abc123..."
 msgstr "例如：abc123..."
+
+msgid "Pipeline"
+msgstr "流水线"
+
+#, fuzzy
+msgid "Run Pipeline"
+msgstr "运行流水线"
 
 msgid "Branch or tag"
 msgstr "分支或标签"
@@ -1956,9 +1990,6 @@ msgstr "创建项目运行器，仅为此项目运行作业。"
 msgid "Edit Project Runner"
 msgstr "编辑项目运行器"
 
-msgid "Project Runners"
-msgstr "项目运行器"
-
 msgid "Runners available to this project — instance, group, and its own"
 msgstr "此项目可用的运行器 — 实例级、群组级及其自有的"
 
@@ -2101,17 +2132,11 @@ msgstr "没有标签匹配您对\"%{search}\"的搜索。请尝试其他搜索�
 msgid "This repository doesn't have any tags yet."
 msgstr "此仓库尚无任何标签。"
 
+msgid "Files"
+msgstr "文件"
+
 msgid "Plan"
 msgstr "计划"
-
-msgid "Board"
-msgstr "看板"
-
-msgid "Epics"
-msgstr "史诗"
-
-msgid "Branches"
-msgstr "分支"
 
 msgid "CI/CD"
 msgstr "CI/CD"

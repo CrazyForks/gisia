@@ -1,3 +1,4 @@
+- content_for :title, "#{_('Job')} ##{@job.id}"
 - content_for :breadcrumb do
   - nodes = [*project_breadcrumb_nodes(@project), { label: 'Jobs', path: pipeline_jobs_path(@job.pipeline) }, { label: "##{@job.id}", path: job_path(@job)}]
   = render 'shared/breadcrumb', nodes: nodes
