@@ -1,3 +1,4 @@
+- content_for :title, _('SSH Key')
 - nodes = [{ label: _('User Settings'), path: users_settings_profile_path }, { label: _('SSH Key'), path: users_settings_key_path(@key.id)}]
 = render 'shared/breadcrumb', nodes: nodes
 

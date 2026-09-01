@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gisia 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-30 11:46+0800\n"
-"PO-Revision-Date: 2026-08-30 11:46+0800\n"
+"POT-Creation-Date: 2026-09-01 13:31+0800\n"
+"PO-Revision-Date: 2026-09-01 13:31+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -1261,6 +1261,9 @@ msgstr ""
 msgid "Resend unlock instructions"
 msgstr ""
 
+msgid "User Settings"
+msgstr ""
+
 msgid "Labels Settings"
 msgstr ""
 
@@ -2145,9 +2148,6 @@ msgid "CI/CD"
 msgstr ""
 
 msgid "General"
-msgstr ""
-
-msgid "User Settings"
 msgstr ""
 
 msgid "Profile"

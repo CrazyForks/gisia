@@ -1256,6 +1256,9 @@ msgstr "登录"
 msgid "Resend unlock instructions"
 msgstr "重新发送解锁邮件"
 
+msgid "User Settings"
+msgstr "用户设置"
+
 #, fuzzy
 msgid "Labels Settings"
 msgstr "设置"
@@ -2143,9 +2146,6 @@ msgstr "CI/CD"
 
 msgid "General"
 msgstr "通用"
-
-msgid "User Settings"
-msgstr "用户设置"
 
 msgid "Profile"
 msgstr "个人资料"

@@ -1,3 +1,4 @@
+- content_for :title, [content_for(:title).presence, _('User Settings')].compact.join(' - '), flush: true
 - content_for :sidebar do
   = render 'shared/users_settings_sidebar'
 = render template: 'layouts/base'
