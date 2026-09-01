@@ -23,6 +23,9 @@ default: &default
   version_check:
     class: "VersionCheckJob"
     schedule: "10 1 * * *"
+  clear_finished_jobs:
+    class: "ClearFinishedJobsJob"
+    schedule: "25 2 * * *"
 
 
 development:
