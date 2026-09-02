@@ -149,6 +149,18 @@ class Note < ApplicationRecord
     false
   end
 
+  def for_issue?
+    noteable_type == "Issue"
+  end
+
+  def for_work_item?
+    noteable.is_a?(WorkItem)
+  end
+
+  def for_merge_request?
+    noteable_type == "MergeRequest"
+  end
+
   # Epic overrides #to_ability_name to 'issue' (there is no dedicated read_epic
   # ability), so the noteable_type string alone ("Epic") would point at a
   # nonexistent :read_epic ability. Prefer the noteable's own ability name

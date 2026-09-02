@@ -66,6 +66,10 @@ constraints(::Constraints::ProjectUrlConstrainer.new) do
           end
         end
 
+        scope :autocomplete_sources, as: :autocomplete_sources do
+          get 'members', to: 'autocomplete_sources#members'
+          get 'commands', to: 'autocomplete_sources#commands'
+        end
 
         namespace :settings do
           resource :repository, only: [:edit, :update], controller: 'repository'

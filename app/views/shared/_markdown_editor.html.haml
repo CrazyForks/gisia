@@ -1,11 +1,15 @@
--# locals: f, field, placeholder, min_height, initial_content, textarea_id: nil, upload_url: nil, upload_prefix: nil
+-# locals: f, field, placeholder, min_height, initial_content, textarea_id: nil, upload_url: nil, upload_prefix: nil, members_url: nil, commands_url: nil
 - upload_url = local_assigns.fetch(:upload_url, nil)
 - upload_prefix = local_assigns.fetch(:upload_prefix, nil)
+- members_url = local_assigns.fetch(:members_url, nil)
+- commands_url = local_assigns.fetch(:commands_url, nil)
 %div{ 'data-controller': 'markdown-editor',
       'data-markdown-editor-initial-content-value': initial_content,
       'data-markdown-editor-preview-url-value': markdown_preview_path,
       'data-markdown-editor-upload-url-value': upload_url.to_s,
-      'data-markdown-editor-upload-prefix-value': upload_prefix.to_s }
+      'data-markdown-editor-upload-prefix-value': upload_prefix.to_s,
+      'data-markdown-editor-members-url-value': members_url.to_s,
+      'data-markdown-editor-commands-url-value': commands_url.to_s }
   .border.border-slate-300.rounded-md.overflow-hidden
     .flex.items-center.gap-0.5.border-b.border-slate-200.bg-slate-50.px-2.py-1{ 'data-action': 'mousedown->markdown-editor#preventFocusLoss' }
       %button{ type: 'button', 'data-action': 'click->markdown-editor#bold', class: 'p-1 rounded hover:bg-slate-200 text-slate-800', title: 'Bold' }

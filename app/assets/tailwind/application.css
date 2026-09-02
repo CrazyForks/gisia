@@ -3,6 +3,9 @@
 @import "./components/markdown.css";
 @import "./components/tiny-mde.css";
 
+@source not "../../../log";
+@source not "../../../tmp";
+
 @theme {
   --font-inter: "Inter", sans-serif, "Apple Color Emoji";
   --color-mint-500: oklch(0.72 0.11 178);

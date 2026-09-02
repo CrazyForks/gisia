@@ -50,16 +50,24 @@ class Projects::NotesController < Projects::ApplicationController
 
     @note = partition_model.new(note_params.merge(
       noteable: @noteable,
+      noteable_type: @noteable.class.name,
+      noteable_id: @noteable.id,
       author: current_user,
       namespace: @project.namespace,
       discussion_id: discussion_id
     ))
 
+    @quick_action_updates = execute_quick_actions(@note)
+
     respond_to do |format|
-      if @note.save
+      if @note.note.blank? && @quick_action_updates.present?
+        apply_quick_action_updates
+        format.turbo_stream { redirect_to noteable_path }
+      elsif @note.save
+        apply_quick_action_updates
         # If this is a reply, also set the parent note for the view
         @parent_note = Note.find(discussion_id) if discussion_id.present?
-        format.turbo_stream { render :create }
+        format.turbo_stream { @quick_action_updates.present? ? redirect_to(noteable_path) : render(:create) }
       else
         format.turbo_stream { render :error }
       end
@@ -172,6 +180,47 @@ class Projects::NotesController < Projects::ApplicationController
 
   def note_params
     params.require(:note).permit(:note, :noteable_type, :noteable_id, :discussion_id, :internal)
+  end
+
+  def noteable_path
+    namespace_path = @project.namespace.parent.full_path
+
+    case @noteable
+    when MergeRequest
+      namespace_project_merge_request_path(namespace_path, @project.path, @noteable)
+    when Epic
+      namespace_project_epic_path(namespace_path, @project.path, @noteable)
+    else
+      namespace_project_issue_path(namespace_path, @project.path, @noteable)
+    end
+  end
+
+  def quick_actions_service
+    @quick_actions_service ||= Notes::QuickActionsService.new(@project, current_user)
+  end
+
+  def execute_quick_actions(note)
+    return {} unless quick_actions_service.supported?(note)
+
+    content, updates, message, _command_names = quick_actions_service.execute(note)
+    note.note = content
+    @quick_action_message = message
+
+    updates
+  end
+
+  def apply_quick_action_updates
+    return if @quick_action_updates.blank?
+
+    # apply_updates returns nil when it has nothing to apply
+    response = quick_actions_service.apply_updates(@quick_action_updates, @note)
+    return if response.nil?
+
+    if response.success?
+      flash[:notice] = @quick_action_message if @quick_action_message.present?
+    else
+      flash[:alert] = response.message.to_sentence
+    end
   end
 
   def authorize_read_note!

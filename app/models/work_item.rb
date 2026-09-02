@@ -10,6 +10,8 @@
 # ======================================================
 
 class WorkItem < ApplicationRecord
+  COMMON_QUICK_ACTIONS_COMMANDS = [:close, :reopen, :open].freeze
+
   include AtomicInternalId
   include Noteable
   include Issuable
@@ -149,4 +151,7 @@ class WorkItem < ApplicationRecord
     author&.banned?
   end
 
+  def supported_quick_action_commands
+    COMMON_QUICK_ACTIONS_COMMANDS
+  end
 end

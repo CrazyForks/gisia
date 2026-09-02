@@ -48,6 +48,10 @@ module Issuable
     false
   end
 
+  def open?
+    opened?
+  end
+
   private
 
   def notify_on_create

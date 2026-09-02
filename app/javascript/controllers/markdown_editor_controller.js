@@ -1,13 +1,22 @@
 import { Controller } from "@hotwired/stimulus"
 import { Editor } from "tiny-markdown-editor"
+import MarkdownAutocomplete from "../lib/markdown_autocomplete"
 
 export default class extends Controller {
   static targets = ["hiddenField", "textarea", "preview", "editTab", "previewTab", "editorArea", "fileInput", "uploadButton", "uploadOverlay"]
-  static values = { initialContent: String, previewUrl: String, uploadUrl: String, uploadPrefix: String }
+  static values = { initialContent: String, previewUrl: String, uploadUrl: String, uploadPrefix: String, membersUrl: String, commandsUrl: String }
 
   connect() {
     this.uploadCount = 0
     this.editor = new Editor({ textarea: this.textareaTarget, content: this.initialContentValue })
+    if (this.membersUrlValue || this.commandsUrlValue) {
+      this.autocomplete = new MarkdownAutocomplete({
+        editor: this.editor,
+        editorArea: this.editorAreaTarget,
+        membersUrl: this.membersUrlValue,
+        commandsUrl: this.commandsUrlValue
+      })
+    }
     this.editor.addEventListener("change", (e) => {
       if (this.hasHiddenFieldTarget) this.hiddenFieldTarget.value = e.content
     })
@@ -21,6 +30,8 @@ export default class extends Controller {
   }
 
   disconnect() {
+    this.autocomplete?.destroy()
+    this.autocomplete = null
     this.editor = null
   }
 

@@ -49,6 +49,8 @@ module Banzai
     end
 
     def self.render_result(text, context = {})
+      return { quick_action_paragraphs: QuickActionScanner.scan(text) } if context[:pipeline] == :quick_action
+
       { output: render(text, context) }
     end
 
